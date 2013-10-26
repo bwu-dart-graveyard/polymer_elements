@@ -1,5 +1,7 @@
 name: polymer_elements
 version: 0.0.1
+author: Polymer.dart Authors
 description: A Dart port of polymer elements (https://github.com/Polymer/polymer-elements).
+homepage: https://www.dart-lang.org/polymer.dart
 dependencies:
   polymer: any

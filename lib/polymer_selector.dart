@@ -40,7 +40,9 @@
 
 library polymer.elements.polymer_selector;
 
+import 'dart:async';
 import 'dart:html';
+import 'dart:mirrors';
 
 import 'package:polymer/polymer.dart';
 
@@ -88,16 +90,18 @@ class PolymerSelector extends PolymerElement {
   /**
    * The target element that contains items.  If this is not set 
    * polymer-selector is the container.
+   * 
+   * (egrimes) Note: Working around
   */
   @published
-  Node target=null;
+  Element target = null;
   /**
    * This can be used to query nodes from the target node to be used for 
    * selection items.  Note this only works if the 'target' property is set.
   *
    * Example:
   *
-   *     <polymer-selector target="{{$.myForm}}" itemsSelector="input[type=radio]"></polymer-selector>
+   *     <polymer-selector target="{ {$['myForm'] }}" itemsSelector="input[type=radio]"></polymer-selector>
    *     <form id="myForm">
    *       <label><input type="radio" name="color" value="red"> Red</label> <br>
    *       <label><input type="radio" name="color" value="green"> Green</label> <br>
@@ -123,15 +127,15 @@ class PolymerSelector extends PolymerElement {
   MutationObserver _observer;
   
   ready() {
-    this._observer = new MutationObserver(_updateSelected);
-    if (!this.target) {
+    this._observer = new MutationObserver(_onMutation);
+    
+    if (this.target == null) {
       this.target = this;
     }
   }
   
 //TODO revisit the polymer code - what does the where clause do?
   get items {
-    
     List nodes;
     if(itemsSelector.isNotEmpty){
       nodes = target.querySelectorAll(this.itemsSelector);
@@ -144,15 +148,134 @@ class PolymerSelector extends PolymerElement {
     }).toList();     
   }
   
+  targetChanged(old) {
+    if (old != null) {
+      this._removeListener(old);
+      this._observer.disconnect();
+    }
+    if (this.target != null) {
+      this._addListener(this.target);
+      this._observer.observe(this.target, childList: true);
+    }
+  }
+  
+  _addListener(node) {
+    node.$dom_addEventListener(this.activateEvent, _activateHandler);
+  }
+  
+  _removeListener(node) {
+    node.$dom_removeEventListener(this.activateEvent, _activateHandler);
+  }
+  
+  get selection {
+    return this.$['selection'].selection;
+  }
+  
+  selectedChanged(old){
+    //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
+    new Timer(Duration.ZERO, (){_updateSelected();});
+    //this._updateSelected();
+  }
+  
+  _onMutation(records, observer){
+    _updateSelected();
+  }
+  
   _updateSelected(){
     this._validateSelected();
     if (this.multi) {
       this.clearSelection();
-      this.selected && this.selected.forEach(function(s) {
-        this.valueToSelection(s);
-      }, this);
+      if(this.selected != null){
+        this.selected.forEach((s) {
+          this._valueToSelection(s);
+        });
+      }
     } else {
-      this.valueToSelection(this.selected);
+      this._valueToSelection(this.selected);
+    }
+  }
+  
+  _validateSelected(){
+    // convert to a list for multi-selection
+    if (this.multi && this.selected != null && this.selected is! List) {
+      this.selected = [this.selected];
+    }
+  }
+  
+  clearSelection() {
+    if (this.multi) {
+      var copy = new List.from(this.selection);
+      copy.forEach((s) {
+        this.$['selection'].setItemSelected(s, false);
+      });
+    } else {
+      this.$['selection'].setItemSelected(this.selection, false);
+    }
+    this.selectedItem = null;
+    this.$['selection'].clear();
+  }
+  
+  _valueToSelection(value) {
+    var item = (value == null) ? 
+        null : this.items[this._valueToIndex(value)];
+    this.$['selection'].select(item);
+  }
+  
+  _updateSelectedItem() {
+    this.selectedItem = this.selection;
+  }
+  
+  selectedItemChanged(old){
+    if (this.selectedItem != null) {
+      //TODO Figure out why this doesn't work
+      //var t = this.selectedItem.templateInstance;
+      //this.selectedModel = t ? t.model : null;
+    } else {
+      this.selectedModel = null;
+    }
+  }
+  
+  _valueToIndex(value) {
+    // find an item with value == value and return it's index
+    for (var i=0, items=this.items; i< items.length; i++) {
+      if (this._valueForNode(items[i]) == value) {
+        return i;
+      }
+    }
+    // if no item found, the value itself is probably the index
+    return value;
+  }
+  
+  _valueForNode(node) {
+    var mirror = reflect(node);
+    //TODO This is gross.  The alternative is to search the type heirarchy
+    //for a matching variable or getter.
+    try {
+      return mirror.getField(new Symbol('${this.valueattr}')).reflectee;
+    }catch(e){
+      return node.attributes[this.valueattr]; 
+    };
+  }
+  
+  // events fired from <polymer-selection> object
+  selectionSelect(e, detail, node) {
+    this._updateSelectedItem();
+    if (detail.item != null) {
+      this._applySelection(detail.item, detail.isSelected);
+    }
+  }
+  
+  _applySelection(item, isSelected) {
+    if (this.selectedClass != null) {
+      item.classes.toggle(this.selectedClass, isSelected);
+    }
+    
+    //(egrimes) Note: It looks like Polymer.js adds the property dynamically to 
+    //the item. PolymerSelector defaults selectedProperty to 'active', so users 
+    //will have to explicitly set selectedProperty to an empty string to keep 
+    //from blowing up. I'm not sure that's reasoable.
+    if (this.selectedProperty != null && this.selectedProperty.isNotEmpty) {
+      reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
     }
   }
   
@@ -161,10 +284,13 @@ class PolymerSelector extends PolymerElement {
       var i = this._findDistributedTarget(e.target, this.items);
       if (i >= 0) {
         var item = this.items[i];
-        var s = this.valueForNode(item) || i;
+        var s = this._valueForNode(item);
+        if(s == null){
+          s = i;
+        }
         if (this.multi) {
-          if (this.selected) {
-            this.addRemoveSelected(s);
+          if (this.selected != null) {
+            this._addRemoveSelected(s);
           } else {
             this.selected = [s];
           }
@@ -173,6 +299,29 @@ class PolymerSelector extends PolymerElement {
         }
         this.asyncFire('polymer-activate', detail: item);
       }
+    }
+  }
+  
+  _addRemoveSelected(value) {
+    var i = this.selected.indexOf(value);
+    if (i >= 0) {
+    this.selected.removeAt(i);
+    } else {
+    this.selected.add(value);
+    }
+    this._valueToSelection(value);
+  }
+  
+  _findDistributedTarget(target, nodes) {
+    // find first ancestor of target (including itself) that
+    // is in nodes, if any
+    var i = 0;
+    while (target != null && target != this) {
+    i = nodes.indexOf(target);
+    if (i >= 0) {
+      return i;
+    }
+    target = target.parentNode;
     }
   }
   
