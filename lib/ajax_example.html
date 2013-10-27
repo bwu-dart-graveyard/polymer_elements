@@ -1,0 +1,22 @@
+<!--
+Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
+for details. All rights reserved. Use of this source code is governed by a
+BSD-style license that can be found in the LICENSE file.
+-->
+
+<link rel="import" href="polymer_ajax.html">
+
+<polymer-element name="ajax-example">
+  <template>
+    <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
+      params='{"alt":"json", "q":"chrome"}'
+      handleAs="json" on-polymer-response='responseReceived'></polymer-ajax>
+   
+  <template repeat="{{ entry in entries }}">
+    <div>{{ entry['title']['$t']}}</div>
+  </template>
+    </template>
+  <script type="application/dart" src="ajax_example.dart">
+ 
+  </script>
+</polymer-element>

@@ -26,7 +26,7 @@ class SelectionExample extends PolymerElement {
   }
 
   selectAction(e, detail, target) {
-    detail.item.classes.toggle('selected', detail.isSelected);
+    detail['item'].classes.toggle('selected', detail['isSelected']);
   }
       
    

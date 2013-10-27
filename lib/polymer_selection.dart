@@ -27,7 +27,6 @@
 library polymer.elements.polymer_selection;
 
 import 'package:polymer/polymer.dart';
-import 'package:polymer_elements/event_details.dart';
 
 @CustomTag('polymer-selection')
 class PolymerSelection extends PolymerElement {
@@ -82,7 +81,7 @@ class PolymerSelection extends PolymerElement {
         }
       }     
  
-      this.fire('polymer-select',detail: new PolymerSelectDetail(item, isSelected));
+      this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
           
     }
   }

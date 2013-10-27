@@ -4,12 +4,12 @@
 
 /**
  * polymer-selector is used to manage a list of elements that can be selected.
- * The attribute "selected" indicates which item element is being selected.
+ * The attribute 'selected' indicates which item element is being selected.
  * The attribute "multi" indicates if multiple items can be selected at once.
- * Tapping on the item element would fire "polymer-activate" event. Use
- * "polymer-select" event to listen for selection changes.  
- * The [CustomEvent.detail] for "polymer-select" is set to
- * a [PolymerSelectDetail].
+ * Tapping on the item element fires 'polymer-activate' event. Use the
+ * 'polymer-select' event to listen for selection changes.  
+ * The [CustomEvent.detail] for 'polymer-select' is map containing 'item'
+ * and 'isSelected'.
  *
  * Example:
  *
@@ -34,8 +34,9 @@
  *       <div class="item">Item 3</div>
  *     </polymer-selector>
  *
- * The polymer-selector element fires a "polymer-select" event with an 
- * attached [PolymerSelectDetail] when an item's selection state is changed. 
+ * The polymer-selector element fires a 'polymer-select' event when an item's 
+ * selection state is changed. The [CustomEvent.detail] for the event is a map
+ * containing 'item' and 'isSelected'.
 */
 
 library polymer.elements.polymer_selector;
@@ -260,8 +261,8 @@ class PolymerSelector extends PolymerElement {
   // events fired from <polymer-selection> object
   selectionSelect(e, detail, node) {
     this._updateSelectedItem();
-    if (detail.item != null) {
-      this._applySelection(detail.item, detail.isSelected);
+    if (detail.containsKey('item')) {
+      this._applySelection(detail['item'], detail['isSelected']);
     }
   }
   
