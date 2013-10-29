@@ -161,11 +161,11 @@ class PolymerSelector extends PolymerElement {
   }
   
   _addListener(node) {
-    node.$dom_addEventListener(this.activateEvent, _activateHandler);
+    node.addEventListener(this.activateEvent, _activateHandler);
   }
   
   _removeListener(node) {
-    node.$dom_removeEventListener(this.activateEvent, _activateHandler);
+    node.removeEventListener(this.activateEvent, _activateHandler);
   }
   
   get selection {

@@ -14,11 +14,11 @@ class SelectionExample extends PolymerElement {
   //Note: Have to use dom listeners here to workaround 
   //https://code.google.com/p/dart/issues/detail?id=14457
   enteredView(){
-    this.$dom_addEventListener('click',itemTapAction);
+    this.addEventListener('click',itemTapAction);
   }
   
   leftView(){
-    this.$dom_removeEventListener('click', itemTapAction);
+    this.removeEventListener('click', itemTapAction);
   }
       
   itemTapAction(e) {
