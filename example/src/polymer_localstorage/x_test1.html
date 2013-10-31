@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+
+<link rel="import" href="packages/polymer_elements/polymer_localstorage/polymer_localstorage.html">
+
+<polymer-element name="x-test1">
+  <template>
+    string entered below will be stored in localStorage and automatically retrived from localStorage when the page is reloaded<br>
+    <input value="{{value}}">
+    <polymer-localstorage name="polymer-localstorage-x-test1" value="{{value}}"></polymer-localstorage>
+  </template>
+  <script type="application/dart" src="x_test1.dart"></script>
+</polymer-element>

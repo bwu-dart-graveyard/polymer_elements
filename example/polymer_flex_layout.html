@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>polymer-flex-layout</title>
+  <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.html">
+  <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_panel.html">
+  <link rel="import" href="src/polymer_flex_layout/flex_css.html">
+  <link rel="import" href="src/polymer_flex_layout/flex_container.html">
+  <link rel="import" href="src/polymer_flex_layout/flex_nonvisual.html">
+  
+  <script type="application/dart">import 'package:polymer/init.dart';</script>
+  <script src="packages/browser/dart.js"></script>
+  
+  <style>
+    body {
+      font-size: 20px;
+    }
+
+    flex-css, flex-container, flex-nonvisual {
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h3>polymer-flex-layout.css</h3>
+  <flex-css></flex-css>
+  <br>
+  <h3>polymer-flex-panel element</h3>
+  <flex-container></flex-container>
+  <br>
+  <h3>polymer-flex-layout element</h3>
+  <flex-nonvisual></flex-nonvisual>
+</body>
+</html>

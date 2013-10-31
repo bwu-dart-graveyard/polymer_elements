@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+-->
+<!--
+/**
+ * @module Polymer Elements
+ */
+/**
+ * polymer-collapse is used to add collapsible behavior to the
+ * target element.  It adjusts the height or width of the target element
+ * to make the element collapse and expand.
+ *
+ * Example:
+ *
+ *     <button on-click="{{toggle}}">toggle collapse</button>
+ *     <div id="demo">
+ *       ...
+ *     </div>
+ *     <polymer-collapse id="collapse" targetId="demo"></polymer-collapse>
+ *
+ *     ...
+ *
+ *     toggle: function() {
+ *       this.$.collapse.toggle();
+ *     }
+ *
+ * @class polymer-collapse
+ */
+-->
+<polymer-element name="polymer-collapse">
+  <template>
+    <link rel="stylesheet" polymer-scope="controller" href="polymer_collapse.css">
+    <link rel="stylesheet" href="polymer_collapse.css">
+    <style>
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
+  </template>
+  <script type="application/dart" src='polymer_collapse.dart'></script>
+</polymer-element>

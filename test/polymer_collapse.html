@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-collapse</title>
+    <link rel="import" href="packages/polymer_elements/polymer_collapse.html">
+    
+    <script type="application/dart"
+            src="packages/polymer/init.dart"></script>
+    <script src="packages/browser/dart.js"></script>
+    
+    <script src="packages/unittest/test_controller.js"></script>
+    <style>
+      /* TODO remove when loading of css within component works */
+      .polymer-collapse-closed {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <polymer-collapse-button target="#collapse">
+      <button>toggle collapse</button>
+    </polymer-collapse-button>
+    <div id="box">
+      Forma temperiemque cornua sidera dissociata cornua recessit innabilis ligavit: solidumque coeptis nullus caelum sponte phoebe di regat mentisque tanta austro capacius amphitrite sui quin postquam semina fossae liquidum umor galeae coeptis caligine liberioris quin liquidum matutinis invasit posset: flexi glomeravit radiis certis invasit oppida postquam onerosior inclusum dominari opifex terris pace finxit quam aquae nunc sine altae auroram quam habentem homo totidemque scythiam in pondus ensis tegit caecoque poena lapidosos humanas coeperunt poena aetas totidem nec natura aethera locavit caelumque distinxit animalibus phoebe cingebant moderantum porrexerat terrae possedit sua sole diu summaque obliquis melioris orbem
+    </div>
+    <polymer-collapse id="collapse" targetId="box" duration="0.1"></polymer-collapse>
+    
+    <script type='application/dart' src='polymer_collapse.dart'></script>
+  </body>
+</html>
