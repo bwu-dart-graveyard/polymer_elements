@@ -2,26 +2,24 @@ name: polymer_elements
 version: 0.0.8
 author: polymer_elements.dart authors
 description: A Dart port of polymer-elements (https://github.com/Polymer/polymer-elements).
-homepage: https://github.com/ErikGrimes/polymer-elements
+homepage: https://github.com/ErikGrimes/polymer_elements
 environment:
-  sdk: '>=0.8.8 <0.8.9'
+  sdk: '>=0.8.9 <0.9.0'
 dependencies:
   polymer: any
-  polymer_ui_elements: any
-    #path: /home/zoechi/source/my/dart/polymer_ui_elements
 dev_dependencies:
-  unittest: any  
+  unittest: any
 transformers:
 - polymer:
     entry_points:
-      - example/ajax_example.html
-      - example/polymer_ajax_demo.html
-      - example/polymer_anchor_point.html
-      - example/polymer_animation.html
-      - example/polymer_collapse.html
-      - example/polymer_flex_layout.html
-      - example/polymer_selection_demo.html
-      - example/polymer_selector_demo.html
-      - example/selection_example.html
-      - example/selector_examples.html
-      - test/polymer_collapse.html  
+    - example/ajax_example.html
+    - example/polymer_ajax_demo.html
+    - example/polymer_anchor_point.html
+    - example/polymer_animation.html
+    - example/polymer_collapse.html
+    - example/polymer_flex_layout.html
+    - example/polymer_selection_demo.html
+    - example/polymer_selector_demo.html
+    - example/selection_example.html
+    - example/selector_examples.html
+    - test/polymer_collapse.html
