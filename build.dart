@@ -1,6 +1,6 @@
 import 'package:polymer/builder.dart';
 
-void main() {
+void main(args) {
   build(entryPoints: [
                       'example/ajax_example.html',
                       'example/polymer_ajax_demo.html',
@@ -14,5 +14,6 @@ void main() {
                       'example/selector_examples.html',
                       
                       'test/polymer_collapse.html'
-                      ]);
+                      ],
+                      options: parseOptions(args));
 }
