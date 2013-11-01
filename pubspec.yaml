@@ -4,11 +4,12 @@ author: polymer_elements.dart authors
 description: A Dart port of polymer-elements (https://github.com/Polymer/polymer-elements).
 homepage: https://github.com/ErikGrimes/polymer-elements
 environment:
-  sdk: '>=0.8.8 <0.8.9'
+  sdk: '>=0.8.9 <0.8.10'
 dependencies:
   polymer: any
-  polymer_ui_elements: any
-    #path: /home/zoechi/source/my/dart/polymer_ui_elements
+  polymer_ui_elements: #any
+    path: /home/zoechi/source/my/dart/polymer_ui_elements
+    #git: git@github.com:ErikGrimes/polymer_ui_elements.git
 dev_dependencies:
   unittest: any  
 transformers:
