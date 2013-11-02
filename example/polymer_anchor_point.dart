@@ -15,7 +15,7 @@ main() {
   
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.FINEST;
-  Logger.root.onRecord.listen((e) => print(e));
+  //Logger.root.onRecord.listen((e) => print(e));
   
   initPolymer();
 }
