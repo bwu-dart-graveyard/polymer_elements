@@ -52,5 +52,5 @@ LIB=$LIB,polymer_shared_lib
 LIB=$LIB,polymer_signals
 LIB=$LIB,polymer_view_source_link
 
-dartdoc --package-root=packages/ --out=doc --include-lib=$LIB lib/polymer_elements.dart
+dartdoc --package-root=packages/ --out=../polymer_elements_doc --include-lib=$LIB lib/polymer_elements.dart
 #
