@@ -12,34 +12,32 @@ The intent of the authors is to contribute the work to the Dart project itself (
 
 ### Status
 
-<table>
-  <tr>
-    <th>Element name</th><th>Status</th><th>Comment</th> </tr>
-  </tr>
-  <tr>    <td>polymer-ajax</td>               <td>ported</td>   <td>needs tests </td>    </tr>
-  <tr>    <td>polymer-anchor-point</td>       <td>ported</td> <td>has issues</td>    </tr>
-  <tr>    <td>polymer-collapse</td>           <td><strong>ported</strong></td>   <td> </td>    </tr>
-  <tr>    <td>polymer-cookie</td>             <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-file</td>               <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-flex-layout</td>        <td>ported</td>   <td>has issues</td>    </tr>
-  <tr>    <td>polymer-google-jsapi</td>       <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-grid-layout</td>        <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-jsonp</td>              <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-key-helper</td>         <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-layout</td>             <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-localstorage</td>       <td><strong>ported</strong></td> <td></td>    </tr>
-  <tr>    <td>polymer-media-query</td>        <td>not started</td> <td></td>    </tr>
-  <tr>    <td>polymer-meta</td>               <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-mock-data</td>          <td>not started</td> <td></td>    </tr>
-  <tr>    <td>polymer-overlay</td>            <td>started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-page</td>               <td><strong>ported</strong></td>   <td> </td>    </tr>
-  <tr>    <td>polymer-scrub</td>              <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-selection</td>          <td>ported</td>   <td>needs tests </td>    </tr>
-  <tr>    <td>polymer-selector</td>           <td>ported</td>   <td>needs tests </td>    </tr>
-  <tr>    <td>polymer-shared-lib</td>         <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-signals</td>            <td>not started</td>   <td> </td>    </tr>
-  <tr>    <td>polymer-view-source-link</td>   <td>not started</td>   <td> </td>    </tr>
-</table>
+Element name                    |   Status    | Comment
+------------------------------- | ----------- | --------
+polymer-ajax                    | ported      | needs tests
+polymer-anchor-point            | ported      | has issues
+polymer-collapse                | **ported**  |
+polymer-cookie                  | not started |
+polymer-file                    | not started |
+polymer-flex-layout             | ported      |
+polymer-google-jsapi            | not started |
+polymer-grid-layout             | not started |
+polymer-jsonp                   | not started |
+polymer-key-helper              | not started |
+polymer-layout                  | not started |
+polymer-localstorage            | **ported**  |
+polymer-media-query             | not started |
+polymer-meta                    | not started |
+polymer-mock-data               | not started |
+polymer-overlay                 | started     |
+polymer-page                    | **ported**  |
+polymer-scrub                   | not started |
+polymer-selection               | ported      | needs tests
+polymer-selector                | ported      | needs tests
+polymer-shared-lib              | not started |
+polymer-signals                 | not started |
+polymer-view-source-link        | not started |
+
 
 ### License
 BSD 3-clause license (see [LICENSE](https://github.com/ErikGrimes/polymer_elements/blob/master/LICENSE) file).
