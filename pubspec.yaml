@@ -1,16 +1,17 @@
 name: polymer_elements
 version: 0.0.9
-author: 
-  Erik Grimes <erik.grimes@gmail.com>
-  Günter Zöchbauer <guenter@gzoechbauer.com>
-description: A Dart port of polymer-elements (https://github.com/Polymer/polymer-elements).
+authors: 
+- Erik Grimes <erik.grimes@gmail.com>
+- Günter Zöchbauer <guenter@gzoechbauer.com>
+description: >
+  A Dart port of polymer-elements 
+  (https://github.com/Polymer/polymer-elements).
 homepage: https://github.com/ErikGrimes/polymer_elements
 environment:
   sdk: '>=0.8.9 <0.8.11'
 dependencies:
   polymer: any
-  polymer_ui_elements: #any
-    path: /home/zoechi/source/my/dart/polymer_ui_elements
+  polymer_ui_elements: any
 dev_dependencies:
   unittest: any
 transformers:
