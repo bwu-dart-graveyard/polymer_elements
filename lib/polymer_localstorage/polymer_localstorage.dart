@@ -69,7 +69,7 @@ class PolymerLocalstorage extends PolymerElement {
       value = s;
     }
     loaded = true;
-    //this.asyncFire('polymer-localstorage-load');
+    // TODO this.asyncFire('polymer-localstorage-load');
   }
 
   
