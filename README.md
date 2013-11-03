@@ -1,10 +1,13 @@
 # Basic non-visual elements for Polymer.dart
 
-A port of polymer.js' [polymer-elements](https://github.com/Polymer/polymer-elements)to Polymer.dart. 
+A port of polymer.js' [polymer-elements](https://github.com/Polymer/polymer-elements) to Polymer.dart. 
 The intent of the authors is to contribute the work to the Dart project itself (https://www.dartlang.org).
 
 ### Visual elements for Dart can be found in
 * [polymer_ui_elements](https://github.com/ErikGrimes/polymer_ui_elements)
+
+## Documentation
+* [DartDoc](http://erikgrimes.github.io/polymer_elements/docs/index.html)
 
 ## General notes
 

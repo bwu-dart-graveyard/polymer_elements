@@ -97,13 +97,11 @@ class PolymerFlexLayout extends PolymerElement {
   @published bool isContainer = false;
   
   @observable HtmlElement layoutContainer = null;
-  
+
   @override
   void enteredView() {
-    //this.installControllerStyles();
-
     super.enteredView();
-    
+
     if(this.isContainer) {
       this.layoutContainer = this;
     } else {
@@ -114,6 +112,10 @@ class PolymerFlexLayout extends PolymerElement {
     this.verticalChanged(null);
     this.alignChanged(null);
     this.justifyChanged(null);
+    
+    // TODO this should become redundant when the domspec is more complete
+    // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
+    this.installControllerStyles();
   }
   
   @override

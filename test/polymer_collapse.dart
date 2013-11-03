@@ -9,6 +9,7 @@ library polymer_collapse;
 
 import "dart:html";
 import "dart:async";
+import "package:polymer/polymer.dart";
 import "package:unittest/unittest.dart";
 import "package:unittest/html_enhanced_config.dart";
 import "package:polymer_elements/polymer_collapse/polymer_collapse.dart";
@@ -21,16 +22,17 @@ class NullTreeSanitizer implements NodeTreeSanitizer {
 }
 
 void main() { 
-  //return;
   useHtmlEnhancedConfiguration();
 
+  initPolymer();
+  
   test("polymer-collapse", () {
     Duration delay = new Duration(milliseconds: 300);
     var done = expectAsync0((){});
     Timer.run(() {
       var c = document.querySelector('#collapse') as PolymerCollapse;
       expect(c.closed, isFalse);
-      new Future.delayed(delay, () {
+      new Future.delayed(delay,() {
         var origH = getBoxComputedHeight();
         expect(origH, isNot(equals(0)));
         c.closed = true;
