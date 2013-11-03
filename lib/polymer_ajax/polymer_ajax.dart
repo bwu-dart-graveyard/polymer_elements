@@ -86,6 +86,7 @@ class PolymerAjax extends PolymerElement {
   PolymerAjax.created() : super.created();
   
   ready() {
+    super.ready();
     this._xhr = this.ownerDocument.createElement('polymer-xhr');
   }
   

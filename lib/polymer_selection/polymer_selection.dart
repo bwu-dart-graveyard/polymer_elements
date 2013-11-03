@@ -104,6 +104,7 @@ class PolymerSelection extends PolymerElement {
   }
    
   ready(){
+    super.ready();
     this.clear();
   }
   

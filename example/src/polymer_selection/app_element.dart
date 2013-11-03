@@ -16,11 +16,13 @@ class AppElement extends PolymerElement {
   //Note: Have to use dom listeners here to workaround 
   //https://code.google.com/p/dart/issues/detail?id=14457
   enteredView(){
+    super.enteredView();
     this.addEventListener('click',itemTapAction);
   }
   
   leftView(){
     this.removeEventListener('click', itemTapAction);
+    super.leftView();
   }
       
   itemTapAction(e) {
