@@ -8,7 +8,7 @@ http://www.polymer-project.org/.
 
 <link rel="import" href="packages/polymer_elements/polymer_ajax/polymer_ajax.html">
 
-<polymer-element name="ajax-example">
+<polymer-element name="app-element">
   <template>
     <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
       params='{"alt":"json", "q":"chrome"}'
@@ -18,7 +18,7 @@ http://www.polymer-project.org/.
     <div>{{ entry['title']['$t']}}</div>
   </template>
     </template>
-  <script type="application/dart" src="ajax_example.dart">
+  <script type="application/dart" src="app_element.dart">
  
   </script>
 </polymer-element>

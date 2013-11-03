@@ -4,18 +4,18 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.selector_examples;
+library polymer_elements.polymer_selector.app_element;
 
 import 'package:polymer/polymer.dart';
 
-@CustomTag('selector-examples')
-class SelectorExamples extends PolymerElement {
+@CustomTag('app-element')
+class AppElement extends PolymerElement {
   
   final multiSelected = [1, 3];
   
   @observable
   String color = 'green';
   
-  SelectorExamples.created() : super.created();
+  AppElement.created() : super.created();
   
 }
