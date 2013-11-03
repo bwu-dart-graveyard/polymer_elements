@@ -42,5 +42,5 @@ polymer-view-source-link        | not started |
 ### License
 BSD 3-clause license (see [LICENSE](https://github.com/ErikGrimes/polymer_elements/blob/master/LICENSE) file).
 
-[![Build Status](https://drone.io/github.com/ErikGrimes/polymer_elements/status.png)](https://drone.io/github.com/ErikGrimes/polymer-elements/latest)
+[![Build Status](https://drone.io/github.com/ErikGrimes/polymer_elements/status.png)](https://drone.io/github.com/ErikGrimes/polymer_elements/latest)
 
