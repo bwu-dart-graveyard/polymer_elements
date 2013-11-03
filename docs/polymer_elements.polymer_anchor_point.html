@@ -1,0 +1,74 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>polymer_elements.polymer_anchor_point Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        </head>
+        <body data-library="polymer_elements.polymer_anchor_point">
+        <div class="page">
+        <div class="header">
+          <a href="index.html"><div class="logo"></div></a>
+          <a href="index.html">Dart Documentation</a>
+         &rsaquo; <a href="polymer_elements.polymer_anchor_point.html">polymer_elements.polymer_anchor_point</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+<h2><strong>polymer_elements.polymer_anchor_point</strong> library</h2>
+<div class="doc"><p>polymer-anchor-point can be used to align two nodes. The node to
+use as the reference position is the anchor node, and the node to
+be positioned is the target node.</p>
+<p>Both the anchor and target nodes should have an anchor-point
+attribute. The target node is positioned such that its anchor-point
+aligns with the anchor node's anchor-point.</p>
+<p>Note: The target node is positioned with position: fixed, and will not
+scroll with the page.</p>
+<p>Note: This is meant to polyfill the <code>&lt;dialog&gt;</code> positioning behavior when
+an anchor is provided. Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#the-dialog-element</p>
+<p>Example:</p>
+<pre><code>&lt;div id="anchor" anchor-point="bottom left"&gt;&lt;/div&gt;
+&lt;div id="target" anchor-point="top left"&gt;&lt;/div&gt;
+&lt;polymer-anchor-point id="anchor-helper"&gt;&lt;/polymer-anchor-point&gt;
+&lt;script&gt;
+  var helper = document.querySelector('#anchor-helper');
+  helper.anchor = document.querySelector('#anchor');
+  helper.target = document.querySelector('#target');
+  helper.apply();
+&lt;/script&gt;
+</code></pre></div>
+<div>
+<h3>Classes</h3>
+          <div class="type">
+          <h4>
+            <a href="polymer_elements.polymer_anchor_point/PolymerAnchorPoint.html"><strong>PolymerAnchorPoint</strong></a>
+          </h4>
+          </div>
+          
+          <div class="type">
+          <h4>
+            <a href="polymer_elements.polymer_anchor_point/Position.html"><strong>Position</strong></a>
+          </h4>
+          </div>
+          
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-11-03 13:43:13.817</div>
+        </div>
+        <script async src="client-live-nav.js"></script>
+        </body></html>
+        

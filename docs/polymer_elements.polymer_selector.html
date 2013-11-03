@@ -1,0 +1,78 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>polymer_elements.polymer_selector Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        </head>
+        <body data-library="polymer_elements.polymer_selector">
+        <div class="page">
+        <div class="header">
+          <a href="index.html"><div class="logo"></div></a>
+          <a href="index.html">Dart Documentation</a>
+         &rsaquo; <a href="polymer_elements.polymer_selector.html">polymer_elements.polymer_selector</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+<h2><strong>polymer_elements.polymer_selector</strong> library</h2>
+<div class="doc"><p>polymer-selector is used to manage a list of elements that can be selected.
+The attribute 'selected' indicates which item element is being selected.
+The attribute "multi" indicates if multiple items can be selected at once.
+Tapping on the item element fires 'polymer-activate' event. Use the
+'polymer-select' event to listen for selection changes.  
+The <a class="crossref" href="dart_html/CustomEvent.html#detail">CustomEvent.detail</a> for 'polymer-select' is map containing 'item'
+and 'isSelected'.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-selector selected="0"&gt;
+  &lt;div&gt;Item 1&lt;/div&gt;
+  &lt;div&gt;Item 2&lt;/div&gt;
+  &lt;div&gt;Item 3&lt;/div&gt;
+&lt;/polymer-selector&gt;
+</code></pre>
+<p>polymer-selector is not styled.  So one needs to use "polymer-selected" CSS
+class to style the selected element.</p>
+<pre><code>&lt;style&gt;
+  .item.polymer-selected {
+    background: #eee;
+  }
+&lt;/style&gt;
+...
+&lt;polymer-selector&gt;
+  &lt;div class="item"&gt;Item 1&lt;/div&gt;
+  &lt;div class="item"&gt;Item 2&lt;/div&gt;
+  &lt;div class="item"&gt;Item 3&lt;/div&gt;
+&lt;/polymer-selector&gt;
+</code></pre>
+<p>The polymer-selector element fires a 'polymer-select' event when an item's 
+selection state is changed. The <a class="crossref" href="dart_html/CustomEvent.html#detail">CustomEvent.detail</a> for the event is a map
+containing 'item' and 'isSelected'.</p></div>
+<div>
+<h3>Classes</h3>
+          <div class="type">
+          <h4>
+            <a href="polymer_elements.polymer_selector/PolymerSelector.html"><strong>PolymerSelector</strong></a>
+          </h4>
+          </div>
+          
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-11-03 13:43:17.165</div>
+        </div>
+        <script async src="client-live-nav.js"></script>
+        </body></html>
+        

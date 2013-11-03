@@ -1,0 +1,4213 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>PolymerSelection class / polymer_elements.polymer_selection Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="../styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="../favicon.ico">
+        
+        </head>
+        <body data-library="polymer_elements.polymer_selection" data-type="PolymerSelection">
+        <div class="page">
+        <div class="header">
+          <a href="../index.html"><div class="logo"></div></a>
+          <a href="../index.html">Dart Documentation</a>
+         &rsaquo; <a href="../polymer_elements.polymer_selection.html">polymer_elements.polymer_selection</a> &rsaquo; <a href="../polymer_elements.polymer_selection/PolymerSelection.html">PolymerSelection</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+        <h2><strong>PolymerSelection</strong>
+          class
+        </h2>
+        
+<button id="show-inherited" class="show-inherited">Hide inherited</button>
+<div class="doc">
+<pre class="source">
+@CustomTag('polymer-selection')
+class PolymerSelection extends PolymerElement {
+ 
+ final List _selection = [];
+ 
+ /**
+  * If true, multiple selections are allowed.
+  */
+ 
+ @published
+ bool multi = false;
+ 
+ PolymerSelection.created() : super.created();
+ 
+ /**
+  * Retrieves the selected item(s). If the multi property is true,
+  * selection will return a [List], otherwise it will return 
+  * the selected item or null if there is no selection.
+  */
+ get selection {
+   if(this.multi){
+    return this._selection;
+   } else if(this._selection.isNotEmpty){
+     return this._selection[0];
+   } else {
+     return null;
+   }
+ }
+
+ /**
+  * Returns true if the given [item] is selected.
+  */
+ isSelected(item){
+   return this.selection.indexOf(item) &gt;= 0;
+ }
+ 
+ /**
+  * Sets the selected state of [item] to [isSelected] and fires
+  * a corresponding 'polymer-select' event with [PolymerSelectDetail] containing
+  * the [PolymerSelectDetail.item] equal to [item] and [PolymerDetail.isSelected]
+  * equal to [isSelected]. 
+  */
+ setItemSelected(item, isSelected) {
+   if (item != null) {  
+     if (isSelected) {
+       this._selection.add(item);
+     } else {
+       var i = this._selection.indexOf(item);
+       if (i &gt;= 0) {
+         this._selection.removeAt(i);
+       }
+     }     
+
+     this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
+         
+   }
+ }
+ /**
+  * Set the selection state for a given [item]. If the multi property
+  * is true, then the selected state of [item] will be toggled; otherwise
+  * the [item] will be selected.  Fires a corresponding 'polymer-select' event 
+  * with [PolymerSelectDetail] containing the [PolymerSelectDetail.item] equal 
+  * to [item] and with the [PolymerDetail.isSelected] set to the new selection
+  * state for the [item].
+  */
+ select(item) { 
+   if (this.multi) {
+     this._toggle(item);
+   } else if (this.selection != item) {
+     this.setItemSelected(this.selection, false);
+     this.setItemSelected(item, true);
+   }
+ }
+  
+ ready(){
+   this.clear();
+ }
+ 
+ clear(){
+   this._selection.clear();
+ }
+ 
+ _toggle(item) {
+   this.setItemSelected(item, !this.isSelected(item));
+ }
+
+ 
+}
+</pre>
+</div>
+<h3>Extends</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerSelection</strong></span></p>
+<div>
+<h3>Constructors</h3>
+<div class="method"><h4 id="created">
+<button class="show-code">Code</button>
+new <strong>PolymerSelection.created</strong>() <a class="anchor-link" href="#created"
+              title="Permalink to PolymerSelection.PolymerSelection.created">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Constructor instantiated by the DOM when a custom element has been created.</p>
+<p>This can only be called by subclasses from their created constructor.</p>
+<div class="docs-inherited-from">docs inherited from HtmlElement </div></div>
+<pre class="source">
+PolymerSelection.created() : super.created();
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Properties</h3>
+<div class="field inherited"><h4 id="$">
+<button class="show-code">Code</button>
+final Map&lt;String, Element&gt;         <strong>$</strong> <a class="anchor-link"
+            href="#$"
+            title="Permalink to PolymerSelection.$">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Map of items in the shadow root(s) by their <code>Element.id</code>. </p>
+<pre class="source">
+final Map&lt;String, Element&gt; $ =
+new ObservableMap&lt;String, Element&gt;()
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="alwaysPrepare">
+<button class="show-code">Code</button>
+final bool         <strong>alwaysPrepare</strong> <a class="anchor-link"
+            href="#alwaysPrepare"
+            title="Permalink to PolymerSelection.alwaysPrepare">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool get alwaysPrepare =&gt; false;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="applyAuthorStyles">
+<button class="show-code">Code</button>
+final bool         <strong>applyAuthorStyles</strong> <a class="anchor-link"
+            href="#applyAuthorStyles"
+            title="Permalink to PolymerSelection.applyAuthorStyles">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool get applyAuthorStyles =&gt; false;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="attributes">
+<button class="show-code">Code</button>
+Map&lt;String, String&gt;         <strong>attributes</strong> <a class="anchor-link"
+            href="#attributes"
+            title="Permalink to PolymerSelection.attributes">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>All attributes on this element.</p>
+<p>Any modifications to the attribute map will automatically be applied to
+this element.</p>
+<p>This only includes attributes which are not in a namespace
+(such as 'xlink:href'), additional attributes can be accessed via
+<a class="crossref" href="../dart_html/Element.html#getNamespacedAttributes">getNamespacedAttributes</a>.</p>
+<pre class="source">
+Map&lt;String, String&gt; get attributes =&gt; new _ElementAttributeMap(this);
+</pre>
+<pre class="source">
+void set attributes(Map&lt;String, String&gt; value) {
+ Map&lt;String, String&gt; attributes = this.attributes;
+ attributes.clear();
+ for (String key in value.keys) {
+   attributes[key] = value[key];
+ }
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="bindings">
+<button class="show-code">Code</button>
+final Map&lt;String, NodeBinding&gt;         <strong>bindings</strong> <a class="anchor-link"
+            href="#bindings"
+            title="Permalink to PolymerSelection.bindings">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Gets the data bindings that are associated with this node. </p>
+<div class="docs-inherited-from">docs inherited from NodeBindExtension </div></div>
+<pre class="source">
+Map&lt;String, NodeBinding&gt; get bindings =&gt; nodeBindFallback(this).bindings;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="borderEdge">
+<button class="show-code">Code</button>
+final CssRect         <strong>borderEdge</strong> <a class="anchor-link"
+            href="#borderEdge"
+            title="Permalink to PolymerSelection.borderEdge">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Access the dimensions and position of this element's content + padding +
+border box.</p>
+<p>This returns a rectangle with the dimenions actually available for content
+in this element, in pixels, regardless of this element's box-sizing
+property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+will return the same numerical height if the element is hidden or not. This
+can be used to retrieve jQuery's
+<a href="http://api.jquery.com/outerHeight/">outerHeight</a> value for an element.</p>
+<p><em>Important</em> <em>note</em>: use of this method <em>will</em> perform CSS calculations that
+can trigger a browser reflow. Therefore, use of this property <em>during</em> an
+animation frame is discouraged. See also:
+<a href="https://developers.google.com/speed/articles/reflow">Browser Reflow</a></p>
+<pre class="source">
+@Experimental()
+CssRect get borderEdge =&gt; new _BorderCssRect(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="changes">
+<button class="show-code">Code</button>
+final Stream&lt;List&lt;ChangeRecord&gt;&gt;         <strong>changes</strong> <a class="anchor-link"
+            href="#changes"
+            title="Permalink to PolymerSelection.changes">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
+<p>The stream of change records to this object. Records will be delivered
+asynchronously.</p>
+<p><a class="crossref" href="../observe.src.observable/Observable.html#deliverChanges">deliverChanges</a> can be called to force synchronous delivery.</p>
+<pre class="source">
+Stream&lt;List&lt;ChangeRecord&gt;&gt; get changes {
+ if (_changes == null) {
+   _changes = new StreamController.broadcast(sync: true,
+       onListen: _observed, onCancel: _unobserved);
+ }
+ return _changes.stream;
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="childNodes">
+<button class="show-code">Code</button>
+final List&lt;Node&gt;         <strong>childNodes</strong> <a class="anchor-link"
+            href="#childNodes"
+            title="Permalink to PolymerSelection.childNodes">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final List&lt;Node&gt; childNodes
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="children">
+<button class="show-code">Code</button>
+List&lt;Element&gt;         <strong>children</strong> <a class="anchor-link"
+            href="#children"
+            title="Permalink to PolymerSelection.children">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>List of the direct children of this element.</p>
+<p>This collection can be used to add and remove elements from the document.</p>
+<pre><code>var item = new DivElement();
+item.text = 'Something';
+document.body.children.add(item) // Item is now displayed on the page.
+for (var element in document.body.children) {
+  element.style.background = 'red'; // Turns every child of body red.
+}
+</code></pre>
+<pre class="source">
+List&lt;Element&gt; get children =&gt; new _ChildrenElementList._wrap(this);
+</pre>
+<pre class="source">
+void set children(List&lt;Element&gt; value) {
+ // Copy list first since we don't want liveness during iteration.
+ List copy = new List.from(value);
+ var children = this.children;
+ children.clear();
+ children.addAll(copy);
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="classes">
+<button class="show-code">Code</button>
+CssClassSet         <strong>classes</strong> <a class="anchor-link"
+            href="#classes"
+            title="Permalink to PolymerSelection.classes">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The set of CSS classes applied to this element.</p>
+<p>This set makes it easy to add, remove or toggle the classes applied to
+this element.</p>
+<pre><code>element.classes.add('selected');
+element.classes.toggle('isOnline');
+element.classes.remove('selected');
+</code></pre>
+<pre class="source">
+CssClassSet get classes =&gt; new _ElementCssClassSet(this);
+</pre>
+<pre class="source">
+void set classes(Iterable&lt;String&gt; value) {
+ CssClassSet classSet = classes;
+ classSet.clear();
+ classSet.addAll(value);
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="className">
+<button class="show-code">Code</button>
+String         <strong>className</strong> <a class="anchor-link"
+            href="#className"
+            title="Permalink to PolymerSelection.className">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String className
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="client">
+<button class="show-code">Code</button>
+final Rectangle         <strong>client</strong> <a class="anchor-link"
+            href="#client"
+            title="Permalink to PolymerSelection.client">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Gets the position of this element relative to the client area of the page.</p>
+<pre class="source">
+Rectangle get client =&gt; new Rectangle(clientLeft, clientTop, clientWidth,
+   clientHeight);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="clientHeight">
+<button class="show-code">Code</button>
+final int         <strong>clientHeight</strong> <a class="anchor-link"
+            href="#clientHeight"
+            title="Permalink to PolymerSelection.clientHeight">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int clientHeight
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="clientLeft">
+<button class="show-code">Code</button>
+final int         <strong>clientLeft</strong> <a class="anchor-link"
+            href="#clientLeft"
+            title="Permalink to PolymerSelection.clientLeft">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int clientLeft
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="clientTop">
+<button class="show-code">Code</button>
+final int         <strong>clientTop</strong> <a class="anchor-link"
+            href="#clientTop"
+            title="Permalink to PolymerSelection.clientTop">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int clientTop
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="clientWidth">
+<button class="show-code">Code</button>
+final int         <strong>clientWidth</strong> <a class="anchor-link"
+            href="#clientWidth"
+            title="Permalink to PolymerSelection.clientWidth">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int clientWidth
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="contentEdge">
+<button class="show-code">Code</button>
+final CssRect         <strong>contentEdge</strong> <a class="anchor-link"
+            href="#contentEdge"
+            title="Permalink to PolymerSelection.contentEdge">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Access this element's content position.</p>
+<p>This returns a rectangle with the dimenions actually available for content
+in this element, in pixels, regardless of this element's box-sizing
+property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+will return the same numerical height if the element is hidden or not.</p>
+<p><em>Important</em> <em>note</em>: use of this method <em>will</em> perform CSS calculations that
+can trigger a browser reflow. Therefore, use of this property <em>during</em> an
+animation frame is discouraged. See also:
+<a href="https://developers.google.com/speed/articles/reflow">Browser Reflow</a></p>
+<pre class="source">
+@Experimental()
+CssRect get contentEdge =&gt; new _ContentCssRect(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="contentEditable">
+<button class="show-code">Code</button>
+String         <strong>contentEditable</strong> <a class="anchor-link"
+            href="#contentEditable"
+            title="Permalink to PolymerSelection.contentEditable">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String contentEditable
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="dataset">
+<button class="show-code">Code</button>
+Map&lt;String, String&gt;         <strong>dataset</strong> <a class="anchor-link"
+            href="#dataset"
+            title="Permalink to PolymerSelection.dataset">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Allows access to all custom data attributes (data-*) set on this element.</p>
+<p>The keys for the map must follow these rules:</p><ul><li>The name must not begin with 'xml'.</li><li>The name cannot contain a semi-colon (';').</li><li>The name cannot contain any capital letters.</li></ul>
+<p>Any keys from markup will be converted to camel-cased keys in the map.</p>
+<p>For example, HTML specified as:</p>
+<pre><code>&lt;div data-my-random-value='value'&gt;&lt;/div&gt;
+</code></pre>
+<p>Would be accessed in Dart as:</p>
+<pre><code>var value = element.dataset['myRandomValue'];
+</code></pre>
+<p>See also:</p><ul><li><a href="http://www.w3.org/TR/html5/global-attributes.html#custom-data-attribute">Custom data attributes</a></li></ul>
+<pre class="source">
+Map&lt;String, String&gt; get dataset =&gt;
+ new _DataAttributeMap(attributes);
+</pre>
+<pre class="source">
+void set dataset(Map&lt;String, String&gt; value) {
+ final data = this.dataset;
+ data.clear();
+ for (String key in value.keys) {
+   data[key] = value[key];
+ }
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="declaration">
+<button class="show-code">Code</button>
+final PolymerDeclaration         <strong>declaration</strong> <a class="anchor-link"
+            href="#declaration"
+            title="Permalink to PolymerSelection.declaration">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>The most derived <code>&lt;polymer-element&gt;</code> declaration for this element. </p>
+<pre class="source">
+PolymerDeclaration get declaration =&gt; _declaration;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="dir">
+<button class="show-code">Code</button>
+String         <strong>dir</strong> <a class="anchor-link"
+            href="#dir"
+            title="Permalink to PolymerSelection.dir">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String dir
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="documentOffset">
+<button class="show-code">Code</button>
+final Point         <strong>documentOffset</strong> <a class="anchor-link"
+            href="#documentOffset"
+            title="Permalink to PolymerSelection.documentOffset">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Provides the coordinates of the element relative to the top of the
+document.</p>
+<p>This method is the Dart equivalent to jQuery's
+<a href="http://api.jquery.com/offset/">offset</a> method.</p>
+<pre class="source">
+@Experimental()
+Point get documentOffset =&gt; offsetTo(document.documentElement);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="draggable">
+<button class="show-code">Code</button>
+bool         <strong>draggable</strong> <a class="anchor-link"
+            href="#draggable"
+            title="Permalink to PolymerSelection.draggable">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+bool draggable
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="dropzone">
+<button class="show-code">Code</button>
+String         <strong>dropzone</strong> <a class="anchor-link"
+            href="#dropzone"
+            title="Permalink to PolymerSelection.dropzone">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String dropzone
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="firstChild">
+<button class="show-code">Code</button>
+final Node         <strong>firstChild</strong> <a class="anchor-link"
+            href="#firstChild"
+            title="Permalink to PolymerSelection.firstChild">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Node firstChild
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="hashCode">
+<button class="show-code">Code</button>
+final int         <strong>hashCode</strong> <a class="anchor-link"
+            href="#hashCode"
+            title="Permalink to PolymerSelection.hashCode">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Interceptor </div><div class="doc">
+<div class="inherited">
+<p>Get a hash code for this object.</p>
+<p>All objects have hash codes. Hash codes are guaranteed to be the
+same for objects that are equal when compared using the equality
+operator <code>==</code>. Other than that there are no guarantees about
+the hash codes. They will not be consistent between runs and
+there are no distribution guarantees.</p>
+<p>If a subclass overrides <a class="crossref" href="../dart__interceptors/Interceptor.html#hashCode">hashCode</a> it should override the
+equality operator as well to maintain consistency.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+int get hashCode =&gt; Primitives.objectHashCode(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="hasObservers">
+<button class="show-code">Code</button>
+final bool         <strong>hasObservers</strong> <a class="anchor-link"
+            href="#hasObservers"
+            title="Permalink to PolymerSelection.hasObservers">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
+<p>True if this object has any observers, and should call
+<a class="crossref" href="../observe.src.observable/Observable.html#notifyChange">notifyChange</a> for changes.</p>
+<pre class="source">
+bool get hasObservers =&gt; _changes != null &amp;&amp; _changes.hasListener;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="hidden">
+<button class="show-code">Code</button>
+bool         <strong>hidden</strong> <a class="anchor-link"
+            href="#hidden"
+            title="Permalink to PolymerSelection.hidden">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+bool hidden
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="id">
+<button class="show-code">Code</button>
+String         <strong>id</strong> <a class="anchor-link"
+            href="#id"
+            title="Permalink to PolymerSelection.id">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String id
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="innerHtml">
+<button class="show-code">Code</button>
+String         <strong>innerHtml</strong> <a class="anchor-link"
+            href="#innerHtml"
+            title="Permalink to PolymerSelection.innerHtml">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Parses the HTML fragment and sets it as the contents of this element.</p>
+<p>This uses the default sanitization behavior to sanitize the HTML fragment,
+use <a class="crossref" href="../dart_html/Element.html#setInnerHtml">setInnerHtml</a> to override the default behavior.</p>
+<pre class="source">
+String get innerHtml =&gt; _innerHtml;
+</pre>
+<pre class="source">
+void set innerHtml(String html) {
+ this.setInnerHtml(html);
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="inputMethodContext">
+<button class="show-code">Code</button>
+final InputMethodContext         <strong>inputMethodContext</strong> <a class="anchor-link"
+            href="#inputMethodContext"
+            title="Permalink to PolymerSelection.inputMethodContext">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final InputMethodContext inputMethodContext
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="isContentEditable">
+<button class="show-code">Code</button>
+final bool         <strong>isContentEditable</strong> <a class="anchor-link"
+            href="#isContentEditable"
+            title="Permalink to PolymerSelection.isContentEditable">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final bool isContentEditable
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="lang">
+<button class="show-code">Code</button>
+String         <strong>lang</strong> <a class="anchor-link"
+            href="#lang"
+            title="Permalink to PolymerSelection.lang">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String lang
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="lastChild">
+<button class="show-code">Code</button>
+final Node         <strong>lastChild</strong> <a class="anchor-link"
+            href="#lastChild"
+            title="Permalink to PolymerSelection.lastChild">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Node lastChild
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="localName">
+<button class="show-code">Code</button>
+final String         <strong>localName</strong> <a class="anchor-link"
+            href="#localName"
+            title="Permalink to PolymerSelection.localName">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.localName')
+@DocsEditable()
+String get localName =&gt; _localName;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="marginEdge">
+<button class="show-code">Code</button>
+final CssRect         <strong>marginEdge</strong> <a class="anchor-link"
+            href="#marginEdge"
+            title="Permalink to PolymerSelection.marginEdge">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Access the dimensions and position of this element's content + padding +
+border + margin box.</p>
+<p>This returns a rectangle with the dimenions actually available for content
+in this element, in pixels, regardless of this element's box-sizing
+property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+will return the same numerical height if the element is hidden or not. This
+can be used to retrieve jQuery's
+<a href="http://api.jquery.com/outerHeight/">outerHeight</a> value for an element.</p>
+<p><em>Important</em> <em>note</em>: use of this method will perform CSS calculations that
+can trigger a browser reflow. Therefore, use of this property <em>during</em> an
+animation frame is discouraged. See also:
+<a href="https://developers.google.com/speed/articles/reflow">Browser Reflow</a></p>
+<pre class="source">
+@Experimental()
+CssRect get marginEdge =&gt; new _MarginCssRect(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="multi">
+<button class="show-code">Code</button>
+bool         <strong>multi</strong> <a class="anchor-link"
+            href="#multi"
+            title="Permalink to PolymerSelection.multi">#</a>
+        </h4>
+        <div class="doc">
+<p>If true, multiple selections are allowed.</p>
+<pre class="source">
+bool multi = false
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="namespaceUri">
+<button class="show-code">Code</button>
+final String         <strong>namespaceUri</strong> <a class="anchor-link"
+            href="#namespaceUri"
+            title="Permalink to PolymerSelection.namespaceUri">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.namespaceUri')
+@DocsEditable()
+String get namespaceUri =&gt; _namespaceUri;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nextElementSibling">
+<button class="show-code">Code</button>
+final Element         <strong>nextElementSibling</strong> <a class="anchor-link"
+            href="#nextElementSibling"
+            title="Permalink to PolymerSelection.nextElementSibling">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final Element nextElementSibling
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nextNode">
+<button class="show-code">Code</button>
+final Node         <strong>nextNode</strong> <a class="anchor-link"
+            href="#nextNode"
+            title="Permalink to PolymerSelection.nextNode">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Node nextNode
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nodeName">
+<button class="show-code">Code</button>
+final String         <strong>nodeName</strong> <a class="anchor-link"
+            href="#nodeName"
+            title="Permalink to PolymerSelection.nodeName">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final String nodeName
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nodes">
+<button class="show-code">Code</button>
+List&lt;Node&gt;         <strong>nodes</strong> <a class="anchor-link"
+            href="#nodes"
+            title="Permalink to PolymerSelection.nodes">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+List&lt;Node&gt; get nodes {
+ return new _ChildNodeListLazy(this);
+}
+</pre>
+<pre class="source">
+void set nodes(Iterable&lt;Node&gt; value) {
+ // Copy list first since we don't want liveness during iteration.
+ // TODO(jacobr): there is a better way to do this.
+ List copy = new List.from(value);
+ text = '';
+ for (Node node in copy) {
+   append(node);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nodeType">
+<button class="show-code">Code</button>
+final int         <strong>nodeType</strong> <a class="anchor-link"
+            href="#nodeType"
+            title="Permalink to PolymerSelection.nodeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final int nodeType
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="nodeValue">
+<button class="show-code">Code</button>
+final String         <strong>nodeValue</strong> <a class="anchor-link"
+            href="#nodeValue"
+            title="Permalink to PolymerSelection.nodeValue">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final String nodeValue
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offset">
+<button class="show-code">Code</button>
+final Rectangle         <strong>offset</strong> <a class="anchor-link"
+            href="#offset"
+            title="Permalink to PolymerSelection.offset">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Gets the offset of this element relative to its offsetParent.</p>
+<pre class="source">
+Rectangle get offset =&gt; new Rectangle(offsetLeft, offsetTop, offsetWidth,
+   offsetHeight);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offsetHeight">
+<button class="show-code">Code</button>
+final int         <strong>offsetHeight</strong> <a class="anchor-link"
+            href="#offsetHeight"
+            title="Permalink to PolymerSelection.offsetHeight">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int offsetHeight
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offsetLeft">
+<button class="show-code">Code</button>
+final int         <strong>offsetLeft</strong> <a class="anchor-link"
+            href="#offsetLeft"
+            title="Permalink to PolymerSelection.offsetLeft">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int offsetLeft
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offsetParent">
+<button class="show-code">Code</button>
+final Element         <strong>offsetParent</strong> <a class="anchor-link"
+            href="#offsetParent"
+            title="Permalink to PolymerSelection.offsetParent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final Element offsetParent
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offsetTop">
+<button class="show-code">Code</button>
+final int         <strong>offsetTop</strong> <a class="anchor-link"
+            href="#offsetTop"
+            title="Permalink to PolymerSelection.offsetTop">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int offsetTop
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="offsetWidth">
+<button class="show-code">Code</button>
+final int         <strong>offsetWidth</strong> <a class="anchor-link"
+            href="#offsetWidth"
+            title="Permalink to PolymerSelection.offsetWidth">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int offsetWidth
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="on">
+<button class="show-code">Code</button>
+final ElementEvents         <strong>on</strong> <a class="anchor-link"
+            href="#on"
+            title="Permalink to PolymerSelection.on">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>This is an ease-of-use accessor for event streams which should only be
+used when an explicit accessor is not available.</p>
+<pre class="source">
+ElementEvents get on =&gt; new ElementEvents(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onAbort">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onAbort</strong> <a class="anchor-link"
+            href="#onAbort"
+            title="Permalink to PolymerSelection.onAbort">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onabort')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onAbort =&gt; abortEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onBeforeCopy">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onBeforeCopy</strong> <a class="anchor-link"
+            href="#onBeforeCopy"
+            title="Permalink to PolymerSelection.onBeforeCopy">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onbeforecopy')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onBeforeCopy =&gt; beforeCopyEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onBeforeCut">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onBeforeCut</strong> <a class="anchor-link"
+            href="#onBeforeCut"
+            title="Permalink to PolymerSelection.onBeforeCut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onbeforecut')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onBeforeCut =&gt; beforeCutEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onBeforePaste">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onBeforePaste</strong> <a class="anchor-link"
+            href="#onBeforePaste"
+            title="Permalink to PolymerSelection.onBeforePaste">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onbeforepaste')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onBeforePaste =&gt; beforePasteEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onBlur">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onBlur</strong> <a class="anchor-link"
+            href="#onBlur"
+            title="Permalink to PolymerSelection.onBlur">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onblur')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onBlur =&gt; blurEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onChange">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onChange</strong> <a class="anchor-link"
+            href="#onChange"
+            title="Permalink to PolymerSelection.onChange">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onchange')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onChange =&gt; changeEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onClick">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onClick</strong> <a class="anchor-link"
+            href="#onClick"
+            title="Permalink to PolymerSelection.onClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onclick')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onClick =&gt; clickEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onContextMenu">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onContextMenu</strong> <a class="anchor-link"
+            href="#onContextMenu"
+            title="Permalink to PolymerSelection.onContextMenu">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.oncontextmenu')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onContextMenu =&gt; contextMenuEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onCopy">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onCopy</strong> <a class="anchor-link"
+            href="#onCopy"
+            title="Permalink to PolymerSelection.onCopy">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.oncopy')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onCopy =&gt; copyEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onCut">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onCut</strong> <a class="anchor-link"
+            href="#onCut"
+            title="Permalink to PolymerSelection.onCut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.oncut')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onCut =&gt; cutEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDoubleClick">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onDoubleClick</strong> <a class="anchor-link"
+            href="#onDoubleClick"
+            title="Permalink to PolymerSelection.onDoubleClick">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondblclick')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onDoubleClick =&gt; doubleClickEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDrag">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDrag</strong> <a class="anchor-link"
+            href="#onDrag"
+            title="Permalink to PolymerSelection.onDrag">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondrag')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDrag =&gt; dragEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDragEnd">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnd</strong> <a class="anchor-link"
+            href="#onDragEnd"
+            title="Permalink to PolymerSelection.onDragEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondragend')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDragEnd =&gt; dragEndEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDragEnter">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnter</strong> <a class="anchor-link"
+            href="#onDragEnter"
+            title="Permalink to PolymerSelection.onDragEnter">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondragenter')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDragEnter =&gt; dragEnterEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDragLeave">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDragLeave</strong> <a class="anchor-link"
+            href="#onDragLeave"
+            title="Permalink to PolymerSelection.onDragLeave">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondragleave')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDragLeave =&gt; dragLeaveEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDragOver">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDragOver</strong> <a class="anchor-link"
+            href="#onDragOver"
+            title="Permalink to PolymerSelection.onDragOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondragover')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDragOver =&gt; dragOverEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDragStart">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDragStart</strong> <a class="anchor-link"
+            href="#onDragStart"
+            title="Permalink to PolymerSelection.onDragStart">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondragstart')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDragStart =&gt; dragStartEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onDrop">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onDrop</strong> <a class="anchor-link"
+            href="#onDrop"
+            title="Permalink to PolymerSelection.onDrop">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ondrop')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onDrop =&gt; dropEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onError">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onError</strong> <a class="anchor-link"
+            href="#onError"
+            title="Permalink to PolymerSelection.onError">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onerror')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onError =&gt; errorEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onFocus">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onFocus</strong> <a class="anchor-link"
+            href="#onFocus"
+            title="Permalink to PolymerSelection.onFocus">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onfocus')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onFocus =&gt; focusEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onFullscreenChange">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onFullscreenChange</strong> <a class="anchor-link"
+            href="#onFullscreenChange"
+            title="Permalink to PolymerSelection.onFullscreenChange">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onwebkitfullscreenchange')
+@DocsEditable()
+// https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
+@Experimental()
+ElementStream&lt;Event&gt; get onFullscreenChange =&gt; fullscreenChangeEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onFullscreenError">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onFullscreenError</strong> <a class="anchor-link"
+            href="#onFullscreenError"
+            title="Permalink to PolymerSelection.onFullscreenError">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onwebkitfullscreenerror')
+@DocsEditable()
+// https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html
+@Experimental()
+ElementStream&lt;Event&gt; get onFullscreenError =&gt; fullscreenErrorEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onInput">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onInput</strong> <a class="anchor-link"
+            href="#onInput"
+            title="Permalink to PolymerSelection.onInput">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.oninput')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onInput =&gt; inputEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onInvalid">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onInvalid</strong> <a class="anchor-link"
+            href="#onInvalid"
+            title="Permalink to PolymerSelection.onInvalid">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.oninvalid')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onInvalid =&gt; invalidEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyDown">
+<button class="show-code">Code</button>
+final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
+            href="#onKeyDown"
+            title="Permalink to PolymerSelection.onKeyDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onkeydown')
+@DocsEditable()
+ElementStream&lt;KeyboardEvent&gt; get onKeyDown =&gt; keyDownEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyPress">
+<button class="show-code">Code</button>
+final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyPress</strong> <a class="anchor-link"
+            href="#onKeyPress"
+            title="Permalink to PolymerSelection.onKeyPress">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onkeypress')
+@DocsEditable()
+ElementStream&lt;KeyboardEvent&gt; get onKeyPress =&gt; keyPressEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onKeyUp">
+<button class="show-code">Code</button>
+final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
+            href="#onKeyUp"
+            title="Permalink to PolymerSelection.onKeyUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onkeyup')
+@DocsEditable()
+ElementStream&lt;KeyboardEvent&gt; get onKeyUp =&gt; keyUpEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onLoad">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onLoad</strong> <a class="anchor-link"
+            href="#onLoad"
+            title="Permalink to PolymerSelection.onLoad">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onload')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onLoad =&gt; loadEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseDown">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
+            href="#onMouseDown"
+            title="Permalink to PolymerSelection.onMouseDown">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmousedown')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onMouseDown =&gt; mouseDownEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseEnter">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseEnter</strong> <a class="anchor-link"
+            href="#onMouseEnter"
+            title="Permalink to PolymerSelection.onMouseEnter">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmouseenter')
+@DocsEditable()
+@Experimental() // untriaged
+ElementStream&lt;MouseEvent&gt; get onMouseEnter =&gt; mouseEnterEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseLeave">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseLeave</strong> <a class="anchor-link"
+            href="#onMouseLeave"
+            title="Permalink to PolymerSelection.onMouseLeave">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmouseleave')
+@DocsEditable()
+@Experimental() // untriaged
+ElementStream&lt;MouseEvent&gt; get onMouseLeave =&gt; mouseLeaveEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseMove">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
+            href="#onMouseMove"
+            title="Permalink to PolymerSelection.onMouseMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmousemove')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onMouseMove =&gt; mouseMoveEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOut">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
+            href="#onMouseOut"
+            title="Permalink to PolymerSelection.onMouseOut">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmouseout')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onMouseOut =&gt; mouseOutEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseOver">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
+            href="#onMouseOver"
+            title="Permalink to PolymerSelection.onMouseOver">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmouseover')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onMouseOver =&gt; mouseOverEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseUp">
+<button class="show-code">Code</button>
+final ElementStream&lt;MouseEvent&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
+            href="#onMouseUp"
+            title="Permalink to PolymerSelection.onMouseUp">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmouseup')
+@DocsEditable()
+ElementStream&lt;MouseEvent&gt; get onMouseUp =&gt; mouseUpEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onMouseWheel">
+<button class="show-code">Code</button>
+final ElementStream&lt;WheelEvent&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
+            href="#onMouseWheel"
+            title="Permalink to PolymerSelection.onMouseWheel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onmousewheel')
+@DocsEditable()
+// http://www.w3.org/TR/DOM-Level-3-Events/#events-wheelevents
+@Experimental() // non-standard
+ElementStream&lt;WheelEvent&gt; get onMouseWheel =&gt; mouseWheelEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onPaste">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anchor-link"
+            href="#onPaste"
+            title="Permalink to PolymerSelection.onPaste">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onpaste')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onReset">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anchor-link"
+            href="#onReset"
+            title="Permalink to PolymerSelection.onReset">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onreset')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onReset =&gt; resetEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onScroll">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onScroll</strong> <a class="anchor-link"
+            href="#onScroll"
+            title="Permalink to PolymerSelection.onScroll">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onscroll')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onScroll =&gt; scrollEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onSearch">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onSearch</strong> <a class="anchor-link"
+            href="#onSearch"
+            title="Permalink to PolymerSelection.onSearch">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onsearch')
+@DocsEditable()
+// http://www.w3.org/TR/html-markup/input.search.html
+@Experimental()
+ElementStream&lt;Event&gt; get onSearch =&gt; searchEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onSelect">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onSelect</strong> <a class="anchor-link"
+            href="#onSelect"
+            title="Permalink to PolymerSelection.onSelect">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onselect')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onSelect =&gt; selectEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onSelectStart">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onSelectStart</strong> <a class="anchor-link"
+            href="#onSelectStart"
+            title="Permalink to PolymerSelection.onSelectStart">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onselectstart')
+@DocsEditable()
+@Experimental() // nonstandard
+ElementStream&lt;Event&gt; get onSelectStart =&gt; selectStartEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onSubmit">
+<button class="show-code">Code</button>
+final ElementStream&lt;Event&gt;         <strong>onSubmit</strong> <a class="anchor-link"
+            href="#onSubmit"
+            title="Permalink to PolymerSelection.onSubmit">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.onsubmit')
+@DocsEditable()
+ElementStream&lt;Event&gt; get onSubmit =&gt; submitEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchCancel">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
+            href="#onTouchCancel"
+            title="Permalink to PolymerSelection.onTouchCancel">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchcancel')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchCancel =&gt; touchCancelEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchEnd">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
+            href="#onTouchEnd"
+            title="Permalink to PolymerSelection.onTouchEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchend')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchEnd =&gt; touchEndEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchEnter">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnter</strong> <a class="anchor-link"
+            href="#onTouchEnter"
+            title="Permalink to PolymerSelection.onTouchEnter">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchenter')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchEnter =&gt; touchEnterEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchLeave">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchLeave</strong> <a class="anchor-link"
+            href="#onTouchLeave"
+            title="Permalink to PolymerSelection.onTouchLeave">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchleave')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchLeave =&gt; touchLeaveEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchMove">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
+            href="#onTouchMove"
+            title="Permalink to PolymerSelection.onTouchMove">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchmove')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchMove =&gt; touchMoveEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTouchStart">
+<button class="show-code">Code</button>
+final ElementStream&lt;TouchEvent&gt;         <strong>onTouchStart</strong> <a class="anchor-link"
+            href="#onTouchStart"
+            title="Permalink to PolymerSelection.onTouchStart">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontouchstart')
+@DocsEditable()
+// http://www.w3.org/TR/touch-events/, http://www.chromestatus.com/features
+@Experimental()
+ElementStream&lt;TouchEvent&gt; get onTouchStart =&gt; touchStartEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="onTransitionEnd">
+<button class="show-code">Code</button>
+final ElementStream&lt;TransitionEvent&gt;         <strong>onTransitionEnd</strong> <a class="anchor-link"
+            href="#onTransitionEnd"
+            title="Permalink to PolymerSelection.onTransitionEnd">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.ontransitionend')
+@DocsEditable()
+@SupportedBrowser(SupportedBrowser.CHROME)
+@SupportedBrowser(SupportedBrowser.FIREFOX)
+@SupportedBrowser(SupportedBrowser.IE, '10')
+@SupportedBrowser(SupportedBrowser.SAFARI)
+ElementStream&lt;TransitionEvent&gt; get onTransitionEnd =&gt; transitionEndEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="outerHtml">
+<button class="show-code">Code</button>
+final String         <strong>outerHtml</strong> <a class="anchor-link"
+            href="#outerHtml"
+            title="Permalink to PolymerSelection.outerHtml">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final String outerHtml
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="ownerDocument">
+<button class="show-code">Code</button>
+final Document         <strong>ownerDocument</strong> <a class="anchor-link"
+            href="#ownerDocument"
+            title="Permalink to PolymerSelection.ownerDocument">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Document ownerDocument
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="paddingEdge">
+<button class="show-code">Code</button>
+final CssRect         <strong>paddingEdge</strong> <a class="anchor-link"
+            href="#paddingEdge"
+            title="Permalink to PolymerSelection.paddingEdge">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Access the dimensions and position of this element's content + padding box.</p>
+<p>This returns a rectangle with the dimenions actually available for content
+in this element, in pixels, regardless of this element's box-sizing
+property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+will return the same numerical height if the element is hidden or not. This
+can be used to retrieve jQuery's
+<a href="http://api.jquery.com/innerHeight/">innerHeight</a> value for an element.
+This is also a rectangle equalling the dimensions of clientHeight and
+clientWidth.</p>
+<p><em>Important</em> <em>note</em>: use of this method <em>will</em> perform CSS calculations that
+can trigger a browser reflow. Therefore, use of this property <em>during</em> an
+animation frame is discouraged. See also:
+<a href="https://developers.google.com/speed/articles/reflow">Browser Reflow</a></p>
+<pre class="source">
+@Experimental()
+CssRect get paddingEdge =&gt; new _PaddingCssRect(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parent">
+<button class="show-code">Code</button>
+final Element         <strong>parent</strong> <a class="anchor-link"
+            href="#parent"
+            title="Permalink to PolymerSelection.parent">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Element parent
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="parentNode">
+<button class="show-code">Code</button>
+final Node         <strong>parentNode</strong> <a class="anchor-link"
+            href="#parentNode"
+            title="Permalink to PolymerSelection.parentNode">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Node parentNode
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="preventDispose">
+<button class="show-code">Code</button>
+final bool         <strong>preventDispose</strong> <a class="anchor-link"
+            href="#preventDispose"
+            title="Permalink to PolymerSelection.preventDispose">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool get preventDispose =&gt; false;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="previousElementSibling">
+<button class="show-code">Code</button>
+final Element         <strong>previousElementSibling</strong> <a class="anchor-link"
+            href="#previousElementSibling"
+            title="Permalink to PolymerSelection.previousElementSibling">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final Element previousElementSibling
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="previousNode">
+<button class="show-code">Code</button>
+final Node         <strong>previousNode</strong> <a class="anchor-link"
+            href="#previousNode"
+            title="Permalink to PolymerSelection.previousNode">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+final Node previousNode
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="pseudo">
+<button class="show-code">Code</button>
+String         <strong>pseudo</strong> <a class="anchor-link"
+            href="#pseudo"
+            title="Permalink to PolymerSelection.pseudo">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String pseudo
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="regionOverset">
+<button class="show-code">Code</button>
+final String         <strong>regionOverset</strong> <a class="anchor-link"
+            href="#regionOverset"
+            title="Permalink to PolymerSelection.regionOverset">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final String regionOverset
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="resetStyleInheritance">
+<button class="show-code">Code</button>
+final bool         <strong>resetStyleInheritance</strong> <a class="anchor-link"
+            href="#resetStyleInheritance"
+            title="Permalink to PolymerSelection.resetStyleInheritance">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool get resetStyleInheritance =&gt; false;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="runtimeType">
+<button class="show-code">Code</button>
+final Type         <strong>runtimeType</strong> <a class="anchor-link"
+            href="#runtimeType"
+            title="Permalink to PolymerSelection.runtimeType">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Interceptor </div><div class="doc">
+<div class="inherited">
+<p>A representation of the runtime type of the object.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+Type get runtimeType =&gt; getRuntimeType(this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scrollHeight">
+<button class="show-code">Code</button>
+final int         <strong>scrollHeight</strong> <a class="anchor-link"
+            href="#scrollHeight"
+            title="Permalink to PolymerSelection.scrollHeight">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int scrollHeight
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scrollLeft">
+<button class="show-code">Code</button>
+int         <strong>scrollLeft</strong> <a class="anchor-link"
+            href="#scrollLeft"
+            title="Permalink to PolymerSelection.scrollLeft">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+int scrollLeft
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scrollTop">
+<button class="show-code">Code</button>
+int         <strong>scrollTop</strong> <a class="anchor-link"
+            href="#scrollTop"
+            title="Permalink to PolymerSelection.scrollTop">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+int scrollTop
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="scrollWidth">
+<button class="show-code">Code</button>
+final int         <strong>scrollWidth</strong> <a class="anchor-link"
+            href="#scrollWidth"
+            title="Permalink to PolymerSelection.scrollWidth">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final int scrollWidth
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="selection">
+<button class="show-code">Code</button>
+final         <strong>selection</strong> <a class="anchor-link"
+            href="#selection"
+            title="Permalink to PolymerSelection.selection">#</a>
+        </h4>
+        <div class="doc">
+<p>Retrieves the selected item(s). If the multi property is true,
+selection will return a <a class="crossref" href="../dart_core/List.html">List</a>, otherwise it will return 
+the selected item or null if there is no selection.</p>
+<pre class="source">
+get selection {
+ if(this.multi){
+  return this._selection;
+ } else if(this._selection.isNotEmpty){
+   return this._selection[0];
+ } else {
+   return null;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="shadowRoot">
+<button class="show-code">Code</button>
+final ShadowRoot         <strong>shadowRoot</strong> <a class="anchor-link"
+            href="#shadowRoot"
+            title="Permalink to PolymerSelection.shadowRoot">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.shadowRoot')
+@SupportedBrowser(SupportedBrowser.CHROME, '25')
+@Experimental()
+ShadowRoot get shadowRoot =&gt;
+   JS('ShadowRoot|Null', '#.shadowRoot || #.webkitShadowRoot', this, this);
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="spellcheck">
+<button class="show-code">Code</button>
+bool         <strong>spellcheck</strong> <a class="anchor-link"
+            href="#spellcheck"
+            title="Permalink to PolymerSelection.spellcheck">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+bool spellcheck
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="style">
+<button class="show-code">Code</button>
+final CssStyleDeclaration         <strong>style</strong> <a class="anchor-link"
+            href="#style"
+            title="Permalink to PolymerSelection.style">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final CssStyleDeclaration style
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="syntax">
+<button class="show-code">Code</button>
+BindingDelegate         <strong>syntax</strong> <a class="anchor-link"
+            href="#syntax"
+            title="Permalink to PolymerSelection.syntax">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+BindingDelegate syntax = _polymerSyntax
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tabIndex">
+<button class="show-code">Code</button>
+int         <strong>tabIndex</strong> <a class="anchor-link"
+            href="#tabIndex"
+            title="Permalink to PolymerSelection.tabIndex">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+int tabIndex
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="tagName">
+<button class="show-code">Code</button>
+final String         <strong>tagName</strong> <a class="anchor-link"
+            href="#tagName"
+            title="Permalink to PolymerSelection.tagName">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+final String tagName
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="templateInstance">
+<button class="show-code">Code</button>
+final TemplateInstance         <strong>templateInstance</strong> <a class="anchor-link"
+            href="#templateInstance"
+            title="Permalink to PolymerSelection.templateInstance">#</a>
+        </h4>
+        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Gets the template instance that instantiated this node, if any. </p>
+<div class="docs-inherited-from">docs inherited from NodeBindExtension </div></div>
+<pre class="source">
+TemplateInstance get templateInstance =&gt;
+   nodeBindFallback(this).templateInstance;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="text">
+<button class="show-code">Code</button>
+String         <strong>text</strong> <a class="anchor-link"
+            href="#text"
+            title="Permalink to PolymerSelection.text">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+String text
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="title">
+<button class="show-code">Code</button>
+String         <strong>title</strong> <a class="anchor-link"
+            href="#title"
+            title="Permalink to PolymerSelection.title">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+String title
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="translate">
+<button class="show-code">Code</button>
+bool         <strong>translate</strong> <a class="anchor-link"
+            href="#translate"
+            title="Permalink to PolymerSelection.translate">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+bool translate
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="xtag">
+<button class="show-code">Code</button>
+var         <strong>xtag</strong> <a class="anchor-link"
+            href="#xtag"
+            title="Permalink to PolymerSelection.xtag">#</a>
+        </h4>
+        <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Experimental support for <a href="http://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html">web components</a>. This field stores a
+reference to the component implementation. It was inspired by Mozilla's
+<a href="http://x-tags.org/">x-tags</a> project. Please note: in the future it may be possible to
+<code>extend Element</code> from your class, in which case this field will be
+deprecated.</p>
+<p>If xtag has not been set, it will simply return <code>this</code> <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<pre class="source">
+get xtag =&gt; _xtag != null ? _xtag : this;
+</pre>
+<pre class="source">
+void set xtag(Element value) {
+ _xtag = value;
+}
+</pre>
+</div>
+</div>
+</div>
+<div class="inherited">
+<h3>Operators</h3>
+<div class="method inherited"><h4 id="==">
+<button class="show-code">Code</button>
+bool <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
+              title="Permalink to PolymerSelection.operator ==">#</a></h4>
+<div class="inherited-from">inherited from Interceptor </div><div class="doc">
+<div class="inherited">
+<p>The equality operator.</p>
+<p>The default behavior for all <a class="crossref" href="../dart_core/Object.html">Object</a>s is to return true if and
+only if <code>this</code> and 
+<span class="param">other</span> are the same object.</p>
+<p>Override this method to specify a different equality relation on
+a class. The overriding method must still be an equivalence relation.
+That is, it must be:</p><ul><li>
+<p>Total: It must return a boolean for all arguments. It should never throw
+   or return <code>null</code>.</p></li><li>
+<p>Reflexive: For all objects <code>o</code>, <code>o == o</code> must be true.</p></li><li>
+<p>Symmetric: For all objects <code>o1</code> and <code>o2</code>, <code>o1 == o2</code> and <code>o2 == o1</code> must
+   either both be true, or both be false.</p></li><li>
+<p>Transitive: For all objects <code>o1</code>, <code>o2</code>, and <code>o3</code>, if <code>o1 == o2</code> and
+   <code>o2 == o3</code> are true, then <code>o1 == o3</code> must be true.</p></li></ul>
+<p>The method should also be consistent over time, so equality of two objects
+should not change over time, or at least only change if one of the objects
+was modified.</p>
+<p>If a subclass overrides the equality operator it should override
+the <a class="crossref" href="../dart__interceptors/Interceptor.html#hashCode">hashCode</a> method as well to maintain consistency.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+bool operator ==(other) =&gt; identical(this, other);
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Methods</h3>
+<div class="method inherited"><h4 id="addEventListener">
+<button class="show-code">Code</button>
+void <strong>addEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#addEventListener"
+              title="Permalink to PolymerSelection.addEventListener">#</a></h4>
+<div class="inherited-from">inherited from EventTarget </div><div class="doc">
+<pre class="source">
+@DomName('EventTarget.addEventListener')
+@DocsEditable()
+void addEventListener(String type, EventListener listener, [bool useCapture]) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addHostListeners">
+<button class="show-code">Code</button>
+void <strong>addHostListeners</strong>() <a class="anchor-link" href="#addHostListeners"
+              title="Permalink to PolymerSelection.addHostListeners">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Attach event listeners on the host (this) element. </p>
+<pre class="source">
+void addHostListeners() {
+ var events = _declaration._eventDelegates;
+ if (events.isEmpty) return;
+
+ if (_eventsLog.isLoggable(Level.FINE)) {
+   _eventsLog.fine('[$localName] addHostListeners: $events');
+ }
+ addNodeListeners(this, events.keys, hostEventListener);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addNodeListener">
+<button class="show-code">Code</button>
+void <strong>addNodeListener</strong>(Node node, String event, void listener(Event e)) <a class="anchor-link" href="#addNodeListener"
+              title="Permalink to PolymerSelection.addNodeListener">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void addNodeListener(Node node, String event, void listener(Event e)) {
+ node.on[event].listen(listener);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="addNodeListeners">
+<button class="show-code">Code</button>
+void <strong>addNodeListeners</strong>(Node node, Iterable&lt;String&gt; events, void listener(Event e)) <a class="anchor-link" href="#addNodeListeners"
+              title="Permalink to PolymerSelection.addNodeListeners">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void addNodeListeners(Node node, Iterable&lt;String&gt; events,
+   void listener(Event e)) {
+
+ for (var name in events) {
+   addNodeListener(node, name, listener);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="append">
+<button class="show-code">Code</button>
+Node <strong>append</strong>(Node newChild) <a class="anchor-link" href="#append"
+              title="Permalink to PolymerSelection.append">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<p>Adds a node to the end of the child <a class="crossref" href="../dart_html/Node.html#nodes">nodes</a> list of this node.</p>
+<p>If the node already exists in this document, it will be removed from its
+current parent node, then added to this node.</p>
+<p>This method is more efficient than <code>nodes.add</code>, and is the preferred
+way of appending a child node.</p>
+<pre class="source">
+@JSName('appendChild')
+/**
+* Adds a node to the end of the child [nodes] list of this node.
+*
+* If the node already exists in this document, it will be removed from its
+* current parent node, then added to this node.
+*
+* This method is more efficient than `nodes.add`, and is the preferred
+* way of appending a child node.
+*/
+@DomName('Node.appendChild')
+@DocsEditable()
+Node append(Node newChild) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="appendHtml">
+<button class="show-code">Code</button>
+void <strong>appendHtml</strong>(String text) <a class="anchor-link" href="#appendHtml"
+              title="Permalink to PolymerSelection.appendHtml">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Parses the specified text as HTML and adds the resulting node after the
+last child of this element.</p>
+<pre class="source">
+void appendHtml(String text) {
+ this.insertAdjacentHtml('beforeend', text);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="appendText">
+<button class="show-code">Code</button>
+void <strong>appendText</strong>(String text) <a class="anchor-link" href="#appendText"
+              title="Permalink to PolymerSelection.appendText">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Adds the specified text after the last child of this element.</p>
+<pre class="source">
+void appendText(String text) {
+ this.insertAdjacentText('beforeend', text);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="async">
+<button class="show-code">Code</button>
+int <strong>async</strong>(RequestAnimationFrameCallback method) <a class="anchor-link" href="#async"
+              title="Permalink to PolymerSelection.async">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Invokes a function asynchronously.
+This will call <code>Platform.flush()</code> and then call
+<code>window.requestAnimationFrame</code> with the provided 
+<span class="param">method</span> and return the
+result.</p>
+<p>If you would prefer to run the callback after a given duration, see
+the <a class="crossref" href="../polymer/Polymer.html#asyncTimer">asyncTimer</a> method.</p>
+<pre class="source">
+int async(RequestAnimationFrameCallback method) {
+ // when polyfilling Object.observe, ensure changes
+ // propagate before executing the async method
+ scheduleMicrotask(Observable.dirtyCheck);
+ return window.requestAnimationFrame(method);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="asyncFire">
+<button class="show-code">Code</button>
+dynamic <strong>asyncFire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#asyncFire"
+              title="Permalink to PolymerSelection.asyncFire">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Fire an event asynchronously. See <a class="crossref" href="../polymer/Polymer.html#async">async</a> and <a class="crossref" href="../polymer/Polymer.html#fire">fire</a>.</p>
+<pre class="source">
+asyncFire(String type, {Object detail, Node toNode, bool canBubble}) {
+ // TODO(jmesserly): I'm not sure this method adds much in Dart, it's easy to
+ // add "() =&gt;"
+ async((x) =&gt; fire(
+     type, detail: detail, toNode: toNode, canBubble: canBubble));
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="asyncTimer">
+<button class="show-code">Code</button>
+Timer <strong>asyncTimer</strong>(void method(), Duration timeout) <a class="anchor-link" href="#asyncTimer"
+              title="Permalink to PolymerSelection.asyncTimer">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Invokes a function asynchronously.
+This will call <code>Platform.flush()</code> and then return a <code>new Timer</code>
+with the provided 
+<span class="param">method</span> and 
+<span class="param">timeout</span>.</p>
+<p>If you would prefer to run the callback using
+<code>window.requestAnimationFrame</code>, see the <a class="crossref" href="../polymer/Polymer.html#async">async</a> method.</p>
+<pre class="source">
+Timer asyncTimer(void method(), Duration timeout) {
+ // when polyfilling Object.observe, ensure changes
+ // propagate before executing the async method
+ scheduleMicrotask(Observable.dirtyCheck);
+ return new Timer(timeout, method);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="asyncUnbindAll">
+<button class="show-code">Code</button>
+void <strong>asyncUnbindAll</strong>() <a class="anchor-link" href="#asyncUnbindAll"
+              title="Permalink to PolymerSelection.asyncUnbindAll">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void asyncUnbindAll() {
+ if (_unbound == true) return;
+ _unbindLog.fine('[$localName] asyncUnbindAll');
+ _unbindAllJob = _runJob(_unbindAllJob, unbindAll, Duration.ZERO);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="attributeChanged">
+<button class="show-code">Code</button>
+void <strong>attributeChanged</strong>(String name, String oldValue, String newValue) <a class="anchor-link" href="#attributeChanged"
+              title="Permalink to PolymerSelection.attributeChanged">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Called by the DOM whenever an attribute on this has been changed.</p>
+<div class="docs-inherited-from">docs inherited from Element </div></div>
+<pre class="source">
+void attributeChanged(String name, String oldValue, String newValue) {
+ if (name != 'class' &amp;&amp; name != 'style') {
+   attributeToProperty(name, newValue);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="attributeToProperty">
+<button class="show-code">Code</button>
+void <strong>attributeToProperty</strong>(String name, String value) <a class="anchor-link" href="#attributeToProperty"
+              title="Permalink to PolymerSelection.attributeToProperty">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>If attribute 
+<span class="param">name</span> is mapped to a property, deserialize
+
+<span class="param">value</span> into that property.</p>
+<pre class="source">
+void attributeToProperty(String name, String value) {
+ // try to match this attribute to a property (attributes are
+ // all lower-case, so this is case-insensitive search)
+ var property = propertyForAttribute(name);
+ if (property == null) return;
+
+ // filter out 'mustached' values, these are to be
+ // replaced with bound-data and are not yet values
+ // themselves.
+ if (value == null || value.contains(Polymer.bindPattern)) return;
+
+ // get original value
+ final self = reflect(this);
+ final currentValue = self.getField(property.simpleName).reflectee;
+
+ // deserialize Boolean or Number values from attribute
+ final newValue = deserializeValue(value, currentValue,
+     _inferPropertyType(currentValue, property));
+
+ // only act if the value has changed
+ if (!identical(newValue, currentValue)) {
+   // install new value (has side-effects)
+   self.setField(property.simpleName, newValue);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="bind">
+<button class="show-code">Code</button>
+NodeBinding <strong>bind</strong>(String name, model, [String path]) <a class="anchor-link" href="#bind"
+              title="Permalink to PolymerSelection.bind">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Binds the attribute 
+<span class="param">name</span> to the 
+<span class="param">path</span> of the 
+<span class="param">model</span>.
+Path is a String of accessors such as <code>foo.bar.baz</code>.
+Returns the <code>NodeBinding</code> instance.</p>
+<div class="docs-inherited-from">docs inherited from NodeBindExtension </div></div>
+<pre class="source">
+NodeBinding bind(String name, model, [String path]) {
+ // note: binding is a prepare signal. This allows us to be sure that any
+ // property changes that occur as a result of binding will be observed.
+ if (!_elementPrepared) prepareElement();
+
+ var property = propertyForAttribute(name);
+ if (property == null) {
+   // Cannot call super.bind because template_binding is its own package
+   return nodeBindFallback(this).bind(name, model, path);
+ } else {
+   // clean out the closets
+   unbind(name);
+   // use n-way Polymer binding
+   var observer = bindProperty(property.simpleName, model, path);
+   // reflect bound property to attribute when binding
+   // to ensure binding is not left on attribute if property
+   // does not update due to not changing.
+   // Dart note: we include this patch:
+   // https://github.com/Polymer/polymer/pull/319
+   reflectPropertyToAttribute(property.simpleName);
+   return bindings[name] = observer;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="bindProperty">
+<button class="show-code">Code</button>
+NodeBinding <strong>bindProperty</strong>(Symbol name, Object model, [String path]) <a class="anchor-link" href="#bindProperty"
+              title="Permalink to PolymerSelection.bindProperty">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Bind a <code>property</code> in this object to a 
+<span class="param">path</span> in model. <em>Note</em> in Dart it
+is necessary to also define the field:</p>
+<pre><code>var myProperty;
+
+ready() {
+  super.ready();
+  bindProperty(#myProperty, this, 'myModel.path.to.otherProp');
+}
+</code></pre>
+<pre class="source">
+NodeBinding bindProperty(Symbol name, Object model, [String path]) =&gt;
+   // apply Polymer two-way reference binding
+   _bindProperties(this, name, model, path);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="blur">
+<button class="show-code">Code</button>
+void <strong>blur</strong>() <a class="anchor-link" href="#blur"
+              title="Permalink to PolymerSelection.blur">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.blur')
+@DocsEditable()
+void blur() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="cancelUnbindAll">
+<button class="show-code">Code</button>
+void <strong>cancelUnbindAll</strong>({bool preventCascade}) <a class="anchor-link" href="#cancelUnbindAll"
+              title="Permalink to PolymerSelection.cancelUnbindAll">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void cancelUnbindAll({bool preventCascade}) {
+ if (_unbound == true) {
+   _unbindLog.warning(
+       '[$localName] already unbound, cannot cancel unbindAll');
+   return;
+ }
+ _unbindLog.fine('[$localName] cancelUnbindAll');
+ if (_unbindAllJob != null) {
+   _unbindAllJob.stop();
+   _unbindAllJob = null;
+ }
+
+ // cancel unbinding our shadow tree iff we're not in the process of
+ // cascading our tree (as we do, for example, when the element is inserted).
+ if (preventCascade == true) return;
+ _forNodeTree(shadowRoot, (n) {
+   if (n is Polymer) {
+     (n as Polymer).cancelUnbindAll();
+   }
+ });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="classFollows">
+<button class="show-code">Code</button>
+void <strong>classFollows</strong>(Element anew, Element old, String className) <a class="anchor-link" href="#classFollows"
+              title="Permalink to PolymerSelection.classFollows">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Remove 
+<span class="param">className</span> from 
+<span class="param">old</span>, add class to 
+<span class="param">anew</span>, if they exist.</p>
+<pre class="source">
+void classFollows(Element anew, Element old, String className) {
+ if (old != null) {
+   old.classes.remove(className);
+ }
+ if (anew != null) {
+   anew.classes.add(className);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="clear">
+<button class="show-code">Code</button>
+dynamic <strong>clear</strong>() <a class="anchor-link" href="#clear"
+              title="Permalink to PolymerSelection.clear">#</a></h4>
+<div class="doc">
+<pre class="source">
+clear(){
+ this._selection.clear();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="click">
+<button class="show-code">Code</button>
+void <strong>click</strong>() <a class="anchor-link" href="#click"
+              title="Permalink to PolymerSelection.click">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.click')
+@DocsEditable()
+void click() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="clone">
+<button class="show-code">Code</button>
+Node <strong>clone</strong>(bool deep) <a class="anchor-link" href="#clone"
+              title="Permalink to PolymerSelection.clone">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+@JSName('cloneNode')
+@DomName('Node.cloneNode')
+@DocsEditable()
+Node clone(bool deep) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="contains">
+<button class="show-code">Code</button>
+bool <strong>contains</strong>(Node other) <a class="anchor-link" href="#contains"
+              title="Permalink to PolymerSelection.contains">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+@DomName('Node.contains')
+@DocsEditable()
+bool contains(Node other) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="copyInstanceAttributes">
+<button class="show-code">Code</button>
+void <strong>copyInstanceAttributes</strong>() <a class="anchor-link" href="#copyInstanceAttributes"
+              title="Permalink to PolymerSelection.copyInstanceAttributes">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void copyInstanceAttributes() {
+ _declaration._instanceAttributes.forEach((name, value) {
+   attributes.putIfAbsent(name, () =&gt; value);
+ });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="createFragment">
+<button class="show-code">Code</button>
+DocumentFragment <strong>createFragment</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#createFragment"
+              title="Permalink to PolymerSelection.createFragment">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Create a DocumentFragment from the HTML fragment and ensure that it follows
+the sanitization rules specified by the validator or treeSanitizer.</p>
+<p>If the default validation behavior is too restrictive then a new
+NodeValidator should be created, either extending or wrapping a default
+validator and overriding the validation APIs.</p>
+<p>The treeSanitizer is used to walk the generated node tree and sanitize it.
+A custom treeSanitizer can also be provided to perform special validation
+rules but since the API is more complex to implement this is discouraged.</p>
+<p>The returned tree is guaranteed to only contain nodes and attributes which
+are allowed by the provided validator.</p>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/NodeValidator.html">NodeValidator</a></li><li><a class="crossref" href="../dart_html/NodeTreeSanitizer.html">NodeTreeSanitizer</a></li></ul>
+<pre class="source">
+DocumentFragment createFragment(String html,
+   {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) {
+ if (treeSanitizer == null) {
+   if (validator == null) {
+     if (_defaultValidator == null) {
+       _defaultValidator = new NodeValidatorBuilder.common();
+     }
+     validator = _defaultValidator;
+   }
+   if (_defaultSanitizer == null) {
+     _defaultSanitizer = new _ValidatingTreeSanitizer(validator);
+   } else {
+     _defaultSanitizer.validator = validator;
+   }
+   treeSanitizer = _defaultSanitizer;
+ } else if (validator != null) {
+   throw new ArgumentError(
+       'validator can only be passed if treeSanitizer is null');
+ }
+
+ if (_parseDocument == null) {
+   _parseDocument = document.implementation.createHtmlDocument('');
+   _parseRange = _parseDocument.createRange();
+
+   // Workaround for Chrome bug 229142- URIs are not resolved in new doc.
+   var base = _parseDocument.createElement('base');
+   base.href = document._baseUri;
+   _parseDocument.head.append(base);
+ }
+ var contextElement;
+ if (this is BodyElement) {
+   contextElement = _parseDocument.body;
+ } else {
+   contextElement = _parseDocument.createElement(tagName);
+   _parseDocument.body.append(contextElement);
+ }
+ var fragment;
+ if (Range.supportsCreateContextualFragment) {
+   _parseRange.selectNodeContents(contextElement);
+   fragment = _parseRange.createContextualFragment(html);
+ } else {
+   contextElement._innerHtml = html;
+
+   fragment = _parseDocument.createDocumentFragment();
+   while (contextElement.firstChild != null) {
+     fragment.append(contextElement.firstChild);
+   }
+ }
+ if (contextElement != _parseDocument.body) {
+   contextElement.remove();
+ }
+
+ treeSanitizer.sanitizeTree(fragment);
+ // Copy the fragment over to the main document (fix for 14184)
+ document.adoptNode(fragment);
+
+ return fragment;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="createShadowRoot">
+<button class="show-code">Code</button>
+ShadowRoot <strong>createShadowRoot</strong>() <a class="anchor-link" href="#createShadowRoot"
+              title="Permalink to PolymerSelection.createShadowRoot">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.createShadowRoot')
+@SupportedBrowser(SupportedBrowser.CHROME, '25')
+@Experimental()
+ShadowRoot createShadowRoot() {
+ return JS('ShadowRoot',
+   '(#.createShadowRoot || #.webkitCreateShadowRoot).call(#)',
+   this, this, this);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="deliverChanges">
+<button class="show-code">Code</button>
+bool <strong>deliverChanges</strong>() <a class="anchor-link" href="#deliverChanges"
+              title="Permalink to PolymerSelection.deliverChanges">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
+<p>Synchronously deliver pending <a class="crossref" href="../observe.src.observable/Observable.html#changes">changes</a>. Returns true if any records were
+delivered, otherwise false.</p>
+<pre class="source">
+bool deliverChanges() {
+ if (_values == null || !hasObservers) return false;
+
+ // Start with manually notified records (computed properties, etc),
+ // then scan all fields for additional changes.
+ List records = _records;
+ _records = null;
+
+ _values.forEach((name, oldValue) {
+   var newValue = _mirror.getField(name).reflectee;
+   if (oldValue != newValue) {
+     if (records == null) records = [];
+     records.add(new PropertyChangeRecord(this, name, oldValue, newValue));
+     _values[name] = newValue;
+   }
+ });
+
+ if (records == null) return false;
+
+ _changes.add(new UnmodifiableListView&lt;ChangeRecord&gt;(records));
+ return true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="deserializeValue">
+<button class="show-code">Code</button>
+Object <strong>deserializeValue</strong>(String value, Object currentValue, TypeMirror type) <a class="anchor-link" href="#deserializeValue"
+              title="Permalink to PolymerSelection.deserializeValue">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Convert representation of 
+<span class="param">value</span> based on 
+<span class="param">type</span> and 
+<span class="param">currentValue</span>.</p>
+<pre class="source">
+Object deserializeValue(String value, Object currentValue, TypeMirror type) =&gt;
+   deserialize.deserializeValue(value, currentValue, type);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchEvent">
+<button class="show-code">Code</button>
+bool <strong>dispatchEvent</strong>(Event event) <a class="anchor-link" href="#dispatchEvent"
+              title="Permalink to PolymerSelection.dispatchEvent">#</a></h4>
+<div class="inherited-from">inherited from EventTarget </div><div class="doc">
+<pre class="source">
+@DomName('EventTarget.dispatchEvent')
+@DocsEditable()
+bool dispatchEvent(Event event) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="dispatchMethod">
+<button class="show-code">Code</button>
+void <strong>dispatchMethod</strong>(object, callbackOrMethod, List args) <a class="anchor-link" href="#dispatchMethod"
+              title="Permalink to PolymerSelection.dispatchMethod">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Calls <code>methodOrCallback</code> with 
+<span class="param">args</span> if it is a closure, otherwise, treat
+it as a method name in 
+<span class="param">object</span>, and invoke it.</p>
+<pre class="source">
+void dispatchMethod(object, callbackOrMethod, List args) {
+ bool log = _eventsLog.isLoggable(Level.FINE);
+ if (log) _eventsLog.fine('&gt;&gt;&gt; [$localName]: dispatch $callbackOrMethod');
+
+ if (callbackOrMethod is Function) {
+   Function.apply(callbackOrMethod, args);
+ } else if (callbackOrMethod is String) {
+   _invokeMethod(object, new Symbol(callbackOrMethod), args);
+ } else {
+   _eventsLog.warning('invalid callback');
+ }
+
+ if (log) _eventsLog.info('&lt;&lt;&lt; [$localName]: dispatch $callbackOrMethod');
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="enteredView">
+<button class="show-code">Code</button>
+void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
+              title="Permalink to PolymerSelection.enteredView">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Called by the DOM when this element has been inserted into the live
+document.</p>
+<div class="docs-inherited-from">docs inherited from Element </div></div>
+<pre class="source">
+void enteredView() {
+ if (!_elementPrepared) {
+   prepareElement();
+ }
+ cancelUnbindAll(preventCascade: true);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="fetchTemplate">
+<button class="show-code">Code</button>
+Element <strong>fetchTemplate</strong>(Element elementElement) <a class="anchor-link" href="#fetchTemplate"
+              title="Permalink to PolymerSelection.fetchTemplate">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Return a shadow-root template (if desired), override for custom behavior.</p>
+<pre class="source">
+Element fetchTemplate(Element elementElement) =&gt;
+   elementElement.query('template');
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="findEventDelegate">
+<button class="show-code">Code</button>
+String <strong>findEventDelegate</strong>(Event event) <a class="anchor-link" href="#findEventDelegate"
+              title="Permalink to PolymerSelection.findEventDelegate">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+String findEventDelegate(Event event) =&gt;
+   _declaration._eventDelegates[_eventNameFromType(event.type)];
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="findStyleController">
+<button class="show-code">Code</button>
+Node <strong>findStyleController</strong>() <a class="anchor-link" href="#findStyleController"
+              title="Permalink to PolymerSelection.findStyleController">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+Node findStyleController() {
+ if (js.context != null &amp;&amp; js.context['ShadowDOMPolyfill'] != null) {
+   return document.querySelector('head'); // get wrapped &lt;head&gt;.
+ } else {
+   // find the shadow root that contains this element
+   var n = this;
+   while (n.parentNode) {
+     n = n.parentNode;
+   }
+   return identical(n, document) ? document.head : n;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="fire">
+<button class="show-code">Code</button>
+Object <strong>fire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#fire"
+              title="Permalink to PolymerSelection.fire">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Fire a <a class="crossref" href="../dart_html/CustomEvent.html">CustomEvent</a> targeting 
+<span class="param">toNode</span>, or this if toNode is not
+supplied. Returns the 
+<span class="param">detail</span> object.</p>
+<pre class="source">
+Object fire(String type, {Object detail, Node toNode, bool canBubble}) {
+ var node = toNode != null ? toNode : this;
+ //log.events &amp;&amp; console.log('[%s]: sending [%s]', node.localName, inType);
+ node.dispatchEvent(new CustomEvent(
+   type,
+   canBubble: canBubble != null ? canBubble : true,
+   detail: detail
+ ));
+ return detail;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="focus">
+<button class="show-code">Code</button>
+void <strong>focus</strong>() <a class="anchor-link" href="#focus"
+              title="Permalink to PolymerSelection.focus">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.focus')
+@DocsEditable()
+void focus() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getAttribute">
+<button class="show-code">Code</button>
+String <strong>getAttribute</strong>(String name) <a class="anchor-link" href="#getAttribute"
+              title="Permalink to PolymerSelection.getAttribute">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getAttribute')
+@DocsEditable()
+@Experimental() // untriaged
+String getAttribute(String name) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getAttributeNS">
+<button class="show-code">Code</button>
+String <strong>getAttributeNS</strong>(String namespaceURI, String localName) <a class="anchor-link" href="#getAttributeNS"
+              title="Permalink to PolymerSelection.getAttributeNS">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getAttributeNS')
+@DocsEditable()
+@Experimental() // untriaged
+String getAttributeNS(String namespaceURI, String localName) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getBoundingClientRect">
+<button class="show-code">Code</button>
+Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
+              title="Permalink to PolymerSelection.getBoundingClientRect">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getBoundingClientRect')
+@DocsEditable()
+Rectangle getBoundingClientRect() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getClientRects">
+<button class="show-code">Code</button>
+List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
+              title="Permalink to PolymerSelection.getClientRects">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getClientRects')
+@DocsEditable()
+@Returns('_ClientRectList')
+@Creates('_ClientRectList')
+List&lt;Rectangle&gt; getClientRects() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getComputedStyle">
+<button class="show-code">Code</button>
+CssStyleDeclaration <strong>getComputedStyle</strong>([String pseudoElement]) <a class="anchor-link" href="#getComputedStyle"
+              title="Permalink to PolymerSelection.getComputedStyle">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The set of all CSS values applied to this element, including inherited
+and default values.</p>
+<p>The computedStyle contains values that are inherited from other
+sources, such as parent elements or stylesheets. This differs from the
+<code>style</code> property, which contains only the values specified directly on this
+element.</p>
+<p>PseudoElement can be values such as <code>::after</code>, <code>::before</code>, <code>::marker</code>,
+<code>::line-marker</code>.</p>
+<p>See also:</p><ul><li><a href="http://docs.webplatform.org/wiki/tutorials/inheritance_and_cascade">CSS Inheritance and Cascade</a></li><li><a href="http://docs.webplatform.org/wiki/css/selectors/pseudo-elements">Pseudo-elements</a></li></ul>
+<pre class="source">
+CssStyleDeclaration getComputedStyle([String pseudoElement]) {
+ if (pseudoElement == null) {
+   pseudoElement = '';
+ }
+ // TODO(jacobr): last param should be null, see b/5045788
+ return window._getComputedStyle(this, pseudoElement);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getDestinationInsertionPoints">
+<button class="show-code">Code</button>
+List&lt;Node&gt; <strong>getDestinationInsertionPoints</strong>() <a class="anchor-link" href="#getDestinationInsertionPoints"
+              title="Permalink to PolymerSelection.getDestinationInsertionPoints">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getDestinationInsertionPoints')
+@DocsEditable()
+@Experimental() // untriaged
+@Returns('NodeList')
+@Creates('NodeList')
+List&lt;Node&gt; getDestinationInsertionPoints() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getElementsByClassName">
+<button class="show-code">Code</button>
+List&lt;Node&gt; <strong>getElementsByClassName</strong>(String name) <a class="anchor-link" href="#getElementsByClassName"
+              title="Permalink to PolymerSelection.getElementsByClassName">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.getElementsByClassName')
+@DocsEditable()
+@Returns('NodeList')
+@Creates('NodeList')
+List&lt;Node&gt; getElementsByClassName(String name) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getNamespacedAttributes">
+<button class="show-code">Code</button>
+Map&lt;String, String&gt; <strong>getNamespacedAttributes</strong>(String namespace) <a class="anchor-link" href="#getNamespacedAttributes"
+              title="Permalink to PolymerSelection.getNamespacedAttributes">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Gets a map for manipulating the attributes of a particular namespace.</p>
+<p>This is primarily useful for SVG attributes such as xref:link.</p>
+<pre class="source">
+Map&lt;String, String&gt; getNamespacedAttributes(String namespace) {
+ return new _NamespacedAttributeMap(this, namespace);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getRegionFlowRanges">
+<button class="show-code">Code</button>
+List&lt;Range&gt; <strong>getRegionFlowRanges</strong>() <a class="anchor-link" href="#getRegionFlowRanges"
+              title="Permalink to PolymerSelection.getRegionFlowRanges">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@JSName('webkitGetRegionFlowRanges')
+@DomName('Element.webkitGetRegionFlowRanges')
+@DocsEditable()
+@SupportedBrowser(SupportedBrowser.CHROME)
+@SupportedBrowser(SupportedBrowser.SAFARI)
+@Experimental()
+// http://dev.w3.org/csswg/css-regions/#dom-region-getregionflowranges
+@Creates('JSExtendableArray')
+@Returns('JSExtendableArray')
+List&lt;Range&gt; getRegionFlowRanges() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="getShadowRoot">
+<button class="show-code">Code</button>
+ShadowRoot <strong>getShadowRoot</strong>(String customTagName) <a class="anchor-link" href="#getShadowRoot"
+              title="Permalink to PolymerSelection.getShadowRoot">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Gets the shadow root associated with the corresponding custom element.</p>
+<p>This is identical to <code>shadowRoot</code>, unless there are multiple levels of
+inheritance and they each have their own shadow root. For example,
+this can happen if the base class and subclass both have <code>&lt;template&gt;</code> tags
+in their <code>&lt;polymer-element&gt;</code> tags.</p>
+<pre class="source">
+ShadowRoot getShadowRoot(String customTagName) =&gt; _shadowRoots[customTagName];
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hasChildNodes">
+<button class="show-code">Code</button>
+bool <strong>hasChildNodes</strong>() <a class="anchor-link" href="#hasChildNodes"
+              title="Permalink to PolymerSelection.hasChildNodes">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+@DomName('Node.hasChildNodes')
+@DocsEditable()
+bool hasChildNodes() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hostEventListener">
+<button class="show-code">Code</button>
+void <strong>hostEventListener</strong>(Event event) <a class="anchor-link" href="#hostEventListener"
+              title="Permalink to PolymerSelection.hostEventListener">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void hostEventListener(Event event) {
+ // TODO(jmesserly): do we need this check? It was using cancelBubble, see:
+ // https://github.com/Polymer/polymer/issues/292
+ if (!event.bubbles) return;
+
+ bool log = _eventsLog.isLoggable(Level.FINE);
+ if (log) {
+   _eventsLog.fine('&gt;&gt;&gt; [$localName]: hostEventListener(${event.type})');
+ }
+
+ var h = findEventDelegate(event);
+ if (h != null) {
+   if (log) _eventsLog.fine('[$localName] found host handler name [$h]');
+   var detail = event is CustomEvent ?
+       (event as CustomEvent).detail : null;
+   // TODO(jmesserly): cache the symbols?
+   dispatchMethod(this, h, [event, detail, this]);
+ }
+
+ if (log) {
+   _eventsLog.fine('&lt;&lt;&lt; [$localName]: hostEventListener(${event.type})');
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="insertAdjacentElement">
+<button class="show-code">Code</button>
+Element <strong>insertAdjacentElement</strong>(String where, Element element) <a class="anchor-link" href="#insertAdjacentElement"
+              title="Permalink to PolymerSelection.insertAdjacentElement">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Inserts 
+<span class="param">element</span> into the DOM at the specified location.</p>
+<p>To see the possible values for 
+<span class="param">where</span>, read the doc for
+<a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a>.</p>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a></li></ul>
+<pre class="source">
+Element insertAdjacentElement(String where, Element element) {
+ if (JS('bool', '!!#.insertAdjacentElement', this)) {
+   _insertAdjacentElement(where, element);
+ } else {
+   _insertAdjacentNode(where, element);
+ }
+ return element;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="insertAdjacentHtml">
+<button class="show-code">Code</button>
+void <strong>insertAdjacentHtml</strong>(String where, String html) <a class="anchor-link" href="#insertAdjacentHtml"
+              title="Permalink to PolymerSelection.insertAdjacentHtml">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Parses text as an HTML fragment and inserts it into the DOM at the
+specified location.</p>
+<p>The 
+<span class="param">where</span> parameter indicates where to insert the HTML fragment:</p><ul><li>'beforeBegin': Immediately before this element.</li><li>'afterBegin': As the first child of this element.</li><li>'beforeEnd': As the last child of this element.</li><li>
+<p>'afterEnd': Immediately after this element.</p>
+<p>var html = '&lt;div class="something">content&lt;/div>';
+// Inserts as the first child
+document.body.insertAdjacentHtml('afterBegin', html);
+var createdElement = document.body.children<code>0</code>;
+print(createdElement.classes<code>0</code>); // Prints 'something'</p></li></ul>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentText">insertAdjacentText</a></li><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentElement">insertAdjacentElement</a></li></ul>
+<pre class="source">
+void insertAdjacentHtml(String where, String html) {
+ if (JS('bool', '!!#.insertAdjacentHTML', this)) {
+   _insertAdjacentHtml(where, html);
+ } else {
+   _insertAdjacentNode(where, new DocumentFragment.html(html));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="insertAdjacentText">
+<button class="show-code">Code</button>
+void <strong>insertAdjacentText</strong>(String where, String text) <a class="anchor-link" href="#insertAdjacentText"
+              title="Permalink to PolymerSelection.insertAdjacentText">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Inserts text into the DOM at the specified location.</p>
+<p>To see the possible values for 
+<span class="param">where</span>, read the doc for
+<a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a>.</p>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a></li></ul>
+<pre class="source">
+void insertAdjacentText(String where, String text) {
+ if (JS('bool', '!!#.insertAdjacentText', this)) {
+   _insertAdjacentText(where, text);
+ } else {
+   _insertAdjacentNode(where, new Text(text));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="insertAllBefore">
+<button class="show-code">Code</button>
+Node <strong>insertAllBefore</strong>(Iterable&lt;Node&gt; newNodes, Node refChild) <a class="anchor-link" href="#insertAllBefore"
+              title="Permalink to PolymerSelection.insertAllBefore">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<p>Inserts all of the nodes into this node directly before refChild.</p>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Node.html#insertBefore">insertBefore</a></li></ul>
+<pre class="source">
+Node insertAllBefore(Iterable&lt;Node&gt; newNodes, Node refChild) {
+ if (newNodes is _ChildNodeListLazy) {
+   _ChildNodeListLazy otherList = newNodes;
+   if (identical(otherList._this, this)) {
+     throw new ArgumentError(newNodes);
+   }
+
+   // Optimized route for copying between nodes.
+   for (var i = 0, len = otherList.length; i &lt; len; ++i) {
+     this.insertBefore(otherList._this.firstChild, refChild);
+   }
+ } else {
+   for (var node in newNodes) {
+     this.insertBefore(node, refChild);
+   }
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="insertBefore">
+<button class="show-code">Code</button>
+Node <strong>insertBefore</strong>(Node newChild, Node refChild) <a class="anchor-link" href="#insertBefore"
+              title="Permalink to PolymerSelection.insertBefore">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<pre class="source">
+@DomName('Node.insertBefore')
+@DocsEditable()
+Node insertBefore(Node newChild, Node refChild) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="installControllerStyles">
+<button class="show-code">Code</button>
+void <strong>installControllerStyles</strong>() <a class="anchor-link" href="#installControllerStyles"
+              title="Permalink to PolymerSelection.installControllerStyles">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Installs external stylesheets and &lt;style> elements with the attribute
+polymer-scope='controller' into the scope of element. This is intended
+to be a called during custom element construction. Note, this incurs a
+per instance cost and should be used sparingly.</p>
+<p>The need for this type of styling should go away when the shadowDOM spec
+addresses these issues:</p>
+<p>https://www.w3.org/Bugs/Public/show<em>bug.cgi?id=21391
+https://www.w3.org/Bugs/Public/show</em>bug.cgi?id=21390
+https://www.w3.org/Bugs/Public/show_bug.cgi?id=21389</p>
+<p>@param element The custom element instance into whose controller (parent)
+scope styles will be installed.
+@param elementElement The &lt;element> containing controller styles.</p>
+<pre class="source">
+void installControllerStyles() {
+ var scope = findStyleController();
+ if (scope != null &amp;&amp; scopeHasElementStyle(scope, _STYLE_CONTROLLER_SCOPE)) {
+   // allow inherited controller styles
+   var decl = _declaration;
+   var cssText = new StringBuffer();
+   while (decl != null) {
+     cssText.write(decl.cssTextForScope(_STYLE_CONTROLLER_SCOPE));
+     decl = decl.superDeclaration;
+   }
+   if (cssText.length &gt; 0) {
+     var style = decl.cssTextToScopeStyle(cssText.toString(),
+           _STYLE_CONTROLLER_SCOPE);
+     // TODO(sorvell): for now these styles are not shimmed
+     // but we may need to shim them
+     Polymer.applyStyleToScope(style, scope);
+   }
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="instanceTemplate">
+<button class="show-code">Code</button>
+DocumentFragment <strong>instanceTemplate</strong>(Element template) <a class="anchor-link" href="#instanceTemplate"
+              title="Permalink to PolymerSelection.instanceTemplate">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Creates the document fragment to use for each instance of the custom
+element, given the <code>&lt;template&gt;</code> node. By default this is equivalent to:</p>
+<pre><code>templateBind(template).createInstance(this, polymerSyntax);
+</code></pre>
+<p>Where polymerSyntax is a singleton <code>PolymerExpressions</code> instance from the
+<a href="https://pub.dartlang.org/packages/polymer_expressions">polymer_expressions</a>
+package.</p>
+<p>You can override this method to change the instantiation behavior of the
+template, for example to use a different data-binding syntax.</p>
+<pre class="source">
+DocumentFragment instanceTemplate(Element template) =&gt;
+   templateBind(template).createInstance(this, syntax);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="invokeMethod">
+<button class="show-code">Code</button>
+dynamic <strong>invokeMethod</strong>(Symbol methodName, List args) <a class="anchor-link" href="#invokeMethod"
+              title="Permalink to PolymerSelection.invokeMethod">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Call 
+<span class="param">methodName</span> method on this object with 
+<span class="param">args</span>. </p>
+<pre class="source">
+invokeMethod(Symbol methodName, List args) =&gt;
+   _invokeMethod(this, methodName, args);
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="isSelected">
+<button class="show-code">Code</button>
+dynamic <strong>isSelected</strong>(item) <a class="anchor-link" href="#isSelected"
+              title="Permalink to PolymerSelection.isSelected">#</a></h4>
+<div class="doc">
+<p>Returns true if the given 
+<span class="param">item</span> is selected.</p>
+<pre class="source">
+isSelected(item){
+ return this.selection.indexOf(item) &gt;= 0;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="leftView">
+<button class="show-code">Code</button>
+void <strong>leftView</strong>() <a class="anchor-link" href="#leftView"
+              title="Permalink to PolymerSelection.leftView">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Called by the DOM when this element has been removed from the live
+document.</p>
+<div class="docs-inherited-from">docs inherited from Element </div></div>
+<pre class="source">
+void leftView() {
+ if (!preventDispose) asyncUnbindAll();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="lightFromTemplate">
+<button class="show-code">Code</button>
+Node <strong>lightFromTemplate</strong>(Element template) <a class="anchor-link" href="#lightFromTemplate"
+              title="Permalink to PolymerSelection.lightFromTemplate">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Utility function that stamps a <code>&lt;template&gt;</code> into light-dom.</p>
+<pre class="source">
+Node lightFromTemplate(Element template) {
+ if (template == null) return null;
+ // stamp template
+ // which includes parsing and applying MDV bindings before being
+ // inserted (to avoid {{}} in attribute values)
+ // e.g. to prevent &lt;img src="images/{{icon}}"&gt; from generating a 404.
+ var dom = instanceTemplate(template);
+ // append to shadow dom
+ append(dom);
+ // perform post-construction initialization tasks on shadow root
+ shadowRootReady(this, template);
+ // return the created shadow root
+ return dom;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="marshalNodeReferences">
+<button class="show-code">Code</button>
+void <strong>marshalNodeReferences</strong>(Node root) <a class="anchor-link" href="#marshalNodeReferences"
+              title="Permalink to PolymerSelection.marshalNodeReferences">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Locate nodes with id and store references to them in <code>$</code> hash. </p>
+<pre class="source">
+void marshalNodeReferences(Node root) {
+ if (root == null) return;
+ for (var n in (root as dynamic).queryAll('[id]')) {
+   $[n.id] = n;
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="matches">
+<button class="show-code">Code</button>
+bool <strong>matches</strong>(String selectors) <a class="anchor-link" href="#matches"
+              title="Permalink to PolymerSelection.matches">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Checks if this element matches the CSS selectors.</p>
+<pre class="source">
+@Experimental()
+bool matches(String selectors) {
+ if (JS('bool', '!!#.matches', this)) {
+   return JS('bool', '#.matches(#)', this, selectors);
+ } else if (JS('bool', '!!#.webkitMatchesSelector', this)) {
+   return JS('bool', '#.webkitMatchesSelector(#)', this, selectors);
+ } else if (JS('bool', '!!#.mozMatchesSelector', this)) {
+   return JS('bool', '#.mozMatchesSelector(#)', this, selectors);
+ } else if (JS('bool', '!!#.msMatchesSelector', this)) {
+   return JS('bool', '#.msMatchesSelector(#)', this, selectors);
+ } else if (JS('bool', '!!#.oMatchesSelector', this)) {
+   return JS('bool', '#.oMatchesSelector(#)', this, selectors);
+ } else {
+   throw new UnsupportedError("Not supported on this platform");
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="matchesWithAncestors">
+<button class="show-code">Code</button>
+bool <strong>matchesWithAncestors</strong>(String selectors) <a class="anchor-link" href="#matchesWithAncestors"
+              title="Permalink to PolymerSelection.matchesWithAncestors">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Checks if this element or any of its parents match the CSS selectors. </p>
+<pre class="source">
+@Experimental()
+bool matchesWithAncestors(String selectors) {
+ var elem = this;
+ do {
+   if (elem.matches(selectors)) return true;
+   elem = elem.parent;
+ } while(elem != null);
+ return false;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="noSuchMethod">
+<button class="show-code">Code</button>
+dynamic <strong>noSuchMethod</strong>(Invocation invocation) <a class="anchor-link" href="#noSuchMethod"
+              title="Permalink to PolymerSelection.noSuchMethod">#</a></h4>
+<div class="inherited-from">inherited from Interceptor </div><div class="doc">
+<div class="inherited">
+<p><a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is invoked when users invoke a non-existent method
+on an object. The name of the method and the arguments of the
+invocation are passed to <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> in an <a class="crossref" href="../dart_core/Invocation.html">Invocation</a>.
+If <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> returns a value, that value becomes the result of
+the original invocation.</p>
+<p>The default behavior of <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is to throw a
+<a class="crossref" href="../dart_core/NoSuchMethodError.html">NoSuchMethodError</a>.</p>
+<div class="docs-inherited-from">docs inherited from Object </div></div>
+<pre class="source">
+dynamic noSuchMethod(Invocation invocation) {
+ throw new NoSuchMethodError(
+     this,
+     invocation.memberName,
+     invocation.positionalArguments,
+     invocation.namedArguments);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="notifyChange">
+<button class="show-code">Code</button>
+void <strong>notifyChange</strong>(ChangeRecord record) <a class="anchor-link" href="#notifyChange"
+              title="Permalink to PolymerSelection.notifyChange">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
+<p>Notify observers of a change.</p>
+<p>For most objects <a class="crossref" href="../observe.src.observable/Observable.html#notifyPropertyChange">Observable.notifyPropertyChange</a> is more convenient, but
+collections sometimes deliver other types of changes such as a
+<a class="crossref" href="../observe.src.list_diff/ListChangeRecord.html">ListChangeRecord</a>.</p>
+<p>Notes:
+- This is <em>not</em> required for fields if you mixin or extend <a class="crossref" href="../observe.src.observable/Observable.html">Observable</a>,
+  but you can use it for computed properties.
+- Unlike <a class="crossref" href="../observe.src.change_notifier/ChangeNotifier.html">ChangeNotifier</a> this will not schedule <a class="crossref" href="../observe.src.observable/Observable.html#deliverChanges">deliverChanges</a>; use
+  <a class="crossref" href="../observe.src.observable/Observable.html#dirtyCheck">Observable.dirtyCheck</a> instead.</p>
+<pre class="source">
+void notifyChange(ChangeRecord record) {
+ if (!hasObservers) return;
+
+ if (_records == null) _records = [];
+ _records.add(record);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="notifyPropertyChange">
+<button class="show-code">Code</button>
+dynamic <strong>notifyPropertyChange</strong>(Symbol field, Object oldValue, Object newValue) <a class="anchor-link" href="#notifyPropertyChange"
+              title="Permalink to PolymerSelection.notifyPropertyChange">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
+<p>Notify that the field <code>name</code> of this object has been changed.</p>
+<p>The 
+<span class="param">oldValue</span> and 
+<span class="param">newValue</span> are also recorded. If the two values are
+equal, no change will be recorded.</p>
+<p>For convenience this returns 
+<span class="param">newValue</span>.</p>
+<pre class="source">
+notifyPropertyChange(Symbol field, Object oldValue, Object newValue)
+   =&gt; notifyPropertyChangeHelper(this, field, oldValue, newValue);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="notifyPropertyChanges">
+<button class="show-code">Code</button>
+void <strong>notifyPropertyChanges</strong>(Iterable&lt;ChangeRecord&gt; changes) <a class="anchor-link" href="#notifyPropertyChanges"
+              title="Permalink to PolymerSelection.notifyPropertyChanges">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Responds to property changes on this element. </p>
+<pre class="source">
+void notifyPropertyChanges(Iterable&lt;ChangeRecord&gt; changes) {
+ final observe = _declaration._observe;
+ final publish = _declaration._publish;
+
+ // Summarize old and new values, so we only handle each change once.
+ final valuePairs = new Map&lt;Symbol, _PropertyValue&gt;();
+ for (var c in changes) {
+   if (c is! PropertyChangeRecord) continue;
+
+   valuePairs.putIfAbsent(c.name, () =&gt; new _PropertyValue(c.oldValue))
+       .newValue = c.newValue;
+ }
+
+ valuePairs.forEach((name, pair) {
+   if (publish != null &amp;&amp; publish.containsKey(name)) {
+     reflectPropertyToAttribute(name);
+   }
+   if (observe == null) return;
+
+   var method = observe[name];
+   if (method != null) {
+     // observes the value if it is an array
+     observeArrayValue(name, pair.newValue, pair.oldValue);
+     // TODO(jmesserly): the JS code tries to avoid calling the same method
+     // twice, but I don't see how that is possible.
+     // Dart note: JS also passes "arguments", so we pass all change records.
+     invokeMethod(method, [pair.oldValue, pair.newValue, changes]);
+   }
+ });
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="observeArrayValue">
+<button class="show-code">Code</button>
+void <strong>observeArrayValue</strong>(Symbol name, Object value, Object old) <a class="anchor-link" href="#observeArrayValue"
+              title="Permalink to PolymerSelection.observeArrayValue">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void observeArrayValue(Symbol name, Object value, Object old) {
+ final observe = _declaration._observe;
+ if (observe == null) return;
+
+ // we only care if there are registered side-effects
+ var callbackName = observe[name];
+ if (callbackName == null) return;
+
+ // if we are observing the previous value, stop
+ if (old is ObservableList) {
+   if (_observeLog.isLoggable(Level.FINE)) {
+     _observeLog.fine('[$localName] observeArrayValue: unregister observer '
+         '$name');
+   }
+
+   unregisterObserver('${MirrorSystem.getName(name)}__array');
+ }
+ // if the new value is an array, being observing it
+ if (value is ObservableList) {
+   if (_observeLog.isLoggable(Level.FINE)) {
+     _observeLog.fine('[$localName] observeArrayValue: register observer '
+         '$name');
+   }
+   var sub = value.listChanges.listen((changes) {
+     invokeMethod(callbackName, [old]);
+   });
+   registerObserver('${MirrorSystem.getName(name)}__array', sub);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="observeProperties">
+<button class="show-code">Code</button>
+void <strong>observeProperties</strong>() <a class="anchor-link" href="#observeProperties"
+              title="Permalink to PolymerSelection.observeProperties">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Set up property observers. </p>
+<pre class="source">
+void observeProperties() {
+ // TODO(jmesserly): we don't have CompoundPathObserver, so this
+ // implementation is a little bit different. We also don't expose the
+ // "generateCompoundPathObserver" method.
+ final observe = _declaration._observe;
+ final publish = _declaration._publish;
+
+ if (observe != null) {
+   for (var name in observe.keys) {
+     observeArrayValue(name, reflect(this).getField(name), null);
+   }
+ }
+ if (observe != null || publish != null) {
+   // Instead of using CompoundPathObserver, set up a binding using normal
+   // change records.
+   _propertyObserver = changes.listen(notifyPropertyChanges);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="offsetTo">
+<button class="show-code">Code</button>
+Point <strong>offsetTo</strong>(Element parent) <a class="anchor-link" href="#offsetTo"
+              title="Permalink to PolymerSelection.offsetTo">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Provides the offset of this element's <a class="crossref" href="../dart_html/Element.html#borderEdge">borderEdge</a> relative to the
+specified 
+<span class="param">parent</span>.</p>
+<p>This is the Dart equivalent of jQuery's
+<a href="http://api.jquery.com/position/">position</a> method. Unlike jQuery's
+position, however, 
+<span class="param">parent</span> can be any parent element of <code>this</code>,
+rather than only <code>this</code>'s immediate <code>offsetParent</code>. If the specified
+element is <em>not</em> an offset parent or transitive offset parent to this
+element, an <a class="crossref" href="../dart_core/ArgumentError.html">ArgumentError</a> is thrown.</p>
+<pre class="source">
+@Experimental()
+Point offsetTo(Element parent) {
+ return Element._offsetToHelper(this, parent);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="onMutation">
+<button class="show-code">Code</button>
+Future&lt;List&lt;MutationRecord&gt;&gt; <strong>onMutation</strong>(Node node) <a class="anchor-link" href="#onMutation"
+              title="Permalink to PolymerSelection.onMutation">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Returns a future when <code>node</code> changes, or when its children or subtree
+changes.</p>
+<p>Use <a class="crossref" href="../dart_html/MutationObserver.html">MutationObserver</a> if you want to listen to a stream of changes.</p>
+<pre class="source">
+Future&lt;List&lt;MutationRecord&gt;&gt; onMutation(Node node) {
+ var completer = new Completer();
+ new MutationObserver((mutations, observer) {
+   observer.disconnect();
+   completer.complete(mutations);
+ })..observe(node, childList: true, subtree: true);
+ return completer.future;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="parseDeclaration">
+<button class="show-code">Code</button>
+void <strong>parseDeclaration</strong>(Element elementElement) <a class="anchor-link" href="#parseDeclaration"
+              title="Permalink to PolymerSelection.parseDeclaration">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Parse input <code>&lt;polymer-element&gt;</code> as needed, override for custom behavior.</p>
+<pre class="source">
+void parseDeclaration(Element elementElement) {
+ var template = fetchTemplate(elementElement);
+
+ var root = null;
+ if (template != null) {
+   if (_declaration.attributes.containsKey('lightdom')) {
+     lightFromTemplate(template);
+   } else {
+     root = shadowFromTemplate(template);
+   }
+ }
+
+ // Dart note: the following code is to support the getShadowRoot method.
+ if (root is! ShadowRoot) return;
+
+ var name = elementElement.attributes['name'];
+ if (name == null) return;
+ _shadowRoots[name] = root;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="parseDeclarations">
+<button class="show-code">Code</button>
+void <strong>parseDeclarations</strong>(PolymerDeclaration declaration) <a class="anchor-link" href="#parseDeclarations"
+              title="Permalink to PolymerSelection.parseDeclarations">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Recursive ancestral &lt;element> initialization, oldest first. </p>
+<pre class="source">
+void parseDeclarations(PolymerDeclaration declaration) {
+ if (declaration != null) {
+   parseDeclarations(declaration.superDeclaration);
+   parseDeclaration(declaration);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="polymerCreated">
+<button class="show-code">Code</button>
+void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
+              title="Permalink to PolymerSelection.polymerCreated">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void polymerCreated() {
+ if (this.ownerDocument.window != null || alwaysPrepare ||
+     _preparingElements &gt; 0) {
+   prepareElement();
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="prepareElement">
+<button class="show-code">Code</button>
+void <strong>prepareElement</strong>() <a class="anchor-link" href="#prepareElement"
+              title="Permalink to PolymerSelection.prepareElement">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void prepareElement() {
+ // Dart note: get the _declaration, which also marks _elementPrepared
+ _declaration = _getDeclaration(_customTagName);
+ // do this first so we can observe changes during initialization
+ observeProperties();
+ // install boilerplate attributes
+ copyInstanceAttributes();
+ // process input attributes
+ takeAttributes();
+ // add event listeners
+ addHostListeners();
+ // guarantees that while preparing, any
+ // sub-elements are also prepared
+ _preparingElements++;
+ // process declarative resources
+ parseDeclarations(_declaration);
+ // decrement semaphore
+ _preparingElements--;
+ // user entry point
+ ready();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="propertyForAttribute">
+<button class="show-code">Code</button>
+DeclarationMirror <strong>propertyForAttribute</strong>(String name) <a class="anchor-link" href="#propertyForAttribute"
+              title="Permalink to PolymerSelection.propertyForAttribute">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Return the published property matching name, or null. </p>
+<pre class="source">
+DeclarationMirror propertyForAttribute(String name) {
+ final publishLC = _declaration._publishLC;
+ if (publishLC == null) return null;
+ //console.log('propertyForAttribute:', name, 'matches', match);
+ return publishLC[name];
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="query">
+<button class="show-code">Code</button>
+Element <strong>query</strong>(String relativeSelectors) <a class="anchor-link" href="#query"
+              title="Permalink to PolymerSelection.query">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelector">querySelector</a>. Note this function is deprecated because its
+semantics will be changing in the future.</p>
+<pre class="source">
+@deprecated
+@DomName('Element.querySelector')
+@Experimental()
+Element query(String relativeSelectors) =&gt; querySelector(relativeSelectors);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="queryAll">
+<button class="show-code">Code</button>
+ElementList <strong>queryAll</strong>(String relativeSelectors) <a class="anchor-link" href="#queryAll"
+              title="Permalink to PolymerSelection.queryAll">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelectorAll">querySelectorAll</a>. Note this function is deprecated because its
+semantics will be changing in the future.</p>
+<pre class="source">
+@deprecated
+@DomName('Element.querySelectorAll')
+@Experimental()
+ElementList queryAll(String relativeSelectors) =&gt;
+   querySelectorAll(relativeSelectors);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="querySelector">
+<button class="show-code">Code</button>
+Element <strong>querySelector</strong>(String selectors) <a class="anchor-link" href="#querySelector"
+              title="Permalink to PolymerSelection.querySelector">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Finds the first descendant element of this element that matches the
+specified group of selectors.</p>
+<p>
+<span class="param">selectors</span> should be a string using CSS selector syntax.</p>
+<pre><code>// Gets the first descendant with the class 'classname'
+var element = element.querySelector('.className');
+// Gets the element with id 'id'
+var element = element.querySelector('#id');
+// Gets the first descendant [ImageElement]
+var img = element.querySelector('img');
+</code></pre>
+<p>See also:</p><ul><li><a href="http://docs.webplatform.org/wiki/css/selectors">CSS Selectors</a></li></ul>
+<pre class="source">
+@DomName('Element.querySelector')
+@DocsEditable()
+Element querySelector(String selectors) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="querySelectorAll">
+<button class="show-code">Code</button>
+ElementList <strong>querySelectorAll</strong>(String selectors) <a class="anchor-link" href="#querySelectorAll"
+              title="Permalink to PolymerSelection.querySelectorAll">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Finds all descendent elements of this element that match the specified
+group of selectors.</p>
+<p>
+<span class="param">selectors</span> should be a string using CSS selector syntax.</p>
+<pre><code>var items = element.querySelectorAll('.itemClassName');
+</code></pre>
+<pre class="source">
+@DomName('Element.querySelectorAll')
+ElementList querySelectorAll(String selectors) =&gt;
+ new _FrozenElementList._wrap(_querySelectorAll(selectors));
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="ready">
+<button class="show-code">Code</button>
+dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
+              title="Permalink to PolymerSelection.ready">#</a></h4>
+<div class="doc">
+<div class="inherited">
+<p>Called when <a class="crossref" href="../polymer/Polymer.html#prepareElement">prepareElement</a> is finished. </p>
+<div class="docs-inherited-from">docs inherited from HtmlElement+Polymer </div></div>
+<pre class="source">
+ready(){
+ this.clear();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="reflectPropertyToAttribute">
+<button class="show-code">Code</button>
+void <strong>reflectPropertyToAttribute</strong>(Symbol name) <a class="anchor-link" href="#reflectPropertyToAttribute"
+              title="Permalink to PolymerSelection.reflectPropertyToAttribute">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void reflectPropertyToAttribute(Symbol name) {
+ // TODO(sjmiles): consider memoizing this
+ final self = reflect(this);
+ // try to intelligently serialize property value
+ // TODO(jmesserly): cache symbol?
+ final propValue = self.getField(name).reflectee;
+ final serializedValue = serializeValue(propValue);
+ // boolean properties must reflect as boolean attributes
+ if (serializedValue != null) {
+   attributes[MirrorSystem.getName(name)] = serializedValue;
+   // TODO(sorvell): we should remove attr for all properties
+   // that have undefined serialization; however, we will need to
+   // refine the attr reflection system to achieve this; pica, for example,
+   // relies on having inferredType object properties not removed as
+   // attrs.
+ } else if (propValue is bool) {
+   attributes.remove(MirrorSystem.getName(name));
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="registerObserver">
+<button class="show-code">Code</button>
+void <strong>registerObserver</strong>(String name, StreamSubscription sub) <a class="anchor-link" href="#registerObserver"
+              title="Permalink to PolymerSelection.registerObserver">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Bookkeeping observers for memory management. </p>
+<pre class="source">
+void registerObserver(String name, StreamSubscription sub) {
+ if (_observers == null) {
+   _observers = new Map&lt;String, StreamSubscription&gt;();
+ }
+ _observers[name] = sub;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="remove">
+<button class="show-code">Code</button>
+void <strong>remove</strong>() <a class="anchor-link" href="#remove"
+              title="Permalink to PolymerSelection.remove">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<p>Removes this node from the DOM.</p>
+<pre class="source">
+@DomName('Node.removeChild')
+void remove() {
+ // TODO(jacobr): should we throw an exception if parent is already null?
+ // TODO(vsm): Use the native remove when available.
+ if (this.parentNode != null) {
+   final Node parent = this.parentNode;
+   parentNode._removeChild(this);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="removeEventListener">
+<button class="show-code">Code</button>
+void <strong>removeEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#removeEventListener"
+              title="Permalink to PolymerSelection.removeEventListener">#</a></h4>
+<div class="inherited-from">inherited from EventTarget </div><div class="doc">
+<pre class="source">
+@DomName('EventTarget.removeEventListener')
+@DocsEditable()
+void removeEventListener(String type, EventListener listener, [bool useCapture]) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="replaceWith">
+<button class="show-code">Code</button>
+Node <strong>replaceWith</strong>(Node otherNode) <a class="anchor-link" href="#replaceWith"
+              title="Permalink to PolymerSelection.replaceWith">#</a></h4>
+<div class="inherited-from">inherited from Node </div><div class="doc">
+<p>Replaces this node with another node.</p>
+<pre class="source">
+@DomName('Node.replaceChild')
+Node replaceWith(Node otherNode) {
+ try {
+   final Node parent = this.parentNode;
+   parent._replaceChild(otherNode, this);
+ } catch (e) {
+
+ };
+ return this;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="requestFullscreen">
+<button class="show-code">Code</button>
+void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestFullscreen"
+              title="Permalink to PolymerSelection.requestFullscreen">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@JSName('webkitRequestFullscreen')
+@DomName('Element.webkitRequestFullscreen')
+@DocsEditable()
+@SupportedBrowser(SupportedBrowser.CHROME)
+@SupportedBrowser(SupportedBrowser.SAFARI)
+@Experimental()
+// https://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html#dom-element-requestfullscreen
+void requestFullscreen() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="requestPointerLock">
+<button class="show-code">Code</button>
+void <strong>requestPointerLock</strong>() <a class="anchor-link" href="#requestPointerLock"
+              title="Permalink to PolymerSelection.requestPointerLock">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@JSName('webkitRequestPointerLock')
+@DomName('Element.webkitRequestPointerLock')
+@DocsEditable()
+@SupportedBrowser(SupportedBrowser.CHROME)
+@SupportedBrowser(SupportedBrowser.SAFARI)
+@Experimental()
+// https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#widl-Element-requestPointerLock-void
+void requestPointerLock() native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scopeHasElementStyle">
+<button class="show-code">Code</button>
+bool <strong>scopeHasElementStyle</strong>(scope, descriptor) <a class="anchor-link" href="#scopeHasElementStyle"
+              title="Permalink to PolymerSelection.scopeHasElementStyle">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool scopeHasElementStyle(scope, descriptor) {
+ var rule = '$_STYLE_SCOPE_ATTRIBUTE=$localName-$descriptor';
+ return scope.querySelector('style[$rule]') != null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scrollByLines">
+<button class="show-code">Code</button>
+void <strong>scrollByLines</strong>(int lines) <a class="anchor-link" href="#scrollByLines"
+              title="Permalink to PolymerSelection.scrollByLines">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.scrollByLines')
+@DocsEditable()
+void scrollByLines(int lines) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scrollByPages">
+<button class="show-code">Code</button>
+void <strong>scrollByPages</strong>(int pages) <a class="anchor-link" href="#scrollByPages"
+              title="Permalink to PolymerSelection.scrollByPages">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.scrollByPages')
+@DocsEditable()
+void scrollByPages(int pages) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="scrollIntoView">
+<button class="show-code">Code</button>
+void <strong>scrollIntoView</strong>([ScrollAlignment alignment]) <a class="anchor-link" href="#scrollIntoView"
+              title="Permalink to PolymerSelection.scrollIntoView">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Scrolls this element into view.</p>
+<p>Only one of of the alignment options may be specified at a time.</p>
+<p>If no options are specified then this will attempt to scroll the minimum
+amount needed to bring the element into view.</p>
+<p>Note that alignCenter is currently only supported on WebKit platforms. If
+alignCenter is specified but not supported then this will fall back to
+alignTop.</p>
+<p>See also:</p><ul><li><a href="http://docs.webplatform.org/wiki/dom/methods/scrollIntoView">scrollIntoView</a></li><li><a href="http://docs.webplatform.org/wiki/dom/methods/scrollIntoViewIfNeeded">scrollIntoViewIfNeeded</a></li></ul>
+<pre class="source">
+void scrollIntoView([ScrollAlignment alignment]) {
+ var hasScrollIntoViewIfNeeded = true;
+ hasScrollIntoViewIfNeeded =
+     JS('bool', '!!(#.scrollIntoViewIfNeeded)', this);
+ if (alignment == ScrollAlignment.TOP) {
+   this._scrollIntoView(true);
+ } else if (alignment == ScrollAlignment.BOTTOM) {
+   this._scrollIntoView(false);
+ } else if (hasScrollIntoViewIfNeeded) {
+   if (alignment == ScrollAlignment.CENTER) {
+     this._scrollIntoViewIfNeeded(true);
+   } else {
+     this._scrollIntoViewIfNeeded();
+   }
+ } else {
+   this._scrollIntoView();
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="select">
+<button class="show-code">Code</button>
+dynamic <strong>select</strong>(item) <a class="anchor-link" href="#select"
+              title="Permalink to PolymerSelection.select">#</a></h4>
+<div class="doc">
+<p>Set the selection state for a given 
+<span class="param">item</span>. If the multi property
+is true, then the selected state of 
+<span class="param">item</span> will be toggled; otherwise
+the 
+<span class="param">item</span> will be selected.  Fires a corresponding 'polymer-select' event 
+with <code>PolymerSelectDetail</code> containing the <code>PolymerSelectDetail.item</code> equal 
+to 
+<span class="param">item</span> and with the <code>PolymerDetail.isSelected</code> set to the new selection
+state for the 
+<span class="param">item</span>.</p>
+<pre class="source">
+select(item) { 
+ if (this.multi) {
+   this._toggle(item);
+ } else if (this.selection != item) {
+   this.setItemSelected(this.selection, false);
+   this.setItemSelected(item, true);
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="serializeValue">
+<button class="show-code">Code</button>
+String <strong>serializeValue</strong>(Object value) <a class="anchor-link" href="#serializeValue"
+              title="Permalink to PolymerSelection.serializeValue">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+String serializeValue(Object value) {
+ if (value == null) return null;
+
+ if (value is bool) {
+   return _toBoolean(value) ? '' : null;
+ } else if (value is String || value is int || value is double) {
+   return '$value';
+ }
+ return null;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="setAttribute">
+<button class="show-code">Code</button>
+void <strong>setAttribute</strong>(String name, String value) <a class="anchor-link" href="#setAttribute"
+              title="Permalink to PolymerSelection.setAttribute">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.setAttribute')
+@DocsEditable()
+void setAttribute(String name, String value) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="setAttributeNS">
+<button class="show-code">Code</button>
+void <strong>setAttributeNS</strong>(String namespaceURI, String qualifiedName, String value) <a class="anchor-link" href="#setAttributeNS"
+              title="Permalink to PolymerSelection.setAttributeNS">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<pre class="source">
+@DomName('Element.setAttributeNS')
+@DocsEditable()
+void setAttributeNS(String namespaceURI, String qualifiedName, String value) native;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="setInnerHtml">
+<button class="show-code">Code</button>
+void <strong>setInnerHtml</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#setInnerHtml"
+              title="Permalink to PolymerSelection.setInnerHtml">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Parses the HTML fragment and sets it as the contents of this element.
+This ensures that the generated content follows the sanitization rules
+specified by the validator or treeSanitizer.</p>
+<p>If the default validation behavior is too restrictive then a new
+NodeValidator should be created, either extending or wrapping a default
+validator and overriding the validation APIs.</p>
+<p>The treeSanitizer is used to walk the generated node tree and sanitize it.
+A custom treeSanitizer can also be provided to perform special validation
+rules but since the API is more complex to implement this is discouraged.</p>
+<p>The resulting tree is guaranteed to only contain nodes and attributes which
+are allowed by the provided validator.</p>
+<p>See also:</p><ul><li><a class="crossref" href="../dart_html/NodeValidator.html">NodeValidator</a></li><li><a class="crossref" href="../dart_html/NodeTreeSanitizer.html">NodeTreeSanitizer</a></li></ul>
+<pre class="source">
+void setInnerHtml(String html,
+ {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) {
+ text = null;
+ append(createFragment(
+     html, validator: validator, treeSanitizer: treeSanitizer));
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="setItemSelected">
+<button class="show-code">Code</button>
+dynamic <strong>setItemSelected</strong>(item, isSelected) <a class="anchor-link" href="#setItemSelected"
+              title="Permalink to PolymerSelection.setItemSelected">#</a></h4>
+<div class="doc">
+<p>Sets the selected state of 
+<span class="param">item</span> to 
+<span class="param">isSelected</span> and fires
+a corresponding 'polymer-select' event with <code>PolymerSelectDetail</code> containing
+the <code>PolymerSelectDetail.item</code> equal to 
+<span class="param">item</span> and <code>PolymerDetail.isSelected</code>
+equal to 
+<span class="param">isSelected</span>. </p>
+<pre class="source">
+setItemSelected(item, isSelected) {
+ if (item != null) {  
+   if (isSelected) {
+     this._selection.add(item);
+   } else {
+     var i = this._selection.indexOf(item);
+     if (i &gt;= 0) {
+       this._selection.removeAt(i);
+     }
+   }     
+
+   this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
+       
+ }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="shadowFromTemplate">
+<button class="show-code">Code</button>
+ShadowRoot <strong>shadowFromTemplate</strong>(Element template) <a class="anchor-link" href="#shadowFromTemplate"
+              title="Permalink to PolymerSelection.shadowFromTemplate">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<p>Utility function that creates a shadow root from a <code>&lt;template&gt;</code>.</p>
+<p>The base implementation will return a <a class="crossref" href="../dart_html/ShadowRoot.html">ShadowRoot</a>, but you can replace it
+with your own code and skip ShadowRoot creation. In that case, you should
+return <code>null</code>.</p>
+<p>In your overridden method, you can use <a class="crossref" href="../polymer/Polymer.html#instanceTemplate">instanceTemplate</a> to stamp the
+template and initialize data binding, and <a class="crossref" href="../polymer/Polymer.html#shadowRootReady">shadowRootReady</a> to intialize
+other Polymer features like event handlers. It is fine to call
+shadowRootReady with a node something other than a ShadowRoot; for example,
+with this Node.</p>
+<pre class="source">
+ShadowRoot shadowFromTemplate(Element template) {
+ if (template == null) return null;
+ // cache elder shadow root (if any)
+ var elderRoot = this.shadowRoot;
+ // make a shadow root
+ var root = createShadowRoot();
+
+ // Provides ability to traverse from ShadowRoot to the host.
+ // TODO(jmessery): remove once we have this ability on the DOM.
+ _shadowHost[root] = this;
+
+ // migrate flag(s)(
+ root.applyAuthorStyles = applyAuthorStyles;
+ root.resetStyleInheritance = resetStyleInheritance;
+ // stamp template
+ // which includes parsing and applying MDV bindings before being
+ // inserted (to avoid {{}} in attribute values)
+ // e.g. to prevent &lt;img src="images/{{icon}}"&gt; from generating a 404.
+ var dom = instanceTemplate(template);
+ // append to shadow dom
+ root.append(dom);
+ // perform post-construction initialization tasks on shadow root
+ shadowRootReady(root, template);
+ // return the created shadow root
+ return root;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="shadowRootReady">
+<button class="show-code">Code</button>
+void <strong>shadowRootReady</strong>(Node root, Element template) <a class="anchor-link" href="#shadowRootReady"
+              title="Permalink to PolymerSelection.shadowRootReady">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void shadowRootReady(Node root, Element template) {
+ // locate nodes with id and store references to them in this.$ hash
+ marshalNodeReferences(root);
+ // TODO(jmesserly): port this
+ // set up pointer gestures
+ // PointerGestures.register(root);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="takeAttributes">
+<button class="show-code">Code</button>
+void <strong>takeAttributes</strong>() <a class="anchor-link" href="#takeAttributes"
+              title="Permalink to PolymerSelection.takeAttributes">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void takeAttributes() {
+ if (_declaration._publishLC == null) return;
+ attributes.forEach(attributeToProperty);
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="toString">
+<button class="show-code">Code</button>
+String <strong>toString</strong>() <a class="anchor-link" href="#toString"
+              title="Permalink to PolymerSelection.toString">#</a></h4>
+<div class="inherited-from">inherited from Element </div><div class="doc">
+<div class="inherited">
+<p>Print out a String representation of this Node.</p>
+<div class="docs-inherited-from">docs inherited from Node </div></div>
+<pre class="source">
+String toString() =&gt; localName;
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unbind">
+<button class="show-code">Code</button>
+void <strong>unbind</strong>(String name) <a class="anchor-link" href="#unbind"
+              title="Permalink to PolymerSelection.unbind">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Unbinds the attribute 
+<span class="param">name</span>. </p>
+<div class="docs-inherited-from">docs inherited from NodeBindExtension </div></div>
+<pre class="source">
+void unbind(String name) =&gt; nodeBindFallback(this).unbind(name);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unbindAll">
+<button class="show-code">Code</button>
+void <strong>unbindAll</strong>() <a class="anchor-link" href="#unbindAll"
+              title="Permalink to PolymerSelection.unbindAll">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<div class="inherited">
+<p>Unbinds all bound attributes. </p>
+<div class="docs-inherited-from">docs inherited from NodeBindExtension </div></div>
+<pre class="source">
+void unbindAll() {
+ if (_unbound == true) return;
+
+ unbindAllProperties();
+ nodeBindFallback(this).unbindAll();
+
+ var root = shadowRoot;
+ while (root != null) {
+   _unbindNodeTree(root);
+   root = root.olderShadowRoot;
+ }
+ _unbound = true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unbindAllProperties">
+<button class="show-code">Code</button>
+void <strong>unbindAllProperties</strong>() <a class="anchor-link" href="#unbindAllProperties"
+              title="Permalink to PolymerSelection.unbindAllProperties">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void unbindAllProperties() {
+ if (_propertyObserver != null) {
+   _propertyObserver.cancel();
+   _propertyObserver = null;
+ }
+ unregisterObservers();
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unbindProperty">
+<button class="show-code">Code</button>
+bool <strong>unbindProperty</strong>(String name) <a class="anchor-link" href="#unbindProperty"
+              title="Permalink to PolymerSelection.unbindProperty">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool unbindProperty(String name) =&gt; unregisterObserver(name);
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unregisterObserver">
+<button class="show-code">Code</button>
+bool <strong>unregisterObserver</strong>(String name) <a class="anchor-link" href="#unregisterObserver"
+              title="Permalink to PolymerSelection.unregisterObserver">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+bool unregisterObserver(String name) {
+ var sub = _observers.remove(name);
+ if (sub == null) return false;
+ sub.cancel();
+ return true;
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="unregisterObservers">
+<button class="show-code">Code</button>
+void <strong>unregisterObservers</strong>() <a class="anchor-link" href="#unregisterObservers"
+              title="Permalink to PolymerSelection.unregisterObservers">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+<pre class="source">
+void unregisterObservers() {
+ if (_observers == null) return;
+ for (var sub in _observers.values) sub.cancel();
+ _observers.clear();
+ _observers = null;
+}
+</pre>
+</div>
+</div>
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-11-03 13:43:17.144</div>
+        </div>
+        <script async src="../client-live-nav.js"></script>
+        </body></html>
+        
