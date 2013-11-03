@@ -292,7 +292,7 @@ class PolymerCollapse extends PolymerElement {
     } else {
       this.updateSize(this.calcSize(), null);
     }
-    Timer.run(() {
+    scheduleMicrotask(() {
       this.updateSize(0, this.duration);
     });
   }
