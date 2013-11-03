@@ -13,16 +13,16 @@
  * To mark an item as selected, call the select(item) method on 
  * polymer-selection. Notice that the item itself is an argument to this method.
  * The polymer-selection element manages selection state for any given set of
- * items. When an item is selected, the `polymer-select` event is fired.
+ * items. When an item is selected, the `polymerselect` event is fired.
  * The attribute "multi" indicates if multiple items can be selected at once.
  * 
  * Example:
  *
  *     TODO
  *
- * The polymer-selection element fires the 'polymer-select' event with an 
- * attached [PolymerSelectDetail] when an item's selection state is changed. 
- * This event is fired both when an item is selected or deselected. 
+ * The polymer-selection element fires a 'polymerselect' event when an item's 
+ * selection state is changed. The [CustomEvent.detail] for the event is a map
+ * containing 'item' and 'isSelected'.
  * 
 */
 
@@ -68,9 +68,8 @@ class PolymerSelection extends PolymerElement {
   
   /**
    * Sets the selected state of [item] to [isSelected] and fires
-   * a corresponding 'polymer-select' event with [PolymerSelectDetail] containing
-   * the [PolymerSelectDetail.item] equal to [item] and [PolymerDetail.isSelected]
-   * equal to [isSelected]. 
+   * a corresponding 'polymerselect' event with the [CustomEvent.detail] set to 
+   * a map containing 'item' set to [item] and 'isSelected' set to [isSelected].
    */
   setItemSelected(item, isSelected) {
     if (item != null) {  
@@ -83,17 +82,17 @@ class PolymerSelection extends PolymerElement {
         }
       }     
  
-      this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
+      this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
           
     }
   }
   /**
    * Set the selection state for a given [item]. If the multi property
    * is true, then the selected state of [item] will be toggled; otherwise
-   * the [item] will be selected.  Fires a corresponding 'polymer-select' event 
-   * with [PolymerSelectDetail] containing the [PolymerSelectDetail.item] equal 
-   * to [item] and with the [PolymerDetail.isSelected] set to the new selection
-   * state for the [item].
+   * the [item] will be selected.  Fires a corresponding 'polymerselect' event 
+   * with the [CustomEvent.detail] set to a map containing 'item' set to [item] 
+   * and 'isSelected' set to [isSelected]. set to the new selection state for 
+   * the [item].
    */
   select(item) { 
     if (this.multi) {

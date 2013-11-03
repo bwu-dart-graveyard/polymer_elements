@@ -8,9 +8,9 @@
  * polymer-selector is used to manage a list of elements that can be selected.
  * The attribute 'selected' indicates which item element is being selected.
  * The attribute "multi" indicates if multiple items can be selected at once.
- * Tapping on the item element fires 'polymer-activate' event. Use the
- * 'polymer-select' event to listen for selection changes.  
- * The [CustomEvent.detail] for 'polymer-select' is map containing 'item'
+ * Tapping on the item element fires 'polymeractivate' event. Use the
+ * 'polymerselect' event to listen for selection changes.  
+ * The [CustomEvent.detail] for 'polymerselect' is a map containing 'item'
  * and 'isSelected'.
  *
  * Example:
@@ -36,7 +36,7 @@
  *       <div class="item">Item 3</div>
  *     </polymer-selector>
  *
- * The polymer-selector element fires a 'polymer-select' event when an item's 
+ * The polymer-selector element fires a 'polymerselect' event when an item's 
  * selection state is changed. The [CustomEvent.detail] for the event is a map
  * containing 'item' and 'isSelected'.
 */
@@ -300,7 +300,7 @@ class PolymerSelector extends PolymerElement {
         } else {
           this.selected = s;
         }
-        this.asyncFire('polymer-activate', detail: item);
+        this.asyncFire('polymeractivate', detail: item);
       }
     }
   }

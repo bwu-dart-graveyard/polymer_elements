@@ -7,20 +7,20 @@
 
 /**
  * polymer-ajax can be used to perform XMLHttpRequests.  The polymer-ajax 
- * element fires three events: polymer-response, polymer-error, 
- * and polymer-complete.  
+ * element fires three events: polymerresponse, polymererror, 
+ * and polymercomplete.  
  *
  * Example:
  *
  *     <polymer-ajax auto url="http://gdata.youtube.com/feeds/api/videos/" 
  *         params='{"alt":"json", "q":"chrome"}'
  *         handleAs="json"
- *         on-polymer-response="{{handleResponse}}">
+ *         on-polymerresponse="{{handleResponse}}">
  *     </polymer-ajax>
  *
- *  polymer-response: Fired with the response when it's received.
- *  polymer-error: Fired with the error if one occurs.
- *  polymer-complete: Fired whenever a response or an error is recieved.
+ *  polymerresponse: Fired with the response when it's received.
+ *  polymererror: Fired with the error if one occurs.
+ *  polymercomplete: Fired whenever a response or an error is recieved.
  */
 
 library polymer_elements.polymer_ajax;
@@ -106,16 +106,16 @@ class PolymerAjax extends PolymerElement {
   _processResponse(xhr) {
     var response = this._evalResponse(xhr);
     this.response = response;
-    this.fire('polymer-response', detail: {'response': response, 'xhr': xhr});
+    this.fire('polymerresponse', detail: {'response': response, 'xhr': xhr});
   }
   
   _error(xhr) {
     var response = xhr.status + ': ' + xhr.responseText;
-    this.fire('polymer-error', detail: {'response': response, 'xhr': xhr});
+    this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
   }
   
   _complete(xhr) {
-    this.fire('polymer-complete', detail: {'response': xhr.status, 'xhr': xhr});
+    this.fire('polymercomplete', detail: {'response': xhr.status, 'xhr': xhr});
   }
   
   _evalResponse(xhr) {
