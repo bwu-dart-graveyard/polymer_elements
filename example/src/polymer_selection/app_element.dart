@@ -4,14 +4,14 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.selection_example;
+library polymer_elements.polymer_selection.app_element;
 
 import 'package:polymer/polymer.dart';
     
-@CustomTag('selection-example')
-class SelectionExample extends PolymerElement {
+@CustomTag('app-element')
+class AppElement extends PolymerElement {
       
-  SelectionExample.created() : super.created();
+  AppElement.created() : super.created();
   
   //Note: Have to use dom listeners here to workaround 
   //https://code.google.com/p/dart/issues/detail?id=14457

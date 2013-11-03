@@ -4,17 +4,17 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.ajax_example;
+library polymer_elements.polymer_ajax.app_element;
 
 import 'package:polymer/polymer.dart';
 
-@CustomTag('ajax-example')
-class AjaxExample extends PolymerElement {
+@CustomTag('app-element')
+class AppElement extends PolymerElement {
   
   @observable
   List entries;
   
-  AjaxExample.created() : super.created();
+  AppElement.created() : super.created();
   
   responseReceived(e, detail, node){
     entries = detail['response']['feed']['entry'];   
