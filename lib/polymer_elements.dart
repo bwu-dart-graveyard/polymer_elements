@@ -1,3 +1,7 @@
+// needed as entry point for dartdoc generation
+/**
+ * Polymer Elements
+ */
 library polymer_elements;
 
 export 'polymer_ajax/polymer_ajax.dart';

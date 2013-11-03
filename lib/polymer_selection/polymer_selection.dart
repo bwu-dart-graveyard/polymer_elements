@@ -26,7 +26,7 @@
  * 
 */
 
-library polymer.elements.polymer_selection;
+library polymer_elements.polymer_selection;
 
 import 'package:polymer/polymer.dart';
 

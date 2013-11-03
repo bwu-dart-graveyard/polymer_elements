@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <!-- 
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
 the AUTHORS file for details. All rights reserved. Use of this source code is 
@@ -5,42 +6,6 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
 -->
-
-<!DOCTYPE html>
-<!--
-/**
- * @module Polymer Elements
- */
-/**
- * polymer-anchor-point can be used to align two nodes. The node to
- * use as the reference position is the anchor node, and the node to
- * be positioned is the target node.
- *
- * Both the anchor and target nodes should have an anchor-point
- * attribute. The target node is positioned such that its anchor-point
- * aligns with the anchor node's anchor-point.
- *
- * Note: The target node is positioned with position: fixed, and will not
- * scroll with the page.
- *
- * Note: This is meant to polyfill the `<dialog>` positioning behavior when
- * an anchor is provided. Spec: http://www.whatwg.org/specs/web-apps/current-work/multipage/commands.html#the-dialog-element
- *
- * Example:
- *
- *     <div id="anchor" anchor-point="bottom left"></div>
- *     <div id="target" anchor-point="top left"></div>
- *     <polymer-anchor-point id="anchor-helper"></polymer-anchor-point>
- *     <script>
- *       var helper = document.querySelector('#anchor-helper');
- *       helper.anchor = document.querySelector('#anchor');
- *       helper.target = document.querySelector('#target');
- *       helper.apply();
- *     </script>
- *
- * @class polymer-anchor-point
- */
- -->
- <polymer-element name="polymer-anchor-point" attributes="target anchor">
+<polymer-element name="polymer-anchor-point" attributes="target anchor">
   <script type="application/dart" src='polymer_anchor_point.dart'></script>
- </polymer-element>
+</polymer-element>

@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_flex_layout;
+library polymer_elements.polymer_flex_layout;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
@@ -53,7 +53,6 @@ import 'package:polymer/polymer.dart';
  *     ||------||
  *     ----------
 *
- * @class polymer-flex-layout
  */
 @CustomTag('polymer-flex-layout')
 class PolymerFlexLayout extends PolymerElement {

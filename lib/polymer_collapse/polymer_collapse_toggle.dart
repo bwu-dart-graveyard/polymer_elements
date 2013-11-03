@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_collapse_toggle;
+library polymer_elements.polymer_collapse_toggle;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';

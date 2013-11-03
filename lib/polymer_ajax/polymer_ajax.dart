@@ -23,7 +23,7 @@
  *  polymer-complete: Fired whenever a response or an error is recieved.
  */
 
-library polymer.elements.polymer_ajax;
+library polymer_elements.polymer_ajax;
 
 import 'dart:async';
 import 'dart:convert';

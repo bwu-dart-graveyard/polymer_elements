@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_animation.helper;
+library polymer_elements.polymer_animation.helper;
 
 class Observe {
   Observe({this.target, this.keyframes, this.sample, this.composite, this.duration, this.fillMode, this.easing, this. iterationCount, this.delay, this.direction, this.autoplay});

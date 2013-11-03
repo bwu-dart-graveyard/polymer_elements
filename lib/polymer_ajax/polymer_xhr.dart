@@ -16,7 +16,7 @@
  * (egrimes) TODO:  Match dart's HttpRequest naming?
  */
 
-library polymer.elements.polymer_xhr;
+library polymer_elements.polymer_xhr;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';

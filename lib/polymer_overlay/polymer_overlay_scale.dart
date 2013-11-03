@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_overlay_scale;
+library polymer_elements.polymer_overlay_scale;
 
 import 'package:polymer/polymer.dart';
 import 'package:polymer_elements/polymer_animation/polymer_animation.dart';

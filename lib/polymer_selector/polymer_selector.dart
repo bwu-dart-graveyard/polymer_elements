@@ -41,7 +41,7 @@
  * containing 'item' and 'isSelected'.
 */
 
-library polymer.elements.polymer_selector;
+library polymer_elements.polymer_selector;
 
 import 'dart:async';
 import 'dart:html';

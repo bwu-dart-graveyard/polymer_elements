@@ -4,7 +4,26 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_collapse;
+/**
+ * polymer-collapse is used to add collapsible behavior to the
+ * target element.  It adjusts the height or width of the target element
+ * to make the element collapse and expand.
+ *
+ * Example:
+ *
+ *     <button on-click="{{toggle}}">toggle collapse</button>
+ *     <div id="demo">
+ *       ...
+ *     </div>
+ *     <polymer-collapse id="collapse" targetId="demo"></polymer-collapse>
+ *
+ *     ...
+ *
+ *     toggle: function() {
+ *       this.$.collapse.toggle();
+ *     }
+ */
+library polymer_elements.polymer_collapse;
 
 import 'dart:async';
 import 'dart:html';

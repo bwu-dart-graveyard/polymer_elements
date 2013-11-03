@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_localstorage;
+library polymer_elements.polymer_localstorage;
 
 import 'dart:html';
 import 'dart:async';
@@ -12,6 +12,24 @@ import 'dart:convert';
 import 'package:logging/logging.dart';
 import 'package:polymer/polymer.dart';
 
+/**
+ * polymer-localstorage provides access to localStorage.  The "name" property
+ * is the key to the data ("value" property) stored in localStorage.
+ *
+ * polymer-localstorage automatically saves the value to localStorage when
+ * value is changed.  Note that if value is an object auto-save will be
+ * triggered only when value is a different instance.
+ *
+ * Example:
+ *
+ *     <polymer-localstorage name="my-app-storage" value="{{value}}"></polymer-localstorage>
+ */
+// TODO move event doc to event declaration when event is implemented
+/**
+ * Fired after it is loaded from localStorage.
+ * 
+ * @event polymer-localstorage-load
+ */
 @CustomTag('polymer-localstorage')
 class PolymerLocalstorage extends PolymerElement {
   

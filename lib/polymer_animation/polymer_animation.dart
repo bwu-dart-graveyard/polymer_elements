@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_animation.polymer_animation;
+library polymer_elements.polymer_animation.polymer_animation;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';

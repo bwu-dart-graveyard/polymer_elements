@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer.elements.polymer_flex_panel;
+library polymer_elements.polymer_flex_panel;
 
 import 'package:polymer/polymer.dart';
 import 'polymer_flex_layout.dart';
