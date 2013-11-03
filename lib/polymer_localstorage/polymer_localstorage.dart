@@ -24,12 +24,6 @@ import 'package:polymer/polymer.dart';
  *
  *     <polymer-localstorage name="my-app-storage" value="{{value}}"></polymer-localstorage>
  */
-// TODO move event doc to event declaration when event is implemented
-/**
- * Fired after it is loaded from localStorage.
- * 
- * @event polymer-localstorage-load
- */
 @CustomTag('polymer-localstorage')
 class PolymerLocalstorage extends PolymerElement {
   
@@ -59,6 +53,17 @@ class PolymerLocalstorage extends PolymerElement {
   
   final _logger = new Logger('polymer-localstorage');
 
+  static const EventStreamProvider<CustomEvent> _loadEvent =
+      const EventStreamProvider<CustomEvent>('polymer-localstorage-load');
+  
+  /**
+   * Fired after it is loaded from localStorage.
+   * 
+   * @event polymer-localstorage-load
+   */
+  Stream<CustomEvent> get onLoadEvent =>
+      PolymerLocalstorage._loadEvent.forTarget(this);
+  
   @override
   void enteredView() {
     super.enteredView();
@@ -87,12 +92,11 @@ class PolymerLocalstorage extends PolymerElement {
       value = s;
     }
     loaded = true;
-    // TODO this.asyncFire('polymer-localstorage-load');
+    dispatchEvent(new CustomEvent('polymer-localstorage-load'));
   }
 
   
   void save() {
     window.localStorage[name] = useRaw ? value : JSON.encode(this.value);
   }
-  
 }
