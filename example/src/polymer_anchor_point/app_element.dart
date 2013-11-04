@@ -15,7 +15,18 @@ import 'package:polymer_elements/polymer_anchor_point/polymer_anchor_point.dart'
 class AppElement extends PolymerElement {
   final _logger = new Logger('app-element');
   
-  AppElement.created() : super.created();
+  AppElement.created() : super.created() {
+    // TODO remove when this is suppored declaritively
+  }
+
+  @override
+  void enteredView() {
+    super.enteredView();
+    querySelector('#tmptoggle1').onClick.listen((e) => toggle(e));
+    querySelector('#tmptoggle2').onClick.listen((e) => toggle(e));
+    querySelector('#target').onClick.listen((e) => toggle(e));
+    querySelector('#tmptogglecustom1').onClick.listen((e) => toggleCustom(e));
+  }
   
   void toggle(e) {
     _logger.finest('toggle');

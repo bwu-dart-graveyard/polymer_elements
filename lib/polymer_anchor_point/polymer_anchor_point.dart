@@ -187,55 +187,55 @@ class PolymerAnchorPoint extends PolymerElement {
     Position parsed = parsePosition(anchorPt);
     if((parsed.x == null || parsed.x.isEmpty) && 
         (parsed.xOffset == null || parsed.xOffset.isEmpty)) {
-      offset.x = rect.width / 2;
+      offset = new Point(rect.width / 2, offset.y);
     } else if (parsed.x != null && parsed.x.isNotEmpty && 
         (parsed.xOffset == null || parsed.xOffset.isEmpty)) {
       switch(parsed.x) {
         case 'left':
-          offset.x = 0;
+          offset = new Point(0, offset.y);
           break;
           
         case 'right':
-          offset.x = rect.width;
+          offset = new Point(rect.width, offset.y);
           break;
           
         case 'center':
-          offset.x = rect.width / 2;
+          offset = new Point(rect.width / 2, offset.y);
           break;
       }
     } else {
       double computed = computeLength(parsed.xOffset, rect.width);
       if(parsed.x == 'right') {
-        offset.x = rect.width - computed;
+        offset.x = new Point(rect.width - computed, offset.y);
       } else if (parsed.x == null || parsed.x.isEmpty || parsed.x == 'left') {
-        offset.x = computed;
+        offset = new Point(computed, offset.y);
       }
     }
     
     if((parsed.y == null || parsed.y.isEmpty) && 
         (parsed.yOffset != null && parsed.yOffset.isNotEmpty)) {
-      offset.y = rect.height / 2;
+      offset = new Point(offset.x, rect.height / 2);
     } else if (parsed.y != null && parsed.y.isNotEmpty && 
         (parsed.yOffset == null || parsed.yOffset.isEmpty)) {
       switch(parsed.y) {
         case 'top':
-          offset.y = 0;
+          offset = new Point(offset.x, 0);
           break;
           
         case 'bottom':
-          offset.y = rect.height;
+          offset = new Point(offset.x, rect.height);
           break;
           
         case 'center':
-          offset.y = rect.height / 2;
+          offset = new Point(offset.x, rect.height / 2);
           break;
       }
     } else {
       double computed = computeLength(parsed.yOffset, rect.height);
       if(parsed.y == 'bottom') {
-        offset.y = rect.height - computed;
+        offset = new Point(offset.x, rect.height - computed);
       } else if (parsed.y == null || parsed.y.isEmpty || parsed.y == 'top') {
-        offset.y = computed;
+        offset = new Point(offset.x, computed);
       }
     }
     
