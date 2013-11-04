@@ -29,7 +29,7 @@ polymer-jsonp                   | not started |
 polymer-key-helper              | not started |
 polymer-layout                  | not started |
 polymer-localstorage            | **ported**  |
-polymer-media-query             | not started |
+polymer-media-query             | ported      | has issues
 polymer-meta                    | not started |
 polymer-mock-data               | not started |
 polymer-overlay                 | started     |
