@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>PolymerAjax class / polymer_elements.polymer_ajax Library / Dart Documentation</title>
+        <title>PolymerCollapseToggle class / polymer_elements.polymer_collapse_toggle Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="polymer_elements.polymer_ajax" data-type="PolymerAjax">
+        <body data-library="polymer_elements.polymer_collapse_toggle" data-type="PolymerCollapseToggle">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../polymer_elements.polymer_ajax.html">polymer_elements.polymer_ajax</a> &rsaquo; <a href="../polymer_elements.polymer_ajax/PolymerAjax.html">PolymerAjax</a>        <div id="search-box">
+         &rsaquo; <a href="../polymer_elements.polymer_collapse_toggle.html">polymer_elements.polymer_collapse_toggle</a> &rsaquo; <a href="../polymer_elements.polymer_collapse_toggle/PolymerCollapseToggle.html">PolymerCollapseToggle</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -26,218 +26,52 @@
         
 </div>
 <div class="content">
-        <h2><strong>PolymerAjax</strong>
+        <h2><strong>PolymerCollapseToggle</strong>
           class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
 <pre class="source">
-@CustomTag('polymer-ajax')
-class PolymerAjax extends PolymerElement {
- 
+@CustomTag('polymer-collapse-toggle')
+class PolymerCollapseToggle extends PolymerElement {
+ PolymerCollapseToggle.created() : super.created();
+
+ final _logger = new Logger('PolymerCollapseButton');
+
  /**
-  * The URL target of the request.
+  * The selector for the target polymer-collapse element.
   */
- @published
- String url =  '';
+ @published String target = '';
  
- /**
-  * Specifies what data to store in the 'response' property, and
-  * to deliver as 'event.response' in 'response' events.
-  * 
-  * One of:
-  * 
-  *    `text`: uses XHR.responseText
-  *    
-  *    `xml`: uses XHR.responseXML
-  *    
-  *    `json`: uses XHR.responseText parsed as JSON
-  */
- @published
- String handleAs = '';
+ bool get applyAuthorStyles =&gt; true;
  
- /**
-  * If true, automatically performs an Ajax request when either url or params has changed.
-  */
- @published
- bool auto = false;
- 
- /**
-  * Parameters to send to the specified URL, as JSON.
-  */
- @published
- String params = '';
-     
- /**
-  * Returns the response object.
-  */
- 
- @published
- var response;
- 
- /**
-  * The HTTP method to use such as 'GET', 'POST', 'PUT', 'DELETE'.
-  * Default is 'GET'.'
-  */
- String method = '';
- 
- Timer _goJob;
- 
- //TODO Not sure why this is kept around
- var _xhr;
- 
- PolymerAjax.created() : super.created();
- 
- ready() {
-   super.ready();
-   this._xhr = this.ownerDocument.createElement('polymer-xhr');
- }
- 
- _receive(response, xhr) {
-   if (this._isSuccess(xhr)) {
-     this._processResponse(xhr);
-   } else {
-     this._error(xhr);
-   }
-   this._complete(xhr);
- }
- 
- _isSuccess(xhr) {
-   var status = xhr.status != null ? xhr.status : 0;
-   return status == null ? false : (status &gt;= 200 &amp;&amp; status &lt; 300);
- }
- 
- _processResponse(xhr) {
-   var response = this._evalResponse(xhr);
-   this.response = response;
-   this.fire('polymerresponse', detail: {'response': response, 'xhr': xhr});
- }
- 
- _error(xhr) {
-   var response = xhr.status + ': ' + xhr.responseText;
-   this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
- }
- 
- _complete(xhr) {
-   this.fire('polymercomplete', detail: {'response': xhr.status, 'xhr': xhr});
- }
- 
- _evalResponse(xhr) {
-   switch(this.handleAs) {
-     case 'json':
-       return _jsonHandler(xhr);
-     case 'xml':
-       return _xmlHandler(xhr);
-     case 'text':
-       return _textHandler(xhr);
-     default:
-       throw new ArgumentError('handleAs should be json, text, or xml');
+ void handleClick([e]) {
+   _logger.finest("handleClick '${target}'");
+   var t = (document.querySelector(target) as PolymerCollapse);
+   if (t != null) {
+     t.toggle();
    }
  }
- 
- _xmlHandler(xhr){
-   return xhr.responseXML;
- }
- 
- _textHandler(xhr) {
-   return xhr.responseText;
- }
- 
- _jsonHandler(xhr) {
-   var r = xhr.responseText;
-   try {
-     return JSON.decode(r);
-   } catch (x) {
-     return r;
-   }
- }
- 
- urlChanged(old){
-   if (this.handleAs.isEmpty) {
-     var split = this.url.split('.');
-     var ext;
-     if(split.isNotEmpty){
-       ext = split.last;
-     }else {
-       ext = 'text';
-     }
-     switch (ext) {
-       case 'json':
-         this.handleAs = 'json';
-         break;
-       case 'xml':
-         this.handleAs = 'xml';
-         break;
-       default:
-         this.handleAs = 'text';
-     }
-   }
-   this._autoGo();
- }
- 
- paramsChanged(old) {
-   this._autoGo();
- }
- 
- autoChanged(old){
-   this._autoGo();
- }
- 
- // TODO(sorvell): multiple side-effects could call autoGo 
- // during one micro-task, use a job to have only one action 
- // occur
- _autoGo() {
-   if(_goJob != null){
-     _goJob.cancel();
-   }
-   _goJob = new Timer(Duration.ZERO, go);
- }
- 
- /**
-  * Performs an Ajax request to the url specified.
- *
-  * @method go
-  */
- go() {
-   // TODO polymer.js has something a line
-   // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
-   // anything it does or what the dart equiavlent would be.
-   //
-   var args = {};
-   args['params'] = this.params != null ? this.params : null;
-   if (args['params'] is String &amp;&amp; args['params'].isNotEmpty) {
-     args['params'] = JSON.decode(args['params']);
-   }
-   args['callback'] = this._receive;
-   args['url'] = this.url;
-   args['method'] = this.method;
-   
-   //(egrimes) TODO polymer.js returns 'args.url &amp;&amp; this.xhr.request(args)' 
-   //which makes absolutely no sense to me.  Replicating the closest thing
-   //I can think of for now
-   return args.containsKey('url') &amp;&amp; this._xhr.request(args) != null;
- }
- 
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerAjax</strong></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerCollapseToggle</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
 <button class="show-code">Code</button>
-new <strong>PolymerAjax.created</strong>() <a class="anchor-link" href="#created"
-              title="Permalink to PolymerAjax.PolymerAjax.created">#</a></h4>
+new <strong>PolymerCollapseToggle.created</strong>() <a class="anchor-link" href="#created"
+              title="Permalink to PolymerCollapseToggle.PolymerCollapseToggle.created">#</a></h4>
 <div class="doc">
 <div class="inherited">
 <p>Constructor instantiated by the DOM when a custom element has been created.</p>
 <p>This can only be called by subclasses from their created constructor.</p>
 <div class="docs-inherited-from">docs inherited from HtmlElement </div></div>
 <pre class="source">
-PolymerAjax.created() : super.created();
+PolymerCollapseToggle.created() : super.created();
 </pre>
 </div>
 </div>
@@ -248,7 +82,7 @@ PolymerAjax.created() : super.created();
 <button class="show-code">Code</button>
 final Map&lt;String, Element&gt;         <strong>$</strong> <a class="anchor-link"
             href="#$"
-            title="Permalink to PolymerAjax.$">#</a>
+            title="Permalink to PolymerCollapseToggle.$">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Map of items in the shadow root(s) by their <code>Element.id</code>. </p>
@@ -262,7 +96,7 @@ new ObservableMap&lt;String, Element&gt;()
 <button class="show-code">Code</button>
 final bool         <strong>alwaysPrepare</strong> <a class="anchor-link"
             href="#alwaysPrepare"
-            title="Permalink to PolymerAjax.alwaysPrepare">#</a>
+            title="Permalink to PolymerCollapseToggle.alwaysPrepare">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
@@ -270,15 +104,15 @@ bool get alwaysPrepare =&gt; false;
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="applyAuthorStyles">
+<div class="field"><h4 id="applyAuthorStyles">
 <button class="show-code">Code</button>
 final bool         <strong>applyAuthorStyles</strong> <a class="anchor-link"
             href="#applyAuthorStyles"
-            title="Permalink to PolymerAjax.applyAuthorStyles">#</a>
+            title="Permalink to PolymerCollapseToggle.applyAuthorStyles">#</a>
         </h4>
-        <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
+        <div class="doc">
 <pre class="source">
-bool get applyAuthorStyles =&gt; false;
+bool get applyAuthorStyles =&gt; true;
 </pre>
 </div>
 </div>
@@ -286,7 +120,7 @@ bool get applyAuthorStyles =&gt; false;
 <button class="show-code">Code</button>
 Map&lt;String, String&gt;         <strong>attributes</strong> <a class="anchor-link"
             href="#attributes"
-            title="Permalink to PolymerAjax.attributes">#</a>
+            title="Permalink to PolymerCollapseToggle.attributes">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>All attributes on this element.</p>
@@ -309,24 +143,11 @@ void set attributes(Map&lt;String, String&gt; value) {
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="auto">
-<button class="show-code">Code</button>
-bool         <strong>auto</strong> <a class="anchor-link"
-            href="#auto"
-            title="Permalink to PolymerAjax.auto">#</a>
-        </h4>
-        <div class="doc">
-<p>If true, automatically performs an Ajax request when either url or params has changed.</p>
-<pre class="source">
-bool auto = false
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="bindings">
 <button class="show-code">Code</button>
 final Map&lt;String, NodeBinding&gt;         <strong>bindings</strong> <a class="anchor-link"
             href="#bindings"
-            title="Permalink to PolymerAjax.bindings">#</a>
+            title="Permalink to PolymerCollapseToggle.bindings">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
@@ -341,7 +162,7 @@ Map&lt;String, NodeBinding&gt; get bindings =&gt; nodeBindFallback(this).binding
 <button class="show-code">Code</button>
 final CssRect         <strong>borderEdge</strong> <a class="anchor-link"
             href="#borderEdge"
-            title="Permalink to PolymerAjax.borderEdge">#</a>
+            title="Permalink to PolymerCollapseToggle.borderEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding +
@@ -366,7 +187,7 @@ CssRect get borderEdge =&gt; new _BorderCssRect(this);
 <button class="show-code">Code</button>
 final Stream&lt;List&lt;ChangeRecord&gt;&gt;         <strong>changes</strong> <a class="anchor-link"
             href="#changes"
-            title="Permalink to PolymerAjax.changes">#</a>
+            title="Permalink to PolymerCollapseToggle.changes">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
 <p>The stream of change records to this object. Records will be delivered
@@ -387,7 +208,7 @@ Stream&lt;List&lt;ChangeRecord&gt;&gt; get changes {
 <button class="show-code">Code</button>
 final List&lt;Node&gt;         <strong>childNodes</strong> <a class="anchor-link"
             href="#childNodes"
-            title="Permalink to PolymerAjax.childNodes">#</a>
+            title="Permalink to PolymerCollapseToggle.childNodes">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -399,7 +220,7 @@ final List&lt;Node&gt; childNodes
 <button class="show-code">Code</button>
 List&lt;Element&gt;         <strong>children</strong> <a class="anchor-link"
             href="#children"
-            title="Permalink to PolymerAjax.children">#</a>
+            title="Permalink to PolymerCollapseToggle.children">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>List of the direct children of this element.</p>
@@ -429,7 +250,7 @@ void set children(List&lt;Element&gt; value) {
 <button class="show-code">Code</button>
 CssClassSet         <strong>classes</strong> <a class="anchor-link"
             href="#classes"
-            title="Permalink to PolymerAjax.classes">#</a>
+            title="Permalink to PolymerCollapseToggle.classes">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The set of CSS classes applied to this element.</p>
@@ -455,7 +276,7 @@ void set classes(Iterable&lt;String&gt; value) {
 <button class="show-code">Code</button>
 String         <strong>className</strong> <a class="anchor-link"
             href="#className"
-            title="Permalink to PolymerAjax.className">#</a>
+            title="Permalink to PolymerCollapseToggle.className">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -467,7 +288,7 @@ String className
 <button class="show-code">Code</button>
 final Rectangle         <strong>client</strong> <a class="anchor-link"
             href="#client"
-            title="Permalink to PolymerAjax.client">#</a>
+            title="Permalink to PolymerCollapseToggle.client">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets the position of this element relative to the client area of the page.</p>
@@ -481,7 +302,7 @@ Rectangle get client =&gt; new Rectangle(clientLeft, clientTop, clientWidth,
 <button class="show-code">Code</button>
 final int         <strong>clientHeight</strong> <a class="anchor-link"
             href="#clientHeight"
-            title="Permalink to PolymerAjax.clientHeight">#</a>
+            title="Permalink to PolymerCollapseToggle.clientHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -493,7 +314,7 @@ final int clientHeight
 <button class="show-code">Code</button>
 final int         <strong>clientLeft</strong> <a class="anchor-link"
             href="#clientLeft"
-            title="Permalink to PolymerAjax.clientLeft">#</a>
+            title="Permalink to PolymerCollapseToggle.clientLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -505,7 +326,7 @@ final int clientLeft
 <button class="show-code">Code</button>
 final int         <strong>clientTop</strong> <a class="anchor-link"
             href="#clientTop"
-            title="Permalink to PolymerAjax.clientTop">#</a>
+            title="Permalink to PolymerCollapseToggle.clientTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -517,7 +338,7 @@ final int clientTop
 <button class="show-code">Code</button>
 final int         <strong>clientWidth</strong> <a class="anchor-link"
             href="#clientWidth"
-            title="Permalink to PolymerAjax.clientWidth">#</a>
+            title="Permalink to PolymerCollapseToggle.clientWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -529,7 +350,7 @@ final int clientWidth
 <button class="show-code">Code</button>
 final CssRect         <strong>contentEdge</strong> <a class="anchor-link"
             href="#contentEdge"
-            title="Permalink to PolymerAjax.contentEdge">#</a>
+            title="Permalink to PolymerCollapseToggle.contentEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access this element's content position.</p>
@@ -551,7 +372,7 @@ CssRect get contentEdge =&gt; new _ContentCssRect(this);
 <button class="show-code">Code</button>
 String         <strong>contentEditable</strong> <a class="anchor-link"
             href="#contentEditable"
-            title="Permalink to PolymerAjax.contentEditable">#</a>
+            title="Permalink to PolymerCollapseToggle.contentEditable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -563,7 +384,7 @@ String contentEditable
 <button class="show-code">Code</button>
 Map&lt;String, String&gt;         <strong>dataset</strong> <a class="anchor-link"
             href="#dataset"
-            title="Permalink to PolymerAjax.dataset">#</a>
+            title="Permalink to PolymerCollapseToggle.dataset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Allows access to all custom data attributes (data-*) set on this element.</p>
@@ -595,7 +416,7 @@ void set dataset(Map&lt;String, String&gt; value) {
 <button class="show-code">Code</button>
 final PolymerDeclaration         <strong>declaration</strong> <a class="anchor-link"
             href="#declaration"
-            title="Permalink to PolymerAjax.declaration">#</a>
+            title="Permalink to PolymerCollapseToggle.declaration">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>The most derived <code>&lt;polymer-element&gt;</code> declaration for this element. </p>
@@ -608,7 +429,7 @@ PolymerDeclaration get declaration =&gt; _declaration;
 <button class="show-code">Code</button>
 String         <strong>dir</strong> <a class="anchor-link"
             href="#dir"
-            title="Permalink to PolymerAjax.dir">#</a>
+            title="Permalink to PolymerCollapseToggle.dir">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -620,7 +441,7 @@ String dir
 <button class="show-code">Code</button>
 final Point         <strong>documentOffset</strong> <a class="anchor-link"
             href="#documentOffset"
-            title="Permalink to PolymerAjax.documentOffset">#</a>
+            title="Permalink to PolymerCollapseToggle.documentOffset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Provides the coordinates of the element relative to the top of the
@@ -637,7 +458,7 @@ Point get documentOffset =&gt; offsetTo(document.documentElement);
 <button class="show-code">Code</button>
 bool         <strong>draggable</strong> <a class="anchor-link"
             href="#draggable"
-            title="Permalink to PolymerAjax.draggable">#</a>
+            title="Permalink to PolymerCollapseToggle.draggable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Indicates whether the element can be dragged and dropped.</p>
@@ -656,7 +477,7 @@ bool draggable
 <button class="show-code">Code</button>
 String         <strong>dropzone</strong> <a class="anchor-link"
             href="#dropzone"
-            title="Permalink to PolymerAjax.dropzone">#</a>
+            title="Permalink to PolymerCollapseToggle.dropzone">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A set of space-separated keywords that specify what kind of data this
@@ -676,7 +497,7 @@ String dropzone
 <button class="show-code">Code</button>
 final Node         <strong>firstChild</strong> <a class="anchor-link"
             href="#firstChild"
-            title="Permalink to PolymerAjax.firstChild">#</a>
+            title="Permalink to PolymerCollapseToggle.firstChild">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -684,29 +505,11 @@ final Node firstChild
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="handleAs">
-<button class="show-code">Code</button>
-String         <strong>handleAs</strong> <a class="anchor-link"
-            href="#handleAs"
-            title="Permalink to PolymerAjax.handleAs">#</a>
-        </h4>
-        <div class="doc">
-<p>Specifies what data to store in the 'response' property, and
-to deliver as 'event.response' in 'response' events.</p>
-<p>One of:</p>
-<p>   <code>text</code>: uses XHR.responseText</p>
-<p>   <code>xml</code>: uses XHR.responseXML</p>
-<p>   <code>json</code>: uses XHR.responseText parsed as JSON</p>
-<pre class="source">
-String handleAs = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="hashCode">
 <button class="show-code">Code</button>
 final int         <strong>hashCode</strong> <a class="anchor-link"
             href="#hashCode"
-            title="Permalink to PolymerAjax.hashCode">#</a>
+            title="Permalink to PolymerCollapseToggle.hashCode">#</a>
         </h4>
         <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
@@ -728,7 +531,7 @@ int get hashCode =&gt; Primitives.objectHashCode(this);
 <button class="show-code">Code</button>
 final bool         <strong>hasObservers</strong> <a class="anchor-link"
             href="#hasObservers"
-            title="Permalink to PolymerAjax.hasObservers">#</a>
+            title="Permalink to PolymerCollapseToggle.hasObservers">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
 <p>True if this object has any observers, and should call
@@ -742,7 +545,7 @@ bool get hasObservers =&gt; _changes != null &amp;&amp; _changes.hasListener;
 <button class="show-code">Code</button>
 bool         <strong>hidden</strong> <a class="anchor-link"
             href="#hidden"
-            title="Permalink to PolymerAjax.hidden">#</a>
+            title="Permalink to PolymerCollapseToggle.hidden">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Indicates whether the element is not relevant to the page's current state.</p>
@@ -758,7 +561,7 @@ bool hidden
 <button class="show-code">Code</button>
 String         <strong>id</strong> <a class="anchor-link"
             href="#id"
-            title="Permalink to PolymerAjax.id">#</a>
+            title="Permalink to PolymerCollapseToggle.id">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -770,7 +573,7 @@ String id
 <button class="show-code">Code</button>
 String         <strong>innerHtml</strong> <a class="anchor-link"
             href="#innerHtml"
-            title="Permalink to PolymerAjax.innerHtml">#</a>
+            title="Permalink to PolymerCollapseToggle.innerHtml">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the HTML fragment and sets it as the contents of this element.</p>
@@ -790,7 +593,7 @@ void set innerHtml(String html) {
 <button class="show-code">Code</button>
 final InputMethodContext         <strong>inputMethodContext</strong> <a class="anchor-link"
             href="#inputMethodContext"
-            title="Permalink to PolymerAjax.inputMethodContext">#</a>
+            title="Permalink to PolymerCollapseToggle.inputMethodContext">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The current state of IME composition.</p>
@@ -805,7 +608,7 @@ final InputMethodContext inputMethodContext
 <button class="show-code">Code</button>
 final bool         <strong>isContentEditable</strong> <a class="anchor-link"
             href="#isContentEditable"
-            title="Permalink to PolymerAjax.isContentEditable">#</a>
+            title="Permalink to PolymerCollapseToggle.isContentEditable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -817,7 +620,7 @@ final bool isContentEditable
 <button class="show-code">Code</button>
 String         <strong>lang</strong> <a class="anchor-link"
             href="#lang"
-            title="Permalink to PolymerAjax.lang">#</a>
+            title="Permalink to PolymerCollapseToggle.lang">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -829,7 +632,7 @@ String lang
 <button class="show-code">Code</button>
 final Node         <strong>lastChild</strong> <a class="anchor-link"
             href="#lastChild"
-            title="Permalink to PolymerAjax.lastChild">#</a>
+            title="Permalink to PolymerCollapseToggle.lastChild">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -841,7 +644,7 @@ final Node lastChild
 <button class="show-code">Code</button>
 final String         <strong>localName</strong> <a class="anchor-link"
             href="#localName"
-            title="Permalink to PolymerAjax.localName">#</a>
+            title="Permalink to PolymerCollapseToggle.localName">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -855,7 +658,7 @@ String get localName =&gt; _localName;
 <button class="show-code">Code</button>
 final CssRect         <strong>marginEdge</strong> <a class="anchor-link"
             href="#marginEdge"
-            title="Permalink to PolymerAjax.marginEdge">#</a>
+            title="Permalink to PolymerCollapseToggle.marginEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding +
@@ -876,25 +679,11 @@ CssRect get marginEdge =&gt; new _MarginCssRect(this);
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="method">
-<button class="show-code">Code</button>
-String         <strong>method</strong> <a class="anchor-link"
-            href="#method"
-            title="Permalink to PolymerAjax.method">#</a>
-        </h4>
-        <div class="doc">
-<p>The HTTP method to use such as 'GET', 'POST', 'PUT', 'DELETE'.
-Default is 'GET'.'</p>
-<pre class="source">
-String method = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="namespaceUri">
 <button class="show-code">Code</button>
 final String         <strong>namespaceUri</strong> <a class="anchor-link"
             href="#namespaceUri"
-            title="Permalink to PolymerAjax.namespaceUri">#</a>
+            title="Permalink to PolymerCollapseToggle.namespaceUri">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A URI that identifies the XML namespace of this element.</p>
@@ -911,7 +700,7 @@ String get namespaceUri =&gt; _namespaceUri;
 <button class="show-code">Code</button>
 final Element         <strong>nextElementSibling</strong> <a class="anchor-link"
             href="#nextElementSibling"
-            title="Permalink to PolymerAjax.nextElementSibling">#</a>
+            title="Permalink to PolymerCollapseToggle.nextElementSibling">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -923,7 +712,7 @@ final Element nextElementSibling
 <button class="show-code">Code</button>
 final Node         <strong>nextNode</strong> <a class="anchor-link"
             href="#nextNode"
-            title="Permalink to PolymerAjax.nextNode">#</a>
+            title="Permalink to PolymerCollapseToggle.nextNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -935,7 +724,7 @@ final Node nextNode
 <button class="show-code">Code</button>
 final String         <strong>nodeName</strong> <a class="anchor-link"
             href="#nodeName"
-            title="Permalink to PolymerAjax.nodeName">#</a>
+            title="Permalink to PolymerCollapseToggle.nodeName">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -947,7 +736,7 @@ final String nodeName
 <button class="show-code">Code</button>
 List&lt;Node&gt;         <strong>nodes</strong> <a class="anchor-link"
             href="#nodes"
-            title="Permalink to PolymerAjax.nodes">#</a>
+            title="Permalink to PolymerCollapseToggle.nodes">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -972,7 +761,7 @@ void set nodes(Iterable&lt;Node&gt; value) {
 <button class="show-code">Code</button>
 final int         <strong>nodeType</strong> <a class="anchor-link"
             href="#nodeType"
-            title="Permalink to PolymerAjax.nodeType">#</a>
+            title="Permalink to PolymerCollapseToggle.nodeType">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -984,7 +773,7 @@ final int nodeType
 <button class="show-code">Code</button>
 final String         <strong>nodeValue</strong> <a class="anchor-link"
             href="#nodeValue"
-            title="Permalink to PolymerAjax.nodeValue">#</a>
+            title="Permalink to PolymerCollapseToggle.nodeValue">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -996,7 +785,7 @@ final String nodeValue
 <button class="show-code">Code</button>
 final Rectangle         <strong>offset</strong> <a class="anchor-link"
             href="#offset"
-            title="Permalink to PolymerAjax.offset">#</a>
+            title="Permalink to PolymerCollapseToggle.offset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets the offset of this element relative to its offsetParent.</p>
@@ -1010,7 +799,7 @@ Rectangle get offset =&gt; new Rectangle(offsetLeft, offsetTop, offsetWidth,
 <button class="show-code">Code</button>
 final int         <strong>offsetHeight</strong> <a class="anchor-link"
             href="#offsetHeight"
-            title="Permalink to PolymerAjax.offsetHeight">#</a>
+            title="Permalink to PolymerCollapseToggle.offsetHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1022,7 +811,7 @@ final int offsetHeight
 <button class="show-code">Code</button>
 final int         <strong>offsetLeft</strong> <a class="anchor-link"
             href="#offsetLeft"
-            title="Permalink to PolymerAjax.offsetLeft">#</a>
+            title="Permalink to PolymerCollapseToggle.offsetLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1034,7 +823,7 @@ final int offsetLeft
 <button class="show-code">Code</button>
 final Element         <strong>offsetParent</strong> <a class="anchor-link"
             href="#offsetParent"
-            title="Permalink to PolymerAjax.offsetParent">#</a>
+            title="Permalink to PolymerCollapseToggle.offsetParent">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1046,7 +835,7 @@ final Element offsetParent
 <button class="show-code">Code</button>
 final int         <strong>offsetTop</strong> <a class="anchor-link"
             href="#offsetTop"
-            title="Permalink to PolymerAjax.offsetTop">#</a>
+            title="Permalink to PolymerCollapseToggle.offsetTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1058,7 +847,7 @@ final int offsetTop
 <button class="show-code">Code</button>
 final int         <strong>offsetWidth</strong> <a class="anchor-link"
             href="#offsetWidth"
-            title="Permalink to PolymerAjax.offsetWidth">#</a>
+            title="Permalink to PolymerCollapseToggle.offsetWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1070,7 +859,7 @@ final int offsetWidth
 <button class="show-code">Code</button>
 final ElementEvents         <strong>on</strong> <a class="anchor-link"
             href="#on"
-            title="Permalink to PolymerAjax.on">#</a>
+            title="Permalink to PolymerCollapseToggle.on">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>This is an ease-of-use accessor for event streams which should only be
@@ -1084,7 +873,7 @@ ElementEvents get on =&gt; new ElementEvents(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onAbort</strong> <a class="anchor-link"
             href="#onAbort"
-            title="Permalink to PolymerAjax.onAbort">#</a>
+            title="Permalink to PolymerCollapseToggle.onAbort">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>abort</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1099,7 +888,7 @@ ElementStream&lt;Event&gt; get onAbort =&gt; abortEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforeCopy</strong> <a class="anchor-link"
             href="#onBeforeCopy"
-            title="Permalink to PolymerAjax.onBeforeCopy">#</a>
+            title="Permalink to PolymerCollapseToggle.onBeforeCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforecopy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1114,7 +903,7 @@ ElementStream&lt;Event&gt; get onBeforeCopy =&gt; beforeCopyEvent.forElement(thi
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforeCut</strong> <a class="anchor-link"
             href="#onBeforeCut"
-            title="Permalink to PolymerAjax.onBeforeCut">#</a>
+            title="Permalink to PolymerCollapseToggle.onBeforeCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforecut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1129,7 +918,7 @@ ElementStream&lt;Event&gt; get onBeforeCut =&gt; beforeCutEvent.forElement(this)
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforePaste</strong> <a class="anchor-link"
             href="#onBeforePaste"
-            title="Permalink to PolymerAjax.onBeforePaste">#</a>
+            title="Permalink to PolymerCollapseToggle.onBeforePaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforepaste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1144,7 +933,7 @@ ElementStream&lt;Event&gt; get onBeforePaste =&gt; beforePasteEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBlur</strong> <a class="anchor-link"
             href="#onBlur"
-            title="Permalink to PolymerAjax.onBlur">#</a>
+            title="Permalink to PolymerCollapseToggle.onBlur">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>blur</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1159,7 +948,7 @@ ElementStream&lt;Event&gt; get onBlur =&gt; blurEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onChange</strong> <a class="anchor-link"
             href="#onChange"
-            title="Permalink to PolymerAjax.onChange">#</a>
+            title="Permalink to PolymerCollapseToggle.onChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>change</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1174,7 +963,7 @@ ElementStream&lt;Event&gt; get onChange =&gt; changeEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onClick</strong> <a class="anchor-link"
             href="#onClick"
-            title="Permalink to PolymerAjax.onClick">#</a>
+            title="Permalink to PolymerCollapseToggle.onClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>click</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1189,7 +978,7 @@ ElementStream&lt;MouseEvent&gt; get onClick =&gt; clickEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onContextMenu</strong> <a class="anchor-link"
             href="#onContextMenu"
-            title="Permalink to PolymerAjax.onContextMenu">#</a>
+            title="Permalink to PolymerCollapseToggle.onContextMenu">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>contextmenu</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1204,7 +993,7 @@ ElementStream&lt;MouseEvent&gt; get onContextMenu =&gt; contextMenuEvent.forElem
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onCopy</strong> <a class="anchor-link"
             href="#onCopy"
-            title="Permalink to PolymerAjax.onCopy">#</a>
+            title="Permalink to PolymerCollapseToggle.onCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>copy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1219,7 +1008,7 @@ ElementStream&lt;Event&gt; get onCopy =&gt; copyEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onCut</strong> <a class="anchor-link"
             href="#onCut"
-            title="Permalink to PolymerAjax.onCut">#</a>
+            title="Permalink to PolymerCollapseToggle.onCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>cut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1234,7 +1023,7 @@ ElementStream&lt;Event&gt; get onCut =&gt; cutEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onDoubleClick</strong> <a class="anchor-link"
             href="#onDoubleClick"
-            title="Permalink to PolymerAjax.onDoubleClick">#</a>
+            title="Permalink to PolymerCollapseToggle.onDoubleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>doubleclick</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1249,7 +1038,7 @@ ElementStream&lt;Event&gt; get onDoubleClick =&gt; doubleClickEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDrag</strong> <a class="anchor-link"
             href="#onDrag"
-            title="Permalink to PolymerAjax.onDrag">#</a>
+            title="Permalink to PolymerCollapseToggle.onDrag">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>drag</code> events fired when this element currently being dragged.</p>
@@ -1273,7 +1062,7 @@ ElementStream&lt;MouseEvent&gt; get onDrag =&gt; dragEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnd</strong> <a class="anchor-link"
             href="#onDragEnd"
-            title="Permalink to PolymerAjax.onDragEnd">#</a>
+            title="Permalink to PolymerCollapseToggle.onDragEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragend</code> events fired when this element completes a drag
@@ -1295,7 +1084,7 @@ ElementStream&lt;MouseEvent&gt; get onDragEnd =&gt; dragEndEvent.forElement(this
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnter</strong> <a class="anchor-link"
             href="#onDragEnter"
-            title="Permalink to PolymerAjax.onDragEnter">#</a>
+            title="Permalink to PolymerCollapseToggle.onDragEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragenter</code> events fired when a dragged object is first dragged
@@ -1317,7 +1106,7 @@ ElementStream&lt;MouseEvent&gt; get onDragEnter =&gt; dragEnterEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragLeave</strong> <a class="anchor-link"
             href="#onDragLeave"
-            title="Permalink to PolymerAjax.onDragLeave">#</a>
+            title="Permalink to PolymerCollapseToggle.onDragLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragleave</code> events fired when an object being dragged over this
@@ -1339,7 +1128,7 @@ ElementStream&lt;MouseEvent&gt; get onDragLeave =&gt; dragLeaveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragOver</strong> <a class="anchor-link"
             href="#onDragOver"
-            title="Permalink to PolymerAjax.onDragOver">#</a>
+            title="Permalink to PolymerCollapseToggle.onDragOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragover</code> events fired when a dragged object is currently
@@ -1361,7 +1150,7 @@ ElementStream&lt;MouseEvent&gt; get onDragOver =&gt; dragOverEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragStart</strong> <a class="anchor-link"
             href="#onDragStart"
-            title="Permalink to PolymerAjax.onDragStart">#</a>
+            title="Permalink to PolymerCollapseToggle.onDragStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragstart</code> events fired when this element starts being
@@ -1383,7 +1172,7 @@ ElementStream&lt;MouseEvent&gt; get onDragStart =&gt; dragStartEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDrop</strong> <a class="anchor-link"
             href="#onDrop"
-            title="Permalink to PolymerAjax.onDrop">#</a>
+            title="Permalink to PolymerCollapseToggle.onDrop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>drop</code> events fired when a dragged object is dropped on this
@@ -1405,7 +1194,7 @@ ElementStream&lt;MouseEvent&gt; get onDrop =&gt; dropEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onError</strong> <a class="anchor-link"
             href="#onError"
-            title="Permalink to PolymerAjax.onError">#</a>
+            title="Permalink to PolymerCollapseToggle.onError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>error</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1420,7 +1209,7 @@ ElementStream&lt;Event&gt; get onError =&gt; errorEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFocus</strong> <a class="anchor-link"
             href="#onFocus"
-            title="Permalink to PolymerAjax.onFocus">#</a>
+            title="Permalink to PolymerCollapseToggle.onFocus">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>focus</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1435,7 +1224,7 @@ ElementStream&lt;Event&gt; get onFocus =&gt; focusEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFullscreenChange</strong> <a class="anchor-link"
             href="#onFullscreenChange"
-            title="Permalink to PolymerAjax.onFullscreenChange">#</a>
+            title="Permalink to PolymerCollapseToggle.onFullscreenChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>fullscreenchange</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1452,7 +1241,7 @@ ElementStream&lt;Event&gt; get onFullscreenChange =&gt; fullscreenChangeEvent.fo
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFullscreenError</strong> <a class="anchor-link"
             href="#onFullscreenError"
-            title="Permalink to PolymerAjax.onFullscreenError">#</a>
+            title="Permalink to PolymerCollapseToggle.onFullscreenError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>fullscreenerror</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1469,7 +1258,7 @@ ElementStream&lt;Event&gt; get onFullscreenError =&gt; fullscreenErrorEvent.forE
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onInput</strong> <a class="anchor-link"
             href="#onInput"
-            title="Permalink to PolymerAjax.onInput">#</a>
+            title="Permalink to PolymerCollapseToggle.onInput">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>input</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1484,7 +1273,7 @@ ElementStream&lt;Event&gt; get onInput =&gt; inputEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onInvalid</strong> <a class="anchor-link"
             href="#onInvalid"
-            title="Permalink to PolymerAjax.onInvalid">#</a>
+            title="Permalink to PolymerCollapseToggle.onInvalid">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>invalid</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1499,7 +1288,7 @@ ElementStream&lt;Event&gt; get onInvalid =&gt; invalidEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
             href="#onKeyDown"
-            title="Permalink to PolymerAjax.onKeyDown">#</a>
+            title="Permalink to PolymerCollapseToggle.onKeyDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keydown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1514,7 +1303,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyDown =&gt; keyDownEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyPress</strong> <a class="anchor-link"
             href="#onKeyPress"
-            title="Permalink to PolymerAjax.onKeyPress">#</a>
+            title="Permalink to PolymerCollapseToggle.onKeyPress">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keypress</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1529,7 +1318,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyPress =&gt; keyPressEvent.forElement
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
             href="#onKeyUp"
-            title="Permalink to PolymerAjax.onKeyUp">#</a>
+            title="Permalink to PolymerCollapseToggle.onKeyUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keyup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1544,7 +1333,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyUp =&gt; keyUpEvent.forElement(this)
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onLoad</strong> <a class="anchor-link"
             href="#onLoad"
-            title="Permalink to PolymerAjax.onLoad">#</a>
+            title="Permalink to PolymerCollapseToggle.onLoad">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>load</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1559,7 +1348,7 @@ ElementStream&lt;Event&gt; get onLoad =&gt; loadEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
             href="#onMouseDown"
-            title="Permalink to PolymerAjax.onMouseDown">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousedown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1574,7 +1363,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseDown =&gt; mouseDownEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseEnter</strong> <a class="anchor-link"
             href="#onMouseEnter"
-            title="Permalink to PolymerAjax.onMouseEnter">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1590,7 +1379,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseEnter =&gt; mouseEnterEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseLeave</strong> <a class="anchor-link"
             href="#onMouseLeave"
-            title="Permalink to PolymerAjax.onMouseLeave">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1606,7 +1395,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseLeave =&gt; mouseLeaveEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
             href="#onMouseMove"
-            title="Permalink to PolymerAjax.onMouseMove">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousemove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1621,7 +1410,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseMove =&gt; mouseMoveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
             href="#onMouseOut"
-            title="Permalink to PolymerAjax.onMouseOut">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseOut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseout</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1636,7 +1425,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseOut =&gt; mouseOutEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
             href="#onMouseOver"
-            title="Permalink to PolymerAjax.onMouseOver">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseover</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1651,7 +1440,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseOver =&gt; mouseOverEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
             href="#onMouseUp"
-            title="Permalink to PolymerAjax.onMouseUp">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1666,7 +1455,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseUp =&gt; mouseUpEvent.forElement(this
 <button class="show-code">Code</button>
 final ElementStream&lt;WheelEvent&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
             href="#onMouseWheel"
-            title="Permalink to PolymerAjax.onMouseWheel">#</a>
+            title="Permalink to PolymerCollapseToggle.onMouseWheel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousewheel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1683,7 +1472,7 @@ ElementStream&lt;WheelEvent&gt; get onMouseWheel =&gt; mouseWheelEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anchor-link"
             href="#onPaste"
-            title="Permalink to PolymerAjax.onPaste">#</a>
+            title="Permalink to PolymerCollapseToggle.onPaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>paste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1698,7 +1487,7 @@ ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anchor-link"
             href="#onReset"
-            title="Permalink to PolymerAjax.onReset">#</a>
+            title="Permalink to PolymerCollapseToggle.onReset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>reset</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1713,7 +1502,7 @@ ElementStream&lt;Event&gt; get onReset =&gt; resetEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onScroll</strong> <a class="anchor-link"
             href="#onScroll"
-            title="Permalink to PolymerAjax.onScroll">#</a>
+            title="Permalink to PolymerCollapseToggle.onScroll">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>scroll</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1728,7 +1517,7 @@ ElementStream&lt;Event&gt; get onScroll =&gt; scrollEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSearch</strong> <a class="anchor-link"
             href="#onSearch"
-            title="Permalink to PolymerAjax.onSearch">#</a>
+            title="Permalink to PolymerCollapseToggle.onSearch">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>search</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1745,7 +1534,7 @@ ElementStream&lt;Event&gt; get onSearch =&gt; searchEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSelect</strong> <a class="anchor-link"
             href="#onSelect"
-            title="Permalink to PolymerAjax.onSelect">#</a>
+            title="Permalink to PolymerCollapseToggle.onSelect">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>select</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1760,7 +1549,7 @@ ElementStream&lt;Event&gt; get onSelect =&gt; selectEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSelectStart</strong> <a class="anchor-link"
             href="#onSelectStart"
-            title="Permalink to PolymerAjax.onSelectStart">#</a>
+            title="Permalink to PolymerCollapseToggle.onSelectStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>selectstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1776,7 +1565,7 @@ ElementStream&lt;Event&gt; get onSelectStart =&gt; selectStartEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSubmit</strong> <a class="anchor-link"
             href="#onSubmit"
-            title="Permalink to PolymerAjax.onSubmit">#</a>
+            title="Permalink to PolymerCollapseToggle.onSubmit">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>submit</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1791,7 +1580,7 @@ ElementStream&lt;Event&gt; get onSubmit =&gt; submitEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
             href="#onTouchCancel"
-            title="Permalink to PolymerAjax.onTouchCancel">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchCancel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchcancel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1808,7 +1597,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchCancel =&gt; touchCancelEvent.forElem
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
             href="#onTouchEnd"
-            title="Permalink to PolymerAjax.onTouchEnd">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1825,7 +1614,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchEnd =&gt; touchEndEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnter</strong> <a class="anchor-link"
             href="#onTouchEnter"
-            title="Permalink to PolymerAjax.onTouchEnter">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1842,7 +1631,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchEnter =&gt; touchEnterEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchLeave</strong> <a class="anchor-link"
             href="#onTouchLeave"
-            title="Permalink to PolymerAjax.onTouchLeave">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1859,7 +1648,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchLeave =&gt; touchLeaveEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
             href="#onTouchMove"
-            title="Permalink to PolymerAjax.onTouchMove">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchmove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1876,7 +1665,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchMove =&gt; touchMoveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchStart</strong> <a class="anchor-link"
             href="#onTouchStart"
-            title="Permalink to PolymerAjax.onTouchStart">#</a>
+            title="Permalink to PolymerCollapseToggle.onTouchStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1893,7 +1682,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchStart =&gt; touchStartEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TransitionEvent&gt;         <strong>onTransitionEnd</strong> <a class="anchor-link"
             href="#onTransitionEnd"
-            title="Permalink to PolymerAjax.onTransitionEnd">#</a>
+            title="Permalink to PolymerCollapseToggle.onTransitionEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>transitionend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1912,7 +1701,7 @@ ElementStream&lt;TransitionEvent&gt; get onTransitionEnd =&gt; transitionEndEven
 <button class="show-code">Code</button>
 final String         <strong>outerHtml</strong> <a class="anchor-link"
             href="#outerHtml"
-            title="Permalink to PolymerAjax.outerHtml">#</a>
+            title="Permalink to PolymerCollapseToggle.outerHtml">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1924,7 +1713,7 @@ final String outerHtml
 <button class="show-code">Code</button>
 final Document         <strong>ownerDocument</strong> <a class="anchor-link"
             href="#ownerDocument"
-            title="Permalink to PolymerAjax.ownerDocument">#</a>
+            title="Permalink to PolymerCollapseToggle.ownerDocument">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -1936,7 +1725,7 @@ final Document ownerDocument
 <button class="show-code">Code</button>
 final CssRect         <strong>paddingEdge</strong> <a class="anchor-link"
             href="#paddingEdge"
-            title="Permalink to PolymerAjax.paddingEdge">#</a>
+            title="Permalink to PolymerCollapseToggle.paddingEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding box.</p>
@@ -1958,24 +1747,11 @@ CssRect get paddingEdge =&gt; new _PaddingCssRect(this);
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="params">
-<button class="show-code">Code</button>
-String         <strong>params</strong> <a class="anchor-link"
-            href="#params"
-            title="Permalink to PolymerAjax.params">#</a>
-        </h4>
-        <div class="doc">
-<p>Parameters to send to the specified URL, as JSON.</p>
-<pre class="source">
-String params = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="parent">
 <button class="show-code">Code</button>
 final Element         <strong>parent</strong> <a class="anchor-link"
             href="#parent"
-            title="Permalink to PolymerAjax.parent">#</a>
+            title="Permalink to PolymerCollapseToggle.parent">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -1987,7 +1763,7 @@ final Element parent
 <button class="show-code">Code</button>
 final Node         <strong>parentNode</strong> <a class="anchor-link"
             href="#parentNode"
-            title="Permalink to PolymerAjax.parentNode">#</a>
+            title="Permalink to PolymerCollapseToggle.parentNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -1999,7 +1775,7 @@ final Node parentNode
 <button class="show-code">Code</button>
 final bool         <strong>preventDispose</strong> <a class="anchor-link"
             href="#preventDispose"
-            title="Permalink to PolymerAjax.preventDispose">#</a>
+            title="Permalink to PolymerCollapseToggle.preventDispose">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
@@ -2011,7 +1787,7 @@ bool get preventDispose =&gt; false;
 <button class="show-code">Code</button>
 final Element         <strong>previousElementSibling</strong> <a class="anchor-link"
             href="#previousElementSibling"
-            title="Permalink to PolymerAjax.previousElementSibling">#</a>
+            title="Permalink to PolymerCollapseToggle.previousElementSibling">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2023,7 +1799,7 @@ final Element previousElementSibling
 <button class="show-code">Code</button>
 final Node         <strong>previousNode</strong> <a class="anchor-link"
             href="#previousNode"
-            title="Permalink to PolymerAjax.previousNode">#</a>
+            title="Permalink to PolymerCollapseToggle.previousNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -2035,7 +1811,7 @@ final Node previousNode
 <button class="show-code">Code</button>
 String         <strong>pseudo</strong> <a class="anchor-link"
             href="#pseudo"
-            title="Permalink to PolymerAjax.pseudo">#</a>
+            title="Permalink to PolymerCollapseToggle.pseudo">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The name of this element's custom pseudo-element.</p>
@@ -2053,7 +1829,7 @@ String pseudo
 <button class="show-code">Code</button>
 final String         <strong>regionOverset</strong> <a class="anchor-link"
             href="#regionOverset"
-            title="Permalink to PolymerAjax.regionOverset">#</a>
+            title="Permalink to PolymerCollapseToggle.regionOverset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The current state of this region.</p>
@@ -2073,7 +1849,7 @@ final String regionOverset
 <button class="show-code">Code</button>
 final bool         <strong>resetStyleInheritance</strong> <a class="anchor-link"
             href="#resetStyleInheritance"
-            title="Permalink to PolymerAjax.resetStyleInheritance">#</a>
+            title="Permalink to PolymerCollapseToggle.resetStyleInheritance">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
@@ -2081,24 +1857,11 @@ bool get resetStyleInheritance =&gt; false;
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="response">
-<button class="show-code">Code</button>
-var         <strong>response</strong> <a class="anchor-link"
-            href="#response"
-            title="Permalink to PolymerAjax.response">#</a>
-        </h4>
-        <div class="doc">
-<p>Returns the response object.</p>
-<pre class="source">
-var response
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="runtimeType">
 <button class="show-code">Code</button>
 final Type         <strong>runtimeType</strong> <a class="anchor-link"
             href="#runtimeType"
-            title="Permalink to PolymerAjax.runtimeType">#</a>
+            title="Permalink to PolymerCollapseToggle.runtimeType">#</a>
         </h4>
         <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
@@ -2113,7 +1876,7 @@ Type get runtimeType =&gt; getRuntimeType(this);
 <button class="show-code">Code</button>
 final int         <strong>scrollHeight</strong> <a class="anchor-link"
             href="#scrollHeight"
-            title="Permalink to PolymerAjax.scrollHeight">#</a>
+            title="Permalink to PolymerCollapseToggle.scrollHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2125,7 +1888,7 @@ final int scrollHeight
 <button class="show-code">Code</button>
 int         <strong>scrollLeft</strong> <a class="anchor-link"
             href="#scrollLeft"
-            title="Permalink to PolymerAjax.scrollLeft">#</a>
+            title="Permalink to PolymerCollapseToggle.scrollLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2137,7 +1900,7 @@ int scrollLeft
 <button class="show-code">Code</button>
 int         <strong>scrollTop</strong> <a class="anchor-link"
             href="#scrollTop"
-            title="Permalink to PolymerAjax.scrollTop">#</a>
+            title="Permalink to PolymerCollapseToggle.scrollTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2149,7 +1912,7 @@ int scrollTop
 <button class="show-code">Code</button>
 final int         <strong>scrollWidth</strong> <a class="anchor-link"
             href="#scrollWidth"
-            title="Permalink to PolymerAjax.scrollWidth">#</a>
+            title="Permalink to PolymerCollapseToggle.scrollWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2161,7 +1924,7 @@ final int scrollWidth
 <button class="show-code">Code</button>
 final ShadowRoot         <strong>shadowRoot</strong> <a class="anchor-link"
             href="#shadowRoot"
-            title="Permalink to PolymerAjax.shadowRoot">#</a>
+            title="Permalink to PolymerCollapseToggle.shadowRoot">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The shadow root of this shadow host.</p>
@@ -2182,7 +1945,7 @@ ShadowRoot get shadowRoot =&gt;
 <button class="show-code">Code</button>
 bool         <strong>spellcheck</strong> <a class="anchor-link"
             href="#spellcheck"
-            title="Permalink to PolymerAjax.spellcheck">#</a>
+            title="Permalink to PolymerCollapseToggle.spellcheck">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2194,7 +1957,7 @@ bool spellcheck
 <button class="show-code">Code</button>
 final CssStyleDeclaration         <strong>style</strong> <a class="anchor-link"
             href="#style"
-            title="Permalink to PolymerAjax.style">#</a>
+            title="Permalink to PolymerCollapseToggle.style">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2206,7 +1969,7 @@ final CssStyleDeclaration style
 <button class="show-code">Code</button>
 BindingDelegate         <strong>syntax</strong> <a class="anchor-link"
             href="#syntax"
-            title="Permalink to PolymerAjax.syntax">#</a>
+            title="Permalink to PolymerCollapseToggle.syntax">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
@@ -2218,7 +1981,7 @@ BindingDelegate syntax = _polymerSyntax
 <button class="show-code">Code</button>
 int         <strong>tabIndex</strong> <a class="anchor-link"
             href="#tabIndex"
-            title="Permalink to PolymerAjax.tabIndex">#</a>
+            title="Permalink to PolymerCollapseToggle.tabIndex">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2230,7 +1993,7 @@ int tabIndex
 <button class="show-code">Code</button>
 final String         <strong>tagName</strong> <a class="anchor-link"
             href="#tagName"
-            title="Permalink to PolymerAjax.tagName">#</a>
+            title="Permalink to PolymerCollapseToggle.tagName">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2238,11 +2001,24 @@ final String tagName
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="target">
+<button class="show-code">Code</button>
+String         <strong>target</strong> <a class="anchor-link"
+            href="#target"
+            title="Permalink to PolymerCollapseToggle.target">#</a>
+        </h4>
+        <div class="doc">
+<p>The selector for the target polymer-collapse element.</p>
+<pre class="source">
+String target = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="templateInstance">
 <button class="show-code">Code</button>
 final TemplateInstance         <strong>templateInstance</strong> <a class="anchor-link"
             href="#templateInstance"
-            title="Permalink to PolymerAjax.templateInstance">#</a>
+            title="Permalink to PolymerCollapseToggle.templateInstance">#</a>
         </h4>
         <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
@@ -2258,7 +2034,7 @@ TemplateInstance get templateInstance =&gt;
 <button class="show-code">Code</button>
 String         <strong>text</strong> <a class="anchor-link"
             href="#text"
-            title="Permalink to PolymerAjax.text">#</a>
+            title="Permalink to PolymerCollapseToggle.text">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
@@ -2270,7 +2046,7 @@ String text
 <button class="show-code">Code</button>
 String         <strong>title</strong> <a class="anchor-link"
             href="#title"
-            title="Permalink to PolymerAjax.title">#</a>
+            title="Permalink to PolymerCollapseToggle.title">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2282,7 +2058,7 @@ String title
 <button class="show-code">Code</button>
 bool         <strong>translate</strong> <a class="anchor-link"
             href="#translate"
-            title="Permalink to PolymerAjax.translate">#</a>
+            title="Permalink to PolymerCollapseToggle.translate">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Specifies whether this element's text content changes when the page is
@@ -2295,24 +2071,11 @@ bool translate
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="url">
-<button class="show-code">Code</button>
-String         <strong>url</strong> <a class="anchor-link"
-            href="#url"
-            title="Permalink to PolymerAjax.url">#</a>
-        </h4>
-        <div class="doc">
-<p>The URL target of the request.</p>
-<pre class="source">
-String url =  ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="xtag">
 <button class="show-code">Code</button>
 var         <strong>xtag</strong> <a class="anchor-link"
             href="#xtag"
-            title="Permalink to PolymerAjax.xtag">#</a>
+            title="Permalink to PolymerCollapseToggle.xtag">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Experimental support for <a href="http://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html">web components</a>. This field stores a
@@ -2337,7 +2100,7 @@ void set xtag(Element value) {
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 bool <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to PolymerAjax.operator ==">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.operator ==">#</a></h4>
 <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
 <p>The equality operator.</p>
@@ -2371,7 +2134,7 @@ bool operator ==(other) =&gt; identical(this, other);
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
 void <strong>addEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#addEventListener"
-              title="Permalink to PolymerAjax.addEventListener">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.addEventListener')
@@ -2383,7 +2146,7 @@ void addEventListener(String type, EventListener listener, [bool useCapture]) na
 <div class="method inherited"><h4 id="addHostListeners">
 <button class="show-code">Code</button>
 void <strong>addHostListeners</strong>() <a class="anchor-link" href="#addHostListeners"
-              title="Permalink to PolymerAjax.addHostListeners">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.addHostListeners">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Attach event listeners on the host (this) element. </p>
 <pre class="source">
@@ -2402,7 +2165,7 @@ void addHostListeners() {
 <div class="method inherited"><h4 id="addNodeListener">
 <button class="show-code">Code</button>
 void <strong>addNodeListener</strong>(Node node, String event, void listener(Event e)) <a class="anchor-link" href="#addNodeListener"
-              title="Permalink to PolymerAjax.addNodeListener">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.addNodeListener">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void addNodeListener(Node node, String event, void listener(Event e)) {
@@ -2414,7 +2177,7 @@ void addNodeListener(Node node, String event, void listener(Event e)) {
 <div class="method inherited"><h4 id="addNodeListeners">
 <button class="show-code">Code</button>
 void <strong>addNodeListeners</strong>(Node node, Iterable&lt;String&gt; events, void listener(Event e)) <a class="anchor-link" href="#addNodeListeners"
-              title="Permalink to PolymerAjax.addNodeListeners">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.addNodeListeners">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void addNodeListeners(Node node, Iterable&lt;String&gt; events,
@@ -2430,7 +2193,7 @@ void addNodeListeners(Node node, Iterable&lt;String&gt; events,
 <div class="method inherited"><h4 id="append">
 <button class="show-code">Code</button>
 Node <strong>append</strong>(Node newChild) <a class="anchor-link" href="#append"
-              title="Permalink to PolymerAjax.append">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.append">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Adds a node to the end of the child <a class="crossref" href="../dart_html/Node.html#nodes">nodes</a> list of this node.</p>
 <p>If the node already exists in this document, it will be removed from its
@@ -2457,7 +2220,7 @@ Node append(Node newChild) native;
 <div class="method inherited"><h4 id="appendHtml">
 <button class="show-code">Code</button>
 void <strong>appendHtml</strong>(String text) <a class="anchor-link" href="#appendHtml"
-              title="Permalink to PolymerAjax.appendHtml">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.appendHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the specified text as HTML and adds the resulting node after the
 last child of this element.</p>
@@ -2471,7 +2234,7 @@ void appendHtml(String text) {
 <div class="method inherited"><h4 id="appendText">
 <button class="show-code">Code</button>
 void <strong>appendText</strong>(String text) <a class="anchor-link" href="#appendText"
-              title="Permalink to PolymerAjax.appendText">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.appendText">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Adds the specified text after the last child of this element.</p>
 <pre class="source">
@@ -2484,7 +2247,7 @@ void appendText(String text) {
 <div class="method inherited"><h4 id="async">
 <button class="show-code">Code</button>
 int <strong>async</strong>(RequestAnimationFrameCallback method) <a class="anchor-link" href="#async"
-              title="Permalink to PolymerAjax.async">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.async">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Invokes a function asynchronously.
 This will call <code>Platform.flush()</code> and then call
@@ -2506,7 +2269,7 @@ int async(RequestAnimationFrameCallback method) {
 <div class="method inherited"><h4 id="asyncFire">
 <button class="show-code">Code</button>
 dynamic <strong>asyncFire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#asyncFire"
-              title="Permalink to PolymerAjax.asyncFire">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.asyncFire">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Fire an event asynchronously. See <a class="crossref" href="../polymer/Polymer.html#async">async</a> and <a class="crossref" href="../polymer/Polymer.html#fire">fire</a>.</p>
 <pre class="source">
@@ -2522,7 +2285,7 @@ asyncFire(String type, {Object detail, Node toNode, bool canBubble}) {
 <div class="method inherited"><h4 id="asyncTimer">
 <button class="show-code">Code</button>
 Timer <strong>asyncTimer</strong>(void method(), Duration timeout) <a class="anchor-link" href="#asyncTimer"
-              title="Permalink to PolymerAjax.asyncTimer">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.asyncTimer">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Invokes a function asynchronously.
 This will call <code>Platform.flush()</code> and then return a <code>new Timer</code>
@@ -2544,7 +2307,7 @@ Timer asyncTimer(void method(), Duration timeout) {
 <div class="method inherited"><h4 id="asyncUnbindAll">
 <button class="show-code">Code</button>
 void <strong>asyncUnbindAll</strong>() <a class="anchor-link" href="#asyncUnbindAll"
-              title="Permalink to PolymerAjax.asyncUnbindAll">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.asyncUnbindAll">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void asyncUnbindAll() {
@@ -2558,7 +2321,7 @@ void asyncUnbindAll() {
 <div class="method inherited"><h4 id="attributeChanged">
 <button class="show-code">Code</button>
 void <strong>attributeChanged</strong>(String name, String oldValue, String newValue) <a class="anchor-link" href="#attributeChanged"
-              title="Permalink to PolymerAjax.attributeChanged">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.attributeChanged">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM whenever an attribute on this has been changed.</p>
@@ -2575,7 +2338,7 @@ void attributeChanged(String name, String oldValue, String newValue) {
 <div class="method inherited"><h4 id="attributeToProperty">
 <button class="show-code">Code</button>
 void <strong>attributeToProperty</strong>(String name, String value) <a class="anchor-link" href="#attributeToProperty"
-              title="Permalink to PolymerAjax.attributeToProperty">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.attributeToProperty">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>If attribute 
 <span class="param">name</span> is mapped to a property, deserialize
@@ -2610,22 +2373,10 @@ void attributeToProperty(String name, String value) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="autoChanged">
-<button class="show-code">Code</button>
-dynamic <strong>autoChanged</strong>(old) <a class="anchor-link" href="#autoChanged"
-              title="Permalink to PolymerAjax.autoChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-autoChanged(old){
- this._autoGo();
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="bind">
 <button class="show-code">Code</button>
 NodeBinding <strong>bind</strong>(String name, model, [String path]) <a class="anchor-link" href="#bind"
-              title="Permalink to PolymerAjax.bind">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.bind">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Binds the attribute 
@@ -2665,7 +2416,7 @@ NodeBinding bind(String name, model, [String path]) {
 <div class="method inherited"><h4 id="bindProperty">
 <button class="show-code">Code</button>
 NodeBinding <strong>bindProperty</strong>(Symbol name, Object model, [String path]) <a class="anchor-link" href="#bindProperty"
-              title="Permalink to PolymerAjax.bindProperty">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.bindProperty">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Bind a <code>property</code> in this object to a 
 <span class="param">path</span> in model. <em>Note</em> in Dart it
@@ -2687,7 +2438,7 @@ NodeBinding bindProperty(Symbol name, Object model, [String path]) =&gt;
 <div class="method inherited"><h4 id="blur">
 <button class="show-code">Code</button>
 void <strong>blur</strong>() <a class="anchor-link" href="#blur"
-              title="Permalink to PolymerAjax.blur">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.blur">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.blur')
@@ -2699,7 +2450,7 @@ void blur() native;
 <div class="method inherited"><h4 id="cancelUnbindAll">
 <button class="show-code">Code</button>
 void <strong>cancelUnbindAll</strong>({bool preventCascade}) <a class="anchor-link" href="#cancelUnbindAll"
-              title="Permalink to PolymerAjax.cancelUnbindAll">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.cancelUnbindAll">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void cancelUnbindAll({bool preventCascade}) {
@@ -2729,7 +2480,7 @@ void cancelUnbindAll({bool preventCascade}) {
 <div class="method inherited"><h4 id="classFollows">
 <button class="show-code">Code</button>
 void <strong>classFollows</strong>(Element anew, Element old, String className) <a class="anchor-link" href="#classFollows"
-              title="Permalink to PolymerAjax.classFollows">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.classFollows">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Remove 
 <span class="param">className</span> from 
@@ -2750,7 +2501,7 @@ void classFollows(Element anew, Element old, String className) {
 <div class="method inherited"><h4 id="click">
 <button class="show-code">Code</button>
 void <strong>click</strong>() <a class="anchor-link" href="#click"
-              title="Permalink to PolymerAjax.click">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.click">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.click')
@@ -2762,7 +2513,7 @@ void click() native;
 <div class="method inherited"><h4 id="clone">
 <button class="show-code">Code</button>
 Node <strong>clone</strong>(bool deep) <a class="anchor-link" href="#clone"
-              title="Permalink to PolymerAjax.clone">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.clone">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
 @JSName('cloneNode')
@@ -2775,7 +2526,7 @@ Node clone(bool deep) native;
 <div class="method inherited"><h4 id="contains">
 <button class="show-code">Code</button>
 bool <strong>contains</strong>(Node other) <a class="anchor-link" href="#contains"
-              title="Permalink to PolymerAjax.contains">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.contains">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
 @DomName('Node.contains')
@@ -2787,7 +2538,7 @@ bool contains(Node other) native;
 <div class="method inherited"><h4 id="copyInstanceAttributes">
 <button class="show-code">Code</button>
 void <strong>copyInstanceAttributes</strong>() <a class="anchor-link" href="#copyInstanceAttributes"
-              title="Permalink to PolymerAjax.copyInstanceAttributes">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.copyInstanceAttributes">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void copyInstanceAttributes() {
@@ -2801,7 +2552,7 @@ void copyInstanceAttributes() {
 <div class="method inherited"><h4 id="createFragment">
 <button class="show-code">Code</button>
 DocumentFragment <strong>createFragment</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#createFragment"
-              title="Permalink to PolymerAjax.createFragment">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.createFragment">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Create a DocumentFragment from the HTML fragment and ensure that it follows
 the sanitization rules specified by the validator or treeSanitizer.</p>
@@ -2879,7 +2630,7 @@ DocumentFragment createFragment(String html,
 <div class="method inherited"><h4 id="createShadowRoot">
 <button class="show-code">Code</button>
 ShadowRoot <strong>createShadowRoot</strong>() <a class="anchor-link" href="#createShadowRoot"
-              title="Permalink to PolymerAjax.createShadowRoot">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.createShadowRoot">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Creates a new shadow root for this shadow host.</p>
 <h2>Other resources</h2><ul><li>
@@ -2901,7 +2652,7 @@ ShadowRoot createShadowRoot() {
 <div class="method inherited"><h4 id="deliverChanges">
 <button class="show-code">Code</button>
 bool <strong>deliverChanges</strong>() <a class="anchor-link" href="#deliverChanges"
-              title="Permalink to PolymerAjax.deliverChanges">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.deliverChanges">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
 <p>Synchronously deliver pending <a class="crossref" href="../observe.src.observable/Observable.html#changes">changes</a>. Returns true if any records were
 delivered, otherwise false.</p>
@@ -2934,7 +2685,7 @@ bool deliverChanges() {
 <div class="method inherited"><h4 id="deserializeValue">
 <button class="show-code">Code</button>
 Object <strong>deserializeValue</strong>(String value, Object currentValue, TypeMirror type) <a class="anchor-link" href="#deserializeValue"
-              title="Permalink to PolymerAjax.deserializeValue">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.deserializeValue">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Convert representation of 
 <span class="param">value</span> based on 
@@ -2949,7 +2700,7 @@ Object deserializeValue(String value, Object currentValue, TypeMirror type) =&gt
 <div class="method inherited"><h4 id="dispatchEvent">
 <button class="show-code">Code</button>
 bool <strong>dispatchEvent</strong>(Event event) <a class="anchor-link" href="#dispatchEvent"
-              title="Permalink to PolymerAjax.dispatchEvent">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.dispatchEvent')
@@ -2961,7 +2712,7 @@ bool dispatchEvent(Event event) native;
 <div class="method inherited"><h4 id="dispatchMethod">
 <button class="show-code">Code</button>
 void <strong>dispatchMethod</strong>(object, callbackOrMethod, List args) <a class="anchor-link" href="#dispatchMethod"
-              title="Permalink to PolymerAjax.dispatchMethod">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.dispatchMethod">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Calls <code>methodOrCallback</code> with 
 <span class="param">args</span> if it is a closure, otherwise, treat
@@ -2988,7 +2739,7 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 <div class="method inherited"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
-              title="Permalink to PolymerAjax.enteredView">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.enteredView">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
@@ -3007,7 +2758,7 @@ void enteredView() {
 <div class="method inherited"><h4 id="fetchTemplate">
 <button class="show-code">Code</button>
 Element <strong>fetchTemplate</strong>(Element elementElement) <a class="anchor-link" href="#fetchTemplate"
-              title="Permalink to PolymerAjax.fetchTemplate">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.fetchTemplate">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Return a shadow-root template (if desired), override for custom behavior.</p>
 <pre class="source">
@@ -3019,7 +2770,7 @@ Element fetchTemplate(Element elementElement) =&gt;
 <div class="method inherited"><h4 id="findEventDelegate">
 <button class="show-code">Code</button>
 String <strong>findEventDelegate</strong>(Event event) <a class="anchor-link" href="#findEventDelegate"
-              title="Permalink to PolymerAjax.findEventDelegate">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.findEventDelegate">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 String findEventDelegate(Event event) =&gt;
@@ -3030,7 +2781,7 @@ String findEventDelegate(Event event) =&gt;
 <div class="method inherited"><h4 id="findStyleController">
 <button class="show-code">Code</button>
 Node <strong>findStyleController</strong>() <a class="anchor-link" href="#findStyleController"
-              title="Permalink to PolymerAjax.findStyleController">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.findStyleController">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 Node findStyleController() {
@@ -3051,7 +2802,7 @@ Node findStyleController() {
 <div class="method inherited"><h4 id="fire">
 <button class="show-code">Code</button>
 Object <strong>fire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#fire"
-              title="Permalink to PolymerAjax.fire">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.fire">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Fire a <a class="crossref" href="../dart_html/CustomEvent.html">CustomEvent</a> targeting 
 <span class="param">toNode</span>, or this if toNode is not
@@ -3074,7 +2825,7 @@ Object fire(String type, {Object detail, Node toNode, bool canBubble}) {
 <div class="method inherited"><h4 id="focus">
 <button class="show-code">Code</button>
 void <strong>focus</strong>() <a class="anchor-link" href="#focus"
-              title="Permalink to PolymerAjax.focus">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.focus">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.focus')
@@ -3086,7 +2837,7 @@ void focus() native;
 <div class="method inherited"><h4 id="getAttribute">
 <button class="show-code">Code</button>
 String <strong>getAttribute</strong>(String name) <a class="anchor-link" href="#getAttribute"
-              title="Permalink to PolymerAjax.getAttribute">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getAttribute">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getAttribute')
@@ -3099,7 +2850,7 @@ String getAttribute(String name) native;
 <div class="method inherited"><h4 id="getAttributeNS">
 <button class="show-code">Code</button>
 String <strong>getAttributeNS</strong>(String namespaceURI, String localName) <a class="anchor-link" href="#getAttributeNS"
-              title="Permalink to PolymerAjax.getAttributeNS">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getAttributeNS">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getAttributeNS')
@@ -3112,7 +2863,7 @@ String getAttributeNS(String namespaceURI, String localName) native;
 <div class="method inherited"><h4 id="getBoundingClientRect">
 <button class="show-code">Code</button>
 Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
-              title="Permalink to PolymerAjax.getBoundingClientRect">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getBoundingClientRect">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The smallest bounding rectangle that encompasses this element's padding,
 scrollbar, and border.</p>
@@ -3130,7 +2881,7 @@ Rectangle getBoundingClientRect() native;
 <div class="method inherited"><h4 id="getClientRects">
 <button class="show-code">Code</button>
 List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
-              title="Permalink to PolymerAjax.getClientRects">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getClientRects">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A list of bounding rectangles for each box associated with this element.</p>
 <h2>Other resources</h2><ul><li>
@@ -3149,7 +2900,7 @@ List&lt;Rectangle&gt; getClientRects() native;
 <div class="method inherited"><h4 id="getComputedStyle">
 <button class="show-code">Code</button>
 CssStyleDeclaration <strong>getComputedStyle</strong>([String pseudoElement]) <a class="anchor-link" href="#getComputedStyle"
-              title="Permalink to PolymerAjax.getComputedStyle">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getComputedStyle">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The set of all CSS values applied to this element, including inherited
 and default values.</p>
@@ -3174,7 +2925,7 @@ CssStyleDeclaration getComputedStyle([String pseudoElement]) {
 <div class="method inherited"><h4 id="getDestinationInsertionPoints">
 <button class="show-code">Code</button>
 List&lt;Node&gt; <strong>getDestinationInsertionPoints</strong>() <a class="anchor-link" href="#getDestinationInsertionPoints"
-              title="Permalink to PolymerAjax.getDestinationInsertionPoints">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getDestinationInsertionPoints">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getDestinationInsertionPoints')
@@ -3189,7 +2940,7 @@ List&lt;Node&gt; getDestinationInsertionPoints() native;
 <div class="method inherited"><h4 id="getElementsByClassName">
 <button class="show-code">Code</button>
 List&lt;Node&gt; <strong>getElementsByClassName</strong>(String name) <a class="anchor-link" href="#getElementsByClassName"
-              title="Permalink to PolymerAjax.getElementsByClassName">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getElementsByClassName">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getElementsByClassName')
@@ -3203,7 +2954,7 @@ List&lt;Node&gt; getElementsByClassName(String name) native;
 <div class="method inherited"><h4 id="getNamespacedAttributes">
 <button class="show-code">Code</button>
 Map&lt;String, String&gt; <strong>getNamespacedAttributes</strong>(String namespace) <a class="anchor-link" href="#getNamespacedAttributes"
-              title="Permalink to PolymerAjax.getNamespacedAttributes">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getNamespacedAttributes">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets a map for manipulating the attributes of a particular namespace.</p>
 <p>This is primarily useful for SVG attributes such as xref:link.</p>
@@ -3217,7 +2968,7 @@ Map&lt;String, String&gt; getNamespacedAttributes(String namespace) {
 <div class="method inherited"><h4 id="getRegionFlowRanges">
 <button class="show-code">Code</button>
 List&lt;Range&gt; <strong>getRegionFlowRanges</strong>() <a class="anchor-link" href="#getRegionFlowRanges"
-              title="Permalink to PolymerAjax.getRegionFlowRanges">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getRegionFlowRanges">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @JSName('webkitGetRegionFlowRanges')
@@ -3236,7 +2987,7 @@ List&lt;Range&gt; getRegionFlowRanges() native;
 <div class="method inherited"><h4 id="getShadowRoot">
 <button class="show-code">Code</button>
 ShadowRoot <strong>getShadowRoot</strong>(String customTagName) <a class="anchor-link" href="#getShadowRoot"
-              title="Permalink to PolymerAjax.getShadowRoot">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.getShadowRoot">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Gets the shadow root associated with the corresponding custom element.</p>
 <p>This is identical to <code>shadowRoot</code>, unless there are multiple levels of
@@ -3248,32 +2999,18 @@ ShadowRoot getShadowRoot(String customTagName) =&gt; _shadowRoots[customTagName]
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="go">
+<div class="method"><h4 id="handleClick">
 <button class="show-code">Code</button>
-dynamic <strong>go</strong>() <a class="anchor-link" href="#go"
-              title="Permalink to PolymerAjax.go">#</a></h4>
+void <strong>handleClick</strong>([e]) <a class="anchor-link" href="#handleClick"
+              title="Permalink to PolymerCollapseToggle.handleClick">#</a></h4>
 <div class="doc">
-<p>Performs an Ajax request to the url specified.</p>
-<p>@method go</p>
 <pre class="source">
-go() {
- // TODO polymer.js has something a line
- // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
- // anything it does or what the dart equiavlent would be.
- //
- var args = {};
- args['params'] = this.params != null ? this.params : null;
- if (args['params'] is String &amp;&amp; args['params'].isNotEmpty) {
-   args['params'] = JSON.decode(args['params']);
+void handleClick([e]) {
+ _logger.finest("handleClick '${target}'");
+ var t = (document.querySelector(target) as PolymerCollapse);
+ if (t != null) {
+   t.toggle();
  }
- args['callback'] = this._receive;
- args['url'] = this.url;
- args['method'] = this.method;
- 
- //(egrimes) TODO polymer.js returns 'args.url &amp;&amp; this.xhr.request(args)' 
- //which makes absolutely no sense to me.  Replicating the closest thing
- //I can think of for now
- return args.containsKey('url') &amp;&amp; this._xhr.request(args) != null;
 }
 </pre>
 </div>
@@ -3281,7 +3018,7 @@ go() {
 <div class="method inherited"><h4 id="hasChildNodes">
 <button class="show-code">Code</button>
 bool <strong>hasChildNodes</strong>() <a class="anchor-link" href="#hasChildNodes"
-              title="Permalink to PolymerAjax.hasChildNodes">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.hasChildNodes">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
 @DomName('Node.hasChildNodes')
@@ -3293,7 +3030,7 @@ bool hasChildNodes() native;
 <div class="method inherited"><h4 id="hostEventListener">
 <button class="show-code">Code</button>
 void <strong>hostEventListener</strong>(Event event) <a class="anchor-link" href="#hostEventListener"
-              title="Permalink to PolymerAjax.hostEventListener">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.hostEventListener">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void hostEventListener(Event event) {
@@ -3325,7 +3062,7 @@ void hostEventListener(Event event) {
 <div class="method inherited"><h4 id="insertAdjacentElement">
 <button class="show-code">Code</button>
 Element <strong>insertAdjacentElement</strong>(String where, Element element) <a class="anchor-link" href="#insertAdjacentElement"
-              title="Permalink to PolymerAjax.insertAdjacentElement">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.insertAdjacentElement">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Inserts 
 <span class="param">element</span> into the DOM at the specified location.</p>
@@ -3348,7 +3085,7 @@ Element insertAdjacentElement(String where, Element element) {
 <div class="method inherited"><h4 id="insertAdjacentHtml">
 <button class="show-code">Code</button>
 void <strong>insertAdjacentHtml</strong>(String where, String html) <a class="anchor-link" href="#insertAdjacentHtml"
-              title="Permalink to PolymerAjax.insertAdjacentHtml">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.insertAdjacentHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses text as an HTML fragment and inserts it into the DOM at the
 specified location.</p>
@@ -3375,7 +3112,7 @@ void insertAdjacentHtml(String where, String html) {
 <div class="method inherited"><h4 id="insertAdjacentText">
 <button class="show-code">Code</button>
 void <strong>insertAdjacentText</strong>(String where, String text) <a class="anchor-link" href="#insertAdjacentText"
-              title="Permalink to PolymerAjax.insertAdjacentText">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.insertAdjacentText">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Inserts text into the DOM at the specified location.</p>
 <p>To see the possible values for 
@@ -3396,7 +3133,7 @@ void insertAdjacentText(String where, String text) {
 <div class="method inherited"><h4 id="insertAllBefore">
 <button class="show-code">Code</button>
 Node <strong>insertAllBefore</strong>(Iterable&lt;Node&gt; newNodes, Node refChild) <a class="anchor-link" href="#insertAllBefore"
-              title="Permalink to PolymerAjax.insertAllBefore">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.insertAllBefore">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Inserts all of the nodes into this node directly before refChild.</p>
 <p>See also:</p><ul><li><a class="crossref" href="../dart_html/Node.html#insertBefore">insertBefore</a></li></ul>
@@ -3424,7 +3161,7 @@ Node insertAllBefore(Iterable&lt;Node&gt; newNodes, Node refChild) {
 <div class="method inherited"><h4 id="insertBefore">
 <button class="show-code">Code</button>
 Node <strong>insertBefore</strong>(Node newChild, Node refChild) <a class="anchor-link" href="#insertBefore"
-              title="Permalink to PolymerAjax.insertBefore">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.insertBefore">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <pre class="source">
 @DomName('Node.insertBefore')
@@ -3436,7 +3173,7 @@ Node insertBefore(Node newChild, Node refChild) native;
 <div class="method inherited"><h4 id="installControllerStyles">
 <button class="show-code">Code</button>
 void <strong>installControllerStyles</strong>() <a class="anchor-link" href="#installControllerStyles"
-              title="Permalink to PolymerAjax.installControllerStyles">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.installControllerStyles">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Installs external stylesheets and &lt;style> elements with the attribute
 polymer-scope='controller' into the scope of element. This is intended
@@ -3476,7 +3213,7 @@ void installControllerStyles() {
 <div class="method inherited"><h4 id="instanceTemplate">
 <button class="show-code">Code</button>
 DocumentFragment <strong>instanceTemplate</strong>(Element template) <a class="anchor-link" href="#instanceTemplate"
-              title="Permalink to PolymerAjax.instanceTemplate">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.instanceTemplate">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Creates the document fragment to use for each instance of the custom
 element, given the <code>&lt;template&gt;</code> node. By default this is equivalent to:</p>
@@ -3496,7 +3233,7 @@ DocumentFragment instanceTemplate(Element template) =&gt;
 <div class="method inherited"><h4 id="invokeMethod">
 <button class="show-code">Code</button>
 dynamic <strong>invokeMethod</strong>(Symbol methodName, List args) <a class="anchor-link" href="#invokeMethod"
-              title="Permalink to PolymerAjax.invokeMethod">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.invokeMethod">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Call 
 <span class="param">methodName</span> method on this object with 
@@ -3510,7 +3247,7 @@ invokeMethod(Symbol methodName, List args) =&gt;
 <div class="method inherited"><h4 id="leftView">
 <button class="show-code">Code</button>
 void <strong>leftView</strong>() <a class="anchor-link" href="#leftView"
-              title="Permalink to PolymerAjax.leftView">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.leftView">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been removed from the live
@@ -3526,7 +3263,7 @@ void leftView() {
 <div class="method inherited"><h4 id="lightFromTemplate">
 <button class="show-code">Code</button>
 Node <strong>lightFromTemplate</strong>(Element template) <a class="anchor-link" href="#lightFromTemplate"
-              title="Permalink to PolymerAjax.lightFromTemplate">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.lightFromTemplate">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Utility function that stamps a <code>&lt;template&gt;</code> into light-dom.</p>
 <pre class="source">
@@ -3550,7 +3287,7 @@ Node lightFromTemplate(Element template) {
 <div class="method inherited"><h4 id="marshalNodeReferences">
 <button class="show-code">Code</button>
 void <strong>marshalNodeReferences</strong>(Node root) <a class="anchor-link" href="#marshalNodeReferences"
-              title="Permalink to PolymerAjax.marshalNodeReferences">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.marshalNodeReferences">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Locate nodes with id and store references to them in <code>$</code> hash. </p>
 <pre class="source">
@@ -3566,7 +3303,7 @@ void marshalNodeReferences(Node root) {
 <div class="method inherited"><h4 id="matches">
 <button class="show-code">Code</button>
 bool <strong>matches</strong>(String selectors) <a class="anchor-link" href="#matches"
-              title="Permalink to PolymerAjax.matches">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.matches">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Checks if this element matches the CSS selectors.</p>
 <pre class="source">
@@ -3592,7 +3329,7 @@ bool matches(String selectors) {
 <div class="method inherited"><h4 id="matchesWithAncestors">
 <button class="show-code">Code</button>
 bool <strong>matchesWithAncestors</strong>(String selectors) <a class="anchor-link" href="#matchesWithAncestors"
-              title="Permalink to PolymerAjax.matchesWithAncestors">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.matchesWithAncestors">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Checks if this element or any of its parents match the CSS selectors. </p>
 <pre class="source">
@@ -3611,7 +3348,7 @@ bool matchesWithAncestors(String selectors) {
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 dynamic <strong>noSuchMethod</strong>(Invocation invocation) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to PolymerAjax.noSuchMethod">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.noSuchMethod">#</a></h4>
 <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
 <p><a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is invoked when users invoke a non-existent method
@@ -3636,7 +3373,7 @@ dynamic noSuchMethod(Invocation invocation) {
 <div class="method inherited"><h4 id="notifyChange">
 <button class="show-code">Code</button>
 void <strong>notifyChange</strong>(ChangeRecord record) <a class="anchor-link" href="#notifyChange"
-              title="Permalink to PolymerAjax.notifyChange">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.notifyChange">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
 <p>Notify observers of a change.</p>
 <p>For most objects <a class="crossref" href="../observe.src.observable/Observable.html#notifyPropertyChange">Observable.notifyPropertyChange</a> is more convenient, but
@@ -3660,7 +3397,7 @@ void notifyChange(ChangeRecord record) {
 <div class="method inherited"><h4 id="notifyPropertyChange">
 <button class="show-code">Code</button>
 dynamic <strong>notifyPropertyChange</strong>(Symbol field, Object oldValue, Object newValue) <a class="anchor-link" href="#notifyPropertyChange"
-              title="Permalink to PolymerAjax.notifyPropertyChange">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.notifyPropertyChange">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer+Observable </div><div class="doc">
 <p>Notify that the field <code>name</code> of this object has been changed.</p>
 <p>The 
@@ -3678,7 +3415,7 @@ notifyPropertyChange(Symbol field, Object oldValue, Object newValue)
 <div class="method inherited"><h4 id="notifyPropertyChanges">
 <button class="show-code">Code</button>
 void <strong>notifyPropertyChanges</strong>(Iterable&lt;ChangeRecord&gt; changes) <a class="anchor-link" href="#notifyPropertyChanges"
-              title="Permalink to PolymerAjax.notifyPropertyChanges">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.notifyPropertyChanges">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Responds to property changes on this element. </p>
 <pre class="source">
@@ -3718,7 +3455,7 @@ void notifyPropertyChanges(Iterable&lt;ChangeRecord&gt; changes) {
 <div class="method inherited"><h4 id="observeArrayValue">
 <button class="show-code">Code</button>
 void <strong>observeArrayValue</strong>(Symbol name, Object value, Object old) <a class="anchor-link" href="#observeArrayValue"
-              title="Permalink to PolymerAjax.observeArrayValue">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.observeArrayValue">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void observeArrayValue(Symbol name, Object value, Object old) {
@@ -3756,7 +3493,7 @@ void observeArrayValue(Symbol name, Object value, Object old) {
 <div class="method inherited"><h4 id="observeProperties">
 <button class="show-code">Code</button>
 void <strong>observeProperties</strong>() <a class="anchor-link" href="#observeProperties"
-              title="Permalink to PolymerAjax.observeProperties">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.observeProperties">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Set up property observers. </p>
 <pre class="source">
@@ -3784,7 +3521,7 @@ void observeProperties() {
 <div class="method inherited"><h4 id="offsetTo">
 <button class="show-code">Code</button>
 Point <strong>offsetTo</strong>(Element parent) <a class="anchor-link" href="#offsetTo"
-              title="Permalink to PolymerAjax.offsetTo">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.offsetTo">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Provides the offset of this element's <a class="crossref" href="../dart_html/Element.html#borderEdge">borderEdge</a> relative to the
 specified 
@@ -3807,7 +3544,7 @@ Point offsetTo(Element parent) {
 <div class="method inherited"><h4 id="onMutation">
 <button class="show-code">Code</button>
 Future&lt;List&lt;MutationRecord&gt;&gt; <strong>onMutation</strong>(Node node) <a class="anchor-link" href="#onMutation"
-              title="Permalink to PolymerAjax.onMutation">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.onMutation">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Returns a future when <code>node</code> changes, or when its children or subtree
 changes.</p>
@@ -3824,22 +3561,10 @@ Future&lt;List&lt;MutationRecord&gt;&gt; onMutation(Node node) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="paramsChanged">
-<button class="show-code">Code</button>
-dynamic <strong>paramsChanged</strong>(old) <a class="anchor-link" href="#paramsChanged"
-              title="Permalink to PolymerAjax.paramsChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-paramsChanged(old) {
- this._autoGo();
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="parseDeclaration">
 <button class="show-code">Code</button>
 void <strong>parseDeclaration</strong>(Element elementElement) <a class="anchor-link" href="#parseDeclaration"
-              title="Permalink to PolymerAjax.parseDeclaration">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.parseDeclaration">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Parse input <code>&lt;polymer-element&gt;</code> as needed, override for custom behavior.</p>
 <pre class="source">
@@ -3868,7 +3593,7 @@ void parseDeclaration(Element elementElement) {
 <div class="method inherited"><h4 id="parseDeclarations">
 <button class="show-code">Code</button>
 void <strong>parseDeclarations</strong>(PolymerDeclaration declaration) <a class="anchor-link" href="#parseDeclarations"
-              title="Permalink to PolymerAjax.parseDeclarations">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.parseDeclarations">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Recursive ancestral &lt;element> initialization, oldest first. </p>
 <pre class="source">
@@ -3884,7 +3609,7 @@ void parseDeclarations(PolymerDeclaration declaration) {
 <div class="method inherited"><h4 id="polymerCreated">
 <button class="show-code">Code</button>
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
-              title="Permalink to PolymerAjax.polymerCreated">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.polymerCreated">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void polymerCreated() {
@@ -3899,7 +3624,7 @@ void polymerCreated() {
 <div class="method inherited"><h4 id="prepareElement">
 <button class="show-code">Code</button>
 void <strong>prepareElement</strong>() <a class="anchor-link" href="#prepareElement"
-              title="Permalink to PolymerAjax.prepareElement">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.prepareElement">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void prepareElement() {
@@ -3929,7 +3654,7 @@ void prepareElement() {
 <div class="method inherited"><h4 id="propertyForAttribute">
 <button class="show-code">Code</button>
 DeclarationMirror <strong>propertyForAttribute</strong>(String name) <a class="anchor-link" href="#propertyForAttribute"
-              title="Permalink to PolymerAjax.propertyForAttribute">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.propertyForAttribute">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Return the published property matching name, or null. </p>
 <pre class="source">
@@ -3945,7 +3670,7 @@ DeclarationMirror propertyForAttribute(String name) {
 <div class="method inherited"><h4 id="query">
 <button class="show-code">Code</button>
 Element <strong>query</strong>(String relativeSelectors) <a class="anchor-link" href="#query"
-              title="Permalink to PolymerAjax.query">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.query">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelector">querySelector</a>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
@@ -3960,7 +3685,7 @@ Element query(String relativeSelectors) =&gt; querySelector(relativeSelectors);
 <div class="method inherited"><h4 id="queryAll">
 <button class="show-code">Code</button>
 ElementList <strong>queryAll</strong>(String relativeSelectors) <a class="anchor-link" href="#queryAll"
-              title="Permalink to PolymerAjax.queryAll">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.queryAll">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelectorAll">querySelectorAll</a>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
@@ -3976,7 +3701,7 @@ ElementList queryAll(String relativeSelectors) =&gt;
 <div class="method inherited"><h4 id="querySelector">
 <button class="show-code">Code</button>
 Element <strong>querySelector</strong>(String selectors) <a class="anchor-link" href="#querySelector"
-              title="Permalink to PolymerAjax.querySelector">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.querySelector">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Finds the first descendant element of this element that matches the
 specified group of selectors.</p>
@@ -4000,7 +3725,7 @@ Element querySelector(String selectors) native;
 <div class="method inherited"><h4 id="querySelectorAll">
 <button class="show-code">Code</button>
 ElementList <strong>querySelectorAll</strong>(String selectors) <a class="anchor-link" href="#querySelectorAll"
-              title="Permalink to PolymerAjax.querySelectorAll">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.querySelectorAll">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Finds all descendent elements of this element that match the specified
 group of selectors.</p>
@@ -4015,26 +3740,21 @@ ElementList querySelectorAll(String selectors) =&gt;
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="ready">
+<div class="method inherited"><h4 id="ready">
 <button class="show-code">Code</button>
-dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
-              title="Permalink to PolymerAjax.ready">#</a></h4>
-<div class="doc">
-<div class="inherited">
+void <strong>ready</strong>() <a class="anchor-link" href="#ready"
+              title="Permalink to PolymerCollapseToggle.ready">#</a></h4>
+<div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Called when <a class="crossref" href="../polymer/Polymer.html#prepareElement">prepareElement</a> is finished. </p>
-<div class="docs-inherited-from">docs inherited from HtmlElement+Polymer </div></div>
 <pre class="source">
-ready() {
- super.ready();
- this._xhr = this.ownerDocument.createElement('polymer-xhr');
-}
+void ready() {}
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="reflectPropertyToAttribute">
 <button class="show-code">Code</button>
 void <strong>reflectPropertyToAttribute</strong>(Symbol name) <a class="anchor-link" href="#reflectPropertyToAttribute"
-              title="Permalink to PolymerAjax.reflectPropertyToAttribute">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.reflectPropertyToAttribute">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void reflectPropertyToAttribute(Symbol name) {
@@ -4062,7 +3782,7 @@ void reflectPropertyToAttribute(Symbol name) {
 <div class="method inherited"><h4 id="registerObserver">
 <button class="show-code">Code</button>
 void <strong>registerObserver</strong>(String name, StreamSubscription sub) <a class="anchor-link" href="#registerObserver"
-              title="Permalink to PolymerAjax.registerObserver">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.registerObserver">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Bookkeeping observers for memory management. </p>
 <pre class="source">
@@ -4078,7 +3798,7 @@ void registerObserver(String name, StreamSubscription sub) {
 <div class="method inherited"><h4 id="remove">
 <button class="show-code">Code</button>
 void <strong>remove</strong>() <a class="anchor-link" href="#remove"
-              title="Permalink to PolymerAjax.remove">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.remove">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Removes this node from the DOM.</p>
 <pre class="source">
@@ -4097,7 +3817,7 @@ void remove() {
 <div class="method inherited"><h4 id="removeEventListener">
 <button class="show-code">Code</button>
 void <strong>removeEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#removeEventListener"
-              title="Permalink to PolymerAjax.removeEventListener">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.removeEventListener">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.removeEventListener')
@@ -4109,7 +3829,7 @@ void removeEventListener(String type, EventListener listener, [bool useCapture])
 <div class="method inherited"><h4 id="replaceWith">
 <button class="show-code">Code</button>
 Node <strong>replaceWith</strong>(Node otherNode) <a class="anchor-link" href="#replaceWith"
-              title="Permalink to PolymerAjax.replaceWith">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.replaceWith">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Replaces this node with another node.</p>
 <pre class="source">
@@ -4129,7 +3849,7 @@ Node replaceWith(Node otherNode) {
 <div class="method inherited"><h4 id="requestFullscreen">
 <button class="show-code">Code</button>
 void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestFullscreen"
-              title="Permalink to PolymerAjax.requestFullscreen">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.requestFullscreen">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @JSName('webkitRequestFullscreen')
@@ -4146,7 +3866,7 @@ void requestFullscreen() native;
 <div class="method inherited"><h4 id="requestPointerLock">
 <button class="show-code">Code</button>
 void <strong>requestPointerLock</strong>() <a class="anchor-link" href="#requestPointerLock"
-              title="Permalink to PolymerAjax.requestPointerLock">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.requestPointerLock">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @JSName('webkitRequestPointerLock')
@@ -4163,7 +3883,7 @@ void requestPointerLock() native;
 <div class="method inherited"><h4 id="scopeHasElementStyle">
 <button class="show-code">Code</button>
 bool <strong>scopeHasElementStyle</strong>(scope, descriptor) <a class="anchor-link" href="#scopeHasElementStyle"
-              title="Permalink to PolymerAjax.scopeHasElementStyle">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.scopeHasElementStyle">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 bool scopeHasElementStyle(scope, descriptor) {
@@ -4176,7 +3896,7 @@ bool scopeHasElementStyle(scope, descriptor) {
 <div class="method inherited"><h4 id="scrollByLines">
 <button class="show-code">Code</button>
 void <strong>scrollByLines</strong>(int lines) <a class="anchor-link" href="#scrollByLines"
-              title="Permalink to PolymerAjax.scrollByLines">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.scrollByLines">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.scrollByLines')
@@ -4188,7 +3908,7 @@ void scrollByLines(int lines) native;
 <div class="method inherited"><h4 id="scrollByPages">
 <button class="show-code">Code</button>
 void <strong>scrollByPages</strong>(int pages) <a class="anchor-link" href="#scrollByPages"
-              title="Permalink to PolymerAjax.scrollByPages">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.scrollByPages">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.scrollByPages')
@@ -4200,7 +3920,7 @@ void scrollByPages(int pages) native;
 <div class="method inherited"><h4 id="scrollIntoView">
 <button class="show-code">Code</button>
 void <strong>scrollIntoView</strong>([ScrollAlignment alignment]) <a class="anchor-link" href="#scrollIntoView"
-              title="Permalink to PolymerAjax.scrollIntoView">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.scrollIntoView">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Scrolls this element into view.</p>
 <p>Only one of of the alignment options may be specified at a time.</p>
@@ -4235,7 +3955,7 @@ void scrollIntoView([ScrollAlignment alignment]) {
 <div class="method inherited"><h4 id="serializeValue">
 <button class="show-code">Code</button>
 String <strong>serializeValue</strong>(Object value) <a class="anchor-link" href="#serializeValue"
-              title="Permalink to PolymerAjax.serializeValue">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.serializeValue">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 String serializeValue(Object value) {
@@ -4254,7 +3974,7 @@ String serializeValue(Object value) {
 <div class="method inherited"><h4 id="setAttribute">
 <button class="show-code">Code</button>
 void <strong>setAttribute</strong>(String name, String value) <a class="anchor-link" href="#setAttribute"
-              title="Permalink to PolymerAjax.setAttribute">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.setAttribute">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.setAttribute')
@@ -4266,7 +3986,7 @@ void setAttribute(String name, String value) native;
 <div class="method inherited"><h4 id="setAttributeNS">
 <button class="show-code">Code</button>
 void <strong>setAttributeNS</strong>(String namespaceURI, String qualifiedName, String value) <a class="anchor-link" href="#setAttributeNS"
-              title="Permalink to PolymerAjax.setAttributeNS">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.setAttributeNS">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.setAttributeNS')
@@ -4278,7 +3998,7 @@ void setAttributeNS(String namespaceURI, String qualifiedName, String value) nat
 <div class="method inherited"><h4 id="setInnerHtml">
 <button class="show-code">Code</button>
 void <strong>setInnerHtml</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#setInnerHtml"
-              title="Permalink to PolymerAjax.setInnerHtml">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.setInnerHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the HTML fragment and sets it as the contents of this element.
 This ensures that the generated content follows the sanitization rules
@@ -4305,7 +4025,7 @@ void setInnerHtml(String html,
 <div class="method inherited"><h4 id="shadowFromTemplate">
 <button class="show-code">Code</button>
 ShadowRoot <strong>shadowFromTemplate</strong>(Element template) <a class="anchor-link" href="#shadowFromTemplate"
-              title="Permalink to PolymerAjax.shadowFromTemplate">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.shadowFromTemplate">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <p>Utility function that creates a shadow root from a <code>&lt;template&gt;</code>.</p>
 <p>The base implementation will return a <a class="crossref" href="../dart_html/ShadowRoot.html">ShadowRoot</a>, but you can replace it
@@ -4349,7 +4069,7 @@ ShadowRoot shadowFromTemplate(Element template) {
 <div class="method inherited"><h4 id="shadowRootReady">
 <button class="show-code">Code</button>
 void <strong>shadowRootReady</strong>(Node root, Element template) <a class="anchor-link" href="#shadowRootReady"
-              title="Permalink to PolymerAjax.shadowRootReady">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.shadowRootReady">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void shadowRootReady(Node root, Element template) {
@@ -4365,7 +4085,7 @@ void shadowRootReady(Node root, Element template) {
 <div class="method inherited"><h4 id="takeAttributes">
 <button class="show-code">Code</button>
 void <strong>takeAttributes</strong>() <a class="anchor-link" href="#takeAttributes"
-              title="Permalink to PolymerAjax.takeAttributes">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.takeAttributes">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void takeAttributes() {
@@ -4378,7 +4098,7 @@ void takeAttributes() {
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 String <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to PolymerAjax.toString">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.toString">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <div class="inherited">
 <p>Print out a String representation of this Node.</p>
@@ -4391,7 +4111,7 @@ String toString() =&gt; localName;
 <div class="method inherited"><h4 id="unbind">
 <button class="show-code">Code</button>
 void <strong>unbind</strong>(String name) <a class="anchor-link" href="#unbind"
-              title="Permalink to PolymerAjax.unbind">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unbind">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Unbinds the attribute 
@@ -4405,7 +4125,7 @@ void unbind(String name) =&gt; nodeBindFallback(this).unbind(name);
 <div class="method inherited"><h4 id="unbindAll">
 <button class="show-code">Code</button>
 void <strong>unbindAll</strong>() <a class="anchor-link" href="#unbindAll"
-              title="Permalink to PolymerAjax.unbindAll">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unbindAll">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <div class="inherited">
 <p>Unbinds all bound attributes. </p>
@@ -4430,7 +4150,7 @@ void unbindAll() {
 <div class="method inherited"><h4 id="unbindAllProperties">
 <button class="show-code">Code</button>
 void <strong>unbindAllProperties</strong>() <a class="anchor-link" href="#unbindAllProperties"
-              title="Permalink to PolymerAjax.unbindAllProperties">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unbindAllProperties">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void unbindAllProperties() {
@@ -4446,7 +4166,7 @@ void unbindAllProperties() {
 <div class="method inherited"><h4 id="unbindProperty">
 <button class="show-code">Code</button>
 bool <strong>unbindProperty</strong>(String name) <a class="anchor-link" href="#unbindProperty"
-              title="Permalink to PolymerAjax.unbindProperty">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unbindProperty">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 bool unbindProperty(String name) =&gt; unregisterObserver(name);
@@ -4456,7 +4176,7 @@ bool unbindProperty(String name) =&gt; unregisterObserver(name);
 <div class="method inherited"><h4 id="unregisterObserver">
 <button class="show-code">Code</button>
 bool <strong>unregisterObserver</strong>(String name) <a class="anchor-link" href="#unregisterObserver"
-              title="Permalink to PolymerAjax.unregisterObserver">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unregisterObserver">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 bool unregisterObserver(String name) {
@@ -4471,7 +4191,7 @@ bool unregisterObserver(String name) {
 <div class="method inherited"><h4 id="unregisterObservers">
 <button class="show-code">Code</button>
 void <strong>unregisterObservers</strong>() <a class="anchor-link" href="#unregisterObservers"
-              title="Permalink to PolymerAjax.unregisterObservers">#</a></h4>
+              title="Permalink to PolymerCollapseToggle.unregisterObservers">#</a></h4>
 <div class="inherited-from">inherited from HtmlElement+Polymer </div><div class="doc">
 <pre class="source">
 void unregisterObservers() {
@@ -4483,43 +4203,12 @@ void unregisterObservers() {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="urlChanged">
-<button class="show-code">Code</button>
-dynamic <strong>urlChanged</strong>(old) <a class="anchor-link" href="#urlChanged"
-              title="Permalink to PolymerAjax.urlChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-urlChanged(old){
- if (this.handleAs.isEmpty) {
-   var split = this.url.split('.');
-   var ext;
-   if(split.isNotEmpty){
-     ext = split.last;
-   }else {
-     ext = 'text';
-   }
-   switch (ext) {
-     case 'json':
-       this.handleAs = 'json';
-       break;
-     case 'xml':
-       this.handleAs = 'xml';
-       break;
-     default:
-       this.handleAs = 'text';
-   }
- }
- this._autoGo();
-}
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-04 18:04:32.396</div>
+          <div>This page was generated at 2013-11-04 18:04:33.335</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
