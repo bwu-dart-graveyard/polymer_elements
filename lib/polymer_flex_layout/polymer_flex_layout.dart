@@ -116,6 +116,7 @@ class PolymerFlexLayout extends PolymerElement {
     // TODO this should become redundant when the domspec is more complete
     // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
     this.installControllerStyles();
+    throw "something";
   }
   
   @override
