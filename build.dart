@@ -10,6 +10,7 @@ var entryPoints = [
                       'web/polymer_collapse.html',
                       'web/polymer_flex_layout.html',
                       'web/polymer_localstorage.html',
+                      'web/polymer_media_query.html',
                       'web/polymer_selection.html',
                       'web/polymer_selector.html',
 
@@ -19,6 +20,7 @@ var entryPoints = [
                       'example/polymer_collapse.html',
                       'example/polymer_flex_layout.html',
                       'example/polymer_localstorage.html',
+                      'example/polymer_media_query.html,
                       'example/polymer_selection.html',
                       'example/polymer_selector.html',
 */                      

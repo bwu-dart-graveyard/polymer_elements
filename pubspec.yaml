@@ -25,6 +25,7 @@ transformers:
     - web/polymer_collapse.html
     - web/polymer_flex_layout.html
     - web/polymer_localstorage.html
+    - web/polymer_media_query.html
     - web/polymer_selection.html
     - web/polymer_selector.html
 #    - example/polymer_ajax.html
@@ -33,6 +34,7 @@ transformers:
 #    - example/polymer_collapse.html
 #    - example/polymer_flex_layout.html
 #    - example/polymer_localstorage.html
+#    - web/polymer_media_query.html
 #    - example/polymer_selection.html
 #    - example/polymer_selector.html
     - test/polymer_collapse.html

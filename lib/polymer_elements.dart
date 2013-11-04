@@ -17,7 +17,7 @@ export 'polymer_flex_layout/polymer_flex_layout.dart';
 // export 'polymer_key_helper/polymer_key_helper.dart'; 
 // export 'polymer_layout/polymer_layout.dart'; 
 export 'polymer_localstorage/polymer_localstorage.dart'; 
-// export 'polymer_media_query/polymer_media_query.dart'; 
+export 'polymer_media_query/polymer_media_query.dart'; 
 // export 'polymer_meta/polymer_meta.dart'; 
 // export 'polymer_mock_data/polymer_mock_data.dart'; 
 //export 'polymer_overlay/polymer_overlay.dart'; 
