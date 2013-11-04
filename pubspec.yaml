@@ -9,23 +9,31 @@ description: >
 homepage: https://github.com/ErikGrimes/polymer_elements
 documentation: http://erikgrimes.github.io/polymer_elements/docs/index.html
 environment:
-  sdk: '>=0.8.9 <0.8.11'
+  sdk: '>=0.8.10 <0.8.11'
 dependencies:
   polymer: any
   polymer_ui_elements: any
+    #path: ../polymer_ui_elements
 dev_dependencies:
   unittest: any
 transformers:
 - polymer:
     entry_points:
-    - example/ajax_example.html
-    - example/polymer_ajax_demo.html
-    - example/polymer_anchor_point.html
-    - example/polymer_animation.html
-    - example/polymer_collapse.html
-    - example/polymer_flex_layout.html
-    - example/polymer_selection_demo.html
-    - example/polymer_selector_demo.html
-    - example/selection_example.html
-    - example/selector_examples.html
+    - web/polymer_ajax.html
+    - web/polymer_anchor_point.html
+    - web/polymer_animation.html
+    - web/polymer_collapse.html
+    - web/polymer_flex_layout.html
+    - web/polymer_localstorage.html
+    - web/polymer_selection.html
+    - web/polymer_selector.html
+#    - example/polymer_ajax.html
+#    - example/polymer_anchor_point.html
+#    - example/polymer_animation.html
+#    - example/polymer_collapse.html
+#    - example/polymer_flex_layout.html
+#    - example/polymer_localstorage.html
+#    - example/polymer_selection.html
+#    - example/polymer_selector.html
     - test/polymer_collapse.html
+    - test/polymer_localstorage.html
