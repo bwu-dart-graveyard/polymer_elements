@@ -30,9 +30,9 @@
 <div class="doc"><p>polymer-selector is used to manage a list of elements that can be selected.
 The attribute 'selected' indicates which item element is being selected.
 The attribute "multi" indicates if multiple items can be selected at once.
-Tapping on the item element fires 'polymer-activate' event. Use the
-'polymer-select' event to listen for selection changes.  
-The <a class="crossref" href="dart_html/CustomEvent.html#detail">CustomEvent.detail</a> for 'polymer-select' is map containing 'item'
+Tapping on the item element fires 'polymeractivate' event. Use the
+'polymerselect' event to listen for selection changes.  
+The <a class="crossref" href="dart_html/CustomEvent.html#detail">CustomEvent.detail</a> for 'polymerselect' is a map containing 'item'
 and 'isSelected'.</p>
 <p>Example:</p>
 <pre><code>&lt;polymer-selector selected="0"&gt;
@@ -55,7 +55,7 @@ class to style the selected element.</p>
   &lt;div class="item"&gt;Item 3&lt;/div&gt;
 &lt;/polymer-selector&gt;
 </code></pre>
-<p>The polymer-selector element fires a 'polymer-select' event when an item's 
+<p>The polymer-selector element fires a 'polymerselect' event when an item's 
 selection state is changed. The <a class="crossref" href="dart_html/CustomEvent.html#detail">CustomEvent.detail</a> for the event is a map
 containing 'item' and 'isSelected'.</p></div>
 <div>
@@ -71,7 +71,7 @@ containing 'item' and 'isSelected'.</p></div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-03 13:43:17.165</div>
+          <div>This page was generated at 2013-11-04 17:56:18.426</div>
         </div>
         <script async src="client-live-nav.js"></script>
         </body></html>

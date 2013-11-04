@@ -34,14 +34,14 @@ uses a polymer-selection to manage selection.</p>
 <p>To mark an item as selected, call the select(item) method on 
 polymer-selection. Notice that the item itself is an argument to this method.
 The polymer-selection element manages selection state for any given set of
-items. When an item is selected, the <code>polymer-select</code> event is fired.
+items. When an item is selected, the <code>polymerselect</code> event is fired.
 The attribute "multi" indicates if multiple items can be selected at once.</p>
 <p>Example:</p>
 <pre><code>TODO
 </code></pre>
-<p>The polymer-selection element fires the 'polymer-select' event with an 
-attached <code>PolymerSelectDetail</code> when an item's selection state is changed. 
-This event is fired both when an item is selected or deselected. </p></div>
+<p>The polymer-selection element fires a 'polymerselect' event when an item's 
+selection state is changed. The <code>CustomEvent.detail</code> for the event is a map
+containing 'item' and 'isSelected'.</p></div>
 <div>
 <h3>Classes</h3>
           <div class="type">
@@ -55,7 +55,7 @@ This event is fired both when an item is selected or deselected. </p></div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-03 13:43:16.801</div>
+          <div>This page was generated at 2013-11-04 17:56:18.237</div>
         </div>
         <script async src="client-live-nav.js"></script>
         </body></html>

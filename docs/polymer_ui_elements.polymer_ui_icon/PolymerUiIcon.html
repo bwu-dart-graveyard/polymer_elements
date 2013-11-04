@@ -650,6 +650,13 @@ bool         <strong>draggable</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.draggable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Indicates whether the element can be dragged and dropped.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 bool draggable
 </pre>
@@ -662,6 +669,14 @@ String         <strong>dropzone</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.dropzone">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A set of space-separated keywords that specify what kind of data this
+Element accepts on drop and what to do with that data.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 String dropzone
 </pre>
@@ -722,6 +737,10 @@ bool         <strong>hidden</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.hidden">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Indicates whether the element is not relevant to the page's current state.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/editing.html#the-hidden-attribute">Hidden attribute specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 bool hidden
 </pre>
@@ -803,6 +822,9 @@ final InputMethodContext         <strong>inputMethodContext</strong> <a class="a
             title="Permalink to PolymerUiIcon.inputMethodContext">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The current state of IME composition.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.w3.org/TR/ime-api/">Input method editor specification</a> from W3C.</p></li></ul>
 <pre class="source">
 final InputMethodContext inputMethodContext
 </pre>
@@ -890,9 +912,12 @@ final String         <strong>namespaceUri</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.namespaceUri">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A URI that identifies the XML namespace of this element.</p>
+<p><code>null</code> if no namespace URI is specified.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-NodeNSname">Node.namespaceURI</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.namespaceUri')
-@DocsEditable()
 String get namespaceUri =&gt; _namespaceUri;
 </pre>
 </div>
@@ -1077,6 +1102,7 @@ final ElementStream&lt;Event&gt;         <strong>onAbort</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onAbort">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>abort</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onabort')
 @DocsEditable()
@@ -1091,6 +1117,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforeCopy</strong> <a class=
             title="Permalink to PolymerUiIcon.onBeforeCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>beforecopy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onbeforecopy')
 @DocsEditable()
@@ -1105,6 +1132,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforeCut</strong> <a class="
             title="Permalink to PolymerUiIcon.onBeforeCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>beforecut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onbeforecut')
 @DocsEditable()
@@ -1119,6 +1147,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforePaste</strong> <a class
             title="Permalink to PolymerUiIcon.onBeforePaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>beforepaste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onbeforepaste')
 @DocsEditable()
@@ -1133,6 +1162,7 @@ final ElementStream&lt;Event&gt;         <strong>onBlur</strong> <a class="ancho
             title="Permalink to PolymerUiIcon.onBlur">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>blur</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onblur')
 @DocsEditable()
@@ -1147,6 +1177,7 @@ final ElementStream&lt;Event&gt;         <strong>onChange</strong> <a class="anc
             title="Permalink to PolymerUiIcon.onChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>change</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onchange')
 @DocsEditable()
@@ -1161,6 +1192,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onClick</strong> <a class=
             title="Permalink to PolymerUiIcon.onClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>click</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onclick')
 @DocsEditable()
@@ -1175,6 +1207,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onContextMenu</strong> <a 
             title="Permalink to PolymerUiIcon.onContextMenu">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>contextmenu</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.oncontextmenu')
 @DocsEditable()
@@ -1189,6 +1222,7 @@ final ElementStream&lt;Event&gt;         <strong>onCopy</strong> <a class="ancho
             title="Permalink to PolymerUiIcon.onCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>copy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.oncopy')
 @DocsEditable()
@@ -1203,6 +1237,7 @@ final ElementStream&lt;Event&gt;         <strong>onCut</strong> <a class="anchor
             title="Permalink to PolymerUiIcon.onCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>cut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.oncut')
 @DocsEditable()
@@ -1217,6 +1252,7 @@ final ElementStream&lt;Event&gt;         <strong>onDoubleClick</strong> <a class
             title="Permalink to PolymerUiIcon.onDoubleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>doubleclick</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ondblclick')
 @DocsEditable()
@@ -1231,6 +1267,16 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDrag</strong> <a class="
             title="Permalink to PolymerUiIcon.onDrag">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>drag</code> events fired when this element currently being dragged.</p>
+<p>A <code>drag</code> event is added to this stream as soon as the drag begins.
+A <code>drag</code> event is also added to this stream at intervals while the drag
+operation is still ongoing.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondrag')
 @DocsEditable()
@@ -1245,6 +1291,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnd</strong> <a clas
             title="Permalink to PolymerUiIcon.onDragEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>dragend</code> events fired when this element completes a drag
+operation.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondragend')
 @DocsEditable()
@@ -1259,6 +1313,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnter</strong> <a cl
             title="Permalink to PolymerUiIcon.onDragEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>dragenter</code> events fired when a dragged object is first dragged
+over this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondragenter')
 @DocsEditable()
@@ -1273,6 +1335,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDragLeave</strong> <a cl
             title="Permalink to PolymerUiIcon.onDragLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>dragleave</code> events fired when an object being dragged over this
+element leaves this element's target area.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondragleave')
 @DocsEditable()
@@ -1287,6 +1357,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDragOver</strong> <a cla
             title="Permalink to PolymerUiIcon.onDragOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>dragover</code> events fired when a dragged object is currently
+being dragged over this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondragover')
 @DocsEditable()
@@ -1301,6 +1379,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDragStart</strong> <a cl
             title="Permalink to PolymerUiIcon.onDragStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>dragstart</code> events fired when this element starts being
+dragged.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondragstart')
 @DocsEditable()
@@ -1315,6 +1401,14 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onDrop</strong> <a class="
             title="Permalink to PolymerUiIcon.onDrop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A stream of <code>drop</code> events fired when a dragged object is dropped on this
+element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://github.com/dart-lang/dart-samples/tree/master/web/html5/dnd/basics">Drag and drop sample</a>
+based on <a href="http://www.html5rocks.com/en/tutorials/dnd/basics/">the tutorial</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/dnd.html#dnd">Drag and drop specification</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 @DomName('Element.ondrop')
 @DocsEditable()
@@ -1329,6 +1423,7 @@ final ElementStream&lt;Event&gt;         <strong>onError</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>error</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onerror')
 @DocsEditable()
@@ -1343,6 +1438,7 @@ final ElementStream&lt;Event&gt;         <strong>onFocus</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onFocus">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>focus</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onfocus')
 @DocsEditable()
@@ -1357,6 +1453,7 @@ final ElementStream&lt;Event&gt;         <strong>onFullscreenChange</strong> <a 
             title="Permalink to PolymerUiIcon.onFullscreenChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>fullscreenchange</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onwebkitfullscreenchange')
 @DocsEditable()
@@ -1373,6 +1470,7 @@ final ElementStream&lt;Event&gt;         <strong>onFullscreenError</strong> <a c
             title="Permalink to PolymerUiIcon.onFullscreenError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>fullscreenerror</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onwebkitfullscreenerror')
 @DocsEditable()
@@ -1389,6 +1487,7 @@ final ElementStream&lt;Event&gt;         <strong>onInput</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onInput">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>input</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.oninput')
 @DocsEditable()
@@ -1403,6 +1502,7 @@ final ElementStream&lt;Event&gt;         <strong>onInvalid</strong> <a class="an
             title="Permalink to PolymerUiIcon.onInvalid">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>invalid</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.oninvalid')
 @DocsEditable()
@@ -1417,6 +1517,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyDown</strong> <a c
             title="Permalink to PolymerUiIcon.onKeyDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>keydown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onkeydown')
 @DocsEditable()
@@ -1431,6 +1532,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyPress</strong> <a 
             title="Permalink to PolymerUiIcon.onKeyPress">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>keypress</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onkeypress')
 @DocsEditable()
@@ -1445,6 +1547,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyUp</strong> <a cla
             title="Permalink to PolymerUiIcon.onKeyUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>keyup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onkeyup')
 @DocsEditable()
@@ -1459,6 +1562,7 @@ final ElementStream&lt;Event&gt;         <strong>onLoad</strong> <a class="ancho
             title="Permalink to PolymerUiIcon.onLoad">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>load</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onload')
 @DocsEditable()
@@ -1473,6 +1577,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a cl
             title="Permalink to PolymerUiIcon.onMouseDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mousedown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmousedown')
 @DocsEditable()
@@ -1487,6 +1592,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseEnter</strong> <a c
             title="Permalink to PolymerUiIcon.onMouseEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mouseenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmouseenter')
 @DocsEditable()
@@ -1502,6 +1608,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseLeave</strong> <a c
             title="Permalink to PolymerUiIcon.onMouseLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mouseleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmouseleave')
 @DocsEditable()
@@ -1517,6 +1624,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseMove</strong> <a cl
             title="Permalink to PolymerUiIcon.onMouseMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mousemove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmousemove')
 @DocsEditable()
@@ -1531,6 +1639,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOut</strong> <a cla
             title="Permalink to PolymerUiIcon.onMouseOut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mouseout</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmouseout')
 @DocsEditable()
@@ -1545,6 +1654,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOver</strong> <a cl
             title="Permalink to PolymerUiIcon.onMouseOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mouseover</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmouseover')
 @DocsEditable()
@@ -1559,6 +1669,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseUp</strong> <a clas
             title="Permalink to PolymerUiIcon.onMouseUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mouseup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmouseup')
 @DocsEditable()
@@ -1573,6 +1684,7 @@ final ElementStream&lt;WheelEvent&gt;         <strong>onMouseWheel</strong> <a c
             title="Permalink to PolymerUiIcon.onMouseWheel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>mousewheel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onmousewheel')
 @DocsEditable()
@@ -1589,6 +1701,7 @@ final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onPaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>paste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onpaste')
 @DocsEditable()
@@ -1603,6 +1716,7 @@ final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anch
             title="Permalink to PolymerUiIcon.onReset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>reset</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onreset')
 @DocsEditable()
@@ -1617,6 +1731,7 @@ final ElementStream&lt;Event&gt;         <strong>onScroll</strong> <a class="anc
             title="Permalink to PolymerUiIcon.onScroll">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>scroll</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onscroll')
 @DocsEditable()
@@ -1631,6 +1746,7 @@ final ElementStream&lt;Event&gt;         <strong>onSearch</strong> <a class="anc
             title="Permalink to PolymerUiIcon.onSearch">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>search</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onsearch')
 @DocsEditable()
@@ -1647,6 +1763,7 @@ final ElementStream&lt;Event&gt;         <strong>onSelect</strong> <a class="anc
             title="Permalink to PolymerUiIcon.onSelect">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>select</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onselect')
 @DocsEditable()
@@ -1661,6 +1778,7 @@ final ElementStream&lt;Event&gt;         <strong>onSelectStart</strong> <a class
             title="Permalink to PolymerUiIcon.onSelectStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>selectstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onselectstart')
 @DocsEditable()
@@ -1676,6 +1794,7 @@ final ElementStream&lt;Event&gt;         <strong>onSubmit</strong> <a class="anc
             title="Permalink to PolymerUiIcon.onSubmit">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>submit</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.onsubmit')
 @DocsEditable()
@@ -1690,6 +1809,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchCancel</strong> <a 
             title="Permalink to PolymerUiIcon.onTouchCancel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchcancel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchcancel')
 @DocsEditable()
@@ -1706,6 +1826,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnd</strong> <a cla
             title="Permalink to PolymerUiIcon.onTouchEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchend')
 @DocsEditable()
@@ -1722,6 +1843,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnter</strong> <a c
             title="Permalink to PolymerUiIcon.onTouchEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchenter')
 @DocsEditable()
@@ -1738,6 +1860,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchLeave</strong> <a c
             title="Permalink to PolymerUiIcon.onTouchLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchleave')
 @DocsEditable()
@@ -1754,6 +1877,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchMove</strong> <a cl
             title="Permalink to PolymerUiIcon.onTouchMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchmove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchmove')
 @DocsEditable()
@@ -1770,6 +1894,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchStart</strong> <a c
             title="Permalink to PolymerUiIcon.onTouchStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>touchstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontouchstart')
 @DocsEditable()
@@ -1786,6 +1911,7 @@ final ElementStream&lt;TransitionEvent&gt;         <strong>onTransitionEnd</stro
             title="Permalink to PolymerUiIcon.onTransitionEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Stream of <code>transitionend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
 <pre class="source">
 @DomName('Element.ontransitionend')
 @DocsEditable()
@@ -1914,6 +2040,12 @@ String         <strong>pseudo</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.pseudo">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The name of this element's custom pseudo-element.</p>
+<p>This value must begin with an x and a hyphen, <code>x-</code>, to be considered valid.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom-201/#toc-custom-pseduo">Using custom pseudo elements</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.w3.org/TR/shadow-dom/#custom-pseudo-elements">Custom pseudo-elements</a> from W3C.</p></li></ul>
 <pre class="source">
 String pseudo
 </pre>
@@ -1926,6 +2058,14 @@ final String         <strong>regionOverset</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.regionOverset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The current state of this region.</p>
+<p>If <code>"empty"</code>, then there is no content in this region.
+If <code>"fit"</code>, then content fits into this region, and more content can be
+added. If <code>"overset"</code>, then there is more content than can be fit into this
+region.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/regions/adobe/">CSS regions and exclusions tutorial</a> from HTML5Rocks.</p></li><li><a href="http://html.adobe.com/webplatform/layout/regions/">Regions</a> from Adobe.</li><li>
+<p><a href="http://www.w3.org/TR/css3-regions/">CSS regions specification</a> from W3C.</p></li></ul>
 <pre class="source">
 final String regionOverset
 </pre>
@@ -2013,6 +2153,11 @@ final ShadowRoot         <strong>shadowRoot</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.shadowRoot">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The shadow root of this shadow host.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/">Shadow DOM 101</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.shadowRoot')
 @SupportedBrowser(SupportedBrowser.CHROME, '25')
@@ -2179,6 +2324,11 @@ bool         <strong>translate</strong> <a class="anchor-link"
             title="Permalink to PolymerUiIcon.translate">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Specifies whether this element's text content changes when the page is
+localized.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/elements.html#the-translate-attribute">The translate attribute</a>
+from WHATWG.</p></li></ul>
 <pre class="source">
 bool translate
 </pre>
@@ -2783,6 +2933,11 @@ DocumentFragment createFragment(String html,
 ShadowRoot <strong>createShadowRoot</strong>() <a class="anchor-link" href="#createShadowRoot"
               title="Permalink to PolymerUiIcon.createShadowRoot">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Creates a new shadow root for this shadow host.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/webcomponents/shadowdom/">Shadow DOM 101</a>
+from HTML5Rocks.</p></li><li>
+<p><a href="http://www.w3.org/TR/shadow-dom/">Shadow DOM specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.createShadowRoot')
 @SupportedBrowser(SupportedBrowser.CHROME, '25')
@@ -3011,6 +3166,12 @@ String getAttributeNS(String namespaceURI, String localName) native;
 Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
               title="Permalink to PolymerUiIcon.getBoundingClientRect">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>The smallest bounding rectangle that encompasses this element's padding,
+scrollbar, and border.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect">Element.getBoundingClientRect</a>
+from MDN.</p></li><li>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getBoundingClientRect() method</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getBoundingClientRect')
 @DocsEditable()
@@ -3023,6 +3184,11 @@ Rectangle getBoundingClientRect() native;
 List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
               title="Permalink to PolymerUiIcon.getClientRects">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>A list of bounding rectangles for each box associated with this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects">Element.getClientRects</a>
+from MDN.</p></li><li>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getClientRects() method</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getClientRects')
 @DocsEditable()
@@ -4506,7 +4672,7 @@ void validateTheme() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-03 13:43:17.958</div>
+          <div>This page was generated at 2013-11-04 17:56:19.040</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
