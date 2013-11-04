@@ -22,7 +22,7 @@ polymer-anchor-point            | ported      | has issues
 polymer-collapse                | **ported**  |
 polymer-cookie                  | not started |
 polymer-file                    | not started |
-polymer-flex-layout             | ported      |
+polymer-flex-layout             | ported      | has issues
 polymer-google-jsapi            | not started |
 polymer-grid-layout             | not started |
 polymer-jsonp                   | not started |
