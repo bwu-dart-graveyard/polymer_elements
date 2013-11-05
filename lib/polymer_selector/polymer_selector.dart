@@ -58,46 +58,51 @@ class PolymerSelector extends PolymerElement {
   /**
    * If true, multiple selections are allowed.
    */
-  
   @published
   bool multi = false;
+
   /**
    * Specifies the attribute to be used for "selected" attribute.
-  */
-  
+   */
   @published
   String valueattr = 'name';
+ 
   /**
    * Specifies the CSS class to be used to add to the selected element.
    */
   @published
   String selectedClass= 'polymer-selected';
+  
   /**
    * Specifies the property to be used to set on the selected element
    * to indicate its active state.
-  */
+   */
   @published
   String selectedProperty = 'active';
+  
   /**
    * Returns the currently selected element. In multi-selection this returns
    * an array of selected elements.
    */
   @published
   var selectedItem = null;
+  
   /**
    * In single selection, this returns the model associated with the
    * selected element.
-  */
+   */
   @published
   var selectedModel = null;
+  
   /**
    * The target element that contains items.  If this is not set 
    * polymer-selector is the container.
    * 
    * (egrimes) Note: Working around
-  */
+   */
   @published
   Element target = null;
+  
   /**
    * This can be used to query nodes from the target node to be used for 
    * selection items.  Note this only works if the 'target' property is set.
@@ -112,13 +117,14 @@ class PolymerSelector extends PolymerElement {
    *       <p>color = {{color}}</p>
    *     </form>
    * 
-  */
+   */
   @published
   String itemsSelector = '';
+  
   /**
    * The event that would be fired from the item element to indicate
    * it is being selected.
-  */
+   */
   @published
   String activateEvent= 'click';
   
@@ -137,17 +143,22 @@ class PolymerSelector extends PolymerElement {
     }
   }
   
-//TODO revisit the polymer code - what does the where clause do?
+//TODO revisit the polymer code - what does the where clause do? 
+  // => returns only the elements where the closure evaluates to true (where e.localName != 'template);
   get items {
     List nodes;
-    if(itemsSelector.isNotEmpty){
-      nodes = target.querySelectorAll(this.itemsSelector);
+    if (this.target != this) {
+      if (this.itemsSelector != null && this.itemsSelector.isNotEmpty) {
+        nodes = this.target.querySelectorAll(this.itemsSelector);
+      } else {
+        nodes = this.target.children;
+      }
     } else {
-      nodes = target.children;
+      nodes = (this.$['items'] as ContentElement).getDistributedNodes();
     }
 
     return nodes.where((Element e){
-      return e.localName != 'template';
+      return e != null && e.localName != 'template';
     }).toList();     
   }
   
@@ -163,11 +174,11 @@ class PolymerSelector extends PolymerElement {
   }
   
   _addListener(node) {
-    node.addEventListener(this.activateEvent, _activateHandler);
+    node.addEventListener(this.activateEvent, activateHandler);
   }
   
   _removeListener(node) {
-    node.removeEventListener(this.activateEvent, _activateHandler);
+    node.removeEventListener(this.activateEvent, activateHandler);
   }
   
   get selection {
@@ -249,7 +260,7 @@ class PolymerSelector extends PolymerElement {
     return value;
   }
   
-  _valueForNode(node) {
+  _valueForNode(HtmlElement node) {
     var mirror = reflect(node);
     //TODO This is gross.  The alternative is to search the type heirarchy
     //for a matching variable or getter.
@@ -268,7 +279,7 @@ class PolymerSelector extends PolymerElement {
     }
   }
   
-  _applySelection(item, isSelected) {
+  _applySelection(HtmlElement item, isSelected) {
     if (this.selectedClass != null) {
       item.classes.toggle(this.selectedClass, isSelected);
     }
@@ -282,7 +293,7 @@ class PolymerSelector extends PolymerElement {
     }
   }
   
-  _activateHandler(e) {
+  activateHandler(e) {
     if (!this.notap) {
       var i = this._findDistributedTarget(e.target, this.items);
       if (i >= 0) {
