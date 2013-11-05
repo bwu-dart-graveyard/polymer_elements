@@ -21,7 +21,7 @@ polymer-ajax                    | ported      | needs tests
 polymer-anchor-point            | ported      | has issues
 polymer-collapse                | **ported**  |
 polymer-cookie                  | not started |
-polymer-file                    | not started |
+polymer-file                    | **ported**  | 
 polymer-flex-layout             | ported      | has issues
 polymer-google-jsapi            | not started |
 polymer-grid-layout             | not started |

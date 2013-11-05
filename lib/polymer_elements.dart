@@ -11,7 +11,7 @@ export 'polymer_animation/polymer_animation.dart';
 export 'polymer_collapse/polymer_collapse.dart';
 export 'polymer_collapse/polymer_collapse_toggle.dart';
 // export 'polymer_cookie/polymer_cookie.dart';
-// export 'polymer_file/polymer_file.dart'; 
+export 'polymer_file/polymer_file.dart'; 
 export 'polymer_flex_layout/polymer_flex_layout.dart';
 export 'polymer_flex_layout/polymer_flex_panel.dart';
 //export 'polymer_google_jsapi/polymer_google_jsapi.dart'; 

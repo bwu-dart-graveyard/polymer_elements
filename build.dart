@@ -1,6 +1,6 @@
 import 'package:polymer/builder.dart';
 import 'dart:io';
-import 'dart:async';
+//import 'dart:async';
 import 'package:path/path.dart';
 
 var entryPoints = [
@@ -8,6 +8,7 @@ var entryPoints = [
                       'web/polymer_anchor_point.html',
                       'web/polymer_animation.html',
                       'web/polymer_collapse.html',
+                      'web/polymer_file.html',
                       'web/polymer_flex_layout.html',
                       'web/polymer_localstorage.html',
                       'web/polymer_media_query.html',
@@ -18,6 +19,7 @@ var entryPoints = [
                       'example/polymer_anchor_point.html',
                       'example/polymer_animation.html',
                       'example/polymer_collapse.html',
+                      'example/polymer_file.html',
                       'example/polymer_flex_layout.html',
                       'example/polymer_localstorage.html',
                       'example/polymer_media_query.html,
