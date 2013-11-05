@@ -43,7 +43,10 @@ triggered only when value is a different instance.</p>
 <pre class="source">
 @CustomTag('polymer-localstorage')
 class PolymerLocalstorage extends PolymerElement {
+ PolymerLocalstorage.created() : super.created();
  
+ final _logger = new Logger('polymer-localstorage');
+
  /**
   * The key to the data stored in localStorage.
   */
@@ -66,10 +69,6 @@ class PolymerLocalstorage extends PolymerElement {
  
  bool loaded = false;
  
- PolymerLocalstorage.created() : super.created();
- 
- final _logger = new Logger('polymer-localstorage');
-
  static const EventStreamProvider&lt;CustomEvent&gt; _loadEvent =
      const EventStreamProvider&lt;CustomEvent&gt;('polymer-localstorage-load');
  
@@ -4373,7 +4372,7 @@ valueChanged(oldValue) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-04 18:04:33.949</div>
+          <div>This page was generated at 2013-11-05 18:35:50.761</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

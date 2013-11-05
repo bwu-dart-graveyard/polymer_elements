@@ -42,46 +42,51 @@ class PolymerSelector extends PolymerElement {
  /**
   * If true, multiple selections are allowed.
   */
- 
  @published
  bool multi = false;
+
  /**
   * Specifies the attribute to be used for "selected" attribute.
- */
- 
+  */
  @published
  String valueattr = 'name';
+
  /**
   * Specifies the CSS class to be used to add to the selected element.
   */
  @published
  String selectedClass= 'polymer-selected';
+ 
  /**
   * Specifies the property to be used to set on the selected element
   * to indicate its active state.
- */
+  */
  @published
  String selectedProperty = 'active';
+ 
  /**
   * Returns the currently selected element. In multi-selection this returns
   * an array of selected elements.
   */
  @published
  var selectedItem = null;
+ 
  /**
   * In single selection, this returns the model associated with the
   * selected element.
- */
+  */
  @published
  var selectedModel = null;
+ 
  /**
   * The target element that contains items.  If this is not set 
   * polymer-selector is the container.
   * 
   * (egrimes) Note: Working around
- */
+  */
  @published
  Element target = null;
+ 
  /**
   * This can be used to query nodes from the target node to be used for 
   * selection items.  Note this only works if the 'target' property is set.
@@ -96,13 +101,14 @@ class PolymerSelector extends PolymerElement {
   *       &lt;p&gt;color = {{color}}&lt;/p&gt;
   *     &lt;/form&gt;
   * 
- */
+  */
  @published
  String itemsSelector = '';
+ 
  /**
   * The event that would be fired from the item element to indicate
   * it is being selected.
- */
+  */
  @published
  String activateEvent= 'click';
  
@@ -121,17 +127,22 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
-//TODO revisit the polymer code - what does the where clause do?
+//TODO revisit the polymer code - what does the where clause do? 
+ // =&gt; returns only the elements where the closure evaluates to true (where e.localName != 'template);
  get items {
    List nodes;
-   if(itemsSelector.isNotEmpty){
-     nodes = target.querySelectorAll(this.itemsSelector);
+   if (this.target != this) {
+     if (this.itemsSelector != null &amp;&amp; this.itemsSelector.isNotEmpty) {
+       nodes = this.target.querySelectorAll(this.itemsSelector);
+     } else {
+       nodes = this.target.children;
+     }
    } else {
-     nodes = target.children;
+     nodes = (this.$['items'] as ContentElement).getDistributedNodes();
    }
 
    return nodes.where((Element e){
-     return e.localName != 'template';
+     return e != null &amp;&amp; e.localName != 'template';
    }).toList();     
  }
  
@@ -147,11 +158,11 @@ class PolymerSelector extends PolymerElement {
  }
  
  _addListener(node) {
-   node.addEventListener(this.activateEvent, _activateHandler);
+   node.addEventListener(this.activateEvent, activateHandler);
  }
  
  _removeListener(node) {
-   node.removeEventListener(this.activateEvent, _activateHandler);
+   node.removeEventListener(this.activateEvent, activateHandler);
  }
  
  get selection {
@@ -233,7 +244,7 @@ class PolymerSelector extends PolymerElement {
    return value;
  }
  
- _valueForNode(node) {
+ _valueForNode(HtmlElement node) {
    var mirror = reflect(node);
    //TODO This is gross.  The alternative is to search the type heirarchy
    //for a matching variable or getter.
@@ -252,7 +263,7 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
- _applySelection(item, isSelected) {
+ _applySelection(HtmlElement item, isSelected) {
    if (this.selectedClass != null) {
      item.classes.toggle(this.selectedClass, isSelected);
    }
@@ -266,7 +277,7 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
- _activateHandler(e) {
+ activateHandler(e) {
    if (!this.notap) {
      var i = this._findDistributedTarget(e.target, this.items);
      if (i &gt;= 0) {
@@ -318,6 +329,9 @@ class PolymerSelector extends PolymerElement {
 <h3>Extends</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerSelector</strong></span></p>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_accordion/PolymerUiAccordion.html">PolymerUiAccordion</a></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
@@ -899,14 +913,18 @@ final         <strong>items</strong> <a class="anchor-link"
 <pre class="source">
 get items {
  List nodes;
- if(itemsSelector.isNotEmpty){
-   nodes = target.querySelectorAll(this.itemsSelector);
+ if (this.target != this) {
+   if (this.itemsSelector != null &amp;&amp; this.itemsSelector.isNotEmpty) {
+     nodes = this.target.querySelectorAll(this.itemsSelector);
+   } else {
+     nodes = this.target.children;
+   }
  } else {
-   nodes = target.children;
+   nodes = (this.$['items'] as ContentElement).getDistributedNodes();
  }
 
  return nodes.where((Element e){
-   return e.localName != 'template';
+   return e != null &amp;&amp; e.localName != 'template';
  }).toList();     
 }
 </pre>
@@ -2571,6 +2589,37 @@ bool operator ==(other) =&gt; identical(this, other);
 </div>
 <div>
 <h3>Methods</h3>
+<div class="method"><h4 id="activateHandler">
+<button class="show-code">Code</button>
+dynamic <strong>activateHandler</strong>(e) <a class="anchor-link" href="#activateHandler"
+              title="Permalink to PolymerSelector.activateHandler">#</a></h4>
+<div class="doc">
+<pre class="source">
+activateHandler(e) {
+ if (!this.notap) {
+   var i = this._findDistributedTarget(e.target, this.items);
+   if (i &gt;= 0) {
+     var item = this.items[i];
+     var s = this._valueForNode(item);
+     if(s == null){
+       s = i;
+     }
+     if (this.multi) {
+       if (this.selected != null) {
+         this._addRemoveSelected(s);
+       } else {
+         this.selected = [s];
+       }
+     } else {
+       this.selected = s;
+     }
+     this.asyncFire('polymeractivate', detail: item);
+   }
+ }
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
 void <strong>addEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#addEventListener"
@@ -4727,7 +4776,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-04 18:04:34.892</div>
+          <div>This page was generated at 2013-11-05 18:35:51.391</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
