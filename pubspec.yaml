@@ -16,26 +16,3 @@ dependencies:
     #path: ../polymer_ui_elements
 dev_dependencies:
   unittest: any
-transformers:
-- polymer:
-    entry_points:
-    - web/polymer_ajax.html
-    - web/polymer_anchor_point.html
-    - web/polymer_animation.html
-    - web/polymer_collapse.html
-    - web/polymer_flex_layout.html
-    - web/polymer_localstorage.html
-    - web/polymer_media_query.html
-    - web/polymer_selection.html
-    - web/polymer_selector.html
-#    - example/polymer_ajax.html
-#    - example/polymer_anchor_point.html
-#    - example/polymer_animation.html
-#    - example/polymer_collapse.html
-#    - example/polymer_flex_layout.html
-#    - example/polymer_localstorage.html
-#    - web/polymer_media_query.html
-#    - example/polymer_selection.html
-#    - example/polymer_selector.html
-    - test/polymer_collapse.html
-    - test/polymer_localstorage.html
