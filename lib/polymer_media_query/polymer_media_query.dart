@@ -44,9 +44,7 @@ class PolymerMediaQuery extends PolymerElement {
       const EventStreamProvider<CustomEvent>('polymer-mediachange');
 
   /**
-   * Fired when a query matches.
-   * 
-   * @event polymer-mediachange
+   * Fires a custom event (polymer-mediachange) when the query matches.
    */
   Stream<CustomEvent> get onMediaChange =>
       PolymerMediaQuery._mediaChange.forTarget(this);

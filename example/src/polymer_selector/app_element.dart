@@ -17,5 +17,4 @@ class AppElement extends PolymerElement {
   String color = 'green';
   
   AppElement.created() : super.created();
-  
 }

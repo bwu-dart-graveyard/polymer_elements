@@ -7,11 +7,11 @@ This work is a port of the polymer-elements from the Polymer project,
 http://www.polymer-project.org/. 
 -->
 
-  <polymer-element name="flex-css">
-    <template>
-      <link rel="stylesheet" href="packages/polymer_element/polymer_flex_layout/polymer_flex_layout.css">
+<polymer-element name="flex-css">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_element/polymer_flex_layout/polymer_flex_layout.css">
       
-        <!-- remove style tag with content when styles in custom tags are properly supported -->
+        <!-- TODO remove style tag with content when styles in custom tags are properly supported -->
   <style>
   /*
 Copyright 2013 The Polymer Authors. All rights reserved.
@@ -199,31 +199,31 @@ license that can be found in the LICENSE file.
 }
   
   </style>
-      <style>
-        div {
-          box-sizing: border-box;
-          -moz-box-sizing: border-box;
-          border: 2px solid #ccc;
-        }
-      </style>
-      <div class="flexbox" flex>
-        <div>Hi I'm some content</div>
-        <div class="flexbox column" flex>
-          <div class="flexbox align-center">
-            <h3>Title</h3>
-            <button>hello</button>
-          </div>
-          <div class="flexbox" flex>
-            <div flex>Main content</div>
-            <div>Sidebar content</div>
-          </div>
-          <div>Some more stuffs...</div>
-          <div class="flexbox justify-end">
-            <b>Footer</b>
-          </div>
+    <style>
+      div {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 2px solid #ccc;
+      }
+    </style>
+    <div class="flexbox" flex>
+      <div>Hi I'm some content</div>
+      <div class="flexbox column" flex>
+        <div class="flexbox align-center">
+          <h3>Title</h3>
+          <button>hello</button>
         </div>
-        <div>A last bit, like a panel</div>
+        <div class="flexbox" flex>
+          <div flex>Main content</div>
+          <div>Sidebar content</div>
+        </div>
+        <div>Some more stuffs...</div>
+        <div class="flexbox justify-end">
+          <b>Footer</b>
+        </div>
       </div>
-    </template>
-    <script type="application/dart" src='flex_css.dart'></script> 
-  </polymer-element>
+      <div>A last bit, like a panel</div>
+    </div>
+  </template>
+  <script type="application/dart" src='flex_css.dart'></script> 
+</polymer-element>
