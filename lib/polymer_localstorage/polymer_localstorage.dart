@@ -26,7 +26,10 @@ import 'package:polymer/polymer.dart';
  */
 @CustomTag('polymer-localstorage')
 class PolymerLocalstorage extends PolymerElement {
+  PolymerLocalstorage.created() : super.created();
   
+  final _logger = new Logger('polymer-localstorage');
+
   /**
    * The key to the data stored in localStorage.
    */
@@ -49,10 +52,6 @@ class PolymerLocalstorage extends PolymerElement {
   
   bool loaded = false;
   
-  PolymerLocalstorage.created() : super.created();
-  
-  final _logger = new Logger('polymer-localstorage');
-
   static const EventStreamProvider<CustomEvent> _loadEvent =
       const EventStreamProvider<CustomEvent>('polymer-localstorage-load');
   
