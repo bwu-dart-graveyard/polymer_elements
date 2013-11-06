@@ -133,7 +133,7 @@ class PolymerAnchorPoint extends PolymerElement {
   int _extractNumber(String value) {
     _logger.finest('_extractNumber');
     
-    String digits = new RegExp(r"^(\d+).*$").firstMatch(value).group(1);
+    String digits = new RegExp(r"^-?(\d+).*$").firstMatch(value).group(1);
     return int.parse(digits);
   }
   
@@ -213,7 +213,7 @@ class PolymerAnchorPoint extends PolymerElement {
     }
     
     if((parsed.y == null || parsed.y.isEmpty) && 
-        (parsed.yOffset != null && parsed.yOffset.isNotEmpty)) {
+        (parsed.yOffset == null && parsed.yOffset.isEmpty)) {
       offset = new Point(offset.x, rect.height / 2);
     } else if (parsed.y != null && parsed.y.isNotEmpty && 
         (parsed.yOffset == null || parsed.yOffset.isEmpty)) {

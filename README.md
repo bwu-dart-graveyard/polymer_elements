@@ -18,7 +18,7 @@ The intent of the authors is to contribute the work to the Dart project itself (
 Element name                    |   Status    | Comment
 ------------------------------- | ----------- | --------
 polymer-ajax                    | ported      | needs tests
-polymer-anchor-point            | ported      | has issues
+polymer-anchor-point            | **ported**  | 
 polymer-collapse                | **ported**  |
 polymer-cookie                  | not started |
 polymer-file                    | **ported**  | 

@@ -38,6 +38,9 @@ class AppElement extends PolymerElement {
       target.classes.remove('active');
     } else {
       var targetAnchorPt = anchor.getAttribute('target-anchor-point');
+      if(targetAnchorPt == null || targetAnchorPt.isEmpty) {
+        return;
+      }
       target.attributes['anchor-point'] = targetAnchorPt;
       target.innerHtml = 'anchor-point: ' + anchor.getAttribute('anchor-point') + '<br>' + 'target anchor-point: ' + targetAnchorPt;
       anchorable.target = target;
