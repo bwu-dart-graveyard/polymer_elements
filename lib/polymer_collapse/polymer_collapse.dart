@@ -81,7 +81,7 @@ class PolymerCollapse extends PolymerElement {
     _logger.finest('enteredView');
     
     super.enteredView();
-    //this.installControllerStyles();
+    installControllerStyles();
     _inDocument = true;
     Timer.run(() => _afterInitialUpdate = true);
   }
