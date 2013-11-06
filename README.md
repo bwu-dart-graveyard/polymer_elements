@@ -20,7 +20,7 @@ Element name                    |   Status    | Comment
 polymer-ajax                    | ported      | needs tests
 polymer-anchor-point            | **ported**  | 
 polymer-collapse                | **ported**  |
-polymer-cookie                  | not started |
+polymer-cookie                  | started     |
 polymer-file                    | **ported**  | 
 polymer-flex-layout             | ported      | has issues
 polymer-google-jsapi            | not started |
