@@ -317,25 +317,25 @@ class PolymerSelector extends PolymerElement {
   }
   
   _addRemoveSelected(value) {
-    var i = this.selected.indexOf(value);
+    int i = this.selected.indexOf(value);
     if (i >= 0) {
-    this.selected.removeAt(i);
+      this.selected.removeAt(i);
     } else {
-    this.selected.add(value);
+      this.selected.add(value);
     }
     this._valueToSelection(value);
   }
   
-  _findDistributedTarget(target, nodes) {
+  int _findDistributedTarget(target, nodes) {
     // find first ancestor of target (including itself) that
     // is in nodes, if any
-    var i = 0;
+    int i = 0;
     while (target != null && target != this) {
-    i = nodes.indexOf(target);
-    if (i >= 0) {
-      return i;
-    }
-    target = target.parentNode;
+      i = nodes.indexOf(target);
+      if (i >= 0) {
+        return i;
+      }
+      target = target.parentNode;
     }
   }
   
