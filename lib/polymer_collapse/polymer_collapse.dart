@@ -69,12 +69,13 @@ class PolymerCollapse extends PolymerElement {
    */
   @published bool fixedSize = false; 
 
-  var size = null;
+  @published var size = null;
   StreamSubscription _transitionEndListener;
   String _dimension = "";
   bool _hasClosedClass = false;
   bool _inDocument = false;
   bool _afterInitialUpdate = false;
+  bool _isTargetReady = false;
   
   @override
   void enteredView() {
@@ -91,6 +92,7 @@ class PolymerCollapse extends PolymerElement {
     _logger.finest('leftView');
     
     this.removeListeners(this.target);
+    super.leftView();
   }
    
   void targetIdChanged(e) {
@@ -111,6 +113,9 @@ class PolymerCollapse extends PolymerElement {
       this.removeListeners(old);
     }
     this.horizontalChanged(); 
+
+    this._isTargetReady = (this.target != null);
+    
     if (this.target != null) {
       this.target.style.overflow = 'hidden';
       this.addListeners(this.target);
@@ -136,7 +141,9 @@ class PolymerCollapse extends PolymerElement {
   void removeListeners(HtmlElement node) {
     _logger.finest('removeListeners');
     
-    _transitionEndListener.cancel();
+    if(_transitionEndListener != null) {
+      _transitionEndListener.cancel();
+    }
     _transitionEndListener = null;
 //  node.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
 //  node.removeEventListener('transitionend', this.transitionEndListener);
@@ -222,8 +229,11 @@ class PolymerCollapse extends PolymerElement {
   void update() {
     _logger.finest('update');
     
-    if(this.target == null || this._inDocument == null) {
+    if(this.target == null || !this._inDocument) {
       return;
+    }
+    if(!this._isTargetReady) {
+      this.targetChanged(null);
     }
     this.horizontalChanged();
     if(this.closed) {
@@ -292,7 +302,7 @@ class PolymerCollapse extends PolymerElement {
     } else {
       this.updateSize(this.calcSize(), null);
     }
-    scheduleMicrotask(() {
+    Timer.run(() {
       this.updateSize(0, this.duration);
     });
   }

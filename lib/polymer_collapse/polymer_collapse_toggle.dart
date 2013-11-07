@@ -24,8 +24,6 @@ class PolymerCollapseToggle extends PolymerElement {
    */
   @published String target = '';
   
-  bool get applyAuthorStyles => true;
-  
   void handleClick([e]) {
     _logger.finest("handleClick '${target}'");
     var t = (document.querySelector(target) as PolymerCollapse);

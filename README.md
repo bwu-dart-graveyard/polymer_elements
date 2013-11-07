@@ -19,7 +19,7 @@ Element name                    |   Status    | Comment
 ------------------------------- | ----------- | --------
 polymer-ajax                    | ported      | needs tests
 polymer-anchor-point            | **ported**  | 
-polymer-collapse                | **ported**  |
+polymer-collapse                | ported      | has issues
 polymer-cookie                  | started     |
 polymer-file                    | **ported**  | 
 polymer-flex-layout             | ported      | has issues
