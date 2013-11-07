@@ -71,13 +71,8 @@ class PolymerMediaQuery extends PolymerElement {
       return;
     }
 
-    var q = this.mquery;
-    if (!q.startsWith('(')) {
-      q = '(' + this.mquery + ')';
-    }
-    
     if(context['matchMedia'] != null) {
-      this._mq = context.callMethod('matchMedia', [q]);
+      this._mq = context.callMethod('matchMedia', ['(${this.mquery})']);
       this._mq.callMethod('addListener', [_mqHandler]);
       queryHandler(this._mq);
     }
