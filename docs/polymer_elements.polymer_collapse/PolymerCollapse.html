@@ -72,19 +72,20 @@ class PolymerCollapse extends PolymerElement {
   */
  @published bool fixedSize = false; 
 
- var size = null;
+ @published var size = null;
  StreamSubscription _transitionEndListener;
  String _dimension = "";
  bool _hasClosedClass = false;
  bool _inDocument = false;
  bool _afterInitialUpdate = false;
+ bool _isTargetReady = false;
  
  @override
  void enteredView() {
    _logger.finest('enteredView');
    
    super.enteredView();
-   //this.installControllerStyles();
+   installControllerStyles();
    _inDocument = true;
    Timer.run(() =&gt; _afterInitialUpdate = true);
  }
@@ -94,6 +95,7 @@ class PolymerCollapse extends PolymerElement {
    _logger.finest('leftView');
    
    this.removeListeners(this.target);
+   super.leftView();
  }
   
  void targetIdChanged(e) {
@@ -114,6 +116,9 @@ class PolymerCollapse extends PolymerElement {
      this.removeListeners(old);
    }
    this.horizontalChanged(); 
+
+   this._isTargetReady = (this.target != null);
+   
    if (this.target != null) {
      this.target.style.overflow = 'hidden';
      this.addListeners(this.target);
@@ -139,7 +144,9 @@ class PolymerCollapse extends PolymerElement {
  void removeListeners(HtmlElement node) {
    _logger.finest('removeListeners');
    
-   _transitionEndListener.cancel();
+   if(_transitionEndListener != null) {
+     _transitionEndListener.cancel();
+   }
    _transitionEndListener = null;
 //  node.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
 //  node.removeEventListener('transitionend', this.transitionEndListener);
@@ -225,8 +232,11 @@ class PolymerCollapse extends PolymerElement {
  void update() {
    _logger.finest('update');
    
-   if(this.target == null || this._inDocument == null) {
+   if(this.target == null || !this._inDocument) {
      return;
+   }
+   if(!this._isTargetReady) {
+     this.targetChanged(null);
    }
    this.horizontalChanged();
    if(this.closed) {
@@ -295,7 +305,7 @@ class PolymerCollapse extends PolymerElement {
    } else {
      this.updateSize(this.calcSize(), null);
    }
-   scheduleMicrotask(() {
+   Timer.run(() {
      this.updateSize(0, this.duration);
    });
  }
@@ -3128,7 +3138,7 @@ void enteredView() {
  _logger.finest('enteredView');
  
  super.enteredView();
- //this.installControllerStyles();
+ installControllerStyles();
  _inDocument = true;
  Timer.run(() =&gt; _afterInitialUpdate = true);
 }
@@ -3170,7 +3180,7 @@ Node findStyleController() {
  } else {
    // find the shadow root that contains this element
    var n = this;
-   while (n.parentNode) {
+   while (n.parentNode != null) {
      n = n.parentNode;
    }
    return identical(n, document) ? document.head : n;
@@ -3369,8 +3379,23 @@ Map&lt;String, String&gt; getNamespacedAttributes(String namespace) {
 List&lt;Range&gt; <strong>getRegionFlowRanges</strong>() <a class="anchor-link" href="#getRegionFlowRanges"
               title="Permalink to PolymerCollapse.getRegionFlowRanges">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns an array of ranges of fragments in the flow.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/regions/adobe/">CSS regions and exclusions tutorial</a> from HTML5Rocks.</p></li><li><a href="http://html.adobe.com/webplatform/layout/regions/">Regions</a> from Adobe.</li><li>
+<p><a href="http://www.w3.org/TR/css3-regions/">CSS regions specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitGetRegionFlowRanges')
+/**
+* Returns an array of ranges of fragments in the flow.
+*
+* ## Other resources
+*
+* * [CSS regions and exclusions tutorial]
+* (http://www.html5rocks.com/en/tutorials/regions/adobe/) from HTML5Rocks.
+* * [Regions](http://html.adobe.com/webplatform/layout/regions/) from Adobe.
+* * [CSS regions specification]
+* (http://www.w3.org/TR/css3-regions/) from W3C.
+*/
 @DomName('Element.webkitGetRegionFlowRanges')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -3429,7 +3454,7 @@ void hide() {
  } else {
    this.updateSize(this.calcSize(), null);
  }
- scheduleMicrotask(() {
+ Timer.run(() {
    this.updateSize(0, this.duration);
  });
 }
@@ -3686,6 +3711,7 @@ void leftView() {
  _logger.finest('leftView');
  
  this.removeListeners(this.target);
+ super.leftView();
 }
 </pre>
 </div>
@@ -4265,7 +4291,9 @@ void <strong>removeListeners</strong>(HtmlElement node) <a class="anchor-link" h
 void removeListeners(HtmlElement node) {
  _logger.finest('removeListeners');
  
- _transitionEndListener.cancel();
+ if(_transitionEndListener != null) {
+   _transitionEndListener.cancel();
+ }
  _transitionEndListener = null;
 //  node.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
 //  node.removeEventListener('transitionend', this.transitionEndListener);
@@ -4298,8 +4326,24 @@ Node replaceWith(Node otherNode) {
 void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestFullscreen"
               title="Permalink to PolymerCollapse.requestFullscreen">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Displays this element fullscreen.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api">Using the full-screen API</a>
+tutorial from WebPlatform.org.</p></li><li>
+<p><a href="http://www.w3.org/TR/fullscreen/">Fullscreen specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitRequestFullscreen')
+/**
+* Displays this element fullscreen.
+*
+* ## Other resources
+*
+* * [Using the full-screen API]
+* (http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api)
+* tutorial from WebPlatform.org.
+* * [Fullscreen specification]
+* (http://www.w3.org/TR/fullscreen/) from W3C.
+*/
 @DomName('Element.webkitRequestFullscreen')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -4315,8 +4359,25 @@ void requestFullscreen() native;
 void <strong>requestPointerLock</strong>() <a class="anchor-link" href="#requestPointerLock"
               title="Permalink to PolymerCollapse.requestPointerLock">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Locks the mouse pointer to this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/pointerlock/intro/">Pointer lock and first person shooter controls</a> tutorial from
+HTML5Rocks.</p></li><li>
+<p><a href="http://www.w3.org/TR/pointerlock/">Pointer lock specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitRequestPointerLock')
+/**
+* Locks the mouse pointer to this element.
+*
+* ## Other resources
+*
+* * [Pointer lock and first person shooter controls]
+* (http://www.html5rocks.com/en/tutorials/pointerlock/intro/) tutorial from
+* HTML5Rocks.
+*
+* * [Pointer lock specification]
+* (http://www.w3.org/TR/pointerlock/) from W3C.
+*/
 @DomName('Element.webkitRequestPointerLock')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -4345,6 +4406,9 @@ bool scopeHasElementStyle(scope, descriptor) {
 void <strong>scrollByLines</strong>(int lines) <a class="anchor-link" href="#scrollByLines"
               title="Permalink to PolymerCollapse.scrollByLines">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Scrolls the element by a number of lines.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/dom/methods/scrollByLines">scrollByLines</a> from WebPlatform.org.</p></li></ul>
 <pre class="source">
 @DomName('Element.scrollByLines')
 @DocsEditable()
@@ -4357,6 +4421,9 @@ void scrollByLines(int lines) native;
 void <strong>scrollByPages</strong>(int pages) <a class="anchor-link" href="#scrollByPages"
               title="Permalink to PolymerCollapse.scrollByPages">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Scrolls the element by a number of pages.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/dom/methods/scrollByPages">scrollByPages</a> from WebPlatform.org.</p></li></ul>
 <pre class="source">
 @DomName('Element.scrollByPages')
 @DocsEditable()
@@ -4612,6 +4679,9 @@ void targetChanged(HtmlElement old) {
    this.removeListeners(old);
  }
  this.horizontalChanged(); 
+
+ this._isTargetReady = (this.target != null);
+ 
  if (this.target != null) {
    this.target.style.overflow = 'hidden';
    this.addListeners(this.target);
@@ -4681,9 +4751,8 @@ void toggleClosedClass(bool add) {
 String <strong>toString</strong>() <a class="anchor-link" href="#toString"
               title="Permalink to PolymerCollapse.toString">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<div class="inherited">
-<p>Print out a String representation of this Node.</p>
-<div class="docs-inherited-from">docs inherited from Node </div></div>
+<p>The string representation of this element.</p>
+<p>This is equivalent to reading the <a class="crossref" href="../dart_html/Element.html#localName">localName</a> property.</p>
 <pre class="source">
 String toString() =&gt; localName;
 </pre>
@@ -4811,8 +4880,11 @@ void <strong>update</strong>() <a class="anchor-link" href="#update"
 void update() {
  _logger.finest('update');
  
- if(this.target == null || this._inDocument == null) {
+ if(this.target == null || !this._inDocument) {
    return;
+ }
+ if(!this._isTargetReady) {
+   this.targetChanged(null);
  }
  this.horizontalChanged();
  if(this.closed) {
@@ -4853,7 +4925,7 @@ void updateSize(size, double duration, {bool forceEnd: false}) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-05 18:35:49.700</div>
+          <div>This page was generated at 2013-11-07 12:53:19.786</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

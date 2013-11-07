@@ -82,7 +82,7 @@ class PolymerUiIconButton extends PolymerUiThemeAware {
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerUiIconButton</strong></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerUiIconButton</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
@@ -136,7 +136,7 @@ String         <strong>activeTheme</strong> <a class="anchor-link"
             href="#activeTheme"
             title="Permalink to PolymerUiIconButton.activeTheme">#</a>
         </h4>
-        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+        <div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <pre class="source">
 String activeTheme = ''
 </pre>
@@ -2125,7 +2125,7 @@ String         <strong>theme</strong> <a class="anchor-link"
             href="#theme"
             title="Permalink to PolymerUiIconButton.theme">#</a>
         </h4>
-        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+        <div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <pre class="source">
 String theme = ''
 </pre>
@@ -2239,7 +2239,7 @@ void activeChanged() {
 <button class="show-code">Code</button>
 void <strong>activeThemeChanged</strong>(String old) <a class="anchor-link" href="#activeThemeChanged"
               title="Permalink to PolymerUiIconButton.activeThemeChanged">#</a></h4>
-<div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <pre class="source">
 void activeThemeChanged(String old) {
  _logger.finest('activeThemeChanged');
@@ -2859,7 +2859,7 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
               title="Permalink to PolymerUiIconButton.enteredView">#</a></h4>
-<div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
 document.</p>
@@ -2909,7 +2909,7 @@ Node findStyleController() {
  } else {
    // find the shadow root that contains this element
    var n = this;
-   while (n.parentNode) {
+   while (n.parentNode != null) {
      n = n.parentNode;
    }
    return identical(n, document) ? document.head : n;
@@ -3089,8 +3089,23 @@ Map&lt;String, String&gt; getNamespacedAttributes(String namespace) {
 List&lt;Range&gt; <strong>getRegionFlowRanges</strong>() <a class="anchor-link" href="#getRegionFlowRanges"
               title="Permalink to PolymerUiIconButton.getRegionFlowRanges">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns an array of ranges of fragments in the flow.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/regions/adobe/">CSS regions and exclusions tutorial</a> from HTML5Rocks.</p></li><li><a href="http://html.adobe.com/webplatform/layout/regions/">Regions</a> from Adobe.</li><li>
+<p><a href="http://www.w3.org/TR/css3-regions/">CSS regions specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitGetRegionFlowRanges')
+/**
+* Returns an array of ranges of fragments in the flow.
+*
+* ## Other resources
+*
+* * [CSS regions and exclusions tutorial]
+* (http://www.html5rocks.com/en/tutorials/regions/adobe/) from HTML5Rocks.
+* * [Regions](http://html.adobe.com/webplatform/layout/regions/) from Adobe.
+* * [CSS regions specification]
+* (http://www.w3.org/TR/css3-regions/) from W3C.
+*/
 @DomName('Element.webkitGetRegionFlowRanges')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -3954,8 +3969,24 @@ Node replaceWith(Node otherNode) {
 void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestFullscreen"
               title="Permalink to PolymerUiIconButton.requestFullscreen">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Displays this element fullscreen.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api">Using the full-screen API</a>
+tutorial from WebPlatform.org.</p></li><li>
+<p><a href="http://www.w3.org/TR/fullscreen/">Fullscreen specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitRequestFullscreen')
+/**
+* Displays this element fullscreen.
+*
+* ## Other resources
+*
+* * [Using the full-screen API]
+* (http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api)
+* tutorial from WebPlatform.org.
+* * [Fullscreen specification]
+* (http://www.w3.org/TR/fullscreen/) from W3C.
+*/
 @DomName('Element.webkitRequestFullscreen')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -3971,8 +4002,25 @@ void requestFullscreen() native;
 void <strong>requestPointerLock</strong>() <a class="anchor-link" href="#requestPointerLock"
               title="Permalink to PolymerUiIconButton.requestPointerLock">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Locks the mouse pointer to this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://www.html5rocks.com/en/tutorials/pointerlock/intro/">Pointer lock and first person shooter controls</a> tutorial from
+HTML5Rocks.</p></li><li>
+<p><a href="http://www.w3.org/TR/pointerlock/">Pointer lock specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @JSName('webkitRequestPointerLock')
+/**
+* Locks the mouse pointer to this element.
+*
+* ## Other resources
+*
+* * [Pointer lock and first person shooter controls]
+* (http://www.html5rocks.com/en/tutorials/pointerlock/intro/) tutorial from
+* HTML5Rocks.
+*
+* * [Pointer lock specification]
+* (http://www.w3.org/TR/pointerlock/) from W3C.
+*/
 @DomName('Element.webkitRequestPointerLock')
 @DocsEditable()
 @SupportedBrowser(SupportedBrowser.CHROME)
@@ -4001,6 +4049,9 @@ bool scopeHasElementStyle(scope, descriptor) {
 void <strong>scrollByLines</strong>(int lines) <a class="anchor-link" href="#scrollByLines"
               title="Permalink to PolymerUiIconButton.scrollByLines">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Scrolls the element by a number of lines.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/dom/methods/scrollByLines">scrollByLines</a> from WebPlatform.org.</p></li></ul>
 <pre class="source">
 @DomName('Element.scrollByLines')
 @DocsEditable()
@@ -4013,6 +4064,9 @@ void scrollByLines(int lines) native;
 void <strong>scrollByPages</strong>(int pages) <a class="anchor-link" href="#scrollByPages"
               title="Permalink to PolymerUiIconButton.scrollByPages">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Scrolls the element by a number of pages.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="http://docs.webplatform.org/wiki/dom/methods/scrollByPages">scrollByPages</a> from WebPlatform.org.</p></li></ul>
 <pre class="source">
 @DomName('Element.scrollByPages')
 @DocsEditable()
@@ -4202,7 +4256,7 @@ void takeAttributes() {
 <button class="show-code">Code</button>
 void <strong>themeChanged</strong>() <a class="anchor-link" href="#themeChanged"
               title="Permalink to PolymerUiIconButton.themeChanged">#</a></h4>
-<div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <pre class="source">
 void themeChanged() {
  _logger.finest('themeChanged');
@@ -4217,9 +4271,8 @@ void themeChanged() {
 String <strong>toString</strong>() <a class="anchor-link" href="#toString"
               title="Permalink to PolymerUiIconButton.toString">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<div class="inherited">
-<p>Print out a String representation of this Node.</p>
-<div class="docs-inherited-from">docs inherited from Node </div></div>
+<p>The string representation of this element.</p>
+<p>This is equivalent to reading the <a class="crossref" href="../dart_html/Element.html#localName">localName</a> property.</p>
 <pre class="source">
 String toString() =&gt; localName;
 </pre>
@@ -4324,7 +4377,7 @@ void unregisterObservers() {
 <button class="show-code">Code</button>
 void <strong>validateTheme</strong>() <a class="anchor-link" href="#validateTheme"
               title="Permalink to PolymerUiIconButton.validateTheme">#</a></h4>
-<div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<div class="inherited-from">inherited from PolymerUiThemeAware </div><div class="doc">
 <pre class="source">
 void validateTheme() {
  _logger.finest('validateTheme');
@@ -4354,7 +4407,7 @@ void validateTheme() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-05 18:35:52.441</div>
+          <div>This page was generated at 2013-11-07 12:53:23.015</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
