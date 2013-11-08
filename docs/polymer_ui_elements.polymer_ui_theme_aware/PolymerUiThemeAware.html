@@ -41,54 +41,38 @@ class PolymerUiThemeAware extends PolymerElement {
 
  @published String theme = '';
  
- void validateTheme() {
-   _logger.finest('validateTheme');
+ String activeTheme = '';
+
+ ui.validateThemeFunc validateTheme = ui.validateTheme;
+ 
+ @override
+ void enteredView() {
+   _logger.finest('enteredView');
    
-   if (theme == null || theme.isEmpty) {
-     var p = this;
-     while (p != null &amp;&amp; (theme == null || theme.isEmpty)) {
-       if(p is HtmlElement) {
-         var t = p.attributes['theme'];
-         if (t != null) {
-           theme = t;
-         }
-       }
-       p = p.parent;
-     }
-   }
-   
-   if (this.theme != null &amp;&amp; this.theme.isNotEmpty) {
-     this.activeTheme = this.theme;
-   }
+   this.validateTheme(this, theme, activeTheme);
  }
  
-   String activeTheme = '';
-
-   @override
-   void enteredView() {
-     _logger.finest('enteredView');
-     
-     this.validateTheme();
-   }
+ void themeChanged() {
+   _logger.finest('themeChanged');
    
-   void themeChanged() {
-     _logger.finest('themeChanged');
-     
-     this.activeTheme = this.theme;
-   }
+   this.activeTheme = this.theme;
+ }
+ 
+ void activeThemeChanged(String old) {
+   _logger.finest('activeThemeChanged');
    
-   void activeThemeChanged(String old) {
-     _logger.finest('activeThemeChanged');
-     
-     this.classes.remove(old);
-     this.classes.add(this.activeTheme);
-   }
+   this.classes.remove(old);
+   this.classes.add(this.activeTheme);
+ }
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
 <span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer.html">HtmlElement+Polymer</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/HtmlElement+Polymer+Observable.html">HtmlElement+Polymer+Observable</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerUiThemeAware</strong></span></p>
+<h3>Subclasses</h3>
+<p>
+<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_icon/PolymerUiIcon.html">PolymerUiIcon</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_icon_button/PolymerUiIconButton.html">PolymerUiIconButton</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_menu_item/PolymerUiMenuItem.html">PolymerUiMenuItem</a></span>, <span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_toolbar/PolymerUiToolbar.html">PolymerUiToolbar</a></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
@@ -2112,6 +2096,18 @@ bool translate
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="validateTheme">
+<button class="show-code">Code</button>
+<a href="../polymer_ui_elements.polymer_ui_theme_aware.polymer_ui/validateThemeFunc.html">validateThemeFunc</a>         <strong>validateTheme</strong> <a class="anchor-link"
+            href="#validateTheme"
+            title="Permalink to PolymerUiThemeAware.validateTheme">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+ui.validateThemeFunc validateTheme = ui.validateTheme
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="xtag">
 <button class="show-code">Code</button>
 var         <strong>xtag</strong> <a class="anchor-link"
@@ -2806,7 +2802,7 @@ document.</p>
 void enteredView() {
  _logger.finest('enteredView');
  
- this.validateTheme();
+ this.validateTheme(this, theme, activeTheme);
 }
 </pre>
 </div>
@@ -2921,12 +2917,13 @@ String getAttributeNS(String namespaceURI, String localName) native;
 Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
               title="Permalink to PolymerUiThemeAware.getBoundingClientRect">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>The smallest bounding rectangle that encompasses this element's padding,
-scrollbar, and border.</p>
+<p>Returns the smallest bounding rectangle that encompasses this element's
+padding, scrollbar, and border.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect">Element.getBoundingClientRect</a>
 from MDN.</p></li><li>
-<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getBoundingClientRect() method</a> from W3C.</p></li></ul>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getBoundingClientRect() method</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getBoundingClientRect')
 @DocsEditable()
@@ -2939,11 +2936,13 @@ Rectangle getBoundingClientRect() native;
 List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
               title="Permalink to PolymerUiThemeAware.getClientRects">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>A list of bounding rectangles for each box associated with this element.</p>
+<p>Returns a list of bounding rectangles for each box associated with this
+element.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects">Element.getClientRects</a>
 from MDN.</p></li><li>
-<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getClientRects() method</a> from W3C.</p></li></ul>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getClientRects() method</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getClientRects')
 @DocsEditable()
@@ -2983,6 +2982,11 @@ CssStyleDeclaration getComputedStyle([String pseudoElement]) {
 List&lt;Node&gt; <strong>getDestinationInsertionPoints</strong>() <a class="anchor-link" href="#getDestinationInsertionPoints"
               title="Permalink to PolymerUiThemeAware.getDestinationInsertionPoints">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns a list of shadow DOM insertion points to which this element is
+distributed.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/shadow/index.html">Shadow DOM specification</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getDestinationInsertionPoints')
 @DocsEditable()
@@ -2998,6 +3002,11 @@ List&lt;Node&gt; getDestinationInsertionPoints() native;
 List&lt;Node&gt; <strong>getElementsByClassName</strong>(String name) <a class="anchor-link" href="#getElementsByClassName"
               title="Permalink to PolymerUiThemeAware.getElementsByClassName">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns a list of nodes with the given class name inside this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.getElementsByClassName">getElementsByClassName</a>
+from MDN.</p></li><li>
+<p><a href="http://www.w3.org/TR/domcore/">DOM specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getElementsByClassName')
 @DocsEditable()
@@ -4310,41 +4319,12 @@ void unregisterObservers() {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="validateTheme">
-<button class="show-code">Code</button>
-void <strong>validateTheme</strong>() <a class="anchor-link" href="#validateTheme"
-              title="Permalink to PolymerUiThemeAware.validateTheme">#</a></h4>
-<div class="doc">
-<pre class="source">
-void validateTheme() {
- _logger.finest('validateTheme');
- 
- if (theme == null || theme.isEmpty) {
-   var p = this;
-   while (p != null &amp;&amp; (theme == null || theme.isEmpty)) {
-     if(p is HtmlElement) {
-       var t = p.attributes['theme'];
-       if (t != null) {
-         theme = t;
-       }
-     }
-     p = p.parent;
-   }
- }
- 
- if (this.theme != null &amp;&amp; this.theme.isNotEmpty) {
-   this.activeTheme = this.theme;
- }
-}
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-07 13:01:06.249</div>
+          <div>This page was generated at 2013-11-08 15:06:59.444</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

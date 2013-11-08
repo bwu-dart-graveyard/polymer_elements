@@ -2941,12 +2941,13 @@ String getAttributeNS(String namespaceURI, String localName) native;
 Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
               title="Permalink to PolymerMediaQuery.getBoundingClientRect">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>The smallest bounding rectangle that encompasses this element's padding,
-scrollbar, and border.</p>
+<p>Returns the smallest bounding rectangle that encompasses this element's
+padding, scrollbar, and border.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getBoundingClientRect">Element.getBoundingClientRect</a>
 from MDN.</p></li><li>
-<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getBoundingClientRect() method</a> from W3C.</p></li></ul>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getBoundingClientRect() method</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getBoundingClientRect')
 @DocsEditable()
@@ -2959,11 +2960,13 @@ Rectangle getBoundingClientRect() native;
 List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
               title="Permalink to PolymerMediaQuery.getClientRects">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>A list of bounding rectangles for each box associated with this element.</p>
+<p>Returns a list of bounding rectangles for each box associated with this
+element.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element.getClientRects">Element.getClientRects</a>
 from MDN.</p></li><li>
-<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getClientRects() method</a> from W3C.</p></li></ul>
+<p><a href="http://www.w3.org/TR/cssom-view/#the-getclientrects-and-getboundingclientrect-methods">The getClientRects() method</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getClientRects')
 @DocsEditable()
@@ -3003,6 +3006,11 @@ CssStyleDeclaration getComputedStyle([String pseudoElement]) {
 List&lt;Node&gt; <strong>getDestinationInsertionPoints</strong>() <a class="anchor-link" href="#getDestinationInsertionPoints"
               title="Permalink to PolymerMediaQuery.getDestinationInsertionPoints">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns a list of shadow DOM insertion points to which this element is
+distributed.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://dvcs.w3.org/hg/webcomponents/raw-file/tip/spec/shadow/index.html">Shadow DOM specification</a>
+from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getDestinationInsertionPoints')
 @DocsEditable()
@@ -3018,6 +3026,11 @@ List&lt;Node&gt; getDestinationInsertionPoints() native;
 List&lt;Node&gt; <strong>getElementsByClassName</strong>(String name) <a class="anchor-link" href="#getElementsByClassName"
               title="Permalink to PolymerMediaQuery.getElementsByClassName">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
+<p>Returns a list of nodes with the given class name inside this element.</p>
+<h2>Other resources</h2><ul><li>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/API/document.getElementsByClassName">getElementsByClassName</a>
+from MDN.</p></li><li>
+<p><a href="http://www.w3.org/TR/domcore/">DOM specification</a> from W3C.</p></li></ul>
 <pre class="source">
 @DomName('Element.getElementsByClassName')
 @DocsEditable()
@@ -4364,7 +4377,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-07 13:01:04.326</div>
+          <div>This page was generated at 2013-11-08 15:06:56.831</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
