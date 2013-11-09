@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+-->
+<polymer-element name="polymer-collapse" attributes="targetId target horizontal closed duration fixedSize size">
+  <template>
+    <link rel="stylesheet" polymer-scope="controller" href="polymer_collapse.css">
+    <link rel="stylesheet" href="polymer_collapse.css">
+    <!-- TODO remove when import works -->
+    <style polymer-scope="controller">
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}
+</style>
+
+    <style>
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}
+</style>
+    <style polymer-scope="controller">
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
+  </template>
+  <script type="application/dart" src='polymer_collapse.dart'></script>
+</polymer-element>

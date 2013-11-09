@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+-->
+
+<link rel="import" href="packages/polymer_elements/polymer_localstorage/polymer_localstorage.html">
+<link rel="import" href="packages/polymer_ui_elements/polymer_ui_toggle_button/polymer_ui_toggle_button.html">
+
+<polymer-element name="x-test2">
+  <template>
+    <polymer-ui-toggle-button value="{{mode}}"></polymer-ui-toggle-button>
+    <polymer-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></polymer-localstorage>
+  </template>
+  <script type="application/dart" src="x_test2.dart"></script>
+</polymer-element>
+

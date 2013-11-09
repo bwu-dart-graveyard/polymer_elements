@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+-->
+
+<link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.html">
+
+<polymer-element name="flex-nonvisual" noscript>
+  <template>
+  
+    <style>
+      div {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 2px solid #ccc;
+      }
+    </style>
+    <polymer-flex-layout></polymer-flex-layout>
+    <div flex>
+      <polymer-flex-layout></polymer-flex-layout>
+      <div>Hi I'm some content</div>
+      <div flex>
+        <polymer-flex-layout vertical></polymer-flex-layout>
+        <div>
+          <polymer-flex-layout align="center"></polymer-flex-layout>
+          <h3>Title</h3>
+          <button>hello</button>
+        </div>
+        <div flex>
+          <polymer-flex-layout></polymer-flex-layout>
+          <div flex>Main content</div>
+          <div>Sidebar content</div>
+        </div>
+        <div>Some more stuffs...</div>
+        <div>
+          <polymer-flex-layout justify="end"></polymer-flex-layout>
+          <b>Footer</b>
+        </div>
+      </div>
+      <div>A last bit, like a panel</div>
+    </div>
+  </template>
+<!--   <script type="application/dart" src='flex_nonvisual.dart'></script> -->
+</polymer-element>
