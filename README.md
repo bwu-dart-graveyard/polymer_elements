@@ -24,7 +24,7 @@ polymer-cookie                  | started     |
 polymer-file                    | **ported**  | 
 polymer-flex-layout             | ported      | has issues
 polymer-google-jsapi            | not started |
-polymer-grid-layout             | not started |
+polymer-grid-layout             | **ported**  |
 polymer-jsonp                   | not started |
 polymer-key-helper              | not started |
 polymer-layout                  | not started |
