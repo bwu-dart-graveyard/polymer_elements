@@ -27,7 +27,7 @@ polymer-google-jsapi            | not started |
 polymer-grid-layout             | **ported**  |
 polymer-jsonp                   | not started |
 polymer-key-helper              | not started |
-polymer-layout                  | not started |
+polymer-layout                  | ported      | has issues
 polymer-localstorage            | **ported**  |
 polymer-media-query             | ported      | has issues
 polymer-meta                    | not started |
