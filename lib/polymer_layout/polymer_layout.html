@@ -6,9 +6,15 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
 -->
-<polymer-element name="polymer-localstorage" attributes="name value useRaw autoSaveDisabled">
+<polymer-element name="polymer-layout" attributes="vertical">
   <template>
-
+    <style>
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
   </template>
   <script type="application/dart" src="polymer_layout.dart"></script>
 </polymer-element>
