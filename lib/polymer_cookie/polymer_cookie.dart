@@ -6,6 +6,7 @@
 
 library polymer_elements.cookie;
 
+import 'dart:html';
 import 'package:polymer/polymer.dart';
 
   var EXPIRE_NOW = 'Thu, 01 Jan 1970 00:00:00 GMT';
@@ -45,7 +46,7 @@ import 'package:polymer/polymer.dart';
     }
     
     Iterable _parseCookie() {
-     List pairs = this.ownerDocument.cookie.split(r'/\s*;\s*/');
+     List pairs = document.cookie.split(r'/\s*;\s*/');
       var map = pairs.map((kv) {
         
         var eq = kv.indexOf('=');
@@ -117,9 +118,10 @@ import 'package:polymer/polymer.dart';
         prepared.write(expires);
       }
       
-      if(secure != null && secure) {
+      if(secure) {
         prepared.write('; '); 
-        prepared.write('secure');
+        prepared.write('secure=');
+        prepared.write(secure);
       }
       
       if(maxAge != null) {
@@ -144,6 +146,6 @@ import 'package:polymer/polymer.dart';
     }
     
     save() {
-      this.ownerDocument.cookie = Uri.encodeComponent(this.name) + '=' + Uri.decodeComponent(this.value) + this.prepareProperties();
+      document.cookie = Uri.encodeComponent(this.name) + '=' + Uri.decodeComponent(this.value) + this.prepareProperties();
     }
   }
