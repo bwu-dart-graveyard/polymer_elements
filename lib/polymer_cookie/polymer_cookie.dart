@@ -1,8 +1,10 @@
-// Copyright (c) 2013, the Dart project authors.  Please see the AUTHORS file
-// for details. All rights reserved. Use of this source code is governed by a
-// BSD-style license that can be found in the LICENSE file.
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
+// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// governed by a BSD-style license that can be found in the LICENSE file.
+// This work is a port of the polymer-elements from the Polymer project, 
+// http://www.polymer-project.org/. 
 
-library polymer.elements.cookie;
+library polymer_elements.cookie;
 
 import 'package:polymer/polymer.dart';
 
@@ -42,28 +44,34 @@ import 'package:polymer/polymer.dart';
       this.load();
     }
     
-    _parseCookie() {
+    Iterable _parseCookie() {
      List pairs = this.ownerDocument.cookie.split(r'/\s*;\s*/');
       var map = pairs.map((kv) {
+        
         var eq = kv.indexOf('=');
+        if(eq == -1){
+          return  {
+            
+          };
+        }else {
         return {
           'name': Uri.decodeComponent(kv.substring(0, eq)),
           'value': Uri.decodeComponent(kv.substring(eq + 1, kv.length))
         };
+        }
       });
       var nom = this.name;
-      var subMap = {};
       
-      return map.where((kv) {return kv.name == nom;})[0];
+      return map.where((kv) {return kv['name'] == nom;});
       
     }
     
     load() {
       var kv = this._parseCookie();
-      this.value = kv != null ? kv.value : null;
+      this.value = kv.isNotEmpty ? kv.first['value'] : null;
     }
     
-    valueChanged() {
+    valueChanged(old) {
       this._expire = FOREVER;
       this.save();
     }
@@ -93,7 +101,7 @@ import 'package:polymer/polymer.dart';
     //does it do?
     // return Boolean(this.parseCookie())
     isCookieStored() {
-      return this._parseCookie() != null;
+      return this._parseCookie().isNotEmpty;
     }
     
     deleteCookie() {
@@ -104,31 +112,30 @@ import 'package:polymer/polymer.dart';
       var prepared = new StringBuffer();
       var cookieProps = ['expires', 'secure', 'max-age', 'domain', 'path'];
       if(expires != null) {
-        prepared.write(';'); 
+        prepared.write('; '); 
         prepared.write('expires=');
         prepared.write(expires);
       }
       
-      if(secure != null) {
-        prepared.write(';'); 
-        prepared.write('secure=');
-        prepared.write(secure);
+      if(secure != null && secure) {
+        prepared.write('; '); 
+        prepared.write('secure');
       }
       
       if(maxAge != null) {
-        prepared.write(';'); 
+        prepared.write('; '); 
         prepared.write('max-age=');
         prepared.write(maxAge);
       }
       
       if(domain != null) {
-        prepared.write(';'); 
+        prepared.write('; '); 
         prepared.write('domain=');
         prepared.write(domain);
       }
       
       if(path != null) {
-        prepared.write(';'); 
+        prepared.write('; '); 
         prepared.write('path=');
         prepared.write(path);
       }

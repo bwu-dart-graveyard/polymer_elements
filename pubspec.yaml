@@ -9,9 +9,9 @@ description: >
 homepage: https://github.com/ErikGrimes/polymer_elements
 documentation: http://erikgrimes.github.io/polymer_elements/docs/index.html
 environment:
-  sdk: '>=0.8.10 <0.8.11'
+  sdk: ">=0.8.10+6 <2.0.0"
 dependencies:
-  polymer: any
-  polymer_ui_elements: any
+  polymer: ">=0.9.0 < 0.10.0"
+  polymer_ui_elements: 0.0.12
 dev_dependencies:
   unittest: any

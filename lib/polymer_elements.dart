@@ -10,7 +10,7 @@ export 'package:polymer_elements/polymer_anchor_point/polymer_anchor_point.dart'
 export 'package:polymer_elements/polymer_animation/polymer_animation.dart';
 export 'package:polymer_elements/polymer_collapse/polymer_collapse.dart';
 export 'package:polymer_elements/polymer_collapse/polymer_collapse_toggle.dart';
-// export 'package:polymer_elements/polymer_cookie/polymer_cookie.dart';
+export 'package:polymer_elements/polymer_cookie/polymer_cookie.dart';
 export 'package:polymer_elements/polymer_file/polymer_file.dart'; 
 export 'package:polymer_elements/polymer_flex_layout/polymer_flex_layout.dart';
 export 'package:polymer_elements/polymer_flex_layout/polymer_flex_panel.dart';
