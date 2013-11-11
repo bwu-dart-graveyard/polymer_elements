@@ -64,6 +64,12 @@ class PolymerUiSubmenuItem extends PolymerUiMenuItem {
  
  bool collapsed = true;
  
+ static const EventStreamProvider&lt;CustomEvent&gt; _polymerSelectEvent =
+     const EventStreamProvider&lt;CustomEvent&gt;('polymer-select');
+ 
+ Stream&lt;CustomEvent&gt; get onPolymerSelect =&gt;
+   PolymerUiSubmenuItem._polymerSelectEvent.forTarget(this);
+ 
  List&lt;Element&gt; get items {
    return (this.$['menu'] as PolymerUiMenu).items;
  }
@@ -91,7 +97,7 @@ class PolymerUiSubmenuItem extends PolymerUiMenuItem {
    if (this.hasItems() &amp;&amp; this.active) {
      this.collapsed = !this.collapsed;
      this.unselectAllItems();
-     this.fire("polymer-select", {isSelected: true, item: this});
+     dispatchEvent(new CustomEvent('polymer-select', detail: {'isSelected': true, 'item': this}));
    }
  }
  
@@ -1667,6 +1673,19 @@ ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="onPolymerSelect">
+<button class="show-code">Code</button>
+final Stream&lt;CustomEvent&gt;         <strong>onPolymerSelect</strong> <a class="anchor-link"
+            href="#onPolymerSelect"
+            title="Permalink to PolymerUiSubmenuItem.onPolymerSelect">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+Stream&lt;CustomEvent&gt; get onPolymerSelect =&gt;
+ PolymerUiSubmenuItem._polymerSelectEvent.forTarget(this);
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="onReset">
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anchor-link"
@@ -2396,7 +2415,7 @@ void activate() {
  if (this.hasItems() &amp;&amp; this.active) {
    this.collapsed = !this.collapsed;
    this.unselectAllItems();
-   this.fire("polymer-select", {isSelected: true, item: this});
+   dispatchEvent(new CustomEvent('polymer-select', detail: {'isSelected': true, 'item': this}));
  }
 }
 </pre>
@@ -4704,7 +4723,7 @@ void updateIsShowIcon() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-11 12:28:15.991</div>
+          <div>This page was generated at 2013-11-11 16:08:52.440</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
