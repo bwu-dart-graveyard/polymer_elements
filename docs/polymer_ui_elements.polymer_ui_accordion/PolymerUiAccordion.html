@@ -59,7 +59,7 @@ class PolymerUiAccordion extends PolymerSelector {
 
  final _logger = new Logger('PolymerUiAccordion');
 
- @published bool selected;
+ //@published bool selected;
  
  void activateHandler(e) {
    if (!e.notap) {
@@ -89,7 +89,7 @@ PolymerUiAccordion.created() : super.created();
 </div>
 </div>
 </div>
-<div>
+<div class="inherited">
 <h3>Properties</h3>
 <div class="field inherited"><h4 id="$">
 <button class="show-code">Code</button>
@@ -2091,15 +2091,15 @@ final int scrollWidth
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="selected">
+<div class="field inherited"><h4 id="selected">
 <button class="show-code">Code</button>
-bool         <strong>selected</strong> <a class="anchor-link"
+var         <strong>selected</strong> <a class="anchor-link"
             href="#selected"
             title="Permalink to PolymerUiAccordion.selected">#</a>
         </h4>
-        <div class="doc">
+        <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-bool selected
+var selected = null
 </pre>
 </div>
 </div>
@@ -4675,7 +4675,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-11 16:31:45.714</div>
+          <div>This page was generated at 2013-11-11 17:48:15.711</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

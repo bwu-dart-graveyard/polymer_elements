@@ -51,15 +51,28 @@ class PolymerGridLayout extends PolymerElement {
  List&lt;Map&lt;String,int&gt;&gt; _rows;
  List&lt;Map&lt;String,int&gt;&gt; _columns;
 
- void xnodesChanged() {
+ @override
+ void enteredView() {
+   super.enteredView();
    this.invalidate();
+ }
+ 
+ void xnodesChanged() {
+   if(this.parent != null) {
+     this.invalidate();
+   }
  }
  
  void layoutChanged() {
-   this.invalidate();
+   if(this.parent != null) {
+     this.invalidate();
+   }
  }
  
  void autoNodes() {
+   if(parent == null) {
+     return;
+   }
    this.xnodes = this.parent.children.where((node) {
      switch(node.localName) {
        case 'polymer-grid-layout':
@@ -2785,6 +2798,9 @@ void <strong>autoNodes</strong>() <a class="anchor-link" href="#autoNodes"
 <div class="doc">
 <pre class="source">
 void autoNodes() {
+ if(parent == null) {
+   return;
+ }
  this.xnodes = this.parent.children.where((node) {
    switch(node.localName) {
      case 'polymer-grid-layout':
@@ -3207,21 +3223,20 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="enteredView">
+<div class="method"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
               title="Permalink to PolymerGridLayout.enteredView">#</a></h4>
-<div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
 document.</p>
 <div class="docs-inherited-from">docs inherited from Element </div></div>
 <pre class="source">
+@override
 void enteredView() {
- if (!_elementPrepared) {
-   prepareElement();
- }
- cancelUnbindAll(preventCascade: true);
+ super.enteredView();
+ this.invalidate();
 }
 </pre>
 </div>
@@ -3811,7 +3826,9 @@ void <strong>layoutChanged</strong>() <a class="anchor-link" href="#layoutChange
 <div class="doc">
 <pre class="source">
 void layoutChanged() {
- this.invalidate();
+ if(this.parent != null) {
+   this.invalidate();
+ }
 }
 </pre>
 </div>
@@ -5010,7 +5027,9 @@ void <strong>xnodesChanged</strong>() <a class="anchor-link" href="#xnodesChange
 <div class="doc">
 <pre class="source">
 void xnodesChanged() {
- this.invalidate();
+ if(this.parent != null) {
+   this.invalidate();
+ }
 }
 </pre>
 </div>
@@ -5020,7 +5039,7 @@ void xnodesChanged() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-11 16:31:44.735</div>
+          <div>This page was generated at 2013-11-11 17:48:14.558</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
