@@ -28,6 +28,8 @@
 
 library polymer_elements.polymer_selection;
 
+import 'dart:async' show Stream;
+import 'dart:html' show CustomEvent, EventStreamProvider;
 import 'package:polymer/polymer.dart';
 
 @CustomTag('polymer-selection')
@@ -44,6 +46,12 @@ class PolymerSelection extends PolymerElement {
   
   PolymerSelection.created() : super.created();
   
+  static const EventStreamProvider<CustomEvent> _polymerSelectEvent =
+      const EventStreamProvider<CustomEvent>('polymer-select');
+  
+  Stream<CustomEvent> get onPolymerSelect =>
+      PolymerSelection._polymerSelectEvent.forTarget(this);
+
   /**
    * Retrieves the selected item(s). If the multi property is true,
    * selection will return a [List], otherwise it will return 
@@ -82,7 +90,9 @@ class PolymerSelection extends PolymerElement {
         }
       }     
  
-      this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+      dispatchEvent(new CustomEvent('polymer-select', 
+          detail: {'item': item, 'isSelected':  isSelected}));
+      //this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
           
     }
   }
