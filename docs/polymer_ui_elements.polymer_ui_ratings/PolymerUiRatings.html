@@ -2,19 +2,19 @@
         <html>
         <head>
                 <meta charset="utf-8">
-        <title>PolymerUiMenuItem class / polymer_ui_elements.polymer_ui_menu_item Library / Dart Documentation</title>
+        <title>PolymerUiRatings class / polymer_ui_elements.polymer_ui_ratings Library / Dart Documentation</title>
         <link rel="stylesheet" type="text/css"
             href="../styles.css">
         <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
         <link rel="shortcut icon" href="../favicon.ico">
         
         </head>
-        <body data-library="polymer_ui_elements.polymer_ui_menu_item" data-type="PolymerUiMenuItem">
+        <body data-library="polymer_ui_elements.polymer_ui_ratings" data-type="PolymerUiRatings">
         <div class="page">
         <div class="header">
           <a href="../index.html"><div class="logo"></div></a>
           <a href="../index.html">Dart Documentation</a>
-         &rsaquo; <a href="../polymer_ui_elements.polymer_ui_menu_item.html">polymer_ui_elements.polymer_ui_menu_item</a> &rsaquo; <a href="../polymer_ui_elements.polymer_ui_menu_item/PolymerUiMenuItem.html">PolymerUiMenuItem</a>        <div id="search-box">
+         &rsaquo; <a href="../polymer_ui_elements.polymer_ui_ratings.html">polymer_ui_elements.polymer_ui_ratings</a> &rsaquo; <a href="../polymer_ui_elements.polymer_ui_ratings/PolymerUiRatings.html">PolymerUiRatings</a>        <div id="search-box">
           <input type="search" name="q" id="q" autocomplete="off"
               class="search-input" placeholder="Search API">
         </div>
@@ -26,94 +26,96 @@
         
 </div>
 <div class="content">
-        <h2><strong>PolymerUiMenuItem</strong>
+        <h2><strong>PolymerUiRatings</strong>
           class
         </h2>
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
-<p>polymer-ui-menu-item is styled to look like a menu item.  It should be used
-in conjunction with polymer-ui-menu or polymer-ui-sibebar-menu.</p>
+<p>polymer-ui-ratings allows users to rate items.</p>
 <p>Example:</p>
-<pre><code>&lt;polymer-ui-menu-item icon="settings" label="Settings"&gt;&lt;/polymer-ui-menu-item&gt;
+<pre><code>&lt;polymer-ui-ratings value="3"&gt;&lt;/polymer-ui-ratings&gt;
 </code></pre>
+<p>By default polymer-ui-ratings shows 5 stars but can be configured using 
+"count" attribute:</p>
+<pre><code>&lt;polymer-ui-ratings value="3" count="10"&gt;&lt;/polymer-ui-ratings&gt;
+</code></pre>
+<p>@class polymer-ui-ratings</p>
 <pre class="source">
-@CustomTag('polymer-ui-menu-item')
-class PolymerUiMenuItem extends PolymerUiThemeAware {
- PolymerUiMenuItem.created() : super.created() {
+@CustomTag('polymer-ui-ratings')
+class PolymerUiRatings extends PolymerUiThemeAware {
+ PolymerUiRatings.created() : super.created() {
    _logger.finest('created');
  }
 
- final _logger = new Logger('polymer-ui-menu-item');
- 
- /**
-  * The URL of an image for the icon.
-  */
- @published String src = '';
- 
- /**
-  * Specifies the icon from the Polymer icon set.
-  */
- @published String icon = '';
- 
- /**
-  * Specifies the label for the menu item.
-  */
- @published String label = '';
+ final _logger = new Logger('polymer-ui-ratings');
 
- @published String item; // TODO zoechi: item is in JS in attributes list but I couldn't find where it is used and what for 
+ /**
+  * Number of stars to display.
+  */
+ @published int count = 5;
+
+ /**
+  * Number of selected stars.
+ *
+  * @attribute value
+  * @type number
+  * @default 0
+  */
+ @published int value = 0;
+ @published String color = '';
+ @observable ObservableList&lt;ObservableMap&gt; stars;
  
- @observable bool isShowIcon = false;
+ @override
+ void ready() {
+   super.ready();
+   this.countChanged(null);
+ }
  
- // calc item's offset middle pos instead of using offsetTop/Height 
- // directly which requires to wait for submenu's collapsing transition to 
- // complete first before it can return the correct pos.
-double getOffsetMiddle() {
-   var p = this.parentNode as PolymerSelector;
-   if (p != null) {
-     var i = p.items;
-     var h = this.getItemHeight();
-     return i * h + h/2 + p.items[0].offsetTop;
+ void countChanged(oldValue) {
+   this.stars = new ObservableList&lt;ObservableMap&gt;();
+   for (var i = 0; i &lt; this.count; i++) {
+     this.stars.add(new ObservableMap.from({'index': i}));
+   }
+   this.valueChanged(null);
+ }
+ 
+ void valueChanged(oldValue) {
+   if(this.stars != null) {
+     int i = 0;
+     for(Map s in this.stars) {
+       s['starClass'] = i &lt; this.value ? 'full' : '';
+       i++;
+     }
    }
  }
-
- int getItemHeight() {
-   return this.offsetHeight;
- }
  
- void updateIsShowIcon() {
-   isShowIcon = ((src != null &amp;&amp; src.isNotEmpty) || (icon != null &amp;&amp; icon.isNotEmpty)); 
- }
- 
- void srcChanged(old) {
-   updateIsShowIcon();
- }
- 
- void iconChanged(old) {
-   updateIsShowIcon();
+ /**
+  * [updateValue] is the tap event handler.
+  */
+ void updateValue(event, detail, Element sender) {
+   int i = int.parse(sender.attributes['index']);
+   this.value = i + 1;
  }
 }
 </pre>
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerUiMenuItem</strong></span></p>
-<h3>Subclasses</h3>
-<p>
-<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_submenu_item/PolymerUiSubmenuItem.html">PolymerUiSubmenuItem</a></span></p>
+<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerUiRatings</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
 <button class="show-code">Code</button>
-new <strong>PolymerUiMenuItem.created</strong>() <a class="anchor-link" href="#created"
-              title="Permalink to PolymerUiMenuItem.PolymerUiMenuItem.created">#</a></h4>
+new <strong>PolymerUiRatings.created</strong>() <a class="anchor-link" href="#created"
+              title="Permalink to PolymerUiRatings.PolymerUiRatings.created">#</a></h4>
 <div class="doc">
 <div class="inherited">
 <p>Constructor instantiated by the DOM when a custom element has been created.</p>
 <p>This can only be called by subclasses from their created constructor.</p>
 <div class="docs-inherited-from">docs inherited from HtmlElement </div></div>
 <pre class="source">
-PolymerUiMenuItem.created() : super.created() {
+PolymerUiRatings.created() : super.created() {
  _logger.finest('created');
 }
 </pre>
@@ -126,7 +128,7 @@ PolymerUiMenuItem.created() : super.created() {
 <button class="show-code">Code</button>
 final Map&lt;String, Element&gt;         <strong>$</strong> <a class="anchor-link"
             href="#$"
-            title="Permalink to PolymerUiMenuItem.$">#</a>
+            title="Permalink to PolymerUiRatings.$">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Map of items in the shadow root(s) by their <code>Element.id</code>. </p>
@@ -140,7 +142,7 @@ new ObservableMap&lt;String, Element&gt;()
 <button class="show-code">Code</button>
 String         <strong>activeTheme</strong> <a class="anchor-link"
             href="#activeTheme"
-            title="Permalink to PolymerUiMenuItem.activeTheme">#</a>
+            title="Permalink to PolymerUiRatings.activeTheme">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <pre class="source">
@@ -152,7 +154,7 @@ String activeTheme = ''
 <button class="show-code">Code</button>
 final bool         <strong>alwaysPrepare</strong> <a class="anchor-link"
             href="#alwaysPrepare"
-            title="Permalink to PolymerUiMenuItem.alwaysPrepare">#</a>
+            title="Permalink to PolymerUiRatings.alwaysPrepare">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
@@ -164,7 +166,7 @@ bool get alwaysPrepare =&gt; false;
 <button class="show-code">Code</button>
 final bool         <strong>applyAuthorStyles</strong> <a class="anchor-link"
             href="#applyAuthorStyles"
-            title="Permalink to PolymerUiMenuItem.applyAuthorStyles">#</a>
+            title="Permalink to PolymerUiRatings.applyAuthorStyles">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
@@ -176,7 +178,7 @@ bool get applyAuthorStyles =&gt; false;
 <button class="show-code">Code</button>
 Map&lt;String, String&gt;         <strong>attributes</strong> <a class="anchor-link"
             href="#attributes"
-            title="Permalink to PolymerUiMenuItem.attributes">#</a>
+            title="Permalink to PolymerUiRatings.attributes">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>All attributes on this element.</p>
@@ -203,7 +205,7 @@ void set attributes(Map&lt;String, String&gt; value) {
 <button class="show-code">Code</button>
 final Map&lt;String, NodeBinding&gt;         <strong>bindings</strong> <a class="anchor-link"
             href="#bindings"
-            title="Permalink to PolymerUiMenuItem.bindings">#</a>
+            title="Permalink to PolymerUiRatings.bindings">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
@@ -218,7 +220,7 @@ Map&lt;String, NodeBinding&gt; get bindings =&gt; nodeBindFallback(this).binding
 <button class="show-code">Code</button>
 final CssRect         <strong>borderEdge</strong> <a class="anchor-link"
             href="#borderEdge"
-            title="Permalink to PolymerUiMenuItem.borderEdge">#</a>
+            title="Permalink to PolymerUiRatings.borderEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding +
@@ -243,7 +245,7 @@ CssRect get borderEdge =&gt; new _BorderCssRect(this);
 <button class="show-code">Code</button>
 final Stream&lt;List&lt;ChangeRecord&gt;&gt;         <strong>changes</strong> <a class="anchor-link"
             href="#changes"
-            title="Permalink to PolymerUiMenuItem.changes">#</a>
+            title="Permalink to PolymerUiRatings.changes">#</a>
         </h4>
         <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>The stream of change records to this object. Records will be delivered
@@ -264,7 +266,7 @@ Stream&lt;List&lt;ChangeRecord&gt;&gt; get changes {
 <button class="show-code">Code</button>
 final List&lt;Node&gt;         <strong>childNodes</strong> <a class="anchor-link"
             href="#childNodes"
-            title="Permalink to PolymerUiMenuItem.childNodes">#</a>
+            title="Permalink to PolymerUiRatings.childNodes">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>A list of this node's children.</p>
@@ -280,7 +282,7 @@ final List&lt;Node&gt; childNodes
 <button class="show-code">Code</button>
 List&lt;Element&gt;         <strong>children</strong> <a class="anchor-link"
             href="#children"
-            title="Permalink to PolymerUiMenuItem.children">#</a>
+            title="Permalink to PolymerUiRatings.children">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>List of the direct children of this element.</p>
@@ -310,7 +312,7 @@ void set children(List&lt;Element&gt; value) {
 <button class="show-code">Code</button>
 CssClassSet         <strong>classes</strong> <a class="anchor-link"
             href="#classes"
-            title="Permalink to PolymerUiMenuItem.classes">#</a>
+            title="Permalink to PolymerUiRatings.classes">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The set of CSS classes applied to this element.</p>
@@ -336,7 +338,7 @@ void set classes(Iterable&lt;String&gt; value) {
 <button class="show-code">Code</button>
 String         <strong>className</strong> <a class="anchor-link"
             href="#className"
-            title="Permalink to PolymerUiMenuItem.className">#</a>
+            title="Permalink to PolymerUiRatings.className">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -348,7 +350,7 @@ String className
 <button class="show-code">Code</button>
 final Rectangle         <strong>client</strong> <a class="anchor-link"
             href="#client"
-            title="Permalink to PolymerUiMenuItem.client">#</a>
+            title="Permalink to PolymerUiRatings.client">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets the position of this element relative to the client area of the page.</p>
@@ -362,7 +364,7 @@ Rectangle get client =&gt; new Rectangle(clientLeft, clientTop, clientWidth,
 <button class="show-code">Code</button>
 final int         <strong>clientHeight</strong> <a class="anchor-link"
             href="#clientHeight"
-            title="Permalink to PolymerUiMenuItem.clientHeight">#</a>
+            title="Permalink to PolymerUiRatings.clientHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -374,7 +376,7 @@ final int clientHeight
 <button class="show-code">Code</button>
 final int         <strong>clientLeft</strong> <a class="anchor-link"
             href="#clientLeft"
-            title="Permalink to PolymerUiMenuItem.clientLeft">#</a>
+            title="Permalink to PolymerUiRatings.clientLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -386,7 +388,7 @@ final int clientLeft
 <button class="show-code">Code</button>
 final int         <strong>clientTop</strong> <a class="anchor-link"
             href="#clientTop"
-            title="Permalink to PolymerUiMenuItem.clientTop">#</a>
+            title="Permalink to PolymerUiRatings.clientTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -398,7 +400,7 @@ final int clientTop
 <button class="show-code">Code</button>
 final int         <strong>clientWidth</strong> <a class="anchor-link"
             href="#clientWidth"
-            title="Permalink to PolymerUiMenuItem.clientWidth">#</a>
+            title="Permalink to PolymerUiRatings.clientWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -406,11 +408,23 @@ final int clientWidth
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="color">
+<button class="show-code">Code</button>
+String         <strong>color</strong> <a class="anchor-link"
+            href="#color"
+            title="Permalink to PolymerUiRatings.color">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String color = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="contentEdge">
 <button class="show-code">Code</button>
 final CssRect         <strong>contentEdge</strong> <a class="anchor-link"
             href="#contentEdge"
-            title="Permalink to PolymerUiMenuItem.contentEdge">#</a>
+            title="Permalink to PolymerUiRatings.contentEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access this element's content position.</p>
@@ -432,7 +446,7 @@ CssRect get contentEdge =&gt; new _ContentCssRect(this);
 <button class="show-code">Code</button>
 String         <strong>contentEditable</strong> <a class="anchor-link"
             href="#contentEditable"
-            title="Permalink to PolymerUiMenuItem.contentEditable">#</a>
+            title="Permalink to PolymerUiRatings.contentEditable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -440,11 +454,24 @@ String contentEditable
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="count">
+<button class="show-code">Code</button>
+int         <strong>count</strong> <a class="anchor-link"
+            href="#count"
+            title="Permalink to PolymerUiRatings.count">#</a>
+        </h4>
+        <div class="doc">
+<p>Number of stars to display.</p>
+<pre class="source">
+int count = 5
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="dataset">
 <button class="show-code">Code</button>
 Map&lt;String, String&gt;         <strong>dataset</strong> <a class="anchor-link"
             href="#dataset"
-            title="Permalink to PolymerUiMenuItem.dataset">#</a>
+            title="Permalink to PolymerUiRatings.dataset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Allows access to all custom data attributes (data-*) set on this element.</p>
@@ -476,7 +503,7 @@ void set dataset(Map&lt;String, String&gt; value) {
 <button class="show-code">Code</button>
 final PolymerDeclaration         <strong>declaration</strong> <a class="anchor-link"
             href="#declaration"
-            title="Permalink to PolymerUiMenuItem.declaration">#</a>
+            title="Permalink to PolymerUiRatings.declaration">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>The most derived <code>&lt;polymer-element&gt;</code> declaration for this element. </p>
@@ -489,7 +516,7 @@ PolymerDeclaration get declaration =&gt; _declaration;
 <button class="show-code">Code</button>
 String         <strong>dir</strong> <a class="anchor-link"
             href="#dir"
-            title="Permalink to PolymerUiMenuItem.dir">#</a>
+            title="Permalink to PolymerUiRatings.dir">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -501,7 +528,7 @@ String dir
 <button class="show-code">Code</button>
 final Point         <strong>documentOffset</strong> <a class="anchor-link"
             href="#documentOffset"
-            title="Permalink to PolymerUiMenuItem.documentOffset">#</a>
+            title="Permalink to PolymerUiRatings.documentOffset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Provides the coordinates of the element relative to the top of the
@@ -518,7 +545,7 @@ Point get documentOffset =&gt; offsetTo(document.documentElement);
 <button class="show-code">Code</button>
 bool         <strong>draggable</strong> <a class="anchor-link"
             href="#draggable"
-            title="Permalink to PolymerUiMenuItem.draggable">#</a>
+            title="Permalink to PolymerUiRatings.draggable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Indicates whether the element can be dragged and dropped.</p>
@@ -537,7 +564,7 @@ bool draggable
 <button class="show-code">Code</button>
 String         <strong>dropzone</strong> <a class="anchor-link"
             href="#dropzone"
-            title="Permalink to PolymerUiMenuItem.dropzone">#</a>
+            title="Permalink to PolymerUiRatings.dropzone">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A set of space-separated keywords that specify what kind of data this
@@ -557,7 +584,7 @@ String dropzone
 <button class="show-code">Code</button>
 final Node         <strong>firstChild</strong> <a class="anchor-link"
             href="#firstChild"
-            title="Permalink to PolymerUiMenuItem.firstChild">#</a>
+            title="Permalink to PolymerUiRatings.firstChild">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The first child of this node.</p>
@@ -573,7 +600,7 @@ final Node firstChild
 <button class="show-code">Code</button>
 final int         <strong>hashCode</strong> <a class="anchor-link"
             href="#hashCode"
-            title="Permalink to PolymerUiMenuItem.hashCode">#</a>
+            title="Permalink to PolymerUiRatings.hashCode">#</a>
         </h4>
         <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
@@ -595,7 +622,7 @@ int get hashCode =&gt; Primitives.objectHashCode(this);
 <button class="show-code">Code</button>
 final bool         <strong>hasObservers</strong> <a class="anchor-link"
             href="#hasObservers"
-            title="Permalink to PolymerUiMenuItem.hasObservers">#</a>
+            title="Permalink to PolymerUiRatings.hasObservers">#</a>
         </h4>
         <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>True if this object has any observers, and should call
@@ -609,7 +636,7 @@ bool get hasObservers =&gt; _changes != null &amp;&amp; _changes.hasListener;
 <button class="show-code">Code</button>
 bool         <strong>hidden</strong> <a class="anchor-link"
             href="#hidden"
-            title="Permalink to PolymerUiMenuItem.hidden">#</a>
+            title="Permalink to PolymerUiRatings.hidden">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Indicates whether the element is not relevant to the page's current state.</p>
@@ -621,24 +648,11 @@ bool hidden
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="icon">
-<button class="show-code">Code</button>
-String         <strong>icon</strong> <a class="anchor-link"
-            href="#icon"
-            title="Permalink to PolymerUiMenuItem.icon">#</a>
-        </h4>
-        <div class="doc">
-<p>Specifies the icon from the Polymer icon set.</p>
-<pre class="source">
-String icon = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="id">
 <button class="show-code">Code</button>
 String         <strong>id</strong> <a class="anchor-link"
             href="#id"
-            title="Permalink to PolymerUiMenuItem.id">#</a>
+            title="Permalink to PolymerUiRatings.id">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -650,7 +664,7 @@ String id
 <button class="show-code">Code</button>
 String         <strong>innerHtml</strong> <a class="anchor-link"
             href="#innerHtml"
-            title="Permalink to PolymerUiMenuItem.innerHtml">#</a>
+            title="Permalink to PolymerUiRatings.innerHtml">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the HTML fragment and sets it as the contents of this element.</p>
@@ -670,7 +684,7 @@ void set innerHtml(String html) {
 <button class="show-code">Code</button>
 final InputMethodContext         <strong>inputMethodContext</strong> <a class="anchor-link"
             href="#inputMethodContext"
-            title="Permalink to PolymerUiMenuItem.inputMethodContext">#</a>
+            title="Permalink to PolymerUiRatings.inputMethodContext">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The current state of IME composition.</p>
@@ -685,7 +699,7 @@ final InputMethodContext inputMethodContext
 <button class="show-code">Code</button>
 final bool         <strong>isContentEditable</strong> <a class="anchor-link"
             href="#isContentEditable"
-            title="Permalink to PolymerUiMenuItem.isContentEditable">#</a>
+            title="Permalink to PolymerUiRatings.isContentEditable">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -693,48 +707,11 @@ final bool isContentEditable
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="isShowIcon">
-<button class="show-code">Code</button>
-bool         <strong>isShowIcon</strong> <a class="anchor-link"
-            href="#isShowIcon"
-            title="Permalink to PolymerUiMenuItem.isShowIcon">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-bool isShowIcon = false
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="item">
-<button class="show-code">Code</button>
-String         <strong>item</strong> <a class="anchor-link"
-            href="#item"
-            title="Permalink to PolymerUiMenuItem.item">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-String item
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="label">
-<button class="show-code">Code</button>
-String         <strong>label</strong> <a class="anchor-link"
-            href="#label"
-            title="Permalink to PolymerUiMenuItem.label">#</a>
-        </h4>
-        <div class="doc">
-<p>Specifies the label for the menu item.</p>
-<pre class="source">
-String label = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="lang">
 <button class="show-code">Code</button>
 String         <strong>lang</strong> <a class="anchor-link"
             href="#lang"
-            title="Permalink to PolymerUiMenuItem.lang">#</a>
+            title="Permalink to PolymerUiRatings.lang">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -746,7 +723,7 @@ String lang
 <button class="show-code">Code</button>
 final Node         <strong>lastChild</strong> <a class="anchor-link"
             href="#lastChild"
-            title="Permalink to PolymerUiMenuItem.lastChild">#</a>
+            title="Permalink to PolymerUiRatings.lastChild">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The last child of this node.</p>
@@ -762,7 +739,7 @@ final Node lastChild
 <button class="show-code">Code</button>
 final String         <strong>localName</strong> <a class="anchor-link"
             href="#localName"
-            title="Permalink to PolymerUiMenuItem.localName">#</a>
+            title="Permalink to PolymerUiRatings.localName">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -776,7 +753,7 @@ String get localName =&gt; _localName;
 <button class="show-code">Code</button>
 final CssRect         <strong>marginEdge</strong> <a class="anchor-link"
             href="#marginEdge"
-            title="Permalink to PolymerUiMenuItem.marginEdge">#</a>
+            title="Permalink to PolymerUiRatings.marginEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding +
@@ -801,7 +778,7 @@ CssRect get marginEdge =&gt; new _MarginCssRect(this);
 <button class="show-code">Code</button>
 final String         <strong>namespaceUri</strong> <a class="anchor-link"
             href="#namespaceUri"
-            title="Permalink to PolymerUiMenuItem.namespaceUri">#</a>
+            title="Permalink to PolymerUiRatings.namespaceUri">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A URI that identifies the XML namespace of this element.</p>
@@ -818,7 +795,7 @@ String get namespaceUri =&gt; _namespaceUri;
 <button class="show-code">Code</button>
 final Element         <strong>nextElementSibling</strong> <a class="anchor-link"
             href="#nextElementSibling"
-            title="Permalink to PolymerUiMenuItem.nextElementSibling">#</a>
+            title="Permalink to PolymerUiRatings.nextElementSibling">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -830,7 +807,7 @@ final Element nextElementSibling
 <button class="show-code">Code</button>
 final Node         <strong>nextNode</strong> <a class="anchor-link"
             href="#nextNode"
-            title="Permalink to PolymerUiMenuItem.nextNode">#</a>
+            title="Permalink to PolymerUiRatings.nextNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The next sibling node.</p>
@@ -846,7 +823,7 @@ final Node nextNode
 <button class="show-code">Code</button>
 final String         <strong>nodeName</strong> <a class="anchor-link"
             href="#nodeName"
-            title="Permalink to PolymerUiMenuItem.nodeName">#</a>
+            title="Permalink to PolymerUiRatings.nodeName">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The name of this node.</p>
@@ -864,7 +841,7 @@ final String nodeName
 <button class="show-code">Code</button>
 List&lt;Node&gt;         <strong>nodes</strong> <a class="anchor-link"
             href="#nodes"
-            title="Permalink to PolymerUiMenuItem.nodes">#</a>
+            title="Permalink to PolymerUiRatings.nodes">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>A modifiable list of this node's children.</p>
@@ -890,7 +867,7 @@ void set nodes(Iterable&lt;Node&gt; value) {
 <button class="show-code">Code</button>
 final int         <strong>nodeType</strong> <a class="anchor-link"
             href="#nodeType"
-            title="Permalink to PolymerUiMenuItem.nodeType">#</a>
+            title="Permalink to PolymerUiRatings.nodeType">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The type of node.</p>
@@ -906,7 +883,7 @@ final int nodeType
 <button class="show-code">Code</button>
 final String         <strong>nodeValue</strong> <a class="anchor-link"
             href="#nodeValue"
-            title="Permalink to PolymerUiMenuItem.nodeValue">#</a>
+            title="Permalink to PolymerUiRatings.nodeValue">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The value of this node.</p>
@@ -924,7 +901,7 @@ final String nodeValue
 <button class="show-code">Code</button>
 final Rectangle         <strong>offset</strong> <a class="anchor-link"
             href="#offset"
-            title="Permalink to PolymerUiMenuItem.offset">#</a>
+            title="Permalink to PolymerUiRatings.offset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets the offset of this element relative to its offsetParent.</p>
@@ -938,7 +915,7 @@ Rectangle get offset =&gt; new Rectangle(offsetLeft, offsetTop, offsetWidth,
 <button class="show-code">Code</button>
 final int         <strong>offsetHeight</strong> <a class="anchor-link"
             href="#offsetHeight"
-            title="Permalink to PolymerUiMenuItem.offsetHeight">#</a>
+            title="Permalink to PolymerUiRatings.offsetHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -950,7 +927,7 @@ final int offsetHeight
 <button class="show-code">Code</button>
 final int         <strong>offsetLeft</strong> <a class="anchor-link"
             href="#offsetLeft"
-            title="Permalink to PolymerUiMenuItem.offsetLeft">#</a>
+            title="Permalink to PolymerUiRatings.offsetLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -962,7 +939,7 @@ final int offsetLeft
 <button class="show-code">Code</button>
 final Element         <strong>offsetParent</strong> <a class="anchor-link"
             href="#offsetParent"
-            title="Permalink to PolymerUiMenuItem.offsetParent">#</a>
+            title="Permalink to PolymerUiRatings.offsetParent">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -974,7 +951,7 @@ final Element offsetParent
 <button class="show-code">Code</button>
 final int         <strong>offsetTop</strong> <a class="anchor-link"
             href="#offsetTop"
-            title="Permalink to PolymerUiMenuItem.offsetTop">#</a>
+            title="Permalink to PolymerUiRatings.offsetTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -986,7 +963,7 @@ final int offsetTop
 <button class="show-code">Code</button>
 final int         <strong>offsetWidth</strong> <a class="anchor-link"
             href="#offsetWidth"
-            title="Permalink to PolymerUiMenuItem.offsetWidth">#</a>
+            title="Permalink to PolymerUiRatings.offsetWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -998,7 +975,7 @@ final int offsetWidth
 <button class="show-code">Code</button>
 final ElementEvents         <strong>on</strong> <a class="anchor-link"
             href="#on"
-            title="Permalink to PolymerUiMenuItem.on">#</a>
+            title="Permalink to PolymerUiRatings.on">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>This is an ease-of-use accessor for event streams which should only be
@@ -1012,7 +989,7 @@ ElementEvents get on =&gt; new ElementEvents(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onAbort</strong> <a class="anchor-link"
             href="#onAbort"
-            title="Permalink to PolymerUiMenuItem.onAbort">#</a>
+            title="Permalink to PolymerUiRatings.onAbort">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>abort</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1027,7 +1004,7 @@ ElementStream&lt;Event&gt; get onAbort =&gt; abortEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforeCopy</strong> <a class="anchor-link"
             href="#onBeforeCopy"
-            title="Permalink to PolymerUiMenuItem.onBeforeCopy">#</a>
+            title="Permalink to PolymerUiRatings.onBeforeCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforecopy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1042,7 +1019,7 @@ ElementStream&lt;Event&gt; get onBeforeCopy =&gt; beforeCopyEvent.forElement(thi
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforeCut</strong> <a class="anchor-link"
             href="#onBeforeCut"
-            title="Permalink to PolymerUiMenuItem.onBeforeCut">#</a>
+            title="Permalink to PolymerUiRatings.onBeforeCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforecut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1057,7 +1034,7 @@ ElementStream&lt;Event&gt; get onBeforeCut =&gt; beforeCutEvent.forElement(this)
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBeforePaste</strong> <a class="anchor-link"
             href="#onBeforePaste"
-            title="Permalink to PolymerUiMenuItem.onBeforePaste">#</a>
+            title="Permalink to PolymerUiRatings.onBeforePaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>beforepaste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1072,7 +1049,7 @@ ElementStream&lt;Event&gt; get onBeforePaste =&gt; beforePasteEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onBlur</strong> <a class="anchor-link"
             href="#onBlur"
-            title="Permalink to PolymerUiMenuItem.onBlur">#</a>
+            title="Permalink to PolymerUiRatings.onBlur">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>blur</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1087,7 +1064,7 @@ ElementStream&lt;Event&gt; get onBlur =&gt; blurEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onChange</strong> <a class="anchor-link"
             href="#onChange"
-            title="Permalink to PolymerUiMenuItem.onChange">#</a>
+            title="Permalink to PolymerUiRatings.onChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>change</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1102,7 +1079,7 @@ ElementStream&lt;Event&gt; get onChange =&gt; changeEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onClick</strong> <a class="anchor-link"
             href="#onClick"
-            title="Permalink to PolymerUiMenuItem.onClick">#</a>
+            title="Permalink to PolymerUiRatings.onClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>click</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1117,7 +1094,7 @@ ElementStream&lt;MouseEvent&gt; get onClick =&gt; clickEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onContextMenu</strong> <a class="anchor-link"
             href="#onContextMenu"
-            title="Permalink to PolymerUiMenuItem.onContextMenu">#</a>
+            title="Permalink to PolymerUiRatings.onContextMenu">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>contextmenu</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1132,7 +1109,7 @@ ElementStream&lt;MouseEvent&gt; get onContextMenu =&gt; contextMenuEvent.forElem
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onCopy</strong> <a class="anchor-link"
             href="#onCopy"
-            title="Permalink to PolymerUiMenuItem.onCopy">#</a>
+            title="Permalink to PolymerUiRatings.onCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>copy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1147,7 +1124,7 @@ ElementStream&lt;Event&gt; get onCopy =&gt; copyEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onCut</strong> <a class="anchor-link"
             href="#onCut"
-            title="Permalink to PolymerUiMenuItem.onCut">#</a>
+            title="Permalink to PolymerUiRatings.onCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>cut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1162,7 +1139,7 @@ ElementStream&lt;Event&gt; get onCut =&gt; cutEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onDoubleClick</strong> <a class="anchor-link"
             href="#onDoubleClick"
-            title="Permalink to PolymerUiMenuItem.onDoubleClick">#</a>
+            title="Permalink to PolymerUiRatings.onDoubleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>doubleclick</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1177,7 +1154,7 @@ ElementStream&lt;Event&gt; get onDoubleClick =&gt; doubleClickEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDrag</strong> <a class="anchor-link"
             href="#onDrag"
-            title="Permalink to PolymerUiMenuItem.onDrag">#</a>
+            title="Permalink to PolymerUiRatings.onDrag">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>drag</code> events fired when this element currently being dragged.</p>
@@ -1201,7 +1178,7 @@ ElementStream&lt;MouseEvent&gt; get onDrag =&gt; dragEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnd</strong> <a class="anchor-link"
             href="#onDragEnd"
-            title="Permalink to PolymerUiMenuItem.onDragEnd">#</a>
+            title="Permalink to PolymerUiRatings.onDragEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragend</code> events fired when this element completes a drag
@@ -1223,7 +1200,7 @@ ElementStream&lt;MouseEvent&gt; get onDragEnd =&gt; dragEndEvent.forElement(this
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragEnter</strong> <a class="anchor-link"
             href="#onDragEnter"
-            title="Permalink to PolymerUiMenuItem.onDragEnter">#</a>
+            title="Permalink to PolymerUiRatings.onDragEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragenter</code> events fired when a dragged object is first dragged
@@ -1245,7 +1222,7 @@ ElementStream&lt;MouseEvent&gt; get onDragEnter =&gt; dragEnterEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragLeave</strong> <a class="anchor-link"
             href="#onDragLeave"
-            title="Permalink to PolymerUiMenuItem.onDragLeave">#</a>
+            title="Permalink to PolymerUiRatings.onDragLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragleave</code> events fired when an object being dragged over this
@@ -1267,7 +1244,7 @@ ElementStream&lt;MouseEvent&gt; get onDragLeave =&gt; dragLeaveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragOver</strong> <a class="anchor-link"
             href="#onDragOver"
-            title="Permalink to PolymerUiMenuItem.onDragOver">#</a>
+            title="Permalink to PolymerUiRatings.onDragOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragover</code> events fired when a dragged object is currently
@@ -1289,7 +1266,7 @@ ElementStream&lt;MouseEvent&gt; get onDragOver =&gt; dragOverEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDragStart</strong> <a class="anchor-link"
             href="#onDragStart"
-            title="Permalink to PolymerUiMenuItem.onDragStart">#</a>
+            title="Permalink to PolymerUiRatings.onDragStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>dragstart</code> events fired when this element starts being
@@ -1311,7 +1288,7 @@ ElementStream&lt;MouseEvent&gt; get onDragStart =&gt; dragStartEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onDrop</strong> <a class="anchor-link"
             href="#onDrop"
-            title="Permalink to PolymerUiMenuItem.onDrop">#</a>
+            title="Permalink to PolymerUiRatings.onDrop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>A stream of <code>drop</code> events fired when a dragged object is dropped on this
@@ -1333,7 +1310,7 @@ ElementStream&lt;MouseEvent&gt; get onDrop =&gt; dropEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onError</strong> <a class="anchor-link"
             href="#onError"
-            title="Permalink to PolymerUiMenuItem.onError">#</a>
+            title="Permalink to PolymerUiRatings.onError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>error</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1348,7 +1325,7 @@ ElementStream&lt;Event&gt; get onError =&gt; errorEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFocus</strong> <a class="anchor-link"
             href="#onFocus"
-            title="Permalink to PolymerUiMenuItem.onFocus">#</a>
+            title="Permalink to PolymerUiRatings.onFocus">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>focus</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1363,7 +1340,7 @@ ElementStream&lt;Event&gt; get onFocus =&gt; focusEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFullscreenChange</strong> <a class="anchor-link"
             href="#onFullscreenChange"
-            title="Permalink to PolymerUiMenuItem.onFullscreenChange">#</a>
+            title="Permalink to PolymerUiRatings.onFullscreenChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>fullscreenchange</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1380,7 +1357,7 @@ ElementStream&lt;Event&gt; get onFullscreenChange =&gt; fullscreenChangeEvent.fo
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onFullscreenError</strong> <a class="anchor-link"
             href="#onFullscreenError"
-            title="Permalink to PolymerUiMenuItem.onFullscreenError">#</a>
+            title="Permalink to PolymerUiRatings.onFullscreenError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>fullscreenerror</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1397,7 +1374,7 @@ ElementStream&lt;Event&gt; get onFullscreenError =&gt; fullscreenErrorEvent.forE
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onInput</strong> <a class="anchor-link"
             href="#onInput"
-            title="Permalink to PolymerUiMenuItem.onInput">#</a>
+            title="Permalink to PolymerUiRatings.onInput">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>input</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1412,7 +1389,7 @@ ElementStream&lt;Event&gt; get onInput =&gt; inputEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onInvalid</strong> <a class="anchor-link"
             href="#onInvalid"
-            title="Permalink to PolymerUiMenuItem.onInvalid">#</a>
+            title="Permalink to PolymerUiRatings.onInvalid">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>invalid</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1427,7 +1404,7 @@ ElementStream&lt;Event&gt; get onInvalid =&gt; invalidEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyDown</strong> <a class="anchor-link"
             href="#onKeyDown"
-            title="Permalink to PolymerUiMenuItem.onKeyDown">#</a>
+            title="Permalink to PolymerUiRatings.onKeyDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keydown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1442,7 +1419,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyDown =&gt; keyDownEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyPress</strong> <a class="anchor-link"
             href="#onKeyPress"
-            title="Permalink to PolymerUiMenuItem.onKeyPress">#</a>
+            title="Permalink to PolymerUiRatings.onKeyPress">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keypress</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1457,7 +1434,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyPress =&gt; keyPressEvent.forElement
 <button class="show-code">Code</button>
 final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyUp</strong> <a class="anchor-link"
             href="#onKeyUp"
-            title="Permalink to PolymerUiMenuItem.onKeyUp">#</a>
+            title="Permalink to PolymerUiRatings.onKeyUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>keyup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1472,7 +1449,7 @@ ElementStream&lt;KeyboardEvent&gt; get onKeyUp =&gt; keyUpEvent.forElement(this)
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onLoad</strong> <a class="anchor-link"
             href="#onLoad"
-            title="Permalink to PolymerUiMenuItem.onLoad">#</a>
+            title="Permalink to PolymerUiRatings.onLoad">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>load</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1487,7 +1464,7 @@ ElementStream&lt;Event&gt; get onLoad =&gt; loadEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
             href="#onMouseDown"
-            title="Permalink to PolymerUiMenuItem.onMouseDown">#</a>
+            title="Permalink to PolymerUiRatings.onMouseDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousedown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1502,7 +1479,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseDown =&gt; mouseDownEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseEnter</strong> <a class="anchor-link"
             href="#onMouseEnter"
-            title="Permalink to PolymerUiMenuItem.onMouseEnter">#</a>
+            title="Permalink to PolymerUiRatings.onMouseEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1518,7 +1495,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseEnter =&gt; mouseEnterEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseLeave</strong> <a class="anchor-link"
             href="#onMouseLeave"
-            title="Permalink to PolymerUiMenuItem.onMouseLeave">#</a>
+            title="Permalink to PolymerUiRatings.onMouseLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1534,7 +1511,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseLeave =&gt; mouseLeaveEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseMove</strong> <a class="anchor-link"
             href="#onMouseMove"
-            title="Permalink to PolymerUiMenuItem.onMouseMove">#</a>
+            title="Permalink to PolymerUiRatings.onMouseMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousemove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1549,7 +1526,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseMove =&gt; mouseMoveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOut</strong> <a class="anchor-link"
             href="#onMouseOut"
-            title="Permalink to PolymerUiMenuItem.onMouseOut">#</a>
+            title="Permalink to PolymerUiRatings.onMouseOut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseout</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1564,7 +1541,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseOut =&gt; mouseOutEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOver</strong> <a class="anchor-link"
             href="#onMouseOver"
-            title="Permalink to PolymerUiMenuItem.onMouseOver">#</a>
+            title="Permalink to PolymerUiRatings.onMouseOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseover</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1579,7 +1556,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseOver =&gt; mouseOverEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseUp</strong> <a class="anchor-link"
             href="#onMouseUp"
-            title="Permalink to PolymerUiMenuItem.onMouseUp">#</a>
+            title="Permalink to PolymerUiRatings.onMouseUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mouseup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1594,7 +1571,7 @@ ElementStream&lt;MouseEvent&gt; get onMouseUp =&gt; mouseUpEvent.forElement(this
 <button class="show-code">Code</button>
 final ElementStream&lt;WheelEvent&gt;         <strong>onMouseWheel</strong> <a class="anchor-link"
             href="#onMouseWheel"
-            title="Permalink to PolymerUiMenuItem.onMouseWheel">#</a>
+            title="Permalink to PolymerUiRatings.onMouseWheel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>mousewheel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1611,7 +1588,7 @@ ElementStream&lt;WheelEvent&gt; get onMouseWheel =&gt; mouseWheelEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anchor-link"
             href="#onPaste"
-            title="Permalink to PolymerUiMenuItem.onPaste">#</a>
+            title="Permalink to PolymerUiRatings.onPaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>paste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1626,7 +1603,7 @@ ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anchor-link"
             href="#onReset"
-            title="Permalink to PolymerUiMenuItem.onReset">#</a>
+            title="Permalink to PolymerUiRatings.onReset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>reset</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1641,7 +1618,7 @@ ElementStream&lt;Event&gt; get onReset =&gt; resetEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onScroll</strong> <a class="anchor-link"
             href="#onScroll"
-            title="Permalink to PolymerUiMenuItem.onScroll">#</a>
+            title="Permalink to PolymerUiRatings.onScroll">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>scroll</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1656,7 +1633,7 @@ ElementStream&lt;Event&gt; get onScroll =&gt; scrollEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSearch</strong> <a class="anchor-link"
             href="#onSearch"
-            title="Permalink to PolymerUiMenuItem.onSearch">#</a>
+            title="Permalink to PolymerUiRatings.onSearch">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>search</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1673,7 +1650,7 @@ ElementStream&lt;Event&gt; get onSearch =&gt; searchEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSelect</strong> <a class="anchor-link"
             href="#onSelect"
-            title="Permalink to PolymerUiMenuItem.onSelect">#</a>
+            title="Permalink to PolymerUiRatings.onSelect">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>select</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1688,7 +1665,7 @@ ElementStream&lt;Event&gt; get onSelect =&gt; selectEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSelectStart</strong> <a class="anchor-link"
             href="#onSelectStart"
-            title="Permalink to PolymerUiMenuItem.onSelectStart">#</a>
+            title="Permalink to PolymerUiRatings.onSelectStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>selectstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1704,7 +1681,7 @@ ElementStream&lt;Event&gt; get onSelectStart =&gt; selectStartEvent.forElement(t
 <button class="show-code">Code</button>
 final ElementStream&lt;Event&gt;         <strong>onSubmit</strong> <a class="anchor-link"
             href="#onSubmit"
-            title="Permalink to PolymerUiMenuItem.onSubmit">#</a>
+            title="Permalink to PolymerUiRatings.onSubmit">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>submit</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1719,7 +1696,7 @@ ElementStream&lt;Event&gt; get onSubmit =&gt; submitEvent.forElement(this);
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchCancel</strong> <a class="anchor-link"
             href="#onTouchCancel"
-            title="Permalink to PolymerUiMenuItem.onTouchCancel">#</a>
+            title="Permalink to PolymerUiRatings.onTouchCancel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchcancel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1736,7 +1713,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchCancel =&gt; touchCancelEvent.forElem
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnd</strong> <a class="anchor-link"
             href="#onTouchEnd"
-            title="Permalink to PolymerUiMenuItem.onTouchEnd">#</a>
+            title="Permalink to PolymerUiRatings.onTouchEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1753,7 +1730,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchEnd =&gt; touchEndEvent.forElement(th
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnter</strong> <a class="anchor-link"
             href="#onTouchEnter"
-            title="Permalink to PolymerUiMenuItem.onTouchEnter">#</a>
+            title="Permalink to PolymerUiRatings.onTouchEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1770,7 +1747,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchEnter =&gt; touchEnterEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchLeave</strong> <a class="anchor-link"
             href="#onTouchLeave"
-            title="Permalink to PolymerUiMenuItem.onTouchLeave">#</a>
+            title="Permalink to PolymerUiRatings.onTouchLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1787,7 +1764,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchLeave =&gt; touchLeaveEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchMove</strong> <a class="anchor-link"
             href="#onTouchMove"
-            title="Permalink to PolymerUiMenuItem.onTouchMove">#</a>
+            title="Permalink to PolymerUiRatings.onTouchMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchmove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1804,7 +1781,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchMove =&gt; touchMoveEvent.forElement(
 <button class="show-code">Code</button>
 final ElementStream&lt;TouchEvent&gt;         <strong>onTouchStart</strong> <a class="anchor-link"
             href="#onTouchStart"
-            title="Permalink to PolymerUiMenuItem.onTouchStart">#</a>
+            title="Permalink to PolymerUiRatings.onTouchStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>touchstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1821,7 +1798,7 @@ ElementStream&lt;TouchEvent&gt; get onTouchStart =&gt; touchStartEvent.forElemen
 <button class="show-code">Code</button>
 final ElementStream&lt;TransitionEvent&gt;         <strong>onTransitionEnd</strong> <a class="anchor-link"
             href="#onTransitionEnd"
-            title="Permalink to PolymerUiMenuItem.onTransitionEnd">#</a>
+            title="Permalink to PolymerUiRatings.onTransitionEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Stream of <code>transitionend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
@@ -1840,7 +1817,7 @@ ElementStream&lt;TransitionEvent&gt; get onTransitionEnd =&gt; transitionEndEven
 <button class="show-code">Code</button>
 final String         <strong>outerHtml</strong> <a class="anchor-link"
             href="#outerHtml"
-            title="Permalink to PolymerUiMenuItem.outerHtml">#</a>
+            title="Permalink to PolymerUiRatings.outerHtml">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1852,7 +1829,7 @@ final String outerHtml
 <button class="show-code">Code</button>
 final Document         <strong>ownerDocument</strong> <a class="anchor-link"
             href="#ownerDocument"
-            title="Permalink to PolymerUiMenuItem.ownerDocument">#</a>
+            title="Permalink to PolymerUiRatings.ownerDocument">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The document this node belongs to.</p>
@@ -1869,7 +1846,7 @@ final Document ownerDocument
 <button class="show-code">Code</button>
 final CssRect         <strong>paddingEdge</strong> <a class="anchor-link"
             href="#paddingEdge"
-            title="Permalink to PolymerUiMenuItem.paddingEdge">#</a>
+            title="Permalink to PolymerUiRatings.paddingEdge">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Access the dimensions and position of this element's content + padding box.</p>
@@ -1895,7 +1872,7 @@ CssRect get paddingEdge =&gt; new _PaddingCssRect(this);
 <button class="show-code">Code</button>
 final Element         <strong>parent</strong> <a class="anchor-link"
             href="#parent"
-            title="Permalink to PolymerUiMenuItem.parent">#</a>
+            title="Permalink to PolymerUiRatings.parent">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The parent element of this node.</p>
@@ -1913,7 +1890,7 @@ final Element parent
 <button class="show-code">Code</button>
 final Node         <strong>parentNode</strong> <a class="anchor-link"
             href="#parentNode"
-            title="Permalink to PolymerUiMenuItem.parentNode">#</a>
+            title="Permalink to PolymerUiRatings.parentNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The parent node of this node.</p>
@@ -1929,7 +1906,7 @@ final Node parentNode
 <button class="show-code">Code</button>
 final bool         <strong>preventDispose</strong> <a class="anchor-link"
             href="#preventDispose"
-            title="Permalink to PolymerUiMenuItem.preventDispose">#</a>
+            title="Permalink to PolymerUiRatings.preventDispose">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
@@ -1941,7 +1918,7 @@ bool get preventDispose =&gt; false;
 <button class="show-code">Code</button>
 final Element         <strong>previousElementSibling</strong> <a class="anchor-link"
             href="#previousElementSibling"
-            title="Permalink to PolymerUiMenuItem.previousElementSibling">#</a>
+            title="Permalink to PolymerUiRatings.previousElementSibling">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -1953,7 +1930,7 @@ final Element previousElementSibling
 <button class="show-code">Code</button>
 final Node         <strong>previousNode</strong> <a class="anchor-link"
             href="#previousNode"
-            title="Permalink to PolymerUiMenuItem.previousNode">#</a>
+            title="Permalink to PolymerUiRatings.previousNode">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The previous sibling node.</p>
@@ -1969,7 +1946,7 @@ final Node previousNode
 <button class="show-code">Code</button>
 String         <strong>pseudo</strong> <a class="anchor-link"
             href="#pseudo"
-            title="Permalink to PolymerUiMenuItem.pseudo">#</a>
+            title="Permalink to PolymerUiRatings.pseudo">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The name of this element's custom pseudo-element.</p>
@@ -1987,7 +1964,7 @@ String pseudo
 <button class="show-code">Code</button>
 final String         <strong>regionOverset</strong> <a class="anchor-link"
             href="#regionOverset"
-            title="Permalink to PolymerUiMenuItem.regionOverset">#</a>
+            title="Permalink to PolymerUiRatings.regionOverset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The current state of this region.</p>
@@ -2007,7 +1984,7 @@ final String regionOverset
 <button class="show-code">Code</button>
 final bool         <strong>resetStyleInheritance</strong> <a class="anchor-link"
             href="#resetStyleInheritance"
-            title="Permalink to PolymerUiMenuItem.resetStyleInheritance">#</a>
+            title="Permalink to PolymerUiRatings.resetStyleInheritance">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
@@ -2019,7 +1996,7 @@ bool get resetStyleInheritance =&gt; false;
 <button class="show-code">Code</button>
 final Type         <strong>runtimeType</strong> <a class="anchor-link"
             href="#runtimeType"
-            title="Permalink to PolymerUiMenuItem.runtimeType">#</a>
+            title="Permalink to PolymerUiRatings.runtimeType">#</a>
         </h4>
         <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
@@ -2034,7 +2011,7 @@ Type get runtimeType =&gt; getRuntimeType(this);
 <button class="show-code">Code</button>
 final int         <strong>scrollHeight</strong> <a class="anchor-link"
             href="#scrollHeight"
-            title="Permalink to PolymerUiMenuItem.scrollHeight">#</a>
+            title="Permalink to PolymerUiRatings.scrollHeight">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2046,7 +2023,7 @@ final int scrollHeight
 <button class="show-code">Code</button>
 int         <strong>scrollLeft</strong> <a class="anchor-link"
             href="#scrollLeft"
-            title="Permalink to PolymerUiMenuItem.scrollLeft">#</a>
+            title="Permalink to PolymerUiRatings.scrollLeft">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2058,7 +2035,7 @@ int scrollLeft
 <button class="show-code">Code</button>
 int         <strong>scrollTop</strong> <a class="anchor-link"
             href="#scrollTop"
-            title="Permalink to PolymerUiMenuItem.scrollTop">#</a>
+            title="Permalink to PolymerUiRatings.scrollTop">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2070,7 +2047,7 @@ int scrollTop
 <button class="show-code">Code</button>
 final int         <strong>scrollWidth</strong> <a class="anchor-link"
             href="#scrollWidth"
-            title="Permalink to PolymerUiMenuItem.scrollWidth">#</a>
+            title="Permalink to PolymerUiRatings.scrollWidth">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2082,7 +2059,7 @@ final int scrollWidth
 <button class="show-code">Code</button>
 final ShadowRoot         <strong>shadowRoot</strong> <a class="anchor-link"
             href="#shadowRoot"
-            title="Permalink to PolymerUiMenuItem.shadowRoot">#</a>
+            title="Permalink to PolymerUiRatings.shadowRoot">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The shadow root of this shadow host.</p>
@@ -2103,7 +2080,7 @@ ShadowRoot get shadowRoot =&gt;
 <button class="show-code">Code</button>
 bool         <strong>spellcheck</strong> <a class="anchor-link"
             href="#spellcheck"
-            title="Permalink to PolymerUiMenuItem.spellcheck">#</a>
+            title="Permalink to PolymerUiRatings.spellcheck">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2111,16 +2088,15 @@ bool spellcheck
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="src">
+<div class="field"><h4 id="stars">
 <button class="show-code">Code</button>
-String         <strong>src</strong> <a class="anchor-link"
-            href="#src"
-            title="Permalink to PolymerUiMenuItem.src">#</a>
+ObservableList&lt;ObservableMap&gt;         <strong>stars</strong> <a class="anchor-link"
+            href="#stars"
+            title="Permalink to PolymerUiRatings.stars">#</a>
         </h4>
         <div class="doc">
-<p>The URL of an image for the icon.</p>
 <pre class="source">
-String src = ''
+ObservableList&lt;ObservableMap&gt; stars
 </pre>
 </div>
 </div>
@@ -2128,7 +2104,7 @@ String src = ''
 <button class="show-code">Code</button>
 final CssStyleDeclaration         <strong>style</strong> <a class="anchor-link"
             href="#style"
-            title="Permalink to PolymerUiMenuItem.style">#</a>
+            title="Permalink to PolymerUiRatings.style">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2140,7 +2116,7 @@ final CssStyleDeclaration style
 <button class="show-code">Code</button>
 BindingDelegate         <strong>syntax</strong> <a class="anchor-link"
             href="#syntax"
-            title="Permalink to PolymerUiMenuItem.syntax">#</a>
+            title="Permalink to PolymerUiRatings.syntax">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
@@ -2152,7 +2128,7 @@ BindingDelegate syntax = _polymerSyntax
 <button class="show-code">Code</button>
 int         <strong>tabIndex</strong> <a class="anchor-link"
             href="#tabIndex"
-            title="Permalink to PolymerUiMenuItem.tabIndex">#</a>
+            title="Permalink to PolymerUiRatings.tabIndex">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2164,7 +2140,7 @@ int tabIndex
 <button class="show-code">Code</button>
 final String         <strong>tagName</strong> <a class="anchor-link"
             href="#tagName"
-            title="Permalink to PolymerUiMenuItem.tagName">#</a>
+            title="Permalink to PolymerUiRatings.tagName">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2176,7 +2152,7 @@ final String tagName
 <button class="show-code">Code</button>
 final TemplateInstance         <strong>templateInstance</strong> <a class="anchor-link"
             href="#templateInstance"
-            title="Permalink to PolymerUiMenuItem.templateInstance">#</a>
+            title="Permalink to PolymerUiRatings.templateInstance">#</a>
         </h4>
         <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
@@ -2192,7 +2168,7 @@ TemplateInstance get templateInstance =&gt;
 <button class="show-code">Code</button>
 String         <strong>text</strong> <a class="anchor-link"
             href="#text"
-            title="Permalink to PolymerUiMenuItem.text">#</a>
+            title="Permalink to PolymerUiRatings.text">#</a>
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>All text within this node and its decendents.</p>
@@ -2208,7 +2184,7 @@ String text
 <button class="show-code">Code</button>
 String         <strong>theme</strong> <a class="anchor-link"
             href="#theme"
-            title="Permalink to PolymerUiMenuItem.theme">#</a>
+            title="Permalink to PolymerUiRatings.theme">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <pre class="source">
@@ -2220,7 +2196,7 @@ String theme = ''
 <button class="show-code">Code</button>
 String         <strong>title</strong> <a class="anchor-link"
             href="#title"
-            title="Permalink to PolymerUiMenuItem.title">#</a>
+            title="Permalink to PolymerUiRatings.title">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
@@ -2232,7 +2208,7 @@ String title
 <button class="show-code">Code</button>
 bool         <strong>translate</strong> <a class="anchor-link"
             href="#translate"
-            title="Permalink to PolymerUiMenuItem.translate">#</a>
+            title="Permalink to PolymerUiRatings.translate">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Specifies whether this element's text content changes when the page is
@@ -2249,7 +2225,7 @@ bool translate
 <button class="show-code">Code</button>
 <a href="../polymer_ui_elements.polymer_ui_theme_aware.polymer_ui/validateThemeFunc.html">validateThemeFunc</a>         <strong>validateTheme</strong> <a class="anchor-link"
             href="#validateTheme"
-            title="Permalink to PolymerUiMenuItem.validateTheme">#</a>
+            title="Permalink to PolymerUiRatings.validateTheme">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <pre class="source">
@@ -2257,11 +2233,27 @@ ui.validateThemeFunc validateTheme = ui.validateTheme
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="value">
+<button class="show-code">Code</button>
+int         <strong>value</strong> <a class="anchor-link"
+            href="#value"
+            title="Permalink to PolymerUiRatings.value">#</a>
+        </h4>
+        <div class="doc">
+<p>Number of selected stars.</p>
+<p>@attribute value
+@type number
+@default 0</p>
+<pre class="source">
+int value = 0
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="xtag">
 <button class="show-code">Code</button>
 var         <strong>xtag</strong> <a class="anchor-link"
             href="#xtag"
-            title="Permalink to PolymerUiMenuItem.xtag">#</a>
+            title="Permalink to PolymerUiRatings.xtag">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Experimental support for <a href="http://dvcs.w3.org/hg/webcomponents/raw-file/tip/explainer/index.html">web components</a>. This field stores a
@@ -2286,7 +2278,7 @@ void set xtag(Element value) {
 <div class="method inherited"><h4 id="==">
 <button class="show-code">Code</button>
 bool <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to PolymerUiMenuItem.operator ==">#</a></h4>
+              title="Permalink to PolymerUiRatings.operator ==">#</a></h4>
 <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
 <p>The equality operator.</p>
@@ -2320,7 +2312,7 @@ bool operator ==(other) =&gt; identical(this, other);
 <div class="method inherited"><h4 id="activeThemeChanged">
 <button class="show-code">Code</button>
 void <strong>activeThemeChanged</strong>(String old) <a class="anchor-link" href="#activeThemeChanged"
-              title="Permalink to PolymerUiMenuItem.activeThemeChanged">#</a></h4>
+              title="Permalink to PolymerUiRatings.activeThemeChanged">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <pre class="source">
 void activeThemeChanged(String old) {
@@ -2335,7 +2327,7 @@ void activeThemeChanged(String old) {
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
 void <strong>addEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#addEventListener"
-              title="Permalink to PolymerUiMenuItem.addEventListener">#</a></h4>
+              title="Permalink to PolymerUiRatings.addEventListener">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.addEventListener')
@@ -2347,7 +2339,7 @@ void addEventListener(String type, EventListener listener, [bool useCapture]) na
 <div class="method inherited"><h4 id="addHostListeners">
 <button class="show-code">Code</button>
 void <strong>addHostListeners</strong>() <a class="anchor-link" href="#addHostListeners"
-              title="Permalink to PolymerUiMenuItem.addHostListeners">#</a></h4>
+              title="Permalink to PolymerUiRatings.addHostListeners">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Attach event listeners on the host (this) element. </p>
 <pre class="source">
@@ -2366,7 +2358,7 @@ void addHostListeners() {
 <div class="method inherited"><h4 id="addNodeListener">
 <button class="show-code">Code</button>
 void <strong>addNodeListener</strong>(Node node, String event, void listener(Event e)) <a class="anchor-link" href="#addNodeListener"
-              title="Permalink to PolymerUiMenuItem.addNodeListener">#</a></h4>
+              title="Permalink to PolymerUiRatings.addNodeListener">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void addNodeListener(Node node, String event, void listener(Event e)) {
@@ -2378,7 +2370,7 @@ void addNodeListener(Node node, String event, void listener(Event e)) {
 <div class="method inherited"><h4 id="addNodeListeners">
 <button class="show-code">Code</button>
 void <strong>addNodeListeners</strong>(Node node, Iterable&lt;String&gt; events, void listener(Event e)) <a class="anchor-link" href="#addNodeListeners"
-              title="Permalink to PolymerUiMenuItem.addNodeListeners">#</a></h4>
+              title="Permalink to PolymerUiRatings.addNodeListeners">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void addNodeListeners(Node node, Iterable&lt;String&gt; events,
@@ -2394,7 +2386,7 @@ void addNodeListeners(Node node, Iterable&lt;String&gt; events,
 <div class="method inherited"><h4 id="append">
 <button class="show-code">Code</button>
 Node <strong>append</strong>(Node newChild) <a class="anchor-link" href="#append"
-              title="Permalink to PolymerUiMenuItem.append">#</a></h4>
+              title="Permalink to PolymerUiRatings.append">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Adds a node to the end of the child <a class="crossref" href="../dart_html/Node.html#nodes">nodes</a> list of this node.</p>
 <p>If the node already exists in this document, it will be removed from its
@@ -2421,7 +2413,7 @@ Node append(Node newChild) native;
 <div class="method inherited"><h4 id="appendHtml">
 <button class="show-code">Code</button>
 void <strong>appendHtml</strong>(String text) <a class="anchor-link" href="#appendHtml"
-              title="Permalink to PolymerUiMenuItem.appendHtml">#</a></h4>
+              title="Permalink to PolymerUiRatings.appendHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the specified text as HTML and adds the resulting node after the
 last child of this element.</p>
@@ -2435,7 +2427,7 @@ void appendHtml(String text) {
 <div class="method inherited"><h4 id="appendText">
 <button class="show-code">Code</button>
 void <strong>appendText</strong>(String text) <a class="anchor-link" href="#appendText"
-              title="Permalink to PolymerUiMenuItem.appendText">#</a></h4>
+              title="Permalink to PolymerUiRatings.appendText">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Adds the specified text after the last child of this element.</p>
 <pre class="source">
@@ -2448,7 +2440,7 @@ void appendText(String text) {
 <div class="method inherited"><h4 id="async">
 <button class="show-code">Code</button>
 int <strong>async</strong>(RequestAnimationFrameCallback method) <a class="anchor-link" href="#async"
-              title="Permalink to PolymerUiMenuItem.async">#</a></h4>
+              title="Permalink to PolymerUiRatings.async">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Invokes a function asynchronously.
 This will call <code>Platform.flush()</code> and then call
@@ -2470,7 +2462,7 @@ int async(RequestAnimationFrameCallback method) {
 <div class="method inherited"><h4 id="asyncFire">
 <button class="show-code">Code</button>
 dynamic <strong>asyncFire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#asyncFire"
-              title="Permalink to PolymerUiMenuItem.asyncFire">#</a></h4>
+              title="Permalink to PolymerUiRatings.asyncFire">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Fire an event asynchronously. See <a class="crossref" href="../polymer/Polymer.html#async">async</a> and <a class="crossref" href="../polymer/Polymer.html#fire">fire</a>.</p>
 <pre class="source">
@@ -2486,7 +2478,7 @@ asyncFire(String type, {Object detail, Node toNode, bool canBubble}) {
 <div class="method inherited"><h4 id="asyncTimer">
 <button class="show-code">Code</button>
 Timer <strong>asyncTimer</strong>(void method(), Duration timeout) <a class="anchor-link" href="#asyncTimer"
-              title="Permalink to PolymerUiMenuItem.asyncTimer">#</a></h4>
+              title="Permalink to PolymerUiRatings.asyncTimer">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Invokes a function asynchronously.
 This will call <code>Platform.flush()</code> and then return a <code>new Timer</code>
@@ -2508,7 +2500,7 @@ Timer asyncTimer(void method(), Duration timeout) {
 <div class="method inherited"><h4 id="asyncUnbindAll">
 <button class="show-code">Code</button>
 void <strong>asyncUnbindAll</strong>() <a class="anchor-link" href="#asyncUnbindAll"
-              title="Permalink to PolymerUiMenuItem.asyncUnbindAll">#</a></h4>
+              title="Permalink to PolymerUiRatings.asyncUnbindAll">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void asyncUnbindAll() {
@@ -2522,7 +2514,7 @@ void asyncUnbindAll() {
 <div class="method inherited"><h4 id="attributeChanged">
 <button class="show-code">Code</button>
 void <strong>attributeChanged</strong>(String name, String oldValue, String newValue) <a class="anchor-link" href="#attributeChanged"
-              title="Permalink to PolymerUiMenuItem.attributeChanged">#</a></h4>
+              title="Permalink to PolymerUiRatings.attributeChanged">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM whenever an attribute on this has been changed.</p>
@@ -2539,7 +2531,7 @@ void attributeChanged(String name, String oldValue, String newValue) {
 <div class="method inherited"><h4 id="attributeToProperty">
 <button class="show-code">Code</button>
 void <strong>attributeToProperty</strong>(String name, String value) <a class="anchor-link" href="#attributeToProperty"
-              title="Permalink to PolymerUiMenuItem.attributeToProperty">#</a></h4>
+              title="Permalink to PolymerUiRatings.attributeToProperty">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>If attribute 
 <span class="param">name</span> is mapped to a property, deserialize
@@ -2577,7 +2569,7 @@ void attributeToProperty(String name, String value) {
 <div class="method inherited"><h4 id="bind">
 <button class="show-code">Code</button>
 NodeBinding <strong>bind</strong>(String name, model, [String path]) <a class="anchor-link" href="#bind"
-              title="Permalink to PolymerUiMenuItem.bind">#</a></h4>
+              title="Permalink to PolymerUiRatings.bind">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Binds the attribute 
@@ -2617,7 +2609,7 @@ NodeBinding bind(String name, model, [String path]) {
 <div class="method inherited"><h4 id="bindProperty">
 <button class="show-code">Code</button>
 NodeBinding <strong>bindProperty</strong>(Symbol name, Object model, [String path]) <a class="anchor-link" href="#bindProperty"
-              title="Permalink to PolymerUiMenuItem.bindProperty">#</a></h4>
+              title="Permalink to PolymerUiRatings.bindProperty">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Bind a <code>property</code> in this object to a 
 <span class="param">path</span> in model. <em>Note</em> in Dart it
@@ -2639,7 +2631,7 @@ NodeBinding bindProperty(Symbol name, Object model, [String path]) =&gt;
 <div class="method inherited"><h4 id="blur">
 <button class="show-code">Code</button>
 void <strong>blur</strong>() <a class="anchor-link" href="#blur"
-              title="Permalink to PolymerUiMenuItem.blur">#</a></h4>
+              title="Permalink to PolymerUiRatings.blur">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.blur')
@@ -2651,7 +2643,7 @@ void blur() native;
 <div class="method inherited"><h4 id="cancelUnbindAll">
 <button class="show-code">Code</button>
 void <strong>cancelUnbindAll</strong>({bool preventCascade}) <a class="anchor-link" href="#cancelUnbindAll"
-              title="Permalink to PolymerUiMenuItem.cancelUnbindAll">#</a></h4>
+              title="Permalink to PolymerUiRatings.cancelUnbindAll">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void cancelUnbindAll({bool preventCascade}) {
@@ -2681,7 +2673,7 @@ void cancelUnbindAll({bool preventCascade}) {
 <div class="method inherited"><h4 id="classFollows">
 <button class="show-code">Code</button>
 void <strong>classFollows</strong>(Element anew, Element old, String className) <a class="anchor-link" href="#classFollows"
-              title="Permalink to PolymerUiMenuItem.classFollows">#</a></h4>
+              title="Permalink to PolymerUiRatings.classFollows">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Remove 
 <span class="param">className</span> from 
@@ -2702,7 +2694,7 @@ void classFollows(Element anew, Element old, String className) {
 <div class="method inherited"><h4 id="click">
 <button class="show-code">Code</button>
 void <strong>click</strong>() <a class="anchor-link" href="#click"
-              title="Permalink to PolymerUiMenuItem.click">#</a></h4>
+              title="Permalink to PolymerUiRatings.click">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.click')
@@ -2714,7 +2706,7 @@ void click() native;
 <div class="method inherited"><h4 id="clone">
 <button class="show-code">Code</button>
 Node <strong>clone</strong>(bool deep) <a class="anchor-link" href="#clone"
-              title="Permalink to PolymerUiMenuItem.clone">#</a></h4>
+              title="Permalink to PolymerUiRatings.clone">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Returns a copy of this node.</p>
 <p>If 
@@ -2747,7 +2739,7 @@ Node clone(bool deep) native;
 <div class="method inherited"><h4 id="contains">
 <button class="show-code">Code</button>
 bool <strong>contains</strong>(Node other) <a class="anchor-link" href="#contains"
-              title="Permalink to PolymerUiMenuItem.contains">#</a></h4>
+              title="Permalink to PolymerUiRatings.contains">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Returns true if this node contains the specified node.</p>
 <h2>Other resources</h2><ul><li>
@@ -2762,7 +2754,7 @@ bool contains(Node other) native;
 <div class="method inherited"><h4 id="copyInstanceAttributes">
 <button class="show-code">Code</button>
 void <strong>copyInstanceAttributes</strong>() <a class="anchor-link" href="#copyInstanceAttributes"
-              title="Permalink to PolymerUiMenuItem.copyInstanceAttributes">#</a></h4>
+              title="Permalink to PolymerUiRatings.copyInstanceAttributes">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void copyInstanceAttributes() {
@@ -2773,10 +2765,26 @@ void copyInstanceAttributes() {
 </pre>
 </div>
 </div>
+<div class="method"><h4 id="countChanged">
+<button class="show-code">Code</button>
+void <strong>countChanged</strong>(oldValue) <a class="anchor-link" href="#countChanged"
+              title="Permalink to PolymerUiRatings.countChanged">#</a></h4>
+<div class="doc">
+<pre class="source">
+void countChanged(oldValue) {
+ this.stars = new ObservableList&lt;ObservableMap&gt;();
+ for (var i = 0; i &lt; this.count; i++) {
+   this.stars.add(new ObservableMap.from({'index': i}));
+ }
+ this.valueChanged(null);
+}
+</pre>
+</div>
+</div>
 <div class="method inherited"><h4 id="createFragment">
 <button class="show-code">Code</button>
 DocumentFragment <strong>createFragment</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#createFragment"
-              title="Permalink to PolymerUiMenuItem.createFragment">#</a></h4>
+              title="Permalink to PolymerUiRatings.createFragment">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Create a DocumentFragment from the HTML fragment and ensure that it follows
 the sanitization rules specified by the validator or treeSanitizer.</p>
@@ -2854,7 +2862,7 @@ DocumentFragment createFragment(String html,
 <div class="method inherited"><h4 id="createShadowRoot">
 <button class="show-code">Code</button>
 ShadowRoot <strong>createShadowRoot</strong>() <a class="anchor-link" href="#createShadowRoot"
-              title="Permalink to PolymerUiMenuItem.createShadowRoot">#</a></h4>
+              title="Permalink to PolymerUiRatings.createShadowRoot">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Creates a new shadow root for this shadow host.</p>
 <h2>Other resources</h2><ul><li>
@@ -2876,7 +2884,7 @@ ShadowRoot createShadowRoot() {
 <div class="method inherited"><h4 id="deliverChanges">
 <button class="show-code">Code</button>
 bool <strong>deliverChanges</strong>() <a class="anchor-link" href="#deliverChanges"
-              title="Permalink to PolymerUiMenuItem.deliverChanges">#</a></h4>
+              title="Permalink to PolymerUiRatings.deliverChanges">#</a></h4>
 <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>Synchronously deliver pending <a class="crossref" href="../observe.src.observable/Observable.html#changes">changes</a>. Returns true if any records were
 delivered, otherwise false.</p>
@@ -2909,7 +2917,7 @@ bool deliverChanges() {
 <div class="method inherited"><h4 id="deserializeValue">
 <button class="show-code">Code</button>
 Object <strong>deserializeValue</strong>(String value, Object currentValue, TypeMirror type) <a class="anchor-link" href="#deserializeValue"
-              title="Permalink to PolymerUiMenuItem.deserializeValue">#</a></h4>
+              title="Permalink to PolymerUiRatings.deserializeValue">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Convert representation of 
 <span class="param">value</span> based on 
@@ -2924,7 +2932,7 @@ Object deserializeValue(String value, Object currentValue, TypeMirror type) =&gt
 <div class="method inherited"><h4 id="dispatchEvent">
 <button class="show-code">Code</button>
 bool <strong>dispatchEvent</strong>(Event event) <a class="anchor-link" href="#dispatchEvent"
-              title="Permalink to PolymerUiMenuItem.dispatchEvent">#</a></h4>
+              title="Permalink to PolymerUiRatings.dispatchEvent">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.dispatchEvent')
@@ -2936,7 +2944,7 @@ bool dispatchEvent(Event event) native;
 <div class="method inherited"><h4 id="dispatchMethod">
 <button class="show-code">Code</button>
 void <strong>dispatchMethod</strong>(object, callbackOrMethod, List args) <a class="anchor-link" href="#dispatchMethod"
-              title="Permalink to PolymerUiMenuItem.dispatchMethod">#</a></h4>
+              title="Permalink to PolymerUiRatings.dispatchMethod">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Calls <code>methodOrCallback</code> with 
 <span class="param">args</span> if it is a closure, otherwise, treat
@@ -2963,7 +2971,7 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 <div class="method inherited"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
-              title="Permalink to PolymerUiMenuItem.enteredView">#</a></h4>
+              title="Permalink to PolymerUiRatings.enteredView">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
@@ -2982,7 +2990,7 @@ void enteredView() {
 <div class="method inherited"><h4 id="fetchTemplate">
 <button class="show-code">Code</button>
 Element <strong>fetchTemplate</strong>(Element elementElement) <a class="anchor-link" href="#fetchTemplate"
-              title="Permalink to PolymerUiMenuItem.fetchTemplate">#</a></h4>
+              title="Permalink to PolymerUiRatings.fetchTemplate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Return a shadow-root template (if desired), override for custom behavior.</p>
 <pre class="source">
@@ -2994,7 +3002,7 @@ Element fetchTemplate(Element elementElement) =&gt;
 <div class="method inherited"><h4 id="findEventDelegate">
 <button class="show-code">Code</button>
 String <strong>findEventDelegate</strong>(Event event) <a class="anchor-link" href="#findEventDelegate"
-              title="Permalink to PolymerUiMenuItem.findEventDelegate">#</a></h4>
+              title="Permalink to PolymerUiRatings.findEventDelegate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 String findEventDelegate(Event event) =&gt;
@@ -3005,7 +3013,7 @@ String findEventDelegate(Event event) =&gt;
 <div class="method inherited"><h4 id="findStyleController">
 <button class="show-code">Code</button>
 Node <strong>findStyleController</strong>() <a class="anchor-link" href="#findStyleController"
-              title="Permalink to PolymerUiMenuItem.findStyleController">#</a></h4>
+              title="Permalink to PolymerUiRatings.findStyleController">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 Node findStyleController() {
@@ -3026,7 +3034,7 @@ Node findStyleController() {
 <div class="method inherited"><h4 id="fire">
 <button class="show-code">Code</button>
 Object <strong>fire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#fire"
-              title="Permalink to PolymerUiMenuItem.fire">#</a></h4>
+              title="Permalink to PolymerUiRatings.fire">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Fire a <a class="crossref" href="../dart_html/CustomEvent.html">CustomEvent</a> targeting 
 <span class="param">toNode</span>, or this if toNode is not
@@ -3049,7 +3057,7 @@ Object fire(String type, {Object detail, Node toNode, bool canBubble}) {
 <div class="method inherited"><h4 id="focus">
 <button class="show-code">Code</button>
 void <strong>focus</strong>() <a class="anchor-link" href="#focus"
-              title="Permalink to PolymerUiMenuItem.focus">#</a></h4>
+              title="Permalink to PolymerUiRatings.focus">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.focus')
@@ -3061,7 +3069,7 @@ void focus() native;
 <div class="method inherited"><h4 id="getAttribute">
 <button class="show-code">Code</button>
 String <strong>getAttribute</strong>(String name) <a class="anchor-link" href="#getAttribute"
-              title="Permalink to PolymerUiMenuItem.getAttribute">#</a></h4>
+              title="Permalink to PolymerUiRatings.getAttribute">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getAttribute')
@@ -3074,7 +3082,7 @@ String getAttribute(String name) native;
 <div class="method inherited"><h4 id="getAttributeNS">
 <button class="show-code">Code</button>
 String <strong>getAttributeNS</strong>(String namespaceURI, String localName) <a class="anchor-link" href="#getAttributeNS"
-              title="Permalink to PolymerUiMenuItem.getAttributeNS">#</a></h4>
+              title="Permalink to PolymerUiRatings.getAttributeNS">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.getAttributeNS')
@@ -3087,7 +3095,7 @@ String getAttributeNS(String namespaceURI, String localName) native;
 <div class="method inherited"><h4 id="getBoundingClientRect">
 <button class="show-code">Code</button>
 Rectangle <strong>getBoundingClientRect</strong>() <a class="anchor-link" href="#getBoundingClientRect"
-              title="Permalink to PolymerUiMenuItem.getBoundingClientRect">#</a></h4>
+              title="Permalink to PolymerUiRatings.getBoundingClientRect">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Returns the smallest bounding rectangle that encompasses this element's
 padding, scrollbar, and border.</p>
@@ -3106,7 +3114,7 @@ Rectangle getBoundingClientRect() native;
 <div class="method inherited"><h4 id="getClientRects">
 <button class="show-code">Code</button>
 List&lt;Rectangle&gt; <strong>getClientRects</strong>() <a class="anchor-link" href="#getClientRects"
-              title="Permalink to PolymerUiMenuItem.getClientRects">#</a></h4>
+              title="Permalink to PolymerUiRatings.getClientRects">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Returns a list of bounding rectangles for each box associated with this
 element.</p>
@@ -3127,7 +3135,7 @@ List&lt;Rectangle&gt; getClientRects() native;
 <div class="method inherited"><h4 id="getComputedStyle">
 <button class="show-code">Code</button>
 CssStyleDeclaration <strong>getComputedStyle</strong>([String pseudoElement]) <a class="anchor-link" href="#getComputedStyle"
-              title="Permalink to PolymerUiMenuItem.getComputedStyle">#</a></h4>
+              title="Permalink to PolymerUiRatings.getComputedStyle">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The set of all CSS values applied to this element, including inherited
 and default values.</p>
@@ -3152,7 +3160,7 @@ CssStyleDeclaration getComputedStyle([String pseudoElement]) {
 <div class="method inherited"><h4 id="getDestinationInsertionPoints">
 <button class="show-code">Code</button>
 List&lt;Node&gt; <strong>getDestinationInsertionPoints</strong>() <a class="anchor-link" href="#getDestinationInsertionPoints"
-              title="Permalink to PolymerUiMenuItem.getDestinationInsertionPoints">#</a></h4>
+              title="Permalink to PolymerUiRatings.getDestinationInsertionPoints">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Returns a list of shadow DOM insertion points to which this element is
 distributed.</p>
@@ -3172,7 +3180,7 @@ List&lt;Node&gt; getDestinationInsertionPoints() native;
 <div class="method inherited"><h4 id="getElementsByClassName">
 <button class="show-code">Code</button>
 List&lt;Node&gt; <strong>getElementsByClassName</strong>(String name) <a class="anchor-link" href="#getElementsByClassName"
-              title="Permalink to PolymerUiMenuItem.getElementsByClassName">#</a></h4>
+              title="Permalink to PolymerUiRatings.getElementsByClassName">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Returns a list of nodes with the given class name inside this element.</p>
 <h2>Other resources</h2><ul><li>
@@ -3188,22 +3196,10 @@ List&lt;Node&gt; getElementsByClassName(String name) native;
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="getItemHeight">
-<button class="show-code">Code</button>
-int <strong>getItemHeight</strong>() <a class="anchor-link" href="#getItemHeight"
-              title="Permalink to PolymerUiMenuItem.getItemHeight">#</a></h4>
-<div class="doc">
-<pre class="source">
-int getItemHeight() {
- return this.offsetHeight;
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="getNamespacedAttributes">
 <button class="show-code">Code</button>
 Map&lt;String, String&gt; <strong>getNamespacedAttributes</strong>(String namespace) <a class="anchor-link" href="#getNamespacedAttributes"
-              title="Permalink to PolymerUiMenuItem.getNamespacedAttributes">#</a></h4>
+              title="Permalink to PolymerUiRatings.getNamespacedAttributes">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Gets a map for manipulating the attributes of a particular namespace.</p>
 <p>This is primarily useful for SVG attributes such as xref:link.</p>
@@ -3214,27 +3210,10 @@ Map&lt;String, String&gt; getNamespacedAttributes(String namespace) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="getOffsetMiddle">
-<button class="show-code">Code</button>
-double <strong>getOffsetMiddle</strong>() <a class="anchor-link" href="#getOffsetMiddle"
-              title="Permalink to PolymerUiMenuItem.getOffsetMiddle">#</a></h4>
-<div class="doc">
-<pre class="source">
-double getOffsetMiddle() {
-  var p = this.parentNode as PolymerSelector;
-  if (p != null) {
-    var i = p.items;
-    var h = this.getItemHeight();
-    return i * h + h/2 + p.items[0].offsetTop;
-  }
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="getRegionFlowRanges">
 <button class="show-code">Code</button>
 List&lt;Range&gt; <strong>getRegionFlowRanges</strong>() <a class="anchor-link" href="#getRegionFlowRanges"
-              title="Permalink to PolymerUiMenuItem.getRegionFlowRanges">#</a></h4>
+              title="Permalink to PolymerUiRatings.getRegionFlowRanges">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Returns an array of ranges of fragments in the flow.</p>
 <h2>Other resources</h2><ul><li>
@@ -3268,7 +3247,7 @@ List&lt;Range&gt; getRegionFlowRanges() native;
 <div class="method inherited"><h4 id="getShadowRoot">
 <button class="show-code">Code</button>
 ShadowRoot <strong>getShadowRoot</strong>(String customTagName) <a class="anchor-link" href="#getShadowRoot"
-              title="Permalink to PolymerUiMenuItem.getShadowRoot">#</a></h4>
+              title="Permalink to PolymerUiRatings.getShadowRoot">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Gets the shadow root associated with the corresponding custom element.</p>
 <p>This is identical to <code>shadowRoot</code>, unless there are multiple levels of
@@ -3283,7 +3262,7 @@ ShadowRoot getShadowRoot(String customTagName) =&gt; _shadowRoots[customTagName]
 <div class="method inherited"><h4 id="hasChildNodes">
 <button class="show-code">Code</button>
 bool <strong>hasChildNodes</strong>() <a class="anchor-link" href="#hasChildNodes"
-              title="Permalink to PolymerUiMenuItem.hasChildNodes">#</a></h4>
+              title="Permalink to PolymerUiRatings.hasChildNodes">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Returns true if this node has any children.</p>
 <h2>Other resources</h2><ul><li>
@@ -3299,7 +3278,7 @@ bool hasChildNodes() native;
 <div class="method inherited"><h4 id="hostEventListener">
 <button class="show-code">Code</button>
 void <strong>hostEventListener</strong>(Event event) <a class="anchor-link" href="#hostEventListener"
-              title="Permalink to PolymerUiMenuItem.hostEventListener">#</a></h4>
+              title="Permalink to PolymerUiRatings.hostEventListener">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void hostEventListener(Event event) {
@@ -3328,22 +3307,10 @@ void hostEventListener(Event event) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="iconChanged">
-<button class="show-code">Code</button>
-void <strong>iconChanged</strong>(old) <a class="anchor-link" href="#iconChanged"
-              title="Permalink to PolymerUiMenuItem.iconChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-void iconChanged(old) {
- updateIsShowIcon();
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="insertAdjacentElement">
 <button class="show-code">Code</button>
 Element <strong>insertAdjacentElement</strong>(String where, Element element) <a class="anchor-link" href="#insertAdjacentElement"
-              title="Permalink to PolymerUiMenuItem.insertAdjacentElement">#</a></h4>
+              title="Permalink to PolymerUiRatings.insertAdjacentElement">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Inserts 
 <span class="param">element</span> into the DOM at the specified location.</p>
@@ -3366,7 +3333,7 @@ Element insertAdjacentElement(String where, Element element) {
 <div class="method inherited"><h4 id="insertAdjacentHtml">
 <button class="show-code">Code</button>
 void <strong>insertAdjacentHtml</strong>(String where, String html) <a class="anchor-link" href="#insertAdjacentHtml"
-              title="Permalink to PolymerUiMenuItem.insertAdjacentHtml">#</a></h4>
+              title="Permalink to PolymerUiRatings.insertAdjacentHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses text as an HTML fragment and inserts it into the DOM at the
 specified location.</p>
@@ -3393,7 +3360,7 @@ void insertAdjacentHtml(String where, String html) {
 <div class="method inherited"><h4 id="insertAdjacentText">
 <button class="show-code">Code</button>
 void <strong>insertAdjacentText</strong>(String where, String text) <a class="anchor-link" href="#insertAdjacentText"
-              title="Permalink to PolymerUiMenuItem.insertAdjacentText">#</a></h4>
+              title="Permalink to PolymerUiRatings.insertAdjacentText">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Inserts text into the DOM at the specified location.</p>
 <p>To see the possible values for 
@@ -3414,7 +3381,7 @@ void insertAdjacentText(String where, String text) {
 <div class="method inherited"><h4 id="insertAllBefore">
 <button class="show-code">Code</button>
 Node <strong>insertAllBefore</strong>(Iterable&lt;Node&gt; newNodes, Node refChild) <a class="anchor-link" href="#insertAllBefore"
-              title="Permalink to PolymerUiMenuItem.insertAllBefore">#</a></h4>
+              title="Permalink to PolymerUiRatings.insertAllBefore">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Inserts all of the nodes into this node directly before refChild.</p>
 <p>See also:</p><ul><li><a class="crossref" href="../dart_html/Node.html#insertBefore">insertBefore</a></li></ul>
@@ -3442,7 +3409,7 @@ Node insertAllBefore(Iterable&lt;Node&gt; newNodes, Node refChild) {
 <div class="method inherited"><h4 id="insertBefore">
 <button class="show-code">Code</button>
 Node <strong>insertBefore</strong>(Node newChild, Node refChild) <a class="anchor-link" href="#insertBefore"
-              title="Permalink to PolymerUiMenuItem.insertBefore">#</a></h4>
+              title="Permalink to PolymerUiRatings.insertBefore">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Inserts all of the nodes into this node directly before refChild.</p>
 <h2>Other resources</h2><ul><li>
@@ -3458,7 +3425,7 @@ Node insertBefore(Node newChild, Node refChild) native;
 <div class="method inherited"><h4 id="installControllerStyles">
 <button class="show-code">Code</button>
 void <strong>installControllerStyles</strong>() <a class="anchor-link" href="#installControllerStyles"
-              title="Permalink to PolymerUiMenuItem.installControllerStyles">#</a></h4>
+              title="Permalink to PolymerUiRatings.installControllerStyles">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Installs external stylesheets and &lt;style> elements with the attribute
 polymer-scope='controller' into the scope of element. This is intended
@@ -3498,7 +3465,7 @@ void installControllerStyles() {
 <div class="method inherited"><h4 id="instanceTemplate">
 <button class="show-code">Code</button>
 DocumentFragment <strong>instanceTemplate</strong>(Element template) <a class="anchor-link" href="#instanceTemplate"
-              title="Permalink to PolymerUiMenuItem.instanceTemplate">#</a></h4>
+              title="Permalink to PolymerUiRatings.instanceTemplate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Creates the document fragment to use for each instance of the custom
 element, given the <code>&lt;template&gt;</code> node. By default this is equivalent to:</p>
@@ -3518,7 +3485,7 @@ DocumentFragment instanceTemplate(Element template) =&gt;
 <div class="method inherited"><h4 id="invokeMethod">
 <button class="show-code">Code</button>
 dynamic <strong>invokeMethod</strong>(Symbol methodName, List args) <a class="anchor-link" href="#invokeMethod"
-              title="Permalink to PolymerUiMenuItem.invokeMethod">#</a></h4>
+              title="Permalink to PolymerUiRatings.invokeMethod">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Call 
 <span class="param">methodName</span> method on this object with 
@@ -3532,7 +3499,7 @@ invokeMethod(Symbol methodName, List args) =&gt;
 <div class="method inherited"><h4 id="leftView">
 <button class="show-code">Code</button>
 void <strong>leftView</strong>() <a class="anchor-link" href="#leftView"
-              title="Permalink to PolymerUiMenuItem.leftView">#</a></h4>
+              title="Permalink to PolymerUiRatings.leftView">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been removed from the live
@@ -3548,7 +3515,7 @@ void leftView() {
 <div class="method inherited"><h4 id="lightFromTemplate">
 <button class="show-code">Code</button>
 Node <strong>lightFromTemplate</strong>(Element template) <a class="anchor-link" href="#lightFromTemplate"
-              title="Permalink to PolymerUiMenuItem.lightFromTemplate">#</a></h4>
+              title="Permalink to PolymerUiRatings.lightFromTemplate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Utility function that stamps a <code>&lt;template&gt;</code> into light-dom.</p>
 <pre class="source">
@@ -3572,7 +3539,7 @@ Node lightFromTemplate(Element template) {
 <div class="method inherited"><h4 id="marshalNodeReferences">
 <button class="show-code">Code</button>
 void <strong>marshalNodeReferences</strong>(Node root) <a class="anchor-link" href="#marshalNodeReferences"
-              title="Permalink to PolymerUiMenuItem.marshalNodeReferences">#</a></h4>
+              title="Permalink to PolymerUiRatings.marshalNodeReferences">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Locate nodes with id and store references to them in <code>$</code> hash. </p>
 <pre class="source">
@@ -3588,7 +3555,7 @@ void marshalNodeReferences(Node root) {
 <div class="method inherited"><h4 id="matches">
 <button class="show-code">Code</button>
 bool <strong>matches</strong>(String selectors) <a class="anchor-link" href="#matches"
-              title="Permalink to PolymerUiMenuItem.matches">#</a></h4>
+              title="Permalink to PolymerUiRatings.matches">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Checks if this element matches the CSS selectors.</p>
 <pre class="source">
@@ -3614,7 +3581,7 @@ bool matches(String selectors) {
 <div class="method inherited"><h4 id="matchesWithAncestors">
 <button class="show-code">Code</button>
 bool <strong>matchesWithAncestors</strong>(String selectors) <a class="anchor-link" href="#matchesWithAncestors"
-              title="Permalink to PolymerUiMenuItem.matchesWithAncestors">#</a></h4>
+              title="Permalink to PolymerUiRatings.matchesWithAncestors">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Checks if this element or any of its parents match the CSS selectors. </p>
 <pre class="source">
@@ -3633,7 +3600,7 @@ bool matchesWithAncestors(String selectors) {
 <div class="method inherited"><h4 id="noSuchMethod">
 <button class="show-code">Code</button>
 dynamic <strong>noSuchMethod</strong>(Invocation invocation) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to PolymerUiMenuItem.noSuchMethod">#</a></h4>
+              title="Permalink to PolymerUiRatings.noSuchMethod">#</a></h4>
 <div class="inherited-from">inherited from Interceptor </div><div class="doc">
 <div class="inherited">
 <p><a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is invoked when users invoke a non-existent method
@@ -3658,7 +3625,7 @@ dynamic noSuchMethod(Invocation invocation) {
 <div class="method inherited"><h4 id="notifyChange">
 <button class="show-code">Code</button>
 void <strong>notifyChange</strong>(ChangeRecord record) <a class="anchor-link" href="#notifyChange"
-              title="Permalink to PolymerUiMenuItem.notifyChange">#</a></h4>
+              title="Permalink to PolymerUiRatings.notifyChange">#</a></h4>
 <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>Notify observers of a change.</p>
 <p>For most objects <a class="crossref" href="../observe.src.observable/Observable.html#notifyPropertyChange">Observable.notifyPropertyChange</a> is more convenient, but
@@ -3682,7 +3649,7 @@ void notifyChange(ChangeRecord record) {
 <div class="method inherited"><h4 id="notifyPropertyChange">
 <button class="show-code">Code</button>
 dynamic <strong>notifyPropertyChange</strong>(Symbol field, Object oldValue, Object newValue) <a class="anchor-link" href="#notifyPropertyChange"
-              title="Permalink to PolymerUiMenuItem.notifyPropertyChange">#</a></h4>
+              title="Permalink to PolymerUiRatings.notifyPropertyChange">#</a></h4>
 <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>Notify that the field <code>name</code> of this object has been changed.</p>
 <p>The 
@@ -3700,7 +3667,7 @@ notifyPropertyChange(Symbol field, Object oldValue, Object newValue)
 <div class="method inherited"><h4 id="notifyPropertyChanges">
 <button class="show-code">Code</button>
 void <strong>notifyPropertyChanges</strong>(Iterable&lt;ChangeRecord&gt; changes) <a class="anchor-link" href="#notifyPropertyChanges"
-              title="Permalink to PolymerUiMenuItem.notifyPropertyChanges">#</a></h4>
+              title="Permalink to PolymerUiRatings.notifyPropertyChanges">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Responds to property changes on this element. </p>
 <pre class="source">
@@ -3740,7 +3707,7 @@ void notifyPropertyChanges(Iterable&lt;ChangeRecord&gt; changes) {
 <div class="method inherited"><h4 id="observeArrayValue">
 <button class="show-code">Code</button>
 void <strong>observeArrayValue</strong>(Symbol name, Object value, Object old) <a class="anchor-link" href="#observeArrayValue"
-              title="Permalink to PolymerUiMenuItem.observeArrayValue">#</a></h4>
+              title="Permalink to PolymerUiRatings.observeArrayValue">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void observeArrayValue(Symbol name, Object value, Object old) {
@@ -3778,7 +3745,7 @@ void observeArrayValue(Symbol name, Object value, Object old) {
 <div class="method inherited"><h4 id="observeProperties">
 <button class="show-code">Code</button>
 void <strong>observeProperties</strong>() <a class="anchor-link" href="#observeProperties"
-              title="Permalink to PolymerUiMenuItem.observeProperties">#</a></h4>
+              title="Permalink to PolymerUiRatings.observeProperties">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Set up property observers. </p>
 <pre class="source">
@@ -3806,7 +3773,7 @@ void observeProperties() {
 <div class="method inherited"><h4 id="offsetTo">
 <button class="show-code">Code</button>
 Point <strong>offsetTo</strong>(Element parent) <a class="anchor-link" href="#offsetTo"
-              title="Permalink to PolymerUiMenuItem.offsetTo">#</a></h4>
+              title="Permalink to PolymerUiRatings.offsetTo">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Provides the offset of this element's <a class="crossref" href="../dart_html/Element.html#borderEdge">borderEdge</a> relative to the
 specified 
@@ -3829,7 +3796,7 @@ Point offsetTo(Element parent) {
 <div class="method inherited"><h4 id="onMutation">
 <button class="show-code">Code</button>
 Future&lt;List&lt;MutationRecord&gt;&gt; <strong>onMutation</strong>(Node node) <a class="anchor-link" href="#onMutation"
-              title="Permalink to PolymerUiMenuItem.onMutation">#</a></h4>
+              title="Permalink to PolymerUiRatings.onMutation">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Returns a future when <code>node</code> changes, or when its children or subtree
 changes.</p>
@@ -3849,7 +3816,7 @@ Future&lt;List&lt;MutationRecord&gt;&gt; onMutation(Node node) {
 <div class="method inherited"><h4 id="parseDeclaration">
 <button class="show-code">Code</button>
 void <strong>parseDeclaration</strong>(Element elementElement) <a class="anchor-link" href="#parseDeclaration"
-              title="Permalink to PolymerUiMenuItem.parseDeclaration">#</a></h4>
+              title="Permalink to PolymerUiRatings.parseDeclaration">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Parse input <code>&lt;polymer-element&gt;</code> as needed, override for custom behavior.</p>
 <pre class="source">
@@ -3878,7 +3845,7 @@ void parseDeclaration(Element elementElement) {
 <div class="method inherited"><h4 id="parseDeclarations">
 <button class="show-code">Code</button>
 void <strong>parseDeclarations</strong>(PolymerDeclaration declaration) <a class="anchor-link" href="#parseDeclarations"
-              title="Permalink to PolymerUiMenuItem.parseDeclarations">#</a></h4>
+              title="Permalink to PolymerUiRatings.parseDeclarations">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Recursive ancestral &lt;element> initialization, oldest first. </p>
 <pre class="source">
@@ -3894,7 +3861,7 @@ void parseDeclarations(PolymerDeclaration declaration) {
 <div class="method inherited"><h4 id="polymerCreated">
 <button class="show-code">Code</button>
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
-              title="Permalink to PolymerUiMenuItem.polymerCreated">#</a></h4>
+              title="Permalink to PolymerUiRatings.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void polymerCreated() {
@@ -3909,7 +3876,7 @@ void polymerCreated() {
 <div class="method inherited"><h4 id="prepareElement">
 <button class="show-code">Code</button>
 void <strong>prepareElement</strong>() <a class="anchor-link" href="#prepareElement"
-              title="Permalink to PolymerUiMenuItem.prepareElement">#</a></h4>
+              title="Permalink to PolymerUiRatings.prepareElement">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void prepareElement() {
@@ -3939,7 +3906,7 @@ void prepareElement() {
 <div class="method inherited"><h4 id="propertyForAttribute">
 <button class="show-code">Code</button>
 DeclarationMirror <strong>propertyForAttribute</strong>(String name) <a class="anchor-link" href="#propertyForAttribute"
-              title="Permalink to PolymerUiMenuItem.propertyForAttribute">#</a></h4>
+              title="Permalink to PolymerUiRatings.propertyForAttribute">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Return the published property matching name, or null. </p>
 <pre class="source">
@@ -3955,7 +3922,7 @@ DeclarationMirror propertyForAttribute(String name) {
 <div class="method inherited"><h4 id="query">
 <button class="show-code">Code</button>
 Element <strong>query</strong>(String relativeSelectors) <a class="anchor-link" href="#query"
-              title="Permalink to PolymerUiMenuItem.query">#</a></h4>
+              title="Permalink to PolymerUiRatings.query">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelector">querySelector</a>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
@@ -3970,7 +3937,7 @@ Element query(String relativeSelectors) =&gt; querySelector(relativeSelectors);
 <div class="method inherited"><h4 id="queryAll">
 <button class="show-code">Code</button>
 ElementList <strong>queryAll</strong>(String relativeSelectors) <a class="anchor-link" href="#queryAll"
-              title="Permalink to PolymerUiMenuItem.queryAll">#</a></h4>
+              title="Permalink to PolymerUiRatings.queryAll">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelectorAll">querySelectorAll</a>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
@@ -3986,7 +3953,7 @@ ElementList queryAll(String relativeSelectors) =&gt;
 <div class="method inherited"><h4 id="querySelector">
 <button class="show-code">Code</button>
 Element <strong>querySelector</strong>(String selectors) <a class="anchor-link" href="#querySelector"
-              title="Permalink to PolymerUiMenuItem.querySelector">#</a></h4>
+              title="Permalink to PolymerUiRatings.querySelector">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Finds the first descendant element of this element that matches the
 specified group of selectors.</p>
@@ -4011,7 +3978,7 @@ Element querySelector(String selectors) native;
 <div class="method inherited"><h4 id="querySelectorAll">
 <button class="show-code">Code</button>
 ElementList <strong>querySelectorAll</strong>(String selectors) <a class="anchor-link" href="#querySelectorAll"
-              title="Permalink to PolymerUiMenuItem.querySelectorAll">#</a></h4>
+              title="Permalink to PolymerUiRatings.querySelectorAll">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Finds all descendent elements of this element that match the specified
 group of selectors.</p>
@@ -4028,21 +3995,27 @@ ElementList querySelectorAll(String selectors) =&gt;
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="ready">
+<div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
 void <strong>ready</strong>() <a class="anchor-link" href="#ready"
-              title="Permalink to PolymerUiMenuItem.ready">#</a></h4>
-<div class="inherited-from">mixed in from Polymer </div><div class="doc">
+              title="Permalink to PolymerUiRatings.ready">#</a></h4>
+<div class="doc">
+<div class="inherited">
 <p>Called when <a class="crossref" href="../polymer/Polymer.html#prepareElement">prepareElement</a> is finished. </p>
+<div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-void ready() {}
+@override
+void ready() {
+ super.ready();
+ this.countChanged(null);
+}
 </pre>
 </div>
 </div>
 <div class="method inherited"><h4 id="reflectPropertyToAttribute">
 <button class="show-code">Code</button>
 void <strong>reflectPropertyToAttribute</strong>(Symbol name) <a class="anchor-link" href="#reflectPropertyToAttribute"
-              title="Permalink to PolymerUiMenuItem.reflectPropertyToAttribute">#</a></h4>
+              title="Permalink to PolymerUiRatings.reflectPropertyToAttribute">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void reflectPropertyToAttribute(Symbol name) {
@@ -4070,7 +4043,7 @@ void reflectPropertyToAttribute(Symbol name) {
 <div class="method inherited"><h4 id="registerObserver">
 <button class="show-code">Code</button>
 void <strong>registerObserver</strong>(String name, StreamSubscription sub) <a class="anchor-link" href="#registerObserver"
-              title="Permalink to PolymerUiMenuItem.registerObserver">#</a></h4>
+              title="Permalink to PolymerUiRatings.registerObserver">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Bookkeeping observers for memory management. </p>
 <pre class="source">
@@ -4086,7 +4059,7 @@ void registerObserver(String name, StreamSubscription sub) {
 <div class="method inherited"><h4 id="remove">
 <button class="show-code">Code</button>
 void <strong>remove</strong>() <a class="anchor-link" href="#remove"
-              title="Permalink to PolymerUiMenuItem.remove">#</a></h4>
+              title="Permalink to PolymerUiRatings.remove">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Removes this node from the DOM.</p>
 <pre class="source">
@@ -4105,7 +4078,7 @@ void remove() {
 <div class="method inherited"><h4 id="removeEventListener">
 <button class="show-code">Code</button>
 void <strong>removeEventListener</strong>(String type, EventListener listener, [bool useCapture]) <a class="anchor-link" href="#removeEventListener"
-              title="Permalink to PolymerUiMenuItem.removeEventListener">#</a></h4>
+              title="Permalink to PolymerUiRatings.removeEventListener">#</a></h4>
 <div class="inherited-from">inherited from EventTarget </div><div class="doc">
 <pre class="source">
 @DomName('EventTarget.removeEventListener')
@@ -4117,7 +4090,7 @@ void removeEventListener(String type, EventListener listener, [bool useCapture])
 <div class="method inherited"><h4 id="replaceWith">
 <button class="show-code">Code</button>
 Node <strong>replaceWith</strong>(Node otherNode) <a class="anchor-link" href="#replaceWith"
-              title="Permalink to PolymerUiMenuItem.replaceWith">#</a></h4>
+              title="Permalink to PolymerUiRatings.replaceWith">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Replaces this node with another node.</p>
 <pre class="source">
@@ -4137,7 +4110,7 @@ Node replaceWith(Node otherNode) {
 <div class="method inherited"><h4 id="requestFullscreen">
 <button class="show-code">Code</button>
 void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestFullscreen"
-              title="Permalink to PolymerUiMenuItem.requestFullscreen">#</a></h4>
+              title="Permalink to PolymerUiRatings.requestFullscreen">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Displays this element fullscreen.</p>
 <h2>Other resources</h2><ul><li>
@@ -4170,7 +4143,7 @@ void requestFullscreen() native;
 <div class="method inherited"><h4 id="requestPointerLock">
 <button class="show-code">Code</button>
 void <strong>requestPointerLock</strong>() <a class="anchor-link" href="#requestPointerLock"
-              title="Permalink to PolymerUiMenuItem.requestPointerLock">#</a></h4>
+              title="Permalink to PolymerUiRatings.requestPointerLock">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Locks the mouse pointer to this element.</p>
 <h2>Other resources</h2><ul><li>
@@ -4204,7 +4177,7 @@ void requestPointerLock() native;
 <div class="method inherited"><h4 id="scopeHasElementStyle">
 <button class="show-code">Code</button>
 bool <strong>scopeHasElementStyle</strong>(scope, descriptor) <a class="anchor-link" href="#scopeHasElementStyle"
-              title="Permalink to PolymerUiMenuItem.scopeHasElementStyle">#</a></h4>
+              title="Permalink to PolymerUiRatings.scopeHasElementStyle">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 bool scopeHasElementStyle(scope, descriptor) {
@@ -4217,7 +4190,7 @@ bool scopeHasElementStyle(scope, descriptor) {
 <div class="method inherited"><h4 id="scrollByLines">
 <button class="show-code">Code</button>
 void <strong>scrollByLines</strong>(int lines) <a class="anchor-link" href="#scrollByLines"
-              title="Permalink to PolymerUiMenuItem.scrollByLines">#</a></h4>
+              title="Permalink to PolymerUiRatings.scrollByLines">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Scrolls the element by a number of lines.</p>
 <h2>Other resources</h2><ul><li>
@@ -4232,7 +4205,7 @@ void scrollByLines(int lines) native;
 <div class="method inherited"><h4 id="scrollByPages">
 <button class="show-code">Code</button>
 void <strong>scrollByPages</strong>(int pages) <a class="anchor-link" href="#scrollByPages"
-              title="Permalink to PolymerUiMenuItem.scrollByPages">#</a></h4>
+              title="Permalink to PolymerUiRatings.scrollByPages">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Scrolls the element by a number of pages.</p>
 <h2>Other resources</h2><ul><li>
@@ -4247,7 +4220,7 @@ void scrollByPages(int pages) native;
 <div class="method inherited"><h4 id="scrollIntoView">
 <button class="show-code">Code</button>
 void <strong>scrollIntoView</strong>([ScrollAlignment alignment]) <a class="anchor-link" href="#scrollIntoView"
-              title="Permalink to PolymerUiMenuItem.scrollIntoView">#</a></h4>
+              title="Permalink to PolymerUiRatings.scrollIntoView">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Scrolls this element into view.</p>
 <p>Only one of of the alignment options may be specified at a time.</p>
@@ -4282,7 +4255,7 @@ void scrollIntoView([ScrollAlignment alignment]) {
 <div class="method inherited"><h4 id="serializeValue">
 <button class="show-code">Code</button>
 String <strong>serializeValue</strong>(Object value) <a class="anchor-link" href="#serializeValue"
-              title="Permalink to PolymerUiMenuItem.serializeValue">#</a></h4>
+              title="Permalink to PolymerUiRatings.serializeValue">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 String serializeValue(Object value) {
@@ -4301,7 +4274,7 @@ String serializeValue(Object value) {
 <div class="method inherited"><h4 id="setAttribute">
 <button class="show-code">Code</button>
 void <strong>setAttribute</strong>(String name, String value) <a class="anchor-link" href="#setAttribute"
-              title="Permalink to PolymerUiMenuItem.setAttribute">#</a></h4>
+              title="Permalink to PolymerUiRatings.setAttribute">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.setAttribute')
@@ -4313,7 +4286,7 @@ void setAttribute(String name, String value) native;
 <div class="method inherited"><h4 id="setAttributeNS">
 <button class="show-code">Code</button>
 void <strong>setAttributeNS</strong>(String namespaceURI, String qualifiedName, String value) <a class="anchor-link" href="#setAttributeNS"
-              title="Permalink to PolymerUiMenuItem.setAttributeNS">#</a></h4>
+              title="Permalink to PolymerUiRatings.setAttributeNS">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 @DomName('Element.setAttributeNS')
@@ -4325,7 +4298,7 @@ void setAttributeNS(String namespaceURI, String qualifiedName, String value) nat
 <div class="method inherited"><h4 id="setInnerHtml">
 <button class="show-code">Code</button>
 void <strong>setInnerHtml</strong>(String html, {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) <a class="anchor-link" href="#setInnerHtml"
-              title="Permalink to PolymerUiMenuItem.setInnerHtml">#</a></h4>
+              title="Permalink to PolymerUiRatings.setInnerHtml">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the HTML fragment and sets it as the contents of this element.
 This ensures that the generated content follows the sanitization rules
@@ -4352,7 +4325,7 @@ void setInnerHtml(String html,
 <div class="method inherited"><h4 id="shadowFromTemplate">
 <button class="show-code">Code</button>
 ShadowRoot <strong>shadowFromTemplate</strong>(Element template) <a class="anchor-link" href="#shadowFromTemplate"
-              title="Permalink to PolymerUiMenuItem.shadowFromTemplate">#</a></h4>
+              title="Permalink to PolymerUiRatings.shadowFromTemplate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Utility function that creates a shadow root from a <code>&lt;template&gt;</code>.</p>
 <p>The base implementation will return a <a class="crossref" href="../dart_html/ShadowRoot.html">ShadowRoot</a>, but you can replace it
@@ -4396,7 +4369,7 @@ ShadowRoot shadowFromTemplate(Element template) {
 <div class="method inherited"><h4 id="shadowRootReady">
 <button class="show-code">Code</button>
 void <strong>shadowRootReady</strong>(Node root, Element template) <a class="anchor-link" href="#shadowRootReady"
-              title="Permalink to PolymerUiMenuItem.shadowRootReady">#</a></h4>
+              title="Permalink to PolymerUiRatings.shadowRootReady">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void shadowRootReady(Node root, Element template) {
@@ -4409,22 +4382,10 @@ void shadowRootReady(Node root, Element template) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="srcChanged">
-<button class="show-code">Code</button>
-void <strong>srcChanged</strong>(old) <a class="anchor-link" href="#srcChanged"
-              title="Permalink to PolymerUiMenuItem.srcChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-void srcChanged(old) {
- updateIsShowIcon();
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="takeAttributes">
 <button class="show-code">Code</button>
 void <strong>takeAttributes</strong>() <a class="anchor-link" href="#takeAttributes"
-              title="Permalink to PolymerUiMenuItem.takeAttributes">#</a></h4>
+              title="Permalink to PolymerUiRatings.takeAttributes">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void takeAttributes() {
@@ -4437,7 +4398,7 @@ void takeAttributes() {
 <div class="method inherited"><h4 id="themeChanged">
 <button class="show-code">Code</button>
 void <strong>themeChanged</strong>() <a class="anchor-link" href="#themeChanged"
-              title="Permalink to PolymerUiMenuItem.themeChanged">#</a></h4>
+              title="Permalink to PolymerUiRatings.themeChanged">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
 <pre class="source">
 void themeChanged() {
@@ -4451,7 +4412,7 @@ void themeChanged() {
 <div class="method inherited"><h4 id="toString">
 <button class="show-code">Code</button>
 String <strong>toString</strong>() <a class="anchor-link" href="#toString"
-              title="Permalink to PolymerUiMenuItem.toString">#</a></h4>
+              title="Permalink to PolymerUiRatings.toString">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The string representation of this element.</p>
 <p>This is equivalent to reading the <a class="crossref" href="../dart_html/Element.html#localName">localName</a> property.</p>
@@ -4463,7 +4424,7 @@ String toString() =&gt; localName;
 <div class="method inherited"><h4 id="unbind">
 <button class="show-code">Code</button>
 void <strong>unbind</strong>(String name) <a class="anchor-link" href="#unbind"
-              title="Permalink to PolymerUiMenuItem.unbind">#</a></h4>
+              title="Permalink to PolymerUiRatings.unbind">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Unbinds the attribute 
@@ -4477,7 +4438,7 @@ void unbind(String name) =&gt; nodeBindFallback(this).unbind(name);
 <div class="method inherited"><h4 id="unbindAll">
 <button class="show-code">Code</button>
 void <strong>unbindAll</strong>() <a class="anchor-link" href="#unbindAll"
-              title="Permalink to PolymerUiMenuItem.unbindAll">#</a></h4>
+              title="Permalink to PolymerUiRatings.unbindAll">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Unbinds all bound attributes. </p>
@@ -4502,7 +4463,7 @@ void unbindAll() {
 <div class="method inherited"><h4 id="unbindAllProperties">
 <button class="show-code">Code</button>
 void <strong>unbindAllProperties</strong>() <a class="anchor-link" href="#unbindAllProperties"
-              title="Permalink to PolymerUiMenuItem.unbindAllProperties">#</a></h4>
+              title="Permalink to PolymerUiRatings.unbindAllProperties">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void unbindAllProperties() {
@@ -4518,7 +4479,7 @@ void unbindAllProperties() {
 <div class="method inherited"><h4 id="unbindProperty">
 <button class="show-code">Code</button>
 bool <strong>unbindProperty</strong>(String name) <a class="anchor-link" href="#unbindProperty"
-              title="Permalink to PolymerUiMenuItem.unbindProperty">#</a></h4>
+              title="Permalink to PolymerUiRatings.unbindProperty">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 bool unbindProperty(String name) =&gt; unregisterObserver(name);
@@ -4528,7 +4489,7 @@ bool unbindProperty(String name) =&gt; unregisterObserver(name);
 <div class="method inherited"><h4 id="unregisterObserver">
 <button class="show-code">Code</button>
 bool <strong>unregisterObserver</strong>(String name) <a class="anchor-link" href="#unregisterObserver"
-              title="Permalink to PolymerUiMenuItem.unregisterObserver">#</a></h4>
+              title="Permalink to PolymerUiRatings.unregisterObserver">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 bool unregisterObserver(String name) {
@@ -4543,7 +4504,7 @@ bool unregisterObserver(String name) {
 <div class="method inherited"><h4 id="unregisterObservers">
 <button class="show-code">Code</button>
 void <strong>unregisterObservers</strong>() <a class="anchor-link" href="#unregisterObservers"
-              title="Permalink to PolymerUiMenuItem.unregisterObservers">#</a></h4>
+              title="Permalink to PolymerUiRatings.unregisterObservers">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
 void unregisterObservers() {
@@ -4555,14 +4516,34 @@ void unregisterObservers() {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="updateIsShowIcon">
+<div class="method"><h4 id="updateValue">
 <button class="show-code">Code</button>
-void <strong>updateIsShowIcon</strong>() <a class="anchor-link" href="#updateIsShowIcon"
-              title="Permalink to PolymerUiMenuItem.updateIsShowIcon">#</a></h4>
+void <strong>updateValue</strong>(event, detail, Element sender) <a class="anchor-link" href="#updateValue"
+              title="Permalink to PolymerUiRatings.updateValue">#</a></h4>
+<div class="doc">
+<p><a class="crossref" href="../polymer_ui_elements.polymer_ui_ratings/PolymerUiRatings.html#updateValue">updateValue</a> is the tap event handler.</p>
+<pre class="source">
+void updateValue(event, detail, Element sender) {
+ int i = int.parse(sender.attributes['index']);
+ this.value = i + 1;
+}
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="valueChanged">
+<button class="show-code">Code</button>
+void <strong>valueChanged</strong>(oldValue) <a class="anchor-link" href="#valueChanged"
+              title="Permalink to PolymerUiRatings.valueChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-void updateIsShowIcon() {
- isShowIcon = ((src != null &amp;&amp; src.isNotEmpty) || (icon != null &amp;&amp; icon.isNotEmpty)); 
+void valueChanged(oldValue) {
+ if(this.stars != null) {
+   int i = 0;
+   for(Map s in this.stars) {
+     s['starClass'] = i &lt; this.value ? 'full' : '';
+     i++;
+   }
+ }
 }
 </pre>
 </div>
@@ -4572,7 +4553,7 @@ void updateIsShowIcon() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-11 16:31:46.791</div>
+          <div>This page was generated at 2013-11-11 16:31:47.068</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
