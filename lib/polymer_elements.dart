@@ -30,5 +30,5 @@ export 'package:polymer_elements/polymer_page/polymer_page.dart';
 export 'package:polymer_elements/polymer_selection/polymer_selection.dart'; 
 export 'package:polymer_elements/polymer_selector/polymer_selector.dart'; 
 // export 'package:polymer_elements/polymer_shared_lib/polymer_shared_lib.dart'; 
-// export 'package:polymer_elements/polymer_signals/polymer_signals.dart'; 
+export 'package:polymer_elements/polymer_signals/polymer_signals.dart'; 
 // export 'package:polymer_elements/polymer_view_source_link/polymer_view_source_link.dart';
