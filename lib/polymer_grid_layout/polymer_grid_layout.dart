@@ -68,7 +68,7 @@ class PolymerGridLayout extends PolymerElement {
     if (this.layout != null) {
       _isLayoutJobStarted = true;
       // job debounces layout, only letting it occur every N ms
-      new Timer(new Duration(milliseconds: 0), () {
+      new Timer(Duration.ZERO, () {
         relayout();
         this._isLayoutJobStarted = false;
       });

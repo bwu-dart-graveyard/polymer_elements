@@ -139,7 +139,7 @@ class PolymerLayout extends PolymerElement {
   @override
   void enteredView() {
     super.enteredView();
-    new Timer(new Duration(milliseconds: 0), () {
+    new Timer(Duration.ZERO, () {
       this.prepare();
       this.layout();
     });
