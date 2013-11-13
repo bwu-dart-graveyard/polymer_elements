@@ -36,9 +36,8 @@
 library polymer_elements.polymer_anchor_point;
 
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'dart:math';
-
+import 'package:polymer/polymer.dart';
 import 'package:logging/logging.dart';
 
 @CustomTag('polymer-anchor-point')
