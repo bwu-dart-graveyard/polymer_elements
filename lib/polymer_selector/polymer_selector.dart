@@ -48,6 +48,7 @@ import 'dart:html';
 import 'dart:mirrors';
 
 import 'package:polymer/polymer.dart';
+import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show PolymerSelection;
 
 @CustomTag('polymer-selector')
 class PolymerSelector extends PolymerElement {
@@ -80,7 +81,9 @@ class PolymerSelector extends PolymerElement {
   @published
   String selectedProperty = 'active';
   
-  /**
+  /**  Stream<CustomEvent> get onPolymerSelect =>
+      PolymerSelection._polymerSelectEvent.forTarget(this);
+   * 
    * Returns the currently selected element. In multi-selection this returns
    * an array of selected elements.
    */
@@ -134,6 +137,13 @@ class PolymerSelector extends PolymerElement {
   PolymerSelector.created() : super.created();
   
   MutationObserver _observer;
+  
+  Stream<CustomEvent> get onPolymerSelect {
+    PolymerSelection selection = $['selection'] as PolymerSelection;
+    if(selection != null) {
+      return selection.onPolymerSelect;
+    }
+  }
   
   ready() {
     this._observer = new MutationObserver(_onMutation);

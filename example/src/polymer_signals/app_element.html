@@ -6,15 +6,16 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
 -->
-<polymer-element name="polymer-slide" attributes="open closed vertical target targetId">
+
+<link rel="import" href="my_element.html">
+<link rel="import" href="my_app.html">
+
+<polymer-element name="app-element">
   <template>
-    <style>
-      @host {   
-        * {
-          display: none;
-        }
-      }
-    </style>    
+    <my-element></my-element>
+    <my-app></my-app> 
   </template>
-  <script type="application/dart" src="polymer_slide.dart"></script>
+  <script type="application/dart" src="app_element.dart">
+ 
+  </script>
 </polymer-element>

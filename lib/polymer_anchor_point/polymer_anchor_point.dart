@@ -213,7 +213,7 @@ class PolymerAnchorPoint extends PolymerElement {
     }
     
     if((parsed.y == null || parsed.y.isEmpty) && 
-        (parsed.yOffset == null && parsed.yOffset.isEmpty)) {
+        (parsed.yOffset == null || parsed.yOffset.isEmpty)) {
       offset = new Point(offset.x, rect.height / 2);
     } else if (parsed.y != null && parsed.y.isNotEmpty && 
         (parsed.yOffset == null || parsed.yOffset.isEmpty)) {

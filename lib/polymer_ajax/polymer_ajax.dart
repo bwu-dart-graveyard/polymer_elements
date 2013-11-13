@@ -27,6 +27,7 @@ library polymer_elements.polymer_ajax;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:html' show Element;
 import 'package:polymer/polymer.dart';
 
 @CustomTag('polymer-ajax')
@@ -87,7 +88,7 @@ class PolymerAjax extends PolymerElement {
   
   ready() {
     super.ready();
-    this._xhr = this.ownerDocument.createElement('polymer-xhr');
+    this._xhr = new Element.tag('polymer-xhr'); 
   }
   
   _receive(response, xhr) {

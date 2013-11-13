@@ -32,15 +32,28 @@ class PolymerGridLayout extends PolymerElement {
   List<Map<String,int>> _rows;
   List<Map<String,int>> _columns;
 
-  void xnodesChanged() {
+  @override
+  void enteredView() {
+    super.enteredView();
     this.invalidate();
+  }
+  
+  void xnodesChanged() {
+    if(this.parent != null) {
+      this.invalidate();
+    }
   }
   
   void layoutChanged() {
-    this.invalidate();
+    if(this.parent != null) {
+      this.invalidate();
+    }
   }
   
   void autoNodes() {
+    if(parent == null) {
+      return;
+    }
     this.xnodes = this.parent.children.where((node) {
       switch(node.localName) {
         case 'polymer-grid-layout':
@@ -55,7 +68,7 @@ class PolymerGridLayout extends PolymerElement {
     if (this.layout != null) {
       _isLayoutJobStarted = true;
       // job debounces layout, only letting it occur every N ms
-      new Timer(new Duration(milliseconds: 0), () {
+      new Timer(Duration.ZERO, () {
         relayout();
         this._isLayoutJobStarted = false;
       });

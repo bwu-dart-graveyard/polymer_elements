@@ -44,6 +44,7 @@ class PolymerSelection extends PolymerElement {
   
   PolymerSelection.created() : super.created();
   
+
   /**
    * Retrieves the selected item(s). If the multi property is true,
    * selection will return a [List], otherwise it will return 
@@ -81,7 +82,7 @@ class PolymerSelection extends PolymerElement {
           this._selection.removeAt(i);
         }
       }     
- 
+
       this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
           
     }

@@ -15,31 +15,31 @@ The intent of the authors is to contribute the work to the Dart project itself (
 
 ### Status
 
-Element name                    |   Status    | Comment
-------------------------------- | ----------- | --------
-polymer-ajax                    | ported      | needs tests
-polymer-anchor-point            | **ported**  | 
-polymer-collapse                | ported      | has issues
-polymer-cookie                  | ported      | has issues
-polymer-file                    | **ported**  | 
-polymer-flex-layout             | ported      | has issues
-polymer-google-jsapi            | not started |
-polymer-grid-layout             | **ported**  |
-polymer-jsonp                   | not started |
-polymer-key-helper              | not started |
-polymer-layout                  | not started |
-polymer-localstorage            | **ported**  |
-polymer-media-query             | ported      | has issues
-polymer-meta                    | not started |
-polymer-mock-data               | not started |
-polymer-overlay                 | started     |
-polymer-page                    | **ported**  |
-polymer-scrub                   | not started |
-polymer-selection               | ported      | needs tests
-polymer-selector                | ported      | needs tests
-polymer-shared-lib              | not started |
-polymer-signals                 | not started |
-polymer-view-source-link        | not started |
+Element name                    |   Status    | Comment      | Demo
+------------------------------- | ----------- | ------------ | ----
+polymer-ajax                    | ported      | needs tests  | [polymer-ajax demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
+polymer-anchor-point            | **ported**  |              |
+polymer-collapse                | ported      | has issues   |
+polymer-cookie                  | ported      | needs tests  |
+polymer-file                    | **ported**  |              |
+polymer-flex-layout             | ported      | has issues   |
+polymer-google-jsapi            | not started |              |
+polymer-grid-layout             | **ported**  |              |
+polymer-jsonp                   | not started |              |
+polymer-key-helper              | not started |              |
+polymer-layout                  | ported      | has issues   |
+polymer-localstorage            | **ported**  |              |
+polymer-media-query             | ported      | has issues   |
+polymer-meta                    | started     |              |
+polymer-mock-data               | not started |              |
+polymer-overlay                 | started     |              |
+polymer-page                    | **ported**  |              |
+polymer-scrub                   | not started |              |
+polymer-selection               | ported      | needs tests  |
+polymer-selector                | ported      | needs tests  |
+polymer-shared-lib              | started     |              |
+polymer-signals                 | ported      | needs tests  |
+polymer-view-source-link        | not started |              |
 
 
 ### License
