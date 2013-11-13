@@ -13,7 +13,9 @@ http://www.polymer-project.org/.
   <link rel="import" href="packages/polymer_elements/polymer_collapse/polymer_collapse.html">
   <link rel="import" href="packages/polymer_elements/polymer_collapse/polymer_collapse_toggle.html">
   
-  <!-- <script type="application/dart">import 'package:polymer/polymer.dart';</script> -->
+  <script type='application/dart'>
+  	export 'package:polymer/init.dart';
+  </script>
   <script src="packages/browser/dart.js"></script>
       <!-- TODO remove style tag when import in custom element works -->
       <style>
@@ -77,6 +79,5 @@ license that can be found in the LICENSE file.
     </div>
     <polymer-collapse id="collapse2" closed targetId="box2"></polymer-collapse>
   </section>
-  <script type="application/dart" src="polymer_collapse.dart"></script>
 </body>
 </html>
