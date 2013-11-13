@@ -30,15 +30,15 @@ polymer-key-helper              | not started |              |
 polymer-layout                  | ported      | has issues   |
 polymer-localstorage            | **ported**  |              |
 polymer-media-query             | ported      | has issues   |
-polymer-meta                    | not started |              |
+polymer-meta                    | ported      | needs tests  |
 polymer-mock-data               | not started |              |
 polymer-overlay                 | started     |              |
 polymer-page                    | **ported**  |              |
 polymer-scrub                   | not started |              |
 polymer-selection               | ported      | needs tests  |
 polymer-selector                | ported      | needs tests  |
-polymer-shared-lib              | not started |              |
-polymer-signals                 | not started |              |
+polymer-shared-lib              | started     |              |
+polymer-signals                 | ported      | needs tests  |
 polymer-view-source-link        | not started |              |
 
 
