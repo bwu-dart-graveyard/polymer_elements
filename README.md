@@ -30,7 +30,7 @@ polymer-key-helper              | not started |              |
 polymer-layout                  | ported      | has issues   |
 polymer-localstorage            | **ported**  |              |
 polymer-media-query             | ported      | has issues   |
-polymer-meta                    | started     |              |
+polymer-meta                    | ported      | needs tests  |
 polymer-mock-data               | not started |              |
 polymer-overlay                 | started     |              |
 polymer-page                    | **ported**  |              |
