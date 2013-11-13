@@ -8,10 +8,6 @@ library polymer_elements.polymer_meta;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
-
-  var EXPIRE_NOW = 'Thu, 01 Jan 1970 00:00:00 GMT';
-  var FOREVER = 'Fri, 31 Dec 9999 23:59:59 GMT';
-  var cookieProps = ['expires', 'secure', 'max-age', 'domain', 'path'];
   
   @CustomTag('polymer-meta')
   class PolymerMeta extends PolymerElement {
