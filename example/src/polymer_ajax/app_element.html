@@ -15,11 +15,9 @@ http://www.polymer-project.org/.
       params='{"alt":"json", "q":"chrome"}'
       handleAs="json" on-polymerresponse='{{responseReceived}}'></polymer-ajax>
    
-  <template repeat="{{ entry in entries }}">
-    <div>{{ entry['title']['$t']}}</div>
-  </template>
+    <template repeat="{{ entry in entries }}">
+      <div>{{ entry['title']['$t']}}</div>
     </template>
-  <script type="application/dart" src="app_element.dart">
- 
-  </script>
+  </template>
+  <script type="application/dart" src="app_element.dart"></script>
 </polymer-element>
