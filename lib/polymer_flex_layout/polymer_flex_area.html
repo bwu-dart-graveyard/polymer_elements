@@ -6,11 +6,7 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
 -->
-
-<link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.html">
-<link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_area.html">
-
-<polymer-element name="flex-nonvisual" on-polymeraddflexbox="{{polymerAddFlexbox}}">
+<polymer-element name="polymer-flex-area" on-polymeraddflexbox="{{polymerAddFlexbox}}">
   <template>
       <style> <!-- delete style tag with content when loading css files works -->
     /*
@@ -199,37 +195,7 @@ license that can be found in the LICENSE file.
 }
     
     </style>
-    <style>
-      polymer-flex-area, div {
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        border: 2px solid #ccc;
-      }
-    </style>
-    <polymer-flex-layout id="flexlayout"></polymer-flex-layout>
-    <polymer-flex-area flex>
-      <polymer-flex-layout></polymer-flex-layout>
-      <div>Hi I'm some content</div>
-      <polymer-flex-area flex>
-        <polymer-flex-layout vertical></polymer-flex-layout>
-        <polymer-flex-area>
-          <polymer-flex-layout align="center"></polymer-flex-layout>
-          <h3>Title</h3>
-          <button>hello</button>
-        </polymer-flex-area>
-        <polymer-flex-area flex>
-          <polymer-flex-layout></polymer-flex-layout>
-          <polymer-flex-area flex>Main content</polymer-flex-area>
-          <div>Sidebar content</div>
-        </polymer-flex-area>
-        <div>Some more stuffs...</div>
-        <polymer-flex-area>
-          <polymer-flex-layout justify="end"></polymer-flex-layout>
-          <b>Footer</b>
-        </polymer-flex-area>
-      </polymer-flex-area>
-      <div>A last bit, like a panel</div>
-    </polymer-flex-area>
+    <content></content>
   </template>
-  <script type="application/dart" src='flex_nonvisual.dart'></script>
+  <script type="application/dart" src='polymer_flex_area.dart'></script>
 </polymer-element>

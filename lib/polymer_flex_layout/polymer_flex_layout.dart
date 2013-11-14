@@ -101,7 +101,7 @@ class PolymerFlexLayout extends PolymerElement {
   @override
   void enteredView() {
     super.enteredView();
-
+    
     if(this.isContainer) {
       this.layoutContainer = this;
     } else {
@@ -109,14 +109,15 @@ class PolymerFlexLayout extends PolymerElement {
         this.layoutContainer = this.parent;
       }
     }
+ 
     this.verticalChanged(null);
     this.alignChanged(null);
     this.justifyChanged(null);
-    
+    this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should    
     // TODO this should become redundant when the domspec is more complete
     // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
-    this.installControllerStyles();
-    throw "something";
+    this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
+    //throw "something";
   }
   
   @override
@@ -135,9 +136,13 @@ class PolymerFlexLayout extends PolymerElement {
     } else {
       this.style.display = 'none';
     }
-    if (this.layoutContainer != null) {
-      this.layoutContainer.classes.add('flexbox');
-    }
+    //if (this.layoutContainer != null) {
+      if (layoutContainer == this) {
+        this.layoutContainer.classes.add('flexbox');
+      } else {
+        dispatchEvent(new CustomEvent('polymeraddflexbox'));
+      }
+    //}
   }
 
   void switchContainerClass(String prefix, String old, String name) {

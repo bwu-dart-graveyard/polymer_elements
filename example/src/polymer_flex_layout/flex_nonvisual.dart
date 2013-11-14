@@ -6,12 +6,17 @@
 
 library flex_nonvisual;
 
-//import 'package:meta/meta.dart';
-import 'package:polymer/polymer.dart';
-//import 'package:polymer_elements/polymer_flex_layout/polymer_flex_panel.dart';
+import 'dart:html' show Event, Node;
+import 'package:polymer/polymer.dart' show CustomTag, PolymerElement;
 
-// Polymer has problems with inheriance when noscript is used
 @CustomTag('flex-nonvisual')
 class FlexNonvisual extends PolymerElement {
   FlexNonvisual.created() : super.created();
+  
+  void polymerAddFlexbox(Event e, var details, Node node) {
+    //if(this.children.contains(node)) {
+      this.classes.add('flexbox');
+      e.stopImmediatePropagation();
+    //}
+  }
 }

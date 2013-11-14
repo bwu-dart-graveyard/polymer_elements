@@ -10,6 +10,5 @@ class FlexCss extends PolymerElement {
   void ready() {
     super.ready();
     this.classes.add('flexbox');
-    
   }
 }
