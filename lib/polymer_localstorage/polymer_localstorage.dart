@@ -66,7 +66,7 @@ class PolymerLocalstorage extends PolymerElement {
   @override
   void enteredView() {
     super.enteredView();
-    print('polymer-localstorage inserted');
+    _logger.finest('polymer-localstorage inserted');
     
     // let the bindings complete, so run this async
     // TODO: should we use runAsync here?
