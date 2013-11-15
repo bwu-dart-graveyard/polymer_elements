@@ -91,7 +91,7 @@ class PolymerAjax extends PolymerElement {
  
  ready() {
    super.ready();
-   this._xhr = this.ownerDocument.createElement('polymer-xhr');
+   this._xhr = new Element.tag('polymer-xhr'); 
  }
  
  _receive(response, xhr) {
@@ -4144,7 +4144,7 @@ dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
 <pre class="source">
 ready() {
  super.ready();
- this._xhr = this.ownerDocument.createElement('polymer-xhr');
+ this._xhr = new Element.tag('polymer-xhr'); 
 }
 </pre>
 </div>
@@ -4675,7 +4675,7 @@ urlChanged(old){
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:51.691</div>
+          <div>This page was generated at 2013-11-15 09:54:47.968</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

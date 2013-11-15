@@ -43,13 +43,13 @@ class PolymerUiThemeAware extends PolymerElement {
  
  String activeTheme = '';
 
- ui.validateThemeFunc validateTheme = ui.validateTheme;
+ //ui.validateThemeFunc validateTheme = ui.validateTheme;
  
  @override
  void enteredView() {
    _logger.finest('enteredView');
    
-   this.validateTheme(this, theme, activeTheme);
+   ui.validateTheme(this, theme, activeTheme);
  }
  
  void themeChanged() {
@@ -2152,18 +2152,6 @@ bool translate
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="validateTheme">
-<button class="show-code">Code</button>
-<a href="../polymer_ui_elements.polymer_ui_theme_aware.polymer_ui/validateThemeFunc.html">validateThemeFunc</a>         <strong>validateTheme</strong> <a class="anchor-link"
-            href="#validateTheme"
-            title="Permalink to PolymerUiThemeAware.validateTheme">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-ui.validateThemeFunc validateTheme = ui.validateTheme
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="xtag">
 <button class="show-code">Code</button>
 var         <strong>xtag</strong> <a class="anchor-link"
@@ -2881,7 +2869,7 @@ document.</p>
 void enteredView() {
  _logger.finest('enteredView');
  
- this.validateTheme(this, theme, activeTheme);
+ ui.validateTheme(this, theme, activeTheme);
 }
 </pre>
 </div>
@@ -4414,7 +4402,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:56.064</div>
+          <div>This page was generated at 2013-11-15 09:54:52.589</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

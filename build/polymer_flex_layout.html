@@ -1,0 +1,1088 @@
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+  <title>polymer-flex-layout</title>
+  
+  
+  
+  
+  
+  
+  <script src="polymer_flex_layout.html_bootstrap.dart.js"></script>
+  
+  
+  <style>
+    body {
+      font-size: 20px;
+    }
+
+    flex-css, flex-container, flex-nonvisual {
+      height: 300px;
+    }
+  </style>
+</head>
+<body><polymer-element name="polymer-flex-layout" attributes="vertical align justify isContainer">
+  <template>
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer-flex-layout.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer-flex-layout.css">
+    <style> <!-- delete style tag with content when loading css files works -->
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::-webkit-distributed(.flex), 
+::-webkit-distributed([flex]),
+::-webkit-distributed([fit]) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+@host {
+  .flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: -moz-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+  
+  .flexbox.row, [flexbox], [h-flexbox] {
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  .flexbox.column, [v-flexbox] {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  
+  .flexbox.align-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    -moz-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flexbox.align-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    -moz-align-items: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  
+  .flexbox.align-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  
+  .flexbox.justify-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -moz-justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .flexbox.justify-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .flexbox.justify-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  .flexbox.justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+}
+    
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-flex-panel" extends="polymer-flex-layout">
+  <template>
+    <shadow></shadow>
+  </template>
+  
+</polymer-element><polymer-element name="flex-css">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_element/polymer_flex_layout/polymer_flex_layout.css">
+      
+        <!-- TODO remove style tag with content when styles in custom tags are properly supported -->
+  <style>
+  /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::-webkit-distributed(.flex), 
+::-webkit-distributed([flex]),
+::-webkit-distributed([fit]) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+@host {
+  .flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: -moz-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+  
+  .flexbox.row, [flexbox], [h-flexbox] {
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  .flexbox.column, [v-flexbox] {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  
+  .flexbox.align-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    -moz-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flexbox.align-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    -moz-align-items: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  
+  .flexbox.align-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  
+  .flexbox.justify-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -moz-justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .flexbox.justify-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .flexbox.justify-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  .flexbox.justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+}
+  
+  </style>
+    <style>
+      div {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 2px solid #ccc;
+      }
+    </style>
+    <div class="flexbox" flex="">
+      <div>Hi I'm some content</div>
+      <div class="flexbox column" flex="">
+        <div class="flexbox align-center">
+          <h3>Title</h3>
+          <button>hello</button>
+        </div>
+        <div class="flexbox" flex="">
+          <div flex="">Main content</div>
+          <div>Sidebar content</div>
+        </div>
+        <div>Some more stuffs...</div>
+        <div class="flexbox justify-end">
+          <b>Footer</b>
+        </div>
+      </div>
+      <div>A last bit, like a panel</div>
+    </div>
+  </template>
+   
+</polymer-element><polymer-element name="flex-container" extends="polymer-flex-panel"> 
+  <template>
+      <style> <!-- delete style tag with content when loading css files works -->
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::-webkit-distributed(.flex), 
+::-webkit-distributed([flex]),
+::-webkit-distributed([fit]) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+@host {
+  .flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: -moz-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+  
+  .flexbox.row, [flexbox], [h-flexbox] {
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  .flexbox.column, [v-flexbox] {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  
+  .flexbox.align-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    -moz-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flexbox.align-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    -moz-align-items: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  
+  .flexbox.align-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  
+  .flexbox.justify-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -moz-justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .flexbox.justify-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .flexbox.justify-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  .flexbox.justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+}
+    
+    </style>
+    <style>
+      div, polymer-flex-panel {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 2px solid #ccc;
+      }
+    </style>
+    <div>Hi I'm some content</div>
+    <polymer-flex-panel vertical="" flex="">
+      <polymer-flex-panel align="center">
+        <h3>Title</h3>
+        <button>hello</button>
+      </polymer-flex-panel>
+      <polymer-flex-panel flex="">
+        <div flex="">Main content</div>
+        <div>Sidebar content</div>
+      </polymer-flex-panel>
+      <div>Some more stuffs...</div>
+      <polymer-flex-panel justify="end">
+        <b>Footer</b>
+      </polymer-flex-panel>
+    </polymer-flex-panel>
+    <div>A last bit, like a panel</div>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-flex-area" on-polymeraddflexbox="{{polymerAddFlexbox}}">
+  <template>
+      <style> <!-- delete style tag with content when loading css files works -->
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::-webkit-distributed(.flex), 
+::-webkit-distributed([flex]),
+::-webkit-distributed([fit]) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+@host {
+  .flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: -moz-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+  
+  .flexbox.row, [flexbox], [h-flexbox] {
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  .flexbox.column, [v-flexbox] {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  
+  .flexbox.align-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    -moz-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flexbox.align-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    -moz-align-items: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  
+  .flexbox.align-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  
+  .flexbox.justify-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -moz-justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .flexbox.justify-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .flexbox.justify-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  .flexbox.justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+}
+    
+    </style>
+    <content></content>
+  </template>
+  
+</polymer-element><polymer-element name="flex-nonvisual" on-polymeraddflexbox="{{polymerAddFlexbox}}">
+  <template>
+      <style> <!-- delete style tag with content when loading css files works -->
+    /*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::-webkit-distributed(.flex), 
+::-webkit-distributed([flex]),
+::-webkit-distributed([fit]) {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+@host {
+  .flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+    display: -webkit-box !important;
+    display: -ms-flexbox !important;
+    display: -moz-flex !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+  }
+  
+  .flexbox.row, [flexbox], [h-flexbox] {
+    -webkit-box-orient: horizontal;
+    -ms-flex-direction: row;
+    -moz-flex-direction: row;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+  }
+  
+  .flexbox.column, [v-flexbox] {
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    -moz-flex-direction: column;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+  }
+  
+  .flexbox.align-start {
+    -webkit-box-align: start;
+    -ms-flex-align: start;
+    -moz-align-items: flex-start;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flexbox.align-end {
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    -moz-align-items: flex-end;
+    -webkit-align-items: flex-end;
+    align-items: flex-end;
+  }
+  
+  .flexbox.align-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -moz-align-items: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+  
+  .flexbox.justify-start {
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    -moz-justify-content: flex-start;
+    -webkit-justify-content: flex-start;
+    justify-content: flex-start;
+  }
+  
+  .flexbox.justify-end {
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    -moz-justify-content: flex-end;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
+  }
+  
+  .flexbox.justify-center {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -moz-justify-content: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+  }
+  
+  .flexbox.justify-between {
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    -moz-justify-content: space-between;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+}
+    
+    </style>
+    <style>
+      polymer-flex-area, div {
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        border: 2px solid #ccc;
+      }
+    </style>
+    <polymer-flex-layout id="flexlayout"></polymer-flex-layout>
+    <polymer-flex-area flex="">
+      <polymer-flex-layout></polymer-flex-layout>
+      <div>Hi I'm some content</div>
+      <polymer-flex-area flex="">
+        <polymer-flex-layout vertical=""></polymer-flex-layout>
+        <polymer-flex-area>
+          <polymer-flex-layout align="center"></polymer-flex-layout>
+          <h3>Title</h3>
+          <button>hello</button>
+        </polymer-flex-area>
+        <polymer-flex-area flex="">
+          <polymer-flex-layout></polymer-flex-layout>
+          <polymer-flex-area flex="">Main content</polymer-flex-area>
+          <div>Sidebar content</div>
+        </polymer-flex-area>
+        <div>Some more stuffs...</div>
+        <polymer-flex-area>
+          <polymer-flex-layout justify="end"></polymer-flex-layout>
+          <b>Footer</b>
+        </polymer-flex-area>
+      </polymer-flex-area>
+      <div>A last bit, like a panel</div>
+    </polymer-flex-area>
+  </template>
+  
+</polymer-element>
+  <h3>polymer-flex-layout.css</h3>
+  <flex-css></flex-css>
+  <br>
+  <h3>polymer-flex-panel element</h3>
+  <flex-container></flex-container>
+  <br>
+  <h3>polymer-flex-layout element</h3>
+  <flex-nonvisual></flex-nonvisual>
+
+
+</body></html>

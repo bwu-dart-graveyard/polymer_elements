@@ -18719,7 +18719,7 @@ _discoverScripts: function(doc, baseUri, seen, scripts) {
 },
 
 _loadLibrary: function(uriString) {
-  var t1, uri, lib, packageUri, canonicalLib, line, t2, $arguments, t3, t4, c, meta, type, waiting;
+  var t1, uri, lib, packageUri, canonicalLib, t2, $arguments, t3, t4, c, meta, type, waiting;
   t1 = $.get$_rootUri();
   t1.toString;
   uri = t1.resolveUri$1(P.Uri$_fromMatch($.get$Uri__splitRe().firstMatch$1(uriString)));
@@ -18734,12 +18734,7 @@ _loadLibrary: function(uriString) {
       lib = canonicalLib;
   }
   if (lib == null) {
-    line = "warning: " + H.S(uri) + " library not found";
-    t1 = $.printToZone;
-    if (t1 == null)
-      H.printToConsole(line);
-    else
-      t1.call$1(line);
+    $.get$_loaderLog().info$1(H.S(uri) + " library not found");
     return;
   }
   t1 = lib.get$functions().__js_mirrors$_source;
@@ -25169,6 +25164,9 @@ Isolate.$lazy($, "_packageRoot", "_packageRoot", "get$_packageRoot", function() 
   var t1 = J.get$href$x(C.Window_methods.get$location(window));
   t1 = P.Uri$_fromMatch($.get$Uri__splitRe().firstMatch$1(t1))._path;
   return H.S($.get$_builder().dirname$1(t1)) + "/packages/";
+});
+Isolate.$lazy($, "_loaderLog", "_loaderLog", "get$_loaderLog", function() {
+  return N.Logger_Logger("polymer.loader");
 });
 Isolate.$lazy($, "_typeHandlers", "_typeHandlers", "get$_typeHandlers", function() {
   return new Z.closure0().call$0();

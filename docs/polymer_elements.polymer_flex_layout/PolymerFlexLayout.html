@@ -120,7 +120,7 @@ class PolymerFlexLayout extends PolymerElement {
  @override
  void enteredView() {
    super.enteredView();
-
+   
    if(this.isContainer) {
      this.layoutContainer = this;
    } else {
@@ -128,14 +128,15 @@ class PolymerFlexLayout extends PolymerElement {
        this.layoutContainer = this.parent;
      }
    }
+
    this.verticalChanged(null);
    this.alignChanged(null);
    this.justifyChanged(null);
-   
+   this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should    
    // TODO this should become redundant when the domspec is more complete
    // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
-   this.installControllerStyles();
-   throw "something";
+   this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
+   //throw "something";
  }
  
  @override
@@ -154,9 +155,13 @@ class PolymerFlexLayout extends PolymerElement {
    } else {
      this.style.display = 'none';
    }
-   if (this.layoutContainer != null) {
-     this.layoutContainer.classes.add('flexbox');
-   }
+   //if (this.layoutContainer != null) {
+     if (layoutContainer == this) {
+       this.layoutContainer.classes.add('flexbox');
+     } else {
+       dispatchEvent(new CustomEvent('polymeraddflexbox'));
+     }
+   //}
  }
 
  void switchContainerClass(String prefix, String old, String name) {
@@ -3040,7 +3045,7 @@ document.</p>
 @override
 void enteredView() {
  super.enteredView();
-
+ 
  if(this.isContainer) {
    this.layoutContainer = this;
  } else {
@@ -3048,14 +3053,15 @@ void enteredView() {
      this.layoutContainer = this.parent;
    }
  }
+
  this.verticalChanged(null);
  this.alignChanged(null);
  this.justifyChanged(null);
- 
+ this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should    
  // TODO this should become redundant when the domspec is more complete
  // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
- this.installControllerStyles();
- throw "something";
+ this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
+ //throw "something";
 }
 </pre>
 </div>
@@ -3597,9 +3603,13 @@ void layoutContainerChanged(old) {
  } else {
    this.style.display = 'none';
  }
- if (this.layoutContainer != null) {
-   this.layoutContainer.classes.add('flexbox');
- }
+ //if (this.layoutContainer != null) {
+   if (layoutContainer == this) {
+     this.layoutContainer.classes.add('flexbox');
+   } else {
+     dispatchEvent(new CustomEvent('polymeraddflexbox'));
+   }
+ //}
 }
 </pre>
 </div>
@@ -4645,7 +4655,7 @@ void verticalChanged(old) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:52.603</div>
+          <div>This page was generated at 2013-11-15 09:54:49.018</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -47,11 +47,6 @@ class PolymerSelection extends PolymerElement {
  
  PolymerSelection.created() : super.created();
  
- static const EventStreamProvider&lt;CustomEvent&gt; _polymerSelectEvent =
-     const EventStreamProvider&lt;CustomEvent&gt;('polymer-select');
- 
- Stream&lt;CustomEvent&gt; get onPolymerSelect =&gt;
-     PolymerSelection._polymerSelectEvent.forTarget(this);
 
  /**
   * Retrieves the selected item(s). If the multi property is true,
@@ -91,9 +86,7 @@ class PolymerSelection extends PolymerElement {
        }
      }     
 
-     dispatchEvent(new CustomEvent('polymer-select', 
-         detail: {'item': item, 'isSelected':  isSelected}));
-     //this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+     this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
          
    }
  }
@@ -1601,19 +1594,6 @@ final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anch
 @DomName('Element.onpaste')
 @DocsEditable()
 ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="onPolymerSelect">
-<button class="show-code">Code</button>
-final Stream&lt;CustomEvent&gt;         <strong>onPolymerSelect</strong> <a class="anchor-link"
-            href="#onPolymerSelect"
-            title="Permalink to PolymerSelection.onPolymerSelect">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-Stream&lt;CustomEvent&gt; get onPolymerSelect =&gt;
-   PolymerSelection._polymerSelectEvent.forTarget(this);
 </pre>
 </div>
 </div>
@@ -4246,7 +4226,7 @@ is true, then the selected state of
 <span class="param">item</span> will be toggled; otherwise
 the 
 <span class="param">item</span> will be selected.  Fires a corresponding 'polymerselect' event 
-with the <a class="crossref" href="../dart_html/CustomEvent.html#detail">CustomEvent.detail</a> set to a map containing 'item' set to 
+with the <code>CustomEvent.detail</code> set to a map containing 'item' set to 
 <span class="param">item</span> 
 and 'isSelected' set to <a class="crossref" href="../polymer_elements.polymer_selection/PolymerSelection.html#isSelected">isSelected</a>. set to the new selection state for 
 the 
@@ -4341,7 +4321,7 @@ dynamic <strong>setItemSelected</strong>(item, isSelected) <a class="anchor-link
 <p>Sets the selected state of 
 <span class="param">item</span> to 
 <span class="param">isSelected</span> and fires
-a corresponding 'polymerselect' event with the <a class="crossref" href="../dart_html/CustomEvent.html#detail">CustomEvent.detail</a> set to 
+a corresponding 'polymerselect' event with the <code>CustomEvent.detail</code> set to 
 a map containing 'item' set to 
 <span class="param">item</span> and 'isSelected' set to 
 <span class="param">isSelected</span>.</p>
@@ -4357,9 +4337,7 @@ setItemSelected(item, isSelected) {
      }
    }     
 
-   dispatchEvent(new CustomEvent('polymer-select', 
-       detail: {'item': item, 'isSelected':  isSelected}));
-   //this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+   this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
        
  }
 }
@@ -4551,7 +4529,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:53.628</div>
+          <div>This page was generated at 2013-11-15 09:54:50.171</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

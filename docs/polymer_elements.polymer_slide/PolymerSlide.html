@@ -65,7 +65,7 @@ class PolymerSlide extends PolymerElement {
  
  void targetChanged() {
    if (this.closed) {
-     new Timer(new Duration(milliseconds: 0), this.update);
+     new Timer(Duration.ZERO, this.update);
    }
  }
  
@@ -78,7 +78,7 @@ class PolymerSlide extends PolymerElement {
  }
  
  void openChanged() {
-   new Timer(new Duration(milliseconds: 0), this.update);
+   new Timer(Duration.ZERO, this.update);
  }
  
  void update() {
@@ -3863,7 +3863,7 @@ void <strong>openChanged</strong>() <a class="anchor-link" href="#openChanged"
 <div class="doc">
 <pre class="source">
 void openChanged() {
- new Timer(new Duration(milliseconds: 0), this.update);
+ new Timer(Duration.ZERO, this.update);
 }
 </pre>
 </div>
@@ -4458,7 +4458,7 @@ void <strong>targetChanged</strong>() <a class="anchor-link" href="#targetChange
 <pre class="source">
 void targetChanged() {
  if (this.closed) {
-   new Timer(new Duration(milliseconds: 0), this.update);
+   new Timer(Duration.ZERO, this.update);
  }
 }
 </pre>
@@ -4745,7 +4745,7 @@ void updateTop() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:53.889</div>
+          <div>This page was generated at 2013-11-15 09:54:50.475</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

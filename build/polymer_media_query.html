@@ -1,0 +1,48 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html lang="en"><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+  <meta charset="UTF-8">
+  <title>Polymer match media</title>
+  
+  
+
+  <script src="polymer_media_query.html_bootstrap.dart.js"></script>
+  
+</head>
+<body><polymer-element name="polymer-media-query" attributes="mquery queryMatches">
+  <template>
+    <style>
+      @host {
+        * {
+          display: none;
+        }
+      }
+    </style>
+  </template>
+  
+</polymer-element><polymer-element name="match-example">
+  <template>
+    <polymer-media-query mquery="{{mquery}}" querymatches="{{qmatches}}"></polymer-media-query>
+    My query of "{{mquery}}" <template if="{{qmatches}}">matches</template><template if="{{!qmatches}}">doesn't match</template>
+  </template>
+  
+</polymer-element><polymer-element name="app-element">
+  <template>
+    <match-example id="me"></match-example>
+    <pre id="output">      Log of 'mediachange' events on document, from polymer-match-media:
+    </pre>
+  </template>
+  
+</polymer-element>
+  <app-element></app-element>
+
+
+
+</body></html>

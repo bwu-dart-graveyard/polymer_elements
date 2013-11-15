@@ -106,7 +106,7 @@ class PolymerUiMenuButton extends PolymerElement {
  Map&lt;String, int&gt; _tilt;
  
  void openedChanged(oldValue) {
-   new Timer(new Duration(milliseconds: 0), () {
+   new Timer(Duration.ZERO, () {
      this._isParallaxActionRunning = true;
      // TODO (this.$['arrowPositionHelper'] as PolymerAnchorPoint).apply();
      this.$['arrowPositionHelper'].apply();
@@ -4000,7 +4000,7 @@ void <strong>openedChanged</strong>(oldValue) <a class="anchor-link" href="#open
 <div class="doc">
 <pre class="source">
 void openedChanged(oldValue) {
- new Timer(new Duration(milliseconds: 0), () {
+ new Timer(Duration.ZERO, () {
    this._isParallaxActionRunning = true;
    // TODO (this.$['arrowPositionHelper'] as PolymerAnchorPoint).apply();
    this.$['arrowPositionHelper'].apply();
@@ -4765,7 +4765,7 @@ void valignChanged(oldValue) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:55.173</div>
+          <div>This page was generated at 2013-11-15 09:54:51.666</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

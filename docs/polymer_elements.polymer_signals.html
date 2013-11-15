@@ -1,0 +1,66 @@
+        <!DOCTYPE html>
+        <html>
+        <head>
+                <meta charset="utf-8">
+        <title>polymer_elements.polymer_signals Library / Dart Documentation</title>
+        <link rel="stylesheet" type="text/css"
+            href="styles.css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,600,700,800" rel="stylesheet" type="text/css">
+        <link rel="shortcut icon" href="favicon.ico">
+        
+        </head>
+        <body data-library="polymer_elements.polymer_signals">
+        <div class="page">
+        <div class="header">
+          <a href="index.html"><div class="logo"></div></a>
+          <a href="index.html">Dart Documentation</a>
+         &rsaquo; <a href="polymer_elements.polymer_signals.html">polymer_elements.polymer_signals</a>        <div id="search-box">
+          <input type="search" name="q" id="q" autocomplete="off"
+              class="search-input" placeholder="Search API">
+        </div>
+        
+      </div>
+      <div class="drop-down" id="drop-down"></div>
+      
+        <div class="nav">
+        
+</div>
+<div class="content">
+<h2><strong>polymer_elements.polymer_signals</strong> library</h2>
+<div>
+<h3>Functions</h3>
+<div class="method"><h4 id="registerListener">
+<button class="show-code">Code</button>
+dynamic <strong>registerListener</strong>() <a class="anchor-link" href="#registerListener"
+              title="Permalink to registerListener">#</a></h4>
+<div class="doc">
+<pre class="source">
+@initMethod
+registerListener(){
+// signal listener at document
+ document.addEventListener('polymer-signal', (e) {
+   _notify(e.detail['name'], e.detail['data']);
+ });
+}
+</pre>
+</div>
+</div>
+</div>
+<div>
+<h3>Classes</h3>
+          <div class="type">
+          <h4>
+            <a href="polymer_elements.polymer_signals/PolymerSignals.html"><strong>PolymerSignals</strong></a>
+          </h4>
+          </div>
+          
+</div>
+        </div>
+        <div class="clear"></div>
+        </div>
+        <div class="footer">
+          <div>This page was generated at 2013-11-15 09:54:50.280</div>
+        </div>
+        <script async src="client-live-nav.js"></script>
+        </body></html>
+        

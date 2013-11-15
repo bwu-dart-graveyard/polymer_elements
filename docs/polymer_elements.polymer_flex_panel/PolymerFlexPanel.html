@@ -38,9 +38,9 @@ class PolymerFlexPanel extends PolymerFlexLayout {
  PolymerFlexPanel.created() : super.created();
 
  @override
- void polymerCreated() {
+ void enteredView() {
    isContainer = true;
-   super.polymerCreated();
+   super.enteredView();
  }
 }
 </pre>
@@ -2882,11 +2882,11 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="enteredView">
+<div class="method"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
               title="Permalink to PolymerFlexPanel.enteredView">#</a></h4>
-<div class="inherited-from">inherited from <a href="../polymer_elements.polymer_flex_layout/PolymerFlexLayout.html">PolymerFlexLayout</a> </div><div class="doc">
+<div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
 document.</p>
@@ -2894,23 +2894,8 @@ document.</p>
 <pre class="source">
 @override
 void enteredView() {
+ isContainer = true;
  super.enteredView();
-
- if(this.isContainer) {
-   this.layoutContainer = this;
- } else {
-   if (this.parent != null) {
-     this.layoutContainer = this.parent;
-   }
- }
- this.verticalChanged(null);
- this.alignChanged(null);
- this.justifyChanged(null);
- 
- // TODO this should become redundant when the domspec is more complete
- // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
- this.installControllerStyles();
- throw "something";
 }
 </pre>
 </div>
@@ -3452,9 +3437,13 @@ void layoutContainerChanged(old) {
  } else {
    this.style.display = 'none';
  }
- if (this.layoutContainer != null) {
-   this.layoutContainer.classes.add('flexbox');
- }
+ //if (this.layoutContainer != null) {
+   if (layoutContainer == this) {
+     this.layoutContainer.classes.add('flexbox');
+   } else {
+     dispatchEvent(new CustomEvent('polymeraddflexbox'));
+   }
+ //}
 }
 </pre>
 </div>
@@ -3823,16 +3812,17 @@ void parseDeclarations(PolymerDeclaration declaration) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="polymerCreated">
+<div class="method inherited"><h4 id="polymerCreated">
 <button class="show-code">Code</button>
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerFlexPanel.polymerCreated">#</a></h4>
-<div class="doc">
+<div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <pre class="source">
-@override
 void polymerCreated() {
- isContainer = true;
- super.polymerCreated();
+ if (this.ownerDocument.window != null || alwaysPrepare ||
+     _preparingElements &gt; 0) {
+   prepareElement();
+ }
 }
 </pre>
 </div>
@@ -4499,7 +4489,7 @@ void verticalChanged(old) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:52.727</div>
+          <div>This page was generated at 2013-11-15 09:54:49.339</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -141,7 +141,7 @@ class PolymerLayout extends PolymerElement {
  @override
  void enteredView() {
    super.enteredView();
-   new Timer(new Duration(milliseconds: 0), () {
+   new Timer(Duration.ZERO, () {
      this.prepare();
      this.layout();
    });
@@ -3033,7 +3033,7 @@ document.</p>
 @override
 void enteredView() {
  super.enteredView();
- new Timer(new Duration(milliseconds: 0), () {
+ new Timer(Duration.ZERO, () {
    this.prepare();
    this.layout();
  });
@@ -4695,7 +4695,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:52.966</div>
+          <div>This page was generated at 2013-11-15 09:54:49.587</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

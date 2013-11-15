@@ -77,7 +77,7 @@ class PolymerUiNavArrow extends PolymerUiArrow {
  void targetChanged() {
    this._show = (this.target != null);
    if (this.target != null) {
-     new Timer(new Duration(milliseconds: 0), () =&gt; move());
+     new Timer(Duration.ZERO, () =&gt; move());
    }
  }
  
@@ -4458,7 +4458,7 @@ void <strong>targetChanged</strong>() <a class="anchor-link" href="#targetChange
 void targetChanged() {
  this._show = (this.target != null);
  if (this.target != null) {
-   new Timer(new Duration(milliseconds: 0), () =&gt; move());
+   new Timer(Duration.ZERO, () =&gt; move());
  }
 }
 </pre>
@@ -4589,7 +4589,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-12 14:14:55.359</div>
+          <div>This page was generated at 2013-11-15 09:54:51.885</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
