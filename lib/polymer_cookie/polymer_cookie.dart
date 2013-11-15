@@ -6,8 +6,8 @@
 
 library polymer_elements.polymer_cookie;
 
-import 'dart:html';
-import 'package:polymer/polymer.dart';
+import 'dart:html' show document;
+import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published;
 
   var EXPIRE_NOW = 'Thu, 01 Jan 1970 00:00:00 GMT';
   var FOREVER = 'Fri, 31 Dec 9999 23:59:59 GMT';
@@ -46,7 +46,7 @@ import 'package:polymer/polymer.dart';
     }
     
     Iterable _parseCookie() {
-     List pairs = document.cookie.split(r'/\s*;\s*/');
+     List pairs = document.cookie.split(new RegExp(r'\s*;\s*'));
       var map = pairs.map((kv) {
         
         var eq = kv.indexOf('=');
