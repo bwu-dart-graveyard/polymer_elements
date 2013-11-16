@@ -15,10 +15,8 @@ class PolymerFlexArea extends PolymerElement {
   PolymerFlexArea.created() : super.created();
 
   void polymerAddFlexbox(Event e, var details, Node node) {
-    //if(this.children.contains(node)) {
       this.classes.add('flexbox');
       e.stopImmediatePropagation();
-    //}
   }
 }
 
