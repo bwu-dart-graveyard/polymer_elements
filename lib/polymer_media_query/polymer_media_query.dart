@@ -64,6 +64,7 @@ class PolymerMediaQuery extends PolymerElement {
       if(context['matchMedia'] != null) {
         _mq.callMethod('removeListener', [_mqHandler]);
       }
+      // TODO not supported in Dart yet (#84)
       //this._mq.removeListener(this._mqHandler);
     }
 
@@ -76,6 +77,9 @@ class PolymerMediaQuery extends PolymerElement {
       this._mq.callMethod('addListener', [_mqHandler]);
       queryHandler(this._mq);
     }
+    // TODO not supported in Dart yet (#84)
+    // Listener hast to be as MediaQueryListListener but this is and abstract 
+    // class and therefor it's not possible to create a listner
     // this._mq = window.matchMedia(q);
     // this._mq.addListener(queryHandler);
     // this.queryHandler(this._mq);
