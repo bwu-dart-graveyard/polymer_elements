@@ -7,7 +7,8 @@
 library polymer_elements.polymer_cookie;
 
 import 'dart:html' show document;
-import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published;
+import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
+    ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
 
   var EXPIRE_NOW = 'Thu, 01 Jan 1970 00:00:00 GMT';
   var FOREVER = 'Fri, 31 Dec 9999 23:59:59 GMT';
