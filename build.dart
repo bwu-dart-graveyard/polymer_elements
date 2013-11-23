@@ -3,7 +3,7 @@ import 'dart:io';
 //import 'dart:async';
 import 'package:path/path.dart';
 
-var entryPoints = [
+var entryPoints = [/*
                       'web/polymer_ajax.html',
                       'web/polymer_anchor_point.html',
                       'web/polymer_animation.html',
@@ -14,24 +14,25 @@ var entryPoints = [
                       'web/polymer_media_query.html',
                       'web/polymer_selection.html',
                       'web/polymer_selector.html',
-
-/*                      'example/polymer_ajax.html',
+*/
+                      'example/polymer_ajax.html',
                       'example/polymer_anchor_point.html',
                       'example/polymer_animation.html',
                       'example/polymer_collapse.html',
                       'example/polymer_file.html',
                       'example/polymer_flex_layout.html',
                       'example/polymer_localstorage.html',
-                      'example/polymer_media_query.html,
+                      'example/polymer_media_query.html',
                       'example/polymer_selection.html',
                       'example/polymer_selector.html',
-*/                      
+                      
                       'test/polymer_collapse.html'
                       'test/polymer_localstorage.html'
                       ];
 void main(args) {
   var options = parseOptions(args);
-  build(entryPoints: entryPoints, options: options);
+  lint(entryPoints: entryPoints, options: options);
+//  build(entryPoints: entryPoints, options: options);
 //  lint(entryPoints: entryPoints, options: options)
 //    .then((_) => deploy(entryPoints: entryPoints, options: options))
 //    .then(compileToJs(entryPoints));
