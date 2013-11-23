@@ -9,7 +9,8 @@ library polymer_elements.polymer_slide;
 import 'dart:html' show ContentElement, Element;
 import 'package:observe/observe.dart' show ObservableList;
 import 'package:logging/logging.dart' show Logger;
-import 'package:polymer/polymer.dart' show CustomTag, observable, PolymerElement, published;
+import 'package:polymer/polymer.dart' show CustomTag, observable, PolymerElement, published,
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
 
 @CustomTag('grid-test')
 class GridTest extends PolymerElement {
@@ -21,19 +22,20 @@ class GridTest extends PolymerElement {
   @published ObservableList<Element> xnodes;
   
   
-  List<List<int>> _arrangements = [[
-                  [1, 1, 1],
-                  [2, 3, 4],
-                  [2, 3, 5]
-  ], [
+  List<List<int>> _arrangements = 
+    [[
+      [1, 1, 1],
+      [2, 3, 4],
+      [2, 3, 5]
+    ], [
       [4, 3, 2],
       [5, 3, 2],
       [5, 1, 1]
-  ], [
+    ], [
       [1, 1],
       [2, 3],
       [4, 3]
-  ]];
+    ]];
   
   @observable int outputLayout = 0;
   

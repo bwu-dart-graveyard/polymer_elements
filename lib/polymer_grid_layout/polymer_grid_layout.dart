@@ -10,7 +10,8 @@ import 'dart:async' show  Timer;
 import 'dart:html' show CssStyleDeclaration, document, Element;
 import 'dart:math' as math;
 import 'package:logging/logging.dart' show Logger;
-import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published;
+import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
 
 typedef SizeFn(int i);
 
