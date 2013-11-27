@@ -82,9 +82,9 @@ class PolymerCollapse extends PolymerElement {
     _logger.finest('enteredView');
     
     super.enteredView();
+    installControllerStyles();
     _inDocument = true;
     Timer.run(() => _afterInitialUpdate = true);
-    installControllerStyles();
   }
   
   @override
@@ -134,8 +134,6 @@ class PolymerCollapse extends PolymerElement {
     if(_transitionEndListener == null) {
       _transitionEndListener = node.onTransitionEnd.listen((d) => this.transitionEnd(d)); 
     }
-//  node.addEventListener('webkitTransitionEnd', this.transitionEndListener);
-//  node.addEventListener('transitionend', this.transitionEndListener);
   }
   
   void removeListeners(HtmlElement node) {
@@ -145,8 +143,6 @@ class PolymerCollapse extends PolymerElement {
       _transitionEndListener.cancel();
     }
     _transitionEndListener = null;
-//  node.removeEventListener('webkitTransitionEnd', this.transitionEndListener);
-//  node.removeEventListener('transitionend', this.transitionEndListener);
   }
   
   void horizontalChanged() {
