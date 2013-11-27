@@ -65,6 +65,19 @@ class PolymerXhr extends PolymerElement {
   
   /**
    * Sends a HTTP request to the server and returns the XHR object.
+   * 
+   * inOptions
+   *    inOptions.url (String) The url to which the request is sent.
+   *    inOptions.method (String) The HTTP method to use, default is GET.
+   *    inOptions.sync (bool) By default, all requests are sent asynchronously.
+   *        To send synchronous requests, set to true.
+   *    inOptions.params (dynamic) Data to be sent to the server.
+   *    inOptions.body (dynamic) The content for the request body for POST method.
+   *    inOptions.headers (dynamic) HTTP request headers.
+   *    inOptions.responseType (String) The response type. Default is 'text'.
+   *    inOptions.callback (dynamic)Called when request is completed.
+   * returns XHR object (dynamic).
+   * 
    */
   request(options) {
     var xhr = new HttpRequest();

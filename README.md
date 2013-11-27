@@ -11,13 +11,13 @@ The intent of the authors is to contribute the work to the Dart project itself (
 
 ## General notes
 
-* Current development status requires [Dart SDK build 29746](http://gsdview.appspot.com/dart-editor-archive-continuous/29746/) (0.8.10.0)
+* Current development status requires Dart SDK Dart version 1.0.0_r30338 (DEV)
 
 ### Status
 
 Element name                    |   Status    | Comment      | Demo
 ------------------------------- | ----------- | ------------ | ----
-polymer-ajax                    | ported      | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
+polymer-ajax                    | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
 polymer-anchor-point            | **ported**  |              |
 polymer-collapse                | ported      | has issues   | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
 polymer-cookie                  | ported      | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)

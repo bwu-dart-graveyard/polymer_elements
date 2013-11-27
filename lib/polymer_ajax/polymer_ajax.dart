@@ -69,7 +69,6 @@ class PolymerAjax extends PolymerElement {
   /**
    * Returns the response object.
    */
-  
   @published
   var response;
   
@@ -78,6 +77,21 @@ class PolymerAjax extends PolymerElement {
    * Default is 'GET'.'
    */
   String method = '';
+
+  /**
+   * HTTP request headers to send.
+  *
+   * Example:
+  *
+   *     <polymer-ajax auto url="http://somesite.com"
+   *         headers='{"X-Requested-With": "XMLHttpRequest"}'
+   *         handleAs="json"
+   *         on-polymer-response="{{handleResponse}}">
+   *     </polymer-ajax>
+   */ 
+  @published
+  var headers;
+  
   
   Timer _goJob;
   
@@ -126,10 +140,10 @@ class PolymerAjax extends PolymerElement {
         return _jsonHandler(xhr);
       case 'xml':
         return _xmlHandler(xhr);
-      case 'text':
-        return _textHandler(xhr);
+      //case 'text':
+        //return _textHandler(xhr);
       default:
-        throw new ArgumentError('handleAs should be json, text, or xml');
+        return _textHandler(xhr);;
     }
   }
   
@@ -200,20 +214,20 @@ class PolymerAjax extends PolymerElement {
     // TODO polymer.js has something a line
     // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
     // anything it does or what the dart equiavlent would be.
-    //
+    // (zoechi) I think it's a bug because xhrArgs is nowhere set
     var args = {};
-    args['params'] = this.params != null ? this.params : null;
+    args['params'] = this.params;
     if (args['params'] is String && args['params'].isNotEmpty) {
       args['params'] = JSON.decode(args['params']);
+    }
+    args['headers'] = this.headers;
+    if(args['headers'] is String && args['headers'].isNotEmpty) {
+      args['headers'] = JSON.decode(args['headers']);
     }
     args['callback'] = this._receive;
     args['url'] = this.url;
     args['method'] = this.method;
     
-    //(egrimes) TODO polymer.js returns 'args.url && this.xhr.request(args)' 
-    //which makes absolutely no sense to me.  Replicating the closest thing
-    //I can think of for now
     return args.containsKey('url') && this._xhr.request(args) != null;
   }
-  
 }
