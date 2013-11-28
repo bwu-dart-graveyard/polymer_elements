@@ -23,23 +23,23 @@ polymer-collapse                | **ported**  | needs some additional stylesheet
 polymer-cookie                  | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)
 polymer-file                    | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_file.html)
 polymer-flex-layout             | **ported**  | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)
-polymer-google-jsapi            | not started |              | 
+polymer-google-jsapi            | not&nbsp;started |              | 
 polymer-grid-layout             | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
-polymer-jsonp                   | not started |              |
-polymer-key-helper              | not started |              |
+polymer-jsonp                   | not&nbsp;started |              |
+polymer-key-helper              | not&nbsp;started |              |
 polymer-layout                  | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_layout.html)
-polymer-localstorage            | **ported**  |              |
+polymer-localstorage            | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_localstorage.html)
 polymer-media-query             | **ported**  | small issue in Dart but works fine in JS  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
 polymer-meta                    | ported      | needs tests  |
-polymer-mock-data               | not started |              |
+polymer-mock-data               | not&nbsp;started |              |
 polymer-overlay                 | started     |              |
 polymer-page                    | **ported**  |              |
-polymer-scrub                   | not started |              |
+polymer-scrub                   | not&nbsp;started |              |
 polymer-selection               | ported      | needs tests  |
 polymer-selector                | ported      | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selector.html)
 polymer-shared-lib              | started     |              |
 polymer-signals                 | ported      | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_signals.html)
-polymer-view-source-link        | not started |              |
+polymer-view-source-link        | not&nbsp;started |              |
 
 
 ### License
