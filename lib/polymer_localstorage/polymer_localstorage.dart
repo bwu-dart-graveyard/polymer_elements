@@ -57,8 +57,6 @@ class PolymerLocalstorage extends PolymerElement {
   
   /**
    * Fired after it is loaded from localStorage.
-   * 
-   * @event polymer-localstorage-load
    */
   Stream<CustomEvent> get onLoadEvent =>
       PolymerLocalstorage._loadEvent.forTarget(this);
