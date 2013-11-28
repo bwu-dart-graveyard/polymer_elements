@@ -113,6 +113,7 @@ class PolymerFlexLayout extends PolymerElement {
     this.verticalChanged(null);
     this.alignChanged(null);
     this.justifyChanged(null);
+    
     this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should    
     // TODO this should become redundant when the domspec is more complete
     // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
