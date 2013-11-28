@@ -1,0 +1,60 @@
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+<title>polymer-selection</title>
+
+
+
+ <script src="polymer_selection.html_bootstrap.dart.js"></script>
+
+
+
+</head>
+<body><polymer-element name="polymer-selection"> 
+  <template>
+    <style>
+      @host { 
+        * {
+          display: none !important;
+        }
+      }
+    </style>
+  </template> 
+</polymer-element><polymer-element name="app-element">
+  <template>
+    <style>
+      /* @polyfill ul > * */
+      ::-webkit-distributed(> *) {
+        cursor: pointer;
+      }
+
+      /* @polyfill ul > .selected */
+      ::-webkit-distributed(> .selected) {
+        font-weight: bold;
+        font-style: italic;
+      }
+    </style>
+    <ul on-click="itemTapAction">
+      <content></content>
+    </ul>
+    <polymer-selection id="selection" multi="true" on-polymerselect="{{selectAction}}"></polymer-selection>
+    </template>
+  
+</polymer-element>
+
+  <app-element>
+    <li>Red</li>
+    <li>Green</li>
+    <li>Blue</li>
+  </app-element>
+
+
+
+</body></html>

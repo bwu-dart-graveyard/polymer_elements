@@ -1,0 +1,64 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <title>polymer-localstorage</title>
+    
+    
+    
+    <script src="polymer_localstorage.html_bootstrap.dart.js"></script>
+  
+    
+  </head>
+
+  <body><polymer-element name="polymer-localstorage" attributes="name value useRaw autoSaveDisabled">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+  </template>
+  
+</polymer-element><polymer-element name="x-test1">
+  <template>
+    string entered below will be stored in localStorage and automatically retrived from localStorage when the page is reloaded<br>
+    <input value="{{value}}">
+    <polymer-localstorage name="polymer-localstorage-x-test1" value="{{value}}"></polymer-localstorage>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-toggle-button" attributes="value noCaption onCaption offCaption" on-tap="{{toggle}}" on-click="{{toggle}}" on-trackstart="{{trackStart}}" on-track="{{track}}" on-trackend="{{trackEnd}}" on-flick="{{flick}}">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toggle_button/polymer_ui_toggle_button.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <div id="toggle" class="toggle">
+      <span class="on-label flexbox align-center justify-center">{{currentCaption}}</span>
+      <span id="thumb" class="thumb"></span>
+      <span class="off-label flexbox align-center justify-center">{{currentCaption}}</span>
+    </div>
+  </template>
+  
+</polymer-element>
+
+<polymer-element name="x-test2">
+  <template>
+    <polymer-ui-toggle-button value="{{mode}}"></polymer-ui-toggle-button>
+    <polymer-localstorage name="polymer-localstorage-x-test2" value="{{mode}}"></polymer-localstorage>
+  </template>
+  
+</polymer-element>
+
+
+    <x-test1></x-test1>
+    <br><br>
+    <x-test2></x-test2>
+  
+
+
+</body></html>

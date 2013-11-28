@@ -1,0 +1,76 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <title>polymer-layout</title>
+    
+    
+    <script src="polymer_layout.html_bootstrap.dart.js"></script>
+    
+  </head>
+
+  <body><polymer-element name="polymer-layout" attributes="vertical">
+  <template>
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-slide" attributes="open closed vertical target targetId">
+  <template>
+    <style>
+      :host {   
+          display: none;
+      }
+    </style>    
+  </template>
+  
+</polymer-element><polymer-element name="app-element">
+  <template>
+      <style>
+      div {
+        padding: 8px;
+        border: 3px solid lightblue;
+        -webkit-transition: all 0.3s;
+      }
+      [vertical] ~ div {
+        border: 3px solid orange;
+      }
+    </style>
+    <div style="height: 600px; overflow: hidden;">
+      <polymer-layout></polymer-layout>
+      <div id="left">Hi I'm some content</div>
+      <div id="left2" on-click="{{toggle}}" data-target="leftSlide">Click Me First</div>
+      <div on-click="{{toggle}}" data-target="leftSlide2">Click Me Second</div>
+      <div fit="">
+        <polymer-layout vertical=""></polymer-layout>
+        <div id="top">Gribble gribble</div>
+        <div on-click="{{toggle}}" data-target="topSlide">Click Me</div>
+        <div fit="">Squids!</div>
+        <div on-click="{{toggle}}" data-target="bottomSlide">Click Me</div>
+        <div>More is more</div>
+        <div id="bottom">Squids are larger than they appear.</div>
+      </div>
+      <div on-click="{{toggle}}" data-target="rightSlide">Click me</div>
+      <div id="right">A last bit, like a panel</div>
+    </div>
+    <polymer-slide id="leftSlide" targetid="left"></polymer-slide>
+    <polymer-slide id="leftSlide2" targetid="left2"></polymer-slide>
+    <polymer-slide id="rightSlide" targetid="right"></polymer-slide>
+    <polymer-slide id="topSlide" vertical="" targetid="top"></polymer-slide>
+    <polymer-slide id="bottomSlide" vertical="" targetid="bottom"></polymer-slide>  
+  </template>
+  
+</polymer-element>
+    <app-element></app-element>
+  
+
+</body></html>

@@ -47,7 +47,6 @@ this.$.file.read();
 ...
 this.$.file.blob = new Blob(['abc'], {type: 'text/plain'});
 </code></pre>
-<p>@class polymer-file</p>
 <pre class="source">
 @CustomTag('polymer-file')
 class PolymerFile extends PolymerElement {
@@ -96,14 +95,13 @@ class PolymerFile extends PolymerElement {
  /**
   * Fired if there is an error in the file read.
   * [detail] contains information on the error.
-  * @param {Object} detail.error Information on the error.
   */
  Stream&lt;CustomEvent&gt; get onFileReadError =&gt; 
      PolymerFile._fileReadErrorEvent.forTarget(this);
 
  
  void blobChanged(oldValue) {
-   // result is set at end of microtask in read. This won't call resultChanged.
+   // (comment from JS) result is set at end of microtask in read. This won't call resultChanged.
    this.result = null;
    if (this.auto) {
      this.read();
@@ -153,7 +151,7 @@ class PolymerFile extends PolymerElement {
 </div>
 <h3>Extends</h3>
 <p>
-<span class="type-box"><span class="icon-class"></span><a href="../dart__interceptors/Interceptor.html">Interceptor</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/EventTarget.html">EventTarget</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Node.html">Node</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/Element.html">Element</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../dart_html/HtmlElement.html">HtmlElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><a href="../polymer/PolymerElement.html">PolymerElement</a></span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerFile</strong></span></p>
+<span class="type-box"><span class="icon-class"></span>EventTarget</span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span>Node</span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span>Element</span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span>HtmlElement</span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span>PolymerElement</span>&nbsp;&gt;&nbsp;<span class="type-box"><span class="icon-class"></span><strong>PolymerFile</strong></span></p>
 <div>
 <h3>Constructors</h3>
 <div class="method"><h4 id="created">
@@ -223,7 +221,7 @@ Map&lt;String, String&gt;         <strong>attributes</strong> <a class="anchor-l
 this element.</p>
 <p>This only includes attributes which are not in a namespace
 (such as 'xlink:href'), additional attributes can be accessed via
-<a class="crossref" href="../dart_html/Element.html#getNamespacedAttributes">getNamespacedAttributes</a>.</p>
+<code>getNamespacedAttributes</code>.</p>
 <pre class="source">
 Map&lt;String, String&gt; get attributes =&gt; new _ElementAttributeMap(this);
 </pre>
@@ -291,7 +289,7 @@ final CssRect         <strong>borderEdge</strong> <a class="anchor-link"
 border box.</p>
 <p>This returns a rectangle with the dimenions actually available for content
 in this element, in pixels, regardless of this element's box-sizing
-property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+property. Unlike <code>getBoundingClientRect</code>, the dimensions of this rectangle
 will return the same numerical height if the element is hidden or not. This
 can be used to retrieve jQuery's
 <a href="http://api.jquery.com/outerHeight/">outerHeight</a> value for an element.</p>
@@ -314,7 +312,7 @@ final Stream&lt;List&lt;ChangeRecord&gt;&gt;         <strong>changes</strong> <a
         <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>The stream of change records to this object. Records will be delivered
 asynchronously.</p>
-<p><a class="crossref" href="../observe.src.observable/Observable.html#deliverChanges">deliverChanges</a> can be called to force synchronous delivery.</p>
+<p><code>deliverChanges</code> can be called to force synchronous delivery.</p>
 <pre class="source">
 Stream&lt;List&lt;ChangeRecord&gt;&gt; get changes {
  if (_changes == null) {
@@ -482,7 +480,7 @@ final CssRect         <strong>contentEdge</strong> <a class="anchor-link"
 <p>Access this element's content position.</p>
 <p>This returns a rectangle with the dimenions actually available for content
 in this element, in pixels, regardless of this element's box-sizing
-property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+property. Unlike <code>getBoundingClientRect</code>, the dimensions of this rectangle
 will return the same numerical height if the element is hidden or not.</p>
 <p><em>Important</em> <em>note</em>: use of this method <em>will</em> perform CSS calculations that
 can trigger a browser reflow. Therefore, use of this property <em>during</em> an
@@ -635,28 +633,6 @@ final Node firstChild
 </pre>
 </div>
 </div>
-<div class="field inherited"><h4 id="hashCode">
-<button class="show-code">Code</button>
-final int         <strong>hashCode</strong> <a class="anchor-link"
-            href="#hashCode"
-            title="Permalink to PolymerFile.hashCode">#</a>
-        </h4>
-        <div class="inherited-from">inherited from Interceptor </div><div class="doc">
-<div class="inherited">
-<p>Get a hash code for this object.</p>
-<p>All objects have hash codes. Hash codes are guaranteed to be the
-same for objects that are equal when compared using the equality
-operator <code>==</code>. Other than that there are no guarantees about
-the hash codes. They will not be consistent between runs and
-there are no distribution guarantees.</p>
-<p>If a subclass overrides <a class="crossref" href="../dart__interceptors/Interceptor.html#hashCode">hashCode</a> it should override the
-equality operator as well to maintain consistency.</p>
-<div class="docs-inherited-from">docs inherited from Object </div></div>
-<pre class="source">
-int get hashCode =&gt; Primitives.objectHashCode(this);
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="hasObservers">
 <button class="show-code">Code</button>
 final bool         <strong>hasObservers</strong> <a class="anchor-link"
@@ -665,7 +641,7 @@ final bool         <strong>hasObservers</strong> <a class="anchor-link"
         </h4>
         <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>True if this object has any observers, and should call
-<a class="crossref" href="../observe.src.observable/Observable.html#notifyChange">notifyChange</a> for changes.</p>
+<code>notifyChange</code> for changes.</p>
 <pre class="source">
 bool get hasObservers =&gt; _changes != null &amp;&amp; _changes.hasListener;
 </pre>
@@ -708,7 +684,7 @@ String         <strong>innerHtml</strong> <a class="anchor-link"
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Parses the HTML fragment and sets it as the contents of this element.</p>
 <p>This uses the default sanitization behavior to sanitize the HTML fragment,
-use <a class="crossref" href="../dart_html/Element.html#setInnerHtml">setInnerHtml</a> to override the default behavior.</p>
+use <code>setInnerHtml</code> to override the default behavior.</p>
 <pre class="source">
 String get innerHtml =&gt; _innerHtml;
 </pre>
@@ -799,7 +775,7 @@ final CssRect         <strong>marginEdge</strong> <a class="anchor-link"
 border + margin box.</p>
 <p>This returns a rectangle with the dimenions actually available for content
 in this element, in pixels, regardless of this element's box-sizing
-property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+property. Unlike <code>getBoundingClientRect</code>, the dimensions of this rectangle
 will return the same numerical height if the element is hidden or not. This
 can be used to retrieve jQuery's
 <a href="http://api.jquery.com/outerHeight/">outerHeight</a> value for an element.</p>
@@ -910,7 +886,7 @@ final int         <strong>nodeType</strong> <a class="anchor-link"
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The type of node.</p>
-<p>This value is one of:</p><ul><li><code>ATTRIBUTE_NODE</code> if this node is an attribute.</li><li>[CDATA_SECTION_NODE] if this node is a <a class="crossref" href="../dart_html/CDataSection.html">CDataSection</a>.</li><li><code>COMMENT_NODE</code> if this node is a <a class="crossref" href="../dart_html/Comment.html">Comment</a>.</li><li>[DOCUMENT_FRAGMENT_NODE] if this node is a <a class="crossref" href="../dart_html/DocumentFragment.html">DocumentFragment</a>.</li><li><code>DOCUMENT_NODE</code> if this node is a <a class="crossref" href="../dart_html/Document.html">Document</a>.</li><li>[DOCUMENT_TYPE_NODE] if this node is a <a class="crossref" href="../dart_html/DocumentType.html">DocumentType</a> node.</li><li><code>ELEMENT_NODE</code> if this node is an <a class="crossref" href="../dart_html/Element.html">Element</a>.</li><li><code>ENTITY_NODE</code> if this node is an entity.</li><li>[ENTITY_REFERENCE_NODE] if this node is an entity reference.</li><li><code>NOTATION_NODE</code> if this node is a notation.</li><li>[PROCESSING_INSTRUCTION_NODE] if this node is a <a class="crossref" href="../dart_html/ProcessingInstruction.html">ProcessingInstruction</a>.</li><li><code>TEXT_NODE</code> if this node is a <a class="crossref" href="../dart_html/Text.html">Text</a> node.</li></ul>
+<p>This value is one of:</p><ul><li><code>ATTRIBUTE_NODE</code> if this node is an attribute.</li><li>[CDATA_SECTION_NODE] if this node is a <code>CDataSection</code>.</li><li><code>COMMENT_NODE</code> if this node is a <code>Comment</code>.</li><li>[DOCUMENT_FRAGMENT_NODE] if this node is a <code>DocumentFragment</code>.</li><li><code>DOCUMENT_NODE</code> if this node is a <code>Document</code>.</li><li>[DOCUMENT_TYPE_NODE] if this node is a <code>DocumentType</code> node.</li><li><code>ELEMENT_NODE</code> if this node is an <code>Element</code>.</li><li><code>ENTITY_NODE</code> if this node is an entity.</li><li>[ENTITY_REFERENCE_NODE] if this node is an entity reference.</li><li><code>NOTATION_NODE</code> if this node is a notation.</li><li>[PROCESSING_INSTRUCTION_NODE] if this node is a <code>ProcessingInstruction</code>.</li><li><code>TEXT_NODE</code> if this node is a <code>Text</code> node.</li></ul>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.nodeType">Node.nodeType</a> from MDN.</p></li></ul>
 <pre class="source">
@@ -1031,7 +1007,7 @@ final ElementStream&lt;Event&gt;         <strong>onAbort</strong> <a class="anch
             title="Permalink to PolymerFile.onAbort">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>abort</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>abort</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onabort')
 @DocsEditable()
@@ -1046,7 +1022,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforeCopy</strong> <a class=
             title="Permalink to PolymerFile.onBeforeCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>beforecopy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>beforecopy</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onbeforecopy')
 @DocsEditable()
@@ -1061,7 +1037,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforeCut</strong> <a class="
             title="Permalink to PolymerFile.onBeforeCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>beforecut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>beforecut</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onbeforecut')
 @DocsEditable()
@@ -1076,7 +1052,7 @@ final ElementStream&lt;Event&gt;         <strong>onBeforePaste</strong> <a class
             title="Permalink to PolymerFile.onBeforePaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>beforepaste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>beforepaste</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onbeforepaste')
 @DocsEditable()
@@ -1091,7 +1067,7 @@ final ElementStream&lt;Event&gt;         <strong>onBlur</strong> <a class="ancho
             title="Permalink to PolymerFile.onBlur">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>blur</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>blur</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onblur')
 @DocsEditable()
@@ -1106,7 +1082,7 @@ final ElementStream&lt;Event&gt;         <strong>onChange</strong> <a class="anc
             title="Permalink to PolymerFile.onChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>change</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>change</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onchange')
 @DocsEditable()
@@ -1121,7 +1097,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onClick</strong> <a class=
             title="Permalink to PolymerFile.onClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>click</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>click</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onclick')
 @DocsEditable()
@@ -1136,7 +1112,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onContextMenu</strong> <a 
             title="Permalink to PolymerFile.onContextMenu">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>contextmenu</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>contextmenu</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.oncontextmenu')
 @DocsEditable()
@@ -1151,7 +1127,7 @@ final ElementStream&lt;Event&gt;         <strong>onCopy</strong> <a class="ancho
             title="Permalink to PolymerFile.onCopy">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>copy</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>copy</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.oncopy')
 @DocsEditable()
@@ -1166,7 +1142,7 @@ final ElementStream&lt;Event&gt;         <strong>onCut</strong> <a class="anchor
             title="Permalink to PolymerFile.onCut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>cut</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>cut</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.oncut')
 @DocsEditable()
@@ -1181,7 +1157,7 @@ final ElementStream&lt;Event&gt;         <strong>onDoubleClick</strong> <a class
             title="Permalink to PolymerFile.onDoubleClick">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>doubleclick</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>doubleclick</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ondblclick')
 @DocsEditable()
@@ -1352,7 +1328,7 @@ final ElementStream&lt;Event&gt;         <strong>onError</strong> <a class="anch
             title="Permalink to PolymerFile.onError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>error</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>error</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onerror')
 @DocsEditable()
@@ -1368,8 +1344,7 @@ final Stream&lt;CustomEvent&gt;         <strong>onFileReadError</strong> <a clas
         </h4>
         <div class="doc">
 <p>Fired if there is an error in the file read.
-<code>detail</code> contains information on the error.
-@param {Object} detail.error Information on the error.</p>
+<code>detail</code> contains information on the error.</p>
 <pre class="source">
 Stream&lt;CustomEvent&gt; get onFileReadError =&gt; 
    PolymerFile._fileReadErrorEvent.forTarget(this);
@@ -1398,7 +1373,7 @@ final ElementStream&lt;Event&gt;         <strong>onFocus</strong> <a class="anch
             title="Permalink to PolymerFile.onFocus">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>focus</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>focus</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onfocus')
 @DocsEditable()
@@ -1413,7 +1388,7 @@ final ElementStream&lt;Event&gt;         <strong>onFullscreenChange</strong> <a 
             title="Permalink to PolymerFile.onFullscreenChange">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>fullscreenchange</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>fullscreenchange</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onwebkitfullscreenchange')
 @DocsEditable()
@@ -1430,7 +1405,7 @@ final ElementStream&lt;Event&gt;         <strong>onFullscreenError</strong> <a c
             title="Permalink to PolymerFile.onFullscreenError">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>fullscreenerror</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>fullscreenerror</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onwebkitfullscreenerror')
 @DocsEditable()
@@ -1447,7 +1422,7 @@ final ElementStream&lt;Event&gt;         <strong>onInput</strong> <a class="anch
             title="Permalink to PolymerFile.onInput">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>input</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>input</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.oninput')
 @DocsEditable()
@@ -1462,7 +1437,7 @@ final ElementStream&lt;Event&gt;         <strong>onInvalid</strong> <a class="an
             title="Permalink to PolymerFile.onInvalid">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>invalid</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>invalid</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.oninvalid')
 @DocsEditable()
@@ -1477,7 +1452,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyDown</strong> <a c
             title="Permalink to PolymerFile.onKeyDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>keydown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>keydown</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onkeydown')
 @DocsEditable()
@@ -1492,7 +1467,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyPress</strong> <a 
             title="Permalink to PolymerFile.onKeyPress">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>keypress</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>keypress</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onkeypress')
 @DocsEditable()
@@ -1507,7 +1482,7 @@ final ElementStream&lt;KeyboardEvent&gt;         <strong>onKeyUp</strong> <a cla
             title="Permalink to PolymerFile.onKeyUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>keyup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>keyup</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onkeyup')
 @DocsEditable()
@@ -1522,7 +1497,7 @@ final ElementStream&lt;Event&gt;         <strong>onLoad</strong> <a class="ancho
             title="Permalink to PolymerFile.onLoad">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>load</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>load</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onload')
 @DocsEditable()
@@ -1537,7 +1512,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a cl
             title="Permalink to PolymerFile.onMouseDown">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mousedown</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mousedown</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmousedown')
 @DocsEditable()
@@ -1552,7 +1527,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseEnter</strong> <a c
             title="Permalink to PolymerFile.onMouseEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mouseenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mouseenter</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmouseenter')
 @DocsEditable()
@@ -1568,7 +1543,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseLeave</strong> <a c
             title="Permalink to PolymerFile.onMouseLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mouseleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mouseleave</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmouseleave')
 @DocsEditable()
@@ -1584,7 +1559,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseMove</strong> <a cl
             title="Permalink to PolymerFile.onMouseMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mousemove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mousemove</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmousemove')
 @DocsEditable()
@@ -1599,7 +1574,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOut</strong> <a cla
             title="Permalink to PolymerFile.onMouseOut">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mouseout</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mouseout</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmouseout')
 @DocsEditable()
@@ -1614,7 +1589,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseOver</strong> <a cl
             title="Permalink to PolymerFile.onMouseOver">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mouseover</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mouseover</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmouseover')
 @DocsEditable()
@@ -1629,7 +1604,7 @@ final ElementStream&lt;MouseEvent&gt;         <strong>onMouseUp</strong> <a clas
             title="Permalink to PolymerFile.onMouseUp">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mouseup</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mouseup</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmouseup')
 @DocsEditable()
@@ -1644,7 +1619,7 @@ final ElementStream&lt;WheelEvent&gt;         <strong>onMouseWheel</strong> <a c
             title="Permalink to PolymerFile.onMouseWheel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>mousewheel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>mousewheel</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onmousewheel')
 @DocsEditable()
@@ -1661,7 +1636,7 @@ final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anch
             title="Permalink to PolymerFile.onPaste">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>paste</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>paste</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onpaste')
 @DocsEditable()
@@ -1676,7 +1651,7 @@ final ElementStream&lt;Event&gt;         <strong>onReset</strong> <a class="anch
             title="Permalink to PolymerFile.onReset">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>reset</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>reset</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onreset')
 @DocsEditable()
@@ -1691,7 +1666,7 @@ final ElementStream&lt;Event&gt;         <strong>onScroll</strong> <a class="anc
             title="Permalink to PolymerFile.onScroll">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>scroll</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>scroll</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onscroll')
 @DocsEditable()
@@ -1706,7 +1681,7 @@ final ElementStream&lt;Event&gt;         <strong>onSearch</strong> <a class="anc
             title="Permalink to PolymerFile.onSearch">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>search</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>search</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onsearch')
 @DocsEditable()
@@ -1723,7 +1698,7 @@ final ElementStream&lt;Event&gt;         <strong>onSelect</strong> <a class="anc
             title="Permalink to PolymerFile.onSelect">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>select</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>select</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onselect')
 @DocsEditable()
@@ -1738,7 +1713,7 @@ final ElementStream&lt;Event&gt;         <strong>onSelectStart</strong> <a class
             title="Permalink to PolymerFile.onSelectStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>selectstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>selectstart</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onselectstart')
 @DocsEditable()
@@ -1754,7 +1729,7 @@ final ElementStream&lt;Event&gt;         <strong>onSubmit</strong> <a class="anc
             title="Permalink to PolymerFile.onSubmit">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>submit</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>submit</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.onsubmit')
 @DocsEditable()
@@ -1769,7 +1744,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchCancel</strong> <a 
             title="Permalink to PolymerFile.onTouchCancel">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchcancel</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchcancel</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchcancel')
 @DocsEditable()
@@ -1786,7 +1761,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnd</strong> <a cla
             title="Permalink to PolymerFile.onTouchEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchend</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchend')
 @DocsEditable()
@@ -1803,7 +1778,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchEnter</strong> <a c
             title="Permalink to PolymerFile.onTouchEnter">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchenter</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchenter</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchenter')
 @DocsEditable()
@@ -1820,7 +1795,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchLeave</strong> <a c
             title="Permalink to PolymerFile.onTouchLeave">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchleave</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchleave</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchleave')
 @DocsEditable()
@@ -1837,7 +1812,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchMove</strong> <a cl
             title="Permalink to PolymerFile.onTouchMove">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchmove</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchmove</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchmove')
 @DocsEditable()
@@ -1854,7 +1829,7 @@ final ElementStream&lt;TouchEvent&gt;         <strong>onTouchStart</strong> <a c
             title="Permalink to PolymerFile.onTouchStart">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>touchstart</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>touchstart</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontouchstart')
 @DocsEditable()
@@ -1871,7 +1846,7 @@ final ElementStream&lt;TransitionEvent&gt;         <strong>onTransitionEnd</stro
             title="Permalink to PolymerFile.onTransitionEnd">#</a>
         </h4>
         <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Stream of <code>transitionend</code> events handled by this <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>Stream of <code>transitionend</code> events handled by this <code>Element</code>.</p>
 <pre class="source">
 @DomName('Element.ontransitionend')
 @DocsEditable()
@@ -1903,7 +1878,7 @@ final Document         <strong>ownerDocument</strong> <a class="anchor-link"
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The document this node belongs to.</p>
-<p>Returns <code>null</code> if this node does not belong to any document.</p>
+<p>Returns null if this node does not belong to any document.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.ownerDocument">Node.ownerDocument</a> from
 MDN.</p></li></ul>
@@ -1922,7 +1897,7 @@ final CssRect         <strong>paddingEdge</strong> <a class="anchor-link"
 <p>Access the dimensions and position of this element's content + padding box.</p>
 <p>This returns a rectangle with the dimenions actually available for content
 in this element, in pixels, regardless of this element's box-sizing
-property. Unlike <a class="crossref" href="../dart_html/Element.html#getBoundingClientRect">getBoundingClientRect</a>, the dimensions of this rectangle
+property. Unlike <code>getBoundingClientRect</code>, the dimensions of this rectangle
 will return the same numerical height if the element is hidden or not. This
 can be used to retrieve jQuery's
 <a href="http://api.jquery.com/innerHeight/">innerHeight</a> value for an element.
@@ -1946,7 +1921,7 @@ final Element         <strong>parent</strong> <a class="anchor-link"
         </h4>
         <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>The parent element of this node.</p>
-<p>Returns <code>null</code> if this node either does not have a parent or its parent is
+<p>Returns null if this node either does not have a parent or its parent is
 not an element.</p>
 <h2>Other resources</h2><ul><li>
 <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node.parentElement">Node.parentElement</a> from
@@ -2087,21 +2062,6 @@ var         <strong>result</strong> <a class="anchor-link"
 @type Blob|File</p>
 <pre class="source">
 var result = null
-</pre>
-</div>
-</div>
-<div class="field inherited"><h4 id="runtimeType">
-<button class="show-code">Code</button>
-final Type         <strong>runtimeType</strong> <a class="anchor-link"
-            href="#runtimeType"
-            title="Permalink to PolymerFile.runtimeType">#</a>
-        </h4>
-        <div class="inherited-from">inherited from Interceptor </div><div class="doc">
-<div class="inherited">
-<p>A representation of the runtime type of the object.</p>
-<div class="docs-inherited-from">docs inherited from Object </div></div>
-<pre class="source">
-Type get runtimeType =&gt; getRuntimeType(this);
 </pre>
 </div>
 </div>
@@ -2307,7 +2267,7 @@ reference to the component implementation. It was inspired by Mozilla's
 <a href="http://x-tags.org/">x-tags</a> project. Please note: in the future it may be possible to
 <code>extend Element</code> from your class, in which case this field will be
 deprecated.</p>
-<p>If xtag has not been set, it will simply return <code>this</code> <a class="crossref" href="../dart_html/Element.html">Element</a>.</p>
+<p>If xtag has not been set, it will simply return <code>this</code> <code>Element</code>.</p>
 <pre class="source">
 get xtag =&gt; _xtag != null ? _xtag : this;
 </pre>
@@ -2315,40 +2275,6 @@ get xtag =&gt; _xtag != null ? _xtag : this;
 void set xtag(Element value) {
  _xtag = value;
 }
-</pre>
-</div>
-</div>
-</div>
-<div class="inherited">
-<h3>Operators</h3>
-<div class="method inherited"><h4 id="==">
-<button class="show-code">Code</button>
-bool <strong>operator ==</strong>(other) <a class="anchor-link" href="#=="
-              title="Permalink to PolymerFile.operator ==">#</a></h4>
-<div class="inherited-from">inherited from Interceptor </div><div class="doc">
-<div class="inherited">
-<p>The equality operator.</p>
-<p>The default behavior for all <a class="crossref" href="../dart_core/Object.html">Object</a>s is to return true if and
-only if <code>this</code> and 
-<span class="param">other</span> are the same object.</p>
-<p>Override this method to specify a different equality relation on
-a class. The overriding method must still be an equivalence relation.
-That is, it must be:</p><ul><li>
-<p>Total: It must return a boolean for all arguments. It should never throw
-   or return <code>null</code>.</p></li><li>
-<p>Reflexive: For all objects <code>o</code>, <code>o == o</code> must be true.</p></li><li>
-<p>Symmetric: For all objects <code>o1</code> and <code>o2</code>, <code>o1 == o2</code> and <code>o2 == o1</code> must
-   either both be true, or both be false.</p></li><li>
-<p>Transitive: For all objects <code>o1</code>, <code>o2</code>, and <code>o3</code>, if <code>o1 == o2</code> and
-   <code>o2 == o3</code> are true, then <code>o1 == o3</code> must be true.</p></li></ul>
-<p>The method should also be consistent over time, so equality of two objects
-should not change over time, or at least only change if one of the objects
-was modified.</p>
-<p>If a subclass overrides the equality operator it should override
-the <a class="crossref" href="../dart__interceptors/Interceptor.html#hashCode">hashCode</a> method as well to maintain consistency.</p>
-<div class="docs-inherited-from">docs inherited from Object </div></div>
-<pre class="source">
-bool operator ==(other) =&gt; identical(this, other);
 </pre>
 </div>
 </div>
@@ -2419,7 +2345,7 @@ void addNodeListeners(Node node, Iterable&lt;String&gt; events,
 Node <strong>append</strong>(Node newChild) <a class="anchor-link" href="#append"
               title="Permalink to PolymerFile.append">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
-<p>Adds a node to the end of the child <a class="crossref" href="../dart_html/Node.html#nodes">nodes</a> list of this node.</p>
+<p>Adds a node to the end of the child <code>nodes</code> list of this node.</p>
 <p>If the node already exists in this document, it will be removed from its
 current parent node, then added to this node.</p>
 <p>This method is more efficient than <code>nodes.add</code>, and is the preferred
@@ -2479,7 +2405,7 @@ This will call <code>Platform.flush()</code> and then call
 <span class="param">method</span> and return the
 result.</p>
 <p>If you would prefer to run the callback after a given duration, see
-the <a class="crossref" href="../polymer/Polymer.html#asyncTimer">asyncTimer</a> method.</p>
+the <code>asyncTimer</code> method.</p>
 <pre class="source">
 int async(RequestAnimationFrameCallback method) {
  // when polyfilling Object.observe, ensure changes
@@ -2495,7 +2421,7 @@ int async(RequestAnimationFrameCallback method) {
 dynamic <strong>asyncFire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#asyncFire"
               title="Permalink to PolymerFile.asyncFire">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
-<p>Fire an event asynchronously. See <a class="crossref" href="../polymer/Polymer.html#async">async</a> and <a class="crossref" href="../polymer/Polymer.html#fire">fire</a>.</p>
+<p>Fire an event asynchronously. See <code>async</code> and <code>fire</code>.</p>
 <pre class="source">
 asyncFire(String type, {Object detail, Node toNode, bool canBubble}) {
  // TODO(jmesserly): I'm not sure this method adds much in Dart, it's easy to
@@ -2517,7 +2443,7 @@ with the provided
 <span class="param">method</span> and 
 <span class="param">timeout</span>.</p>
 <p>If you would prefer to run the callback using
-<code>window.requestAnimationFrame</code>, see the <a class="crossref" href="../polymer/Polymer.html#async">async</a> method.</p>
+<code>window.requestAnimationFrame</code>, see the <code>async</code> method.</p>
 <pre class="source">
 Timer asyncTimer(void method(), Duration timeout) {
  // when polyfilling Object.observe, ensure changes
@@ -2666,7 +2592,7 @@ void <strong>blobChanged</strong>(oldValue) <a class="anchor-link" href="#blobCh
 <div class="doc">
 <pre class="source">
 void blobChanged(oldValue) {
- // result is set at end of microtask in read. This won't call resultChanged.
+ // (comment from JS) result is set at end of microtask in read. This won't call resultChanged.
  this.result = null;
  if (this.auto) {
    this.read();
@@ -2827,7 +2753,7 @@ A custom treeSanitizer can also be provided to perform special validation
 rules but since the API is more complex to implement this is discouraged.</p>
 <p>The returned tree is guaranteed to only contain nodes and attributes which
 are allowed by the provided validator.</p>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/NodeValidator.html">NodeValidator</a></li><li><a class="crossref" href="../dart_html/NodeTreeSanitizer.html">NodeTreeSanitizer</a></li></ul>
+<p>See also:</p><ul><li><code>NodeValidator</code></li><li><code>NodeTreeSanitizer</code></li></ul>
 <pre class="source">
 DocumentFragment createFragment(String html,
    {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) {
@@ -2917,7 +2843,7 @@ ShadowRoot createShadowRoot() {
 bool <strong>deliverChanges</strong>() <a class="anchor-link" href="#deliverChanges"
               title="Permalink to PolymerFile.deliverChanges">#</a></h4>
 <div class="inherited-from">mixed in from Observable </div><div class="doc">
-<p>Synchronously deliver pending <a class="crossref" href="../observe.src.observable/Observable.html#changes">changes</a>. Returns true if any records were
+<p>Synchronously deliver pending <code>changes</code>. Returns true if any records were
 delivered, otherwise false.</p>
 <pre class="source">
 bool deliverChanges() {
@@ -3067,7 +2993,7 @@ Node findStyleController() {
 Object <strong>fire</strong>(String type, {Object detail, Node toNode, bool canBubble}) <a class="anchor-link" href="#fire"
               title="Permalink to PolymerFile.fire">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
-<p>Fire a <a class="crossref" href="../dart_html/CustomEvent.html">CustomEvent</a> targeting 
+<p>Fire a <code>CustomEvent</code> targeting 
 <span class="param">toNode</span>, or this if toNode is not
 supplied. Returns the 
 <span class="param">detail</span> object.</p>
@@ -3347,8 +3273,8 @@ Element <strong>insertAdjacentElement</strong>(String where, Element element) <a
 <span class="param">element</span> into the DOM at the specified location.</p>
 <p>To see the possible values for 
 <span class="param">where</span>, read the doc for
-<a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a>.</p>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a></li></ul>
+<code>insertAdjacentHtml</code>.</p>
+<p>See also:</p><ul><li><code>insertAdjacentHtml</code></li></ul>
 <pre class="source">
 Element insertAdjacentElement(String where, Element element) {
  if (JS('bool', '!!#.insertAdjacentElement', this)) {
@@ -3376,7 +3302,7 @@ specified location.</p>
 document.body.insertAdjacentHtml('afterBegin', html);
 var createdElement = document.body.children<code>0</code>;
 print(createdElement.classes<code>0</code>); // Prints 'something'</p></li></ul>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentText">insertAdjacentText</a></li><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentElement">insertAdjacentElement</a></li></ul>
+<p>See also:</p><ul><li><code>insertAdjacentText</code></li><li><code>insertAdjacentElement</code></li></ul>
 <pre class="source">
 void insertAdjacentHtml(String where, String html) {
  if (JS('bool', '!!#.insertAdjacentHTML', this)) {
@@ -3396,8 +3322,8 @@ void <strong>insertAdjacentText</strong>(String where, String text) <a class="an
 <p>Inserts text into the DOM at the specified location.</p>
 <p>To see the possible values for 
 <span class="param">where</span>, read the doc for
-<a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a>.</p>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Element.html#insertAdjacentHtml">insertAdjacentHtml</a></li></ul>
+<code>insertAdjacentHtml</code>.</p>
+<p>See also:</p><ul><li><code>insertAdjacentHtml</code></li></ul>
 <pre class="source">
 void insertAdjacentText(String where, String text) {
  if (JS('bool', '!!#.insertAdjacentText', this)) {
@@ -3415,7 +3341,7 @@ Node <strong>insertAllBefore</strong>(Iterable&lt;Node&gt; newNodes, Node refChi
               title="Permalink to PolymerFile.insertAllBefore">#</a></h4>
 <div class="inherited-from">inherited from Node </div><div class="doc">
 <p>Inserts all of the nodes into this node directly before refChild.</p>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/Node.html#insertBefore">insertBefore</a></li></ul>
+<p>See also:</p><ul><li><code>insertBefore</code></li></ul>
 <pre class="source">
 Node insertAllBefore(Iterable&lt;Node&gt; newNodes, Node refChild) {
  if (newNodes is _ChildNodeListLazy) {
@@ -3628,45 +3554,20 @@ bool matchesWithAncestors(String selectors) {
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="noSuchMethod">
-<button class="show-code">Code</button>
-dynamic <strong>noSuchMethod</strong>(Invocation invocation) <a class="anchor-link" href="#noSuchMethod"
-              title="Permalink to PolymerFile.noSuchMethod">#</a></h4>
-<div class="inherited-from">inherited from Interceptor </div><div class="doc">
-<div class="inherited">
-<p><a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is invoked when users invoke a non-existent method
-on an object. The name of the method and the arguments of the
-invocation are passed to <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> in an <a class="crossref" href="../dart_core/Invocation.html">Invocation</a>.
-If <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> returns a value, that value becomes the result of
-the original invocation.</p>
-<p>The default behavior of <a class="crossref" href="../dart__interceptors/Interceptor.html#noSuchMethod">noSuchMethod</a> is to throw a
-<a class="crossref" href="../dart_core/NoSuchMethodError.html">NoSuchMethodError</a>.</p>
-<div class="docs-inherited-from">docs inherited from Object </div></div>
-<pre class="source">
-dynamic noSuchMethod(Invocation invocation) {
- throw new NoSuchMethodError(
-     this,
-     invocation.memberName,
-     invocation.positionalArguments,
-     invocation.namedArguments);
-}
-</pre>
-</div>
-</div>
 <div class="method inherited"><h4 id="notifyChange">
 <button class="show-code">Code</button>
 void <strong>notifyChange</strong>(ChangeRecord record) <a class="anchor-link" href="#notifyChange"
               title="Permalink to PolymerFile.notifyChange">#</a></h4>
 <div class="inherited-from">mixed in from Observable </div><div class="doc">
 <p>Notify observers of a change.</p>
-<p>For most objects <a class="crossref" href="../observe.src.observable/Observable.html#notifyPropertyChange">Observable.notifyPropertyChange</a> is more convenient, but
+<p>For most objects <code>Observable.notifyPropertyChange</code> is more convenient, but
 collections sometimes deliver other types of changes such as a
-<a class="crossref" href="../observe.src.list_diff/ListChangeRecord.html">ListChangeRecord</a>.</p>
+<code>ListChangeRecord</code>.</p>
 <p>Notes:
-- This is <em>not</em> required for fields if you mixin or extend <a class="crossref" href="../observe.src.observable/Observable.html">Observable</a>,
+- This is <em>not</em> required for fields if you mixin or extend <code>Observable</code>,
   but you can use it for computed properties.
-- Unlike <a class="crossref" href="../observe.src.change_notifier/ChangeNotifier.html">ChangeNotifier</a> this will not schedule <a class="crossref" href="../observe.src.observable/Observable.html#deliverChanges">deliverChanges</a>; use
-  <a class="crossref" href="../observe.src.observable/Observable.html#dirtyCheck">Observable.dirtyCheck</a> instead.</p>
+- Unlike <code>ChangeNotifier</code> this will not schedule <code>deliverChanges</code>; use
+  <code>Observable.dirtyCheck</code> instead.</p>
 <pre class="source">
 void notifyChange(ChangeRecord record) {
  if (!hasObservers) return;
@@ -3806,7 +3707,7 @@ void observeProperties() {
 Point <strong>offsetTo</strong>(Element parent) <a class="anchor-link" href="#offsetTo"
               title="Permalink to PolymerFile.offsetTo">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Provides the offset of this element's <a class="crossref" href="../dart_html/Element.html#borderEdge">borderEdge</a> relative to the
+<p>Provides the offset of this element's <code>borderEdge</code> relative to the
 specified 
 <span class="param">parent</span>.</p>
 <p>This is the Dart equivalent of jQuery's
@@ -3815,7 +3716,7 @@ position, however,
 <span class="param">parent</span> can be any parent element of <code>this</code>,
 rather than only <code>this</code>'s immediate <code>offsetParent</code>. If the specified
 element is <em>not</em> an offset parent or transitive offset parent to this
-element, an <a class="crossref" href="../dart_core/ArgumentError.html">ArgumentError</a> is thrown.</p>
+element, an <code>ArgumentError</code> is thrown.</p>
 <pre class="source">
 @Experimental()
 Point offsetTo(Element parent) {
@@ -3831,7 +3732,7 @@ Future&lt;List&lt;MutationRecord&gt;&gt; <strong>onMutation</strong>(Node node) 
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Returns a future when <code>node</code> changes, or when its children or subtree
 changes.</p>
-<p>Use <a class="crossref" href="../dart_html/MutationObserver.html">MutationObserver</a> if you want to listen to a stream of changes.</p>
+<p>Use <code>MutationObserver</code> if you want to listen to a stream of changes.</p>
 <pre class="source">
 Future&lt;List&lt;MutationRecord&gt;&gt; onMutation(Node node) {
  var completer = new Completer();
@@ -3955,7 +3856,7 @@ DeclarationMirror propertyForAttribute(String name) {
 Element <strong>query</strong>(String relativeSelectors) <a class="anchor-link" href="#query"
               title="Permalink to PolymerFile.query">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelector">querySelector</a>. Note this function is deprecated because its
+<p>Alias for <code>querySelector</code>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
 <pre class="source">
 @deprecated
@@ -3970,7 +3871,7 @@ Element query(String relativeSelectors) =&gt; querySelector(relativeSelectors);
 ElementList <strong>queryAll</strong>(String relativeSelectors) <a class="anchor-link" href="#queryAll"
               title="Permalink to PolymerFile.queryAll">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
-<p>Alias for <a class="crossref" href="../dart_html/Element.html#querySelectorAll">querySelectorAll</a>. Note this function is deprecated because its
+<p>Alias for <code>querySelectorAll</code>. Note this function is deprecated because its
 semantics will be changing in the future.</p>
 <pre class="source">
 @deprecated
@@ -4073,7 +3974,7 @@ void read() {
 void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerFile.ready">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
-<p>Called when <a class="crossref" href="../polymer/Polymer.html#prepareElement">prepareElement</a> is finished. </p>
+<p>Called when <code>prepareElement</code> is finished. </p>
 <pre class="source">
 void ready() {}
 </pre>
@@ -4181,7 +4082,7 @@ void <strong>requestFullscreen</strong>() <a class="anchor-link" href="#requestF
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>Displays this element fullscreen.</p>
 <h2>Other resources</h2><ul><li>
-<p><a href="http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api">Using the full-screen API</a>
+<p><a href="http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api">Using the fullscreen API</a>
 tutorial from WebPlatform.org.</p></li><li>
 <p><a href="http://www.w3.org/TR/fullscreen/">Fullscreen specification</a> from W3C.</p></li></ul>
 <pre class="source">
@@ -4191,7 +4092,7 @@ tutorial from WebPlatform.org.</p></li><li>
 *
 * ## Other resources
 *
-* * [Using the full-screen API]
+* * [Using the fullscreen API]
 * (http://docs.webplatform.org/wiki/tutorials/using_the_full-screen_api)
 * tutorial from WebPlatform.org.
 * * [Fullscreen specification]
@@ -4390,7 +4291,7 @@ A custom treeSanitizer can also be provided to perform special validation
 rules but since the API is more complex to implement this is discouraged.</p>
 <p>The resulting tree is guaranteed to only contain nodes and attributes which
 are allowed by the provided validator.</p>
-<p>See also:</p><ul><li><a class="crossref" href="../dart_html/NodeValidator.html">NodeValidator</a></li><li><a class="crossref" href="../dart_html/NodeTreeSanitizer.html">NodeTreeSanitizer</a></li></ul>
+<p>See also:</p><ul><li><code>NodeValidator</code></li><li><code>NodeTreeSanitizer</code></li></ul>
 <pre class="source">
 void setInnerHtml(String html,
  {NodeValidator validator, NodeTreeSanitizer treeSanitizer}) {
@@ -4407,11 +4308,11 @@ ShadowRoot <strong>shadowFromTemplate</strong>(Element template) <a class="ancho
               title="Permalink to PolymerFile.shadowFromTemplate">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <p>Utility function that creates a shadow root from a <code>&lt;template&gt;</code>.</p>
-<p>The base implementation will return a <a class="crossref" href="../dart_html/ShadowRoot.html">ShadowRoot</a>, but you can replace it
+<p>The base implementation will return a <code>ShadowRoot</code>, but you can replace it
 with your own code and skip ShadowRoot creation. In that case, you should
 return <code>null</code>.</p>
-<p>In your overridden method, you can use <a class="crossref" href="../polymer/Polymer.html#instanceTemplate">instanceTemplate</a> to stamp the
-template and initialize data binding, and <a class="crossref" href="../polymer/Polymer.html#shadowRootReady">shadowRootReady</a> to intialize
+<p>In your overridden method, you can use <code>instanceTemplate</code> to stamp the
+template and initialize data binding, and <code>shadowRootReady</code> to intialize
 other Polymer features like event handlers. It is fine to call
 shadowRootReady with a node something other than a ShadowRoot; for example,
 with this Node.</p>
@@ -4480,7 +4381,7 @@ String <strong>toString</strong>() <a class="anchor-link" href="#toString"
               title="Permalink to PolymerFile.toString">#</a></h4>
 <div class="inherited-from">inherited from Element </div><div class="doc">
 <p>The string representation of this element.</p>
-<p>This is equivalent to reading the <a class="crossref" href="../dart_html/Element.html#localName">localName</a> property.</p>
+<p>This is equivalent to reading the <code>localName</code> property.</p>
 <pre class="source">
 String toString() =&gt; localName;
 </pre>
@@ -4586,7 +4487,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-15 09:54:48.879</div>
+          <div>This page was generated at 2013-11-28 20:51:25.499</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
