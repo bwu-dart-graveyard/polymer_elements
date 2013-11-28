@@ -4,13 +4,15 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library polymer_elements.polymer_slide;
+library polymer_elements.polymer_grid_layout.grid_test;
 
 import 'dart:html' show ContentElement, Element;
 import 'package:observe/observe.dart' show ObservableList;
 import 'package:logging/logging.dart' show Logger;
 import 'package:polymer/polymer.dart' show CustomTag, observable, PolymerElement, published,
-  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved 
+// https://code.google.com/p/dart/issues/detail?id=13849
+// (https://code.google.com/p/dart/issues/detail?id=15095)
 
 @CustomTag('grid-test')
 class GridTest extends PolymerElement {
@@ -44,13 +46,7 @@ class GridTest extends PolymerElement {
     super.enteredView();
     this.xnodes = new ObservableList<Element>.from(this.shadowRoot.children.where(
         (Element e) => e.localName != 'polymer-grid-layout' && e.localName != 'style')); 
-    //.from((this.$.values));
-    //this.nodes = [
-                    //  this.$.toolbar, this.$.sidebar, this.$.workspace, 
-    //  this.$.outputToolbar, this.$.output
-    //];
     this.outputLayoutChanged(null);
-    //setInterval(this.toggleLayout.bind(this), 2500);
   }
   
   void outputLayoutChanged(old) {

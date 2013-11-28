@@ -16,15 +16,15 @@ The intent of the authors is to contribute the work to the Dart project itself (
 ### Status
 
 Element name                    |   Status    | Comment      | Demo
-------------------------------- | ----------- | -------------| ----
+------------------------------- | ----------- | ------------ | ----
 polymer-ajax                    | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
 polymer-anchor-point            | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)
-polymer-collapse                | **ported**  | add element css to main page because Polymer doesn't yet  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
+polymer-collapse                | **ported**  | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
 polymer-cookie                  | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)
 polymer-file                    | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_file.html)
-polymer-flex-layout             | ported      | has issues   | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)
-polymer-google-jsapi            | not started |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
-polymer-grid-layout             | **ported**  |              |
+polymer-flex-layout             | **ported**  | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)
+polymer-google-jsapi            | not started |              | 
+polymer-grid-layout             | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
 polymer-jsonp                   | not started |              |
 polymer-key-helper              | not started |              |
 polymer-layout                  | ported      | has issues   |

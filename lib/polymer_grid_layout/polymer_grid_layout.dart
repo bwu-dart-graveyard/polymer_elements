@@ -6,12 +6,13 @@
 
 library polymer_elements.polymer_grid_layout;
 
-import 'dart:async' show  Timer;
-import 'dart:html' show CssStyleDeclaration, document, Element;
+import 'dart:async' show  Stream, Timer;
+import 'dart:html' show CssStyleDeclaration, CustomEvent, document, Element, EventStreamProvider;
 import 'dart:math' as math;
 import 'package:logging/logging.dart' show Logger;
 import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
-  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved 
+// (https://code.google.com/p/dart/issues/detail?id=15095)
 
 typedef SizeFn(int i);
 
@@ -21,7 +22,7 @@ class PolymerGridLayout extends PolymerElement {
   
   final _logger = new Logger('polymer-grid-layout');
 
-  @published List<Element> xnodes;
+  @published List<Element> xnodes; // name deviates from JS because nodes is already taken
   @published List<List<int>> layout;
   @published bool auto = false;
   
@@ -33,10 +34,21 @@ class PolymerGridLayout extends PolymerElement {
   List<Map<String,int>> _rows;
   List<Map<String,int>> _columns;
 
+  static const EventStreamProvider<CustomEvent> _polymerGridLayout =
+      const EventStreamProvider<CustomEvent>('polymer-grid-layout');
+
+  /**
+   * Fired after relayout.
+   */
+  Stream<CustomEvent> get onPolymerGridLayout =>
+      PolymerGridLayout._polymerGridLayout.forTarget(this);
+  
   @override
   void enteredView() {
     super.enteredView();
-    this.invalidate();
+    Timer.run(() {
+      this.invalidate();
+    });
   }
   
   void xnodesChanged() {
@@ -69,7 +81,7 @@ class PolymerGridLayout extends PolymerElement {
     if (this.layout != null) {
       _isLayoutJobStarted = true;
       // job debounces layout, only letting it occur every N ms
-      new Timer(Duration.ZERO, () {
+      Timer.run(() {
         relayout();
         this._isLayoutJobStarted = false;
       });
@@ -81,11 +93,9 @@ class PolymerGridLayout extends PolymerElement {
       this.autoNodes();
     }
     this._layout(this.layout, this.xnodes);
-    this.asyncFire('polymer-grid-layout'); // TODO
+    dispatchEvent(new CustomEvent('polymer-grid-layout'));
   }
 
-
-//
   void line(axis, p, d) {
     Element l = document.createElement('line');
     var extent = (axis == 'left' ? 'width' : 
