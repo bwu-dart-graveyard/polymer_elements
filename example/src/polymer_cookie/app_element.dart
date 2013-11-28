@@ -4,7 +4,7 @@
 // This work is a port of the polymer-elements from the Polymer project, 
 // http://www.polymer-project.org/. 
 
-library app_element;
+library polymer_elements.polymer_cookie.app_element;
 
 import 'package:polymer/polymer.dart';
     
@@ -14,5 +14,4 @@ class AppElement extends PolymerElement {
   @published String value;
   
   AppElement.created() : super.created();
-  
 }
