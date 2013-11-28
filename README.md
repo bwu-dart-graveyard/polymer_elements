@@ -27,9 +27,9 @@ polymer-google-jsapi            | not started |              |
 polymer-grid-layout             | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
 polymer-jsonp                   | not started |              |
 polymer-key-helper              | not started |              |
-polymer-layout                  | ported      | has issues   |
+polymer-layout                  | **ported**  |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_layout.html)
 polymer-localstorage            | **ported**  |              |
-polymer-media-query             | ported      | has issues   | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
+polymer-media-query             | **ported**  | small issue in Dart but works fine in JS  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
 polymer-meta                    | ported      | needs tests  |
 polymer-mock-data               | not started |              |
 polymer-overlay                 | started     |              |

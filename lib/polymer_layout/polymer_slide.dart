@@ -44,7 +44,7 @@ class PolymerSlide extends PolymerElement {
   
   void targetChanged() {
     if (this.closed) {
-      new Timer(Duration.ZERO, this.update);
+      Timer.run(this.update);
     }
   }
   
@@ -57,7 +57,7 @@ class PolymerSlide extends PolymerElement {
   }
   
   void openChanged() {
-    new Timer(Duration.ZERO, this.update);
+    Timer.run(this.update);
   }
   
   void update() {

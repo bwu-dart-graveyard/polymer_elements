@@ -7,10 +7,11 @@
 library polymer_elements.polymer_layout;
 
 import 'dart:async' show Timer;
-import 'dart:html' show CssStyleDeclaration, Element, Node;
+import 'dart:html' show CssStyleDeclaration, document, Element, Node;
 import 'package:logging/logging.dart' show Logger;
 import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
-  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when bug is solved https://code.google.com/p/dart/issues/detail?id=15095
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when 
+// bug is solved https://code.google.com/p/dart/issues/detail?id=15095
 
 /**
  * `<polymer-layout>` arranges nodes horizontally via absolution positioning.
@@ -140,20 +141,24 @@ class PolymerLayout extends PolymerElement {
   @override
   void enteredView() {
     super.enteredView();
-    new Timer(Duration.ZERO, () {
+    Timer.run(() {
       this.prepare();
       this.layout();
     });
   }
   
   void prepare() {
-    var parent = this.parent;
-    // may recalc
-    var cs = parent.getComputedStyle(); // window.getComputedStyle(parent);
-    if (cs.position == 'static') {
-      parent.style.position = 'relative';
+    var parent = this.parent; // TODO workaround for getting to parent (host) needed
+    var cs = parent.getComputedStyle(); 
+
+    if (parent.localName != 'body') {
+      // may recalc
+      var cs = parent.getComputedStyle();
+      if (cs.position == 'static') {
+        parent.style.position = 'relative';
+      }
+      //parent.style.overflow = 'hidden';
     }
-    //parent.style.overflow = 'hidden';
     // changes will cause another recalc at next validation step
     var vertical;
     int i = 0;
@@ -161,7 +166,7 @@ class PolymerLayout extends PolymerElement {
       if (c.nodeType == Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
         stylize(c, {
           'position': 'absolute',
-          'boxSizing': 'border-box',
+          'box-sizing': 'border-box',
           //MozBoxSizing: 'border-box',
         });
         // test for auto-vertical
@@ -178,8 +183,6 @@ class PolymerLayout extends PolymerElement {
   *
    * Arrangement is horizontal unless the `vertical`
    * attribute is applied on this node.
-  *
-   * @method layout
    */
   void layout() {
     var parent = this.parentNode;
