@@ -132,7 +132,7 @@ class PolymerSlide extends PolymerElement {
           break;
         }
         t += h;
-        s.style.top = t + 'px';
+        s.style.top = '${t}px';
         h = s.offsetHeight;
       }
       s = s.nextElementSibling;

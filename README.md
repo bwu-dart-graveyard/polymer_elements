@@ -18,7 +18,7 @@ The intent of the authors is to contribute the work to the Dart project itself (
 Element name                    |   Status         | Comment      | Demo
 ------------------------------- | ---------------- | ------------ | ----
 polymer-ajax                    | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
-polymer&#8209;anchor&#8209;point            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)
+polymer-anchor-point            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)
 polymer-collapse                | **ported**       | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
 polymer-cookie                  | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)
 polymer-file                    | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_file.html)
@@ -39,7 +39,7 @@ polymer-selection               | ported           | needs tests  |
 polymer-selector                | ported           | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selector.html)
 polymer-shared-lib              | started          |              |
 polymer-signals                 | ported           | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_signals.html)
-polymer-view-source-link        | not&nbsp;started |              |
+polymer&#8209;view&#8209;source&#8209;link        | not&nbsp;started |              |
 
 
 ### License

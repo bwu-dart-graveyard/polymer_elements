@@ -148,7 +148,7 @@ class PolymerLayout extends PolymerElement {
   }
   
   void prepare() {
-    var parent = this.parent; // TODO workaround for getting to parent (host) needed
+    var parent = this.parent;
     var cs = parent.getComputedStyle(); 
 
     if (parent.localName != 'body') {
