@@ -7,9 +7,9 @@
 library main;
 
 import 'dart:html' show document, Blob, TextAreaElement;
-import 'package:polymer/polymer.dart' show initPolymer, Polymer;
-import 'package:logging/logging.dart';
-import 'package:polymer_elements/polymer_file/polymer_file.dart';
+import 'package:polymer/polymer.dart' show initMethod, initPolymer, Polymer;
+import 'package:logging/logging.dart' show hierarchicalLoggingEnabled, Level, Logger;
+import 'package:polymer_elements/polymer_file/polymer_file.dart' show PolymerFile;
 
 //@initMethod
 main() {
@@ -18,7 +18,10 @@ main() {
 
   //Logger.root.onRecord.listen((e) => print(e)); 
   initPolymer();
-  
+}
+
+@initMethod
+_init() {
   Polymer.onReady.then((e) {
     var pfile = document.querySelector('polymer-file') as PolymerFile;
     pfile.blob = new Blob(['abc123'], 'text/plain');

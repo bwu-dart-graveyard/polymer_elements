@@ -29,8 +29,6 @@ import 'package:logging/logging.dart';
  *                   result="{{result}}"></polymer-file>
  *     ...
  *     this.$.file.blob = new Blob(['abc'], {type: 'text/plain'});
- *
- * @class polymer-file
  */
 @CustomTag('polymer-file')
 class PolymerFile extends PolymerElement {
@@ -79,14 +77,13 @@ class PolymerFile extends PolymerElement {
   /**
    * Fired if there is an error in the file read.
    * [detail] contains information on the error.
-   * @param {Object} detail.error Information on the error.
    */
   Stream<CustomEvent> get onFileReadError => 
       PolymerFile._fileReadErrorEvent.forTarget(this);
 
   
   void blobChanged(oldValue) {
-    // result is set at end of microtask in read. This won't call resultChanged.
+    // (comment from JS) result is set at end of microtask in read. This won't call resultChanged.
     this.result = null;
     if (this.auto) {
       this.read();
