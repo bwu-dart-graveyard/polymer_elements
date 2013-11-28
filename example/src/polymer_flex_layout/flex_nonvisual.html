@@ -10,7 +10,7 @@ http://www.polymer-project.org/.
 <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.html">
 <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_area.html">
 
-<polymer-element name="flex-nonvisual" on-polymeraddflexbox="{{polymerAddFlexbox}}">
+<polymer-element name="flex-nonvisual" on-polymer-class-change="{{onPolymerClassChange}}">
   <template>
     <!-- TODO remove stylesheet import when inheriting from base element works -->
     <link rel="stylesheet" href="../../../packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">

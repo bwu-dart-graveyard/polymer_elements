@@ -6,6 +6,7 @@
 
 library polymer_elements.polymer_flex_layout;
 
+import 'dart:async' show Timer;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
@@ -114,11 +115,11 @@ class PolymerFlexLayout extends PolymerElement {
     this.alignChanged(null);
     this.justifyChanged(null);
     
-    this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should    
-    // TODO this should become redundant when the domspec is more complete
+    this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should);
+
+      // TODO this should become redundant when the domspec is more complete
     // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
-    this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
-    //throw "something";
+    //this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
   }
   
   @override
@@ -137,13 +138,12 @@ class PolymerFlexLayout extends PolymerElement {
     } else {
       this.style.display = 'none';
     }
-    //if (this.layoutContainer != null) {
-      if (layoutContainer == this) {
-        this.layoutContainer.classes.add('flexbox');
-      } else {
-        dispatchEvent(new CustomEvent('polymeraddflexbox'));
-      }
-    //}
+    
+    if (layoutContainer == this) {
+      this.layoutContainer.classes.add('flexbox');
+    } else {
+      dispatchLayoutContainerClassChange({'add': 'flexbox'});
+    }
   }
 
   void switchContainerClass(String prefix, String old, String name) {
@@ -152,15 +152,21 @@ class PolymerFlexLayout extends PolymerElement {
       o = '';
     }
     
-    if (this.layoutContainer != null && name != null && name.isNotEmpty) {
-      this.layoutContainer.classes.remove(prefix + o);
-      this.layoutContainer.classes.add(prefix + name);
+    if (name != null && name.isNotEmpty) {
+      if(this.layoutContainer != null) {
+        this.layoutContainer.classes.remove(prefix + o);
+        this.layoutContainer.classes.add(prefix + name);
+      } else {
+        dispatchLayoutContainerClassChange({'remove': prefix + o, 'add': prefix + name});
+      }
     }
   }
 
   void verticalChanged(old) {
     if (this.layoutContainer != null) {
       this.layoutContainer.classes.toggle('column', this.vertical);
+    } else {
+      dispatchLayoutContainerClassChange({(this.vertical ? 'add' : 'remove') : 'column'});
     }
   }
   
@@ -170,6 +176,12 @@ class PolymerFlexLayout extends PolymerElement {
   
   void justifyChanged(old) {
     this.switchContainerClass('justify-', old, this.justify);
+  }
+  
+  void dispatchLayoutContainerClassChange(Map<String,String> detail) {
+    if(this.layoutContainer != this) {
+      dispatchEvent(new CustomEvent('polymer-class-change', detail: detail));
+    }
   }
 }
 

@@ -13,11 +13,27 @@ import 'package:polymer/polymer.dart' show CustomTag, PolymerElement;
 class FlexNonvisual extends PolymerElement {
   FlexNonvisual.created() : super.created();
   
-  // child notifies with this event, that we should add 'flexbox' to class
-  void polymerAddFlexbox(Event e, var details, Node node) {
-    //if(this.children.contains(node)) {
-      this.classes.add('flexbox');
-      e.stopImmediatePropagation();
-    //}
+  // child notifies with this event, that we should modify class
+  void onPolymerClassChange(Event e, var details, Node node) {
+    if(details is Map) {
+      details.forEach((String k, String v) {
+        switch(k) {
+          case 'add':
+            this.classes.add(v);
+            break;
+            
+          case 'remove':
+            this.classes.remove(v);
+            break;
+            
+          case 'toggle':
+            this.classes.toggle(v);
+            break;
+        }
+      });
+    }
+  
+    e.stopImmediatePropagation();
   }
+
 }
