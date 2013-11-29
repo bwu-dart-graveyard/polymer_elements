@@ -19,17 +19,17 @@ The intent of the authors is to contribute the work to the Dart project itself (
 Element name                    |   Status         | Comment      | Demo
 ------------------------------- | ---------------- | ------------ | ----
 polymer-ajax                    | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
-polymer-anchor-point            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html) (*
+polymer-anchor-point            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)&nbsp;(*
 polymer-collapse                | **ported**       | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
 polymer-cookie                  | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)
 polymer-file                    | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_file.html)
-polymer-flex-layout             | **ported**       | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html) (*
+polymer-flex-layout             | **ported**       | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)&nbsp;(*
 polymer-google-jsapi            | not&nbsp;started |              | 
 polymer-grid-layout             | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
 polymer-jsonp                   | not&nbsp;started |              |
 polymer-key-helper              | not&nbsp;started |              |
 polymer-layout                  | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_layout.html)
-polymer-localstorage            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_localstorage.html) (*
+polymer-localstorage            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_localstorage.html)&nbsp;(*
 polymer-media-query             | **ported**       | small issue in Dart but works fine in JS  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
 polymer-meta                    | ported           | needs tests  |
 polymer-mock-data               | not&nbsp;started |              |
