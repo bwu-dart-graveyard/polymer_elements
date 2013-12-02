@@ -10,23 +10,21 @@ http://www.polymer-project.org/.
 <link rel="import" href="packages/polymer_elements/polymer_meta/polymer_meta.html">
 
 <polymer-element name="app-element">
- <template>
-  <polymer-meta id="x-foo" label="foo"></polymer-meta>
-  <polymer-meta id="x-bar" label="bar"></polymer-meta>
-  
-  <polymer-meta id="x-zot" label="zot">
-    <template>
-      <div>[zot's metadata]</div>
+  <template>
+    <polymer-meta id="x-foo" label="foo"></polymer-meta>
+    <polymer-meta id="x-bar" label="bar"></polymer-meta>
+    
+    <polymer-meta id="x-zot" label="zot">
+      <template>
+        <div>[zot's metadata]</div>
+      </template>
+    </polymer-meta>
+    
+    <template repeat="{{metadata}}">
+      <div>{{label}}</div>
     </template>
-  </polymer-meta>
-  
-   <template repeat="{{metadata}}">
-    <div>{{label}}</div>
+    
+    <hr>
   </template>
-  
-  <hr>
-  </template>
-  <script type="application/dart" src="app_element.dart">
- 
-  </script>
+  <script type="application/dart" src="app_element.dart"></script>
 </polymer-element>

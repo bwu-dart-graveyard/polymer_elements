@@ -14,7 +14,7 @@ import 'package:polymer/polymer.dart';
     
     static Map<String, Map<String, PolymerMeta>> _metaData = {};
     
-    static Map<String, List<PolymerMeta>> _metaArray = {};
+    static ObservableMap<String, List<PolymerMeta>> _metaArray = new ObservableMap<String, List<PolymerMeta>>();
     
     final String SKIP_ID = 'meta';
     
@@ -27,12 +27,20 @@ import 'package:polymer/polymer.dart';
     //TODO (egrimes) Polymer.js sets always prepare to true, but this has strange effects in polymer.dart
     //bool get alwaysPrepare => true;
     
-    PolymerMeta.created() : super.created();
+    PolymerMeta.created() : super.created() {
+      _metaArray.changes.listen((e) {
+        e.forEach((e) {
+          if(e is MapChangeRecord && e.key == this.type) { 
+            notifyPropertyChange(#list, e.oldValue, e.newValue);
+          }
+        });
+      });
+    }
     
     List<PolymerMeta> get metaArray {
       var t = this.type;
       if (_metaArray[t] == null) {
-        _metaArray[t] = [];
+        _metaArray[t] = toObservable([]);
       }
       return _metaArray[t];
     }

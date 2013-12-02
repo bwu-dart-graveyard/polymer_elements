@@ -25,5 +25,4 @@ class AppElement extends PolymerElement {
 
    document.body.append(templateBind(archetype).createInstance().querySelector('*')); 
   }
-  
 }
