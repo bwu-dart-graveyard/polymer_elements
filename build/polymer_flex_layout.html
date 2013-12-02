@@ -112,6 +112,7 @@ http://www.polymer-project.org/.
   <template>
     <!-- TODO remove stylesheet import when inheriting from base element works -->
     <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    
     <style>
       polymer-flex-area, div {
         box-sizing: border-box;
@@ -119,7 +120,7 @@ http://www.polymer-project.org/.
         border: 2px solid #ccc;
       }
     </style>
-    <polymer-flex-layout id="flexlayout"></polymer-flex-layout>
+    <polymer-flex-layout id="flexlayout" containerclasses="{{polymerClasses}}"></polymer-flex-layout>
     <polymer-flex-area flex="">
       <polymer-flex-layout></polymer-flex-layout>
       <div>Hi I'm some content</div>
