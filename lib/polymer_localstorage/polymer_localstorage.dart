@@ -33,7 +33,7 @@ class PolymerLocalstorage extends PolymerElement {
   /**
    * The key to the data stored in localStorage.
    */
-  @published String name;
+  @published String name = '';
   
   /**
    * The data associated with the specified name.
@@ -72,7 +72,7 @@ class PolymerLocalstorage extends PolymerElement {
   }
 
   valueChanged(oldValue) {
-    if (loaded && !this.autoSaveDisabled) {
+    if (this.loaded && !this.autoSaveDisabled) {
       this.save();
     }
   }
@@ -83,16 +83,18 @@ class PolymerLocalstorage extends PolymerElement {
       try {
         value = JSON.decode(s);
       } catch (x) {
-        value = s;
+        this.value = s;
       }
     } else {
-      value = s;
+      this.value = s;
     }
-    loaded = true;
+    this.loaded = true;
     dispatchEvent(new CustomEvent('polymer-localstorage-load'));
   }
 
-  
+  /** 
+   * Saves the value to localStorage.
+   */
   void save() {
     window.localStorage[name] = useRaw ? value : JSON.encode(this.value);
   }
