@@ -35,7 +35,7 @@ polymer-meta                    | ported           | needs tests  |
 polymer-mock-data               | not&nbsp;started |              |
 polymer-overlay                 | started          |              |
 polymer-page                    | **ported**       |              |
-polymer-scrub                   | not&nbsp;started |              |
+polymer-scrub                   | not&nbsp;started |              | (no demo)
 polymer-selection               | ported           | needs tests  |
 polymer-selector                | ported           | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selector.html)
 polymer-shared-lib              | started          |              |
