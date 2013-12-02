@@ -11,6 +11,7 @@ import "dart:html";
 import "package:polymer/polymer.dart";
 import "package:unittest/unittest.dart";
 import "package:unittest/html_enhanced_config.dart";
+import "package:polymer_elements/polymer_selection/polymer_selection.dart" show PolymerSelection;
 
 void main() { 
   useHtmlEnhancedConfiguration();
@@ -18,13 +19,28 @@ void main() {
   initPolymer();
   
   test("polymer-selection", () {
-    var done = expectAsync0((){});
-    var s = document.querySelector('polymer-selection');
-    s.addEventListener('polymerselect', (event){
-      expect(event.detail['isSelected'],isTrue);
-      expect(event.detail['item'],equals('(item)'));
-      done();
+    var done = expectAsync0((){}, count: 2);
+    var s = document.querySelector('polymer-selection') as PolymerSelection;
+    int testNr = 0;
+    
+    s.addEventListener('polymer-select', (event) {
+      if (testNr == 1) {
+        expect(event.detail['isSelected'], isTrue);
+        expect(event.detail['item'], equals('(item)'));
+        expect(s.isSelected(event.detail['item']), isTrue);
+        expect(s.isSelected('(some_item_not_selected)'), isFalse);
+        testNr++;
+        s.select(null);
+        done();
+      } else if (testNr == 2) {
+        // check test2
+        expect(event.detail['isSelected'], isFalse);
+        expect(event.detail['item'], equals('(item)'));
+        expect(s.isSelected(event.detail['item']), isFalse);
+        done();        
+      }
     });
+    testNr = 1;
     s.select('(item)');
     
   });

@@ -13,28 +13,11 @@ class AppElement extends PolymerElement {
       
   AppElement.created() : super.created();
   
-  //Note: Have to use dom listeners here to workaround 
-  //https://code.google.com/p/dart/issues/detail?id=14457
-  enteredView(){
-    super.enteredView();
-    this.addEventListener('click',itemTapAction);
-  }
-  
-  leftView(){
-    this.removeEventListener('click', itemTapAction);
-    super.leftView();
-  }
-      
-  itemTapAction(e) {
+  void itemTapAction(e) {
     this.$['selection'].select(e.target);
   }
 
-  selectAction(e, detail, target) {
+  void selectAction(e, detail, target) {
     detail['item'].classes.toggle('selected', detail['isSelected']);
   }
-      
-   
-  
-  
-  
 }

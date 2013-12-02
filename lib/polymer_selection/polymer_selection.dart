@@ -13,14 +13,43 @@
  * To mark an item as selected, call the select(item) method on 
  * polymer-selection. Notice that the item itself is an argument to this method.
  * The polymer-selection element manages selection state for any given set of
- * items. When an item is selected, the `polymerselect` event is fired.
+ * items. When an item is selected, the `polymer-select` event is fired.
  * The attribute "multi" indicates if multiple items can be selected at once.
  * 
  * Example:
  *
- *     TODO
+ *     <polymer-element name="selection-example">
+ *        <template>
+ *          <style>
+ *            ::-webkit-distributed(> .selected) {
+ *              font-weight: bold;
+ *              font-style: italic;
+ *            }
+ *          </style>
+ *          <ul on-tap="{{itemTapAction}}">
+ *            <content></content>
+ *          </ul>
+ *          <polymer-selection id="selection" multi on-polymer-select="{{selectAction}}"></polymer-selection>
+ *        </template>
+ *        <script>
+ *          Polymer('selection-example', {
+ *            itemTapAction: function(e) {
+ *              this.$.selection.select(e.target);
+ *            },
+ *            selectAction: function(e, detail) {
+ *              detail.item.classList.toggle('selected', detail.isSelected);
+ *            }
+ *          });
+ *        </script>
+ *     </polymer-element>
  *
- * The polymer-selection element fires a 'polymerselect' event when an item's 
+ *     <selection-example>
+ *       <li>Red</li>
+ *       <li>Green</li>
+ *       <li>Blue</li>
+ *     </selection-example>
+ *
+ * The polymer-selection element fires a 'polymer-select' event when an item's 
  * selection state is changed. The [CustomEvent.detail] for the event is a map
  * containing 'item' and 'isSelected'.
  * 
@@ -46,11 +75,11 @@ class PolymerSelection extends PolymerElement {
   
 
   /**
-   * Retrieves the selected item(s). If the multi property is true,
-   * selection will return a [List], otherwise it will return 
+   * Retrieves the selected item(s) (String or Element). If the multi property is true,
+   * selection will return a [List], otherwise it will return fire
    * the selected item or null if there is no selection.
    */
-  get selection {
+  dynamic get selection {
     if(this.multi){
      return this._selection;
     } else if(this._selection.isNotEmpty){
@@ -63,16 +92,19 @@ class PolymerSelection extends PolymerElement {
   /**
    * Returns true if the given [item] is selected.
    */
-  isSelected(item){
+  bool isSelected(item){
+    if(this.selection == null) {
+      return false;
+    }
     return this.selection.indexOf(item) >= 0;
   }
   
   /**
    * Sets the selected state of [item] to [isSelected] and fires
-   * a corresponding 'polymerselect' event with the [CustomEvent.detail] set to 
+   * a corresponding 'polymer-select' event with the [CustomEvent.detail] set to 
    * a map containing 'item' set to [item] and 'isSelected' set to [isSelected].
    */
-  setItemSelected(item, isSelected) {
+  void setItemSelected(item, isSelected) {
     if (item != null) {  
       if (isSelected) {
         this._selection.add(item);
@@ -83,19 +115,20 @@ class PolymerSelection extends PolymerElement {
         }
       }     
 
-      this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+      this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
           
     }
   }
+  
   /**
    * Set the selection state for a given [item]. If the multi property
    * is true, then the selected state of [item] will be toggled; otherwise
-   * the [item] will be selected.  Fires a corresponding 'polymerselect' event 
+   * the [item] will be selected.  Fires a corresponding 'polymer-select' event 
    * with the [CustomEvent.detail] set to a map containing 'item' set to [item] 
    * and 'isSelected' set to [isSelected]. set to the new selection state for 
    * the [item].
    */
-  select(item) { 
+  void select(item) { 
     if (this.multi) {
       this._toggle(item);
     } else if (this.selection != item) {
@@ -104,18 +137,16 @@ class PolymerSelection extends PolymerElement {
     }
   }
    
-  ready(){
+  void ready(){
     super.ready();
     this.clear();
   }
   
-  clear(){
+  void clear(){
     this._selection.clear();
   }
   
-  _toggle(item) {
+  void _toggle(item) {
     this.setItemSelected(item, !this.isSelected(item));
   }
-
-  
 }
