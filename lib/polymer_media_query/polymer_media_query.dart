@@ -40,14 +40,14 @@ class PolymerMediaQuery extends PolymerElement {
    */
   @published String mquery = ''; // renamed from query to mquery to avoid conflicts with super.query() method
   
-  static const EventStreamProvider<CustomEvent> _mediaChange =
+  static const EventStreamProvider<CustomEvent> _polymerMediachange =
       const EventStreamProvider<CustomEvent>('polymer-mediachange');
 
   /**
    * Fires a custom event (polymer-mediachange) when the query matches.
    */
-  Stream<CustomEvent> get onMediaChange =>
-      PolymerMediaQuery._mediaChange.forTarget(this);
+  Stream<CustomEvent> get onPolymerMediachange =>
+      PolymerMediaQuery._polymerMediachange.forTarget(this);
   
   var _mqHandler;
   var _mq;

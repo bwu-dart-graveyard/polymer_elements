@@ -6,21 +6,21 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
 -->
+
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Polymer match media</title>
+  <head>
+    <meta charset="UTF-8">
+    <title>Polymer match media</title>
+    
+    <link rel="import" href="src/polymer_media_query/app_element.html" />
   
-  <link rel="import" href="src/polymer_media_query/app_element.html" />
+    <script type="application/dart">
+	  export 'package:polymer/init.dart';
+    </script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
 
-  <script type="application/dart">
-	import 'package:polymer/init.dart';
-	export 'package:polymer/init.dart';
-  </script>
-  <script src="packages/browser/dart.js"></script>
-</head>
-<body>
-  <app-element></app-element>
-
-</body>
+  <body>
+    <app-element></app-element>
+  </body>
 </html>

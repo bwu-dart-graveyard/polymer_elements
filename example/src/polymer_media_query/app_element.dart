@@ -22,7 +22,6 @@ class AppElement extends PolymerElement {
     var output = $['output'];
     // on-mediachange would give true or false as second param to the handler
     this.on['polymer-mediachange'].listen((e) {
-    // TODO change back when MediaQuery is properly supported by Dart
       output.text += "\nevent: ${e.type} query: ${e.detail['media']} matches: ${e.detail['matches']}"; 
     });
   }
