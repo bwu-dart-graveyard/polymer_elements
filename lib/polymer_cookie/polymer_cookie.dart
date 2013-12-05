@@ -43,11 +43,11 @@ class PolymerCookie extends PolymerElement {
   
   PolymerCookie.created() : super.created();
   
-  ready() {
+  void ready() {
     this.load();
   }
   
-  Iterable _parseCookie() {
+  Iterable<String> _parseCookie() {
     List pairs = document.cookie.split(new RegExp(r'\s*;\s*'));
     var map = pairs.map((kv) {
       var eq = kv.indexOf('=');
@@ -64,49 +64,49 @@ class PolymerCookie extends PolymerElement {
     return map.where((kv) {return kv['name'] == nom;});
   }
   
-  load() {
+  void load() {
     var kv = this._parseCookie();
     this.value = kv.isNotEmpty ? kv.first['value'] : null;
   }
   
-  valueChanged(old) {
+  void valueChanged(old) {
     this._expire = FOREVER;
     this.save();
   }
   
   // TODO(dfreedman): collapse these when 'multiple props -> single change function' exists in Polymer
-  expiresChanged() {
+  void expiresChanged() {
     this.save();
   }
   
-  secureChanged() {
+  void secureChanged() {
     this.save();
   }
   
-  domainChanged() {
+  void domainChanged() {
     this.save();
   }
   
-  pathChanged() {
+  void pathChanged() {
     this.save();
   }
   
-  maxAgeChanged() {
+  void maxAgeChanged() {
     this.save();
   }
   
   //TODO This isn't used anywhere.  Is it part of the public api? If so, what
   //does it do?
   // return Boolean(this.parseCookie())
-  isCookieStored() {
+  bool isCookieStored() {
     return this._parseCookie().isNotEmpty;
   }
   
-  deleteCookie() {
+  void deleteCookie() {
     this.expires = EXPIRE_NOW;
   }
   
-  prepareProperties() {
+  String prepareProperties() {
     var prepared = new StringBuffer();
     if(expires != null) {
       prepared.write('; expires=');
@@ -136,7 +136,7 @@ class PolymerCookie extends PolymerElement {
     return prepared.toString();
   }
   
-  save() {
+  void save() {
     // omitting null check for value leads to an exception in JS
     document.cookie = Uri.encodeComponent(this.name) + '=' + 
         Uri.decodeComponent(this.value != null ? this.value : '') + 
