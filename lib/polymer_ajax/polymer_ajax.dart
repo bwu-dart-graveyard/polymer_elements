@@ -1,18 +1,18 @@
-// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
-// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+// the AUTHORS file for details. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
-// This work is a port of the polymer-elements from the Polymer project, 
-// http://www.polymer-project.org/. 
+// This work is a port of the polymer-elements from the Polymer project,
+// http://www.polymer-project.org/.
 
 
 /**
- * polymer-ajax can be used to perform XMLHttpRequests.  The polymer-ajax 
- * element fires three events: polymerresponse, polymererror, 
- * and polymercomplete.  
+ * polymer-ajax can be used to perform XMLHttpRequests.  The polymer-ajax
+ * element fires three events: polymerresponse, polymererror,
+ * and polymercomplete.
  *
  * Example:
  *
- *     <polymer-ajax auto url="http://gdata.youtube.com/feeds/api/videos/" 
+ *     <polymer-ajax auto url="http://gdata.youtube.com/feeds/api/videos/"
  *         params='{"alt":"json", "q":"chrome"}'
  *         handleAs="json"
  *         on-polymerresponse="{{handleResponse}}">
@@ -32,46 +32,46 @@ import 'package:polymer/polymer.dart';
 
 @CustomTag('polymer-ajax')
 class PolymerAjax extends PolymerElement {
-  
+
   /**
    * The URL target of the request.
    */
   @published
   String url =  '';
-  
+
   /**
    * Specifies what data to store in the 'response' property, and
    * to deliver as 'event.response' in 'response' events.
-   * 
+   *
    * One of:
-   * 
+   *
    *    `text`: uses XHR.responseText
-   *    
+   *
    *    `xml`: uses XHR.responseXML
-   *    
+   *
    *    `json`: uses XHR.responseText parsed as JSON
    */
   @published
   String handleAs = '';
-  
+
   /**
    * If true, automatically performs an Ajax request when either url or params has changed.
    */
   @published
   bool auto = false;
-  
+
   /**
    * Parameters to send to the specified URL, as JSON.
    */
   @published
   String params = '';
-      
+
   /**
    * Returns the response object.
    */
   @published
   var response;
-  
+
   /**
    * The HTTP method to use such as 'GET', 'POST', 'PUT', 'DELETE'.
    * Default is 'GET'.'
@@ -88,23 +88,34 @@ class PolymerAjax extends PolymerElement {
    *         handleAs="json"
    *         on-polymer-response="{{handleResponse}}">
    *     </polymer-ajax>
-   */ 
+   */
   @published
   var headers;
-  
-  
+
+  /**
+   * Default values for use with the underlying polymer-xhr object. Useful for
+   * sending payloads other than the default URL encoded form values.
+   *
+   * Example:
+   *
+   *     querySelector('polymer-ajax')
+   *       ..xhrArgs = {'body': JSON.encode(jsonData)};
+   */
+  @published
+  Map xhrArgs = {};
+
   Timer _goJob;
-  
+
   //TODO Not sure why this is kept around
   var _xhr;
-  
+
   PolymerAjax.created() : super.created();
-  
+
   ready() {
     super.ready();
-    this._xhr = new Element.tag('polymer-xhr'); 
+    this._xhr = new Element.tag('polymer-xhr');
   }
-  
+
   _receive(response, xhr) {
     if (this._isSuccess(xhr)) {
       this._processResponse(xhr);
@@ -113,27 +124,27 @@ class PolymerAjax extends PolymerElement {
     }
     this._complete(xhr);
   }
-  
+
   _isSuccess(xhr) {
     var status = xhr.status != null ? xhr.status : 0;
     return status == null ? false : (status >= 200 && status < 300);
   }
-  
+
   _processResponse(xhr) {
     var response = this._evalResponse(xhr);
     this.response = response;
     this.fire('polymerresponse', detail: {'response': response, 'xhr': xhr});
   }
-  
+
   _error(xhr) {
     var response = xhr.status + ': ' + xhr.responseText;
     this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
   }
-  
+
   _complete(xhr) {
     this.fire('polymercomplete', detail: {'response': xhr.status, 'xhr': xhr});
   }
-  
+
   _evalResponse(xhr) {
     switch(this.handleAs) {
       case 'json':
@@ -146,15 +157,15 @@ class PolymerAjax extends PolymerElement {
         return _textHandler(xhr);;
     }
   }
-  
+
   _xmlHandler(xhr){
     return xhr.responseXML;
   }
-  
+
   _textHandler(xhr) {
     return xhr.responseText;
   }
-  
+
   _jsonHandler(xhr) {
     var r = xhr.responseText;
     try {
@@ -163,7 +174,7 @@ class PolymerAjax extends PolymerElement {
       return r;
     }
   }
-  
+
   urlChanged(old){
     if (this.handleAs.isEmpty) {
       var split = this.url.split('.');
@@ -186,17 +197,17 @@ class PolymerAjax extends PolymerElement {
     }
     this._autoGo();
   }
-  
+
   paramsChanged(old) {
     this._autoGo();
   }
-  
+
   autoChanged(old){
     this._autoGo();
   }
-  
-  // TODO(sorvell): multiple side-effects could call autoGo 
-  // during one micro-task, use a job to have only one action 
+
+  // TODO(sorvell): multiple side-effects could call autoGo
+  // during one micro-task, use a job to have only one action
   // occur
   _autoGo() {
     if(_goJob != null){
@@ -204,18 +215,14 @@ class PolymerAjax extends PolymerElement {
     }
     _goJob = new Timer(Duration.ZERO, go);
   }
-  
+
   /**
    * Performs an Ajax request to the url specified.
   *
    * @method go
    */
   go() {
-    // TODO polymer.js has something a line
-    // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
-    // anything it does or what the dart equiavlent would be.
-    // (zoechi) I think it's a bug because xhrArgs is nowhere set
-    var args = {};
+    var args = xhrArgs;
     args['params'] = this.params;
     if (args['params'] is String && args['params'].isNotEmpty) {
       args['params'] = JSON.decode(args['params']);
@@ -227,7 +234,7 @@ class PolymerAjax extends PolymerElement {
     args['callback'] = this._receive;
     args['url'] = this.url;
     args['method'] = this.method;
-    
+
     return args.containsKey('url') && this._xhr.request(args) != null;
   }
 }
