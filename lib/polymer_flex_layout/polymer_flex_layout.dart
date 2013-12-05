@@ -6,7 +6,7 @@
 
 library polymer_elements.polymer_flex_layout;
 
-import 'dart:async' show Timer;
+//import 'dart:async' show Timer;
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 
@@ -180,6 +180,7 @@ class PolymerFlexLayout extends PolymerElement {
   
   void dispatchLayoutContainerClassChange(Map<String,String> detail) {
     if(this.layoutContainer != this) {
+      //Timer.run(() =>dispatchEvent(new CustomEvent('polymer-class-change', detail: detail)));
       dispatchEvent(new CustomEvent('polymer-class-change', detail: detail));
     }
   }
