@@ -137,7 +137,7 @@ class PolymerAjax extends PolymerElement {
   }
 
   _error(xhr) {
-    var response = xhr.status + ': ' + xhr.responseText;
+    var response = '${xhr.status}: ${xhr.responseText}';
     this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
   }
 
