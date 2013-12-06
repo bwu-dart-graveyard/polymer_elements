@@ -115,7 +115,7 @@ class PolymerSelection extends PolymerElement {
         }
       }     
 
-      this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+      this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
           
     }
   }
