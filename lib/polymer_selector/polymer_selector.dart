@@ -227,7 +227,7 @@ class PolymerSelector extends PolymerElement {
   
   void selectedChanged(old){
     //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
-    Timer.run((){_updateSelected();});
+    Timer.run(() =>_updateSelected());
     //this._updateSelected();
   }
   
