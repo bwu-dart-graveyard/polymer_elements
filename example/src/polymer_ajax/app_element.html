@@ -13,7 +13,7 @@ http://www.polymer-project.org/.
   <template>
     <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
       params='{"alt":"json", "q":"chrome"}'
-      handleAs="json" on-polymerresponse='{{responseReceived}}'></polymer-ajax>
+      handleAs="json" on-polymer-response='{{responseReceived}}'></polymer-ajax>
    
     <template repeat="{{ entry in entries }}">
       <div>{{ entry['title']['$t']}}</div>
