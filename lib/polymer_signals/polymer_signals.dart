@@ -30,7 +30,7 @@ List _signals = [];
 // signal dispatcher
 _notify(name, data) {
   // convert generic-signal event to named-signal event
-  var signal = new CustomEvent('polymersignal' + name, 
+  var signal = new CustomEvent('polymer-signal' + name, 
     canBubble: true,
     detail: data    
   );
