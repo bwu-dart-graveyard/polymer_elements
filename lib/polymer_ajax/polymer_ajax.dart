@@ -133,16 +133,16 @@ class PolymerAjax extends PolymerElement {
   _processResponse(xhr) {
     var response = this._evalResponse(xhr);
     this.response = response;
-    this.fire('polymerresponse', detail: {'response': response, 'xhr': xhr});
+    this.fire('polymer-response', detail: {'response': response, 'xhr': xhr});
   }
 
   _error(xhr) {
     var response = '${xhr.status}: ${xhr.responseText}';
-    this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
+    this.fire('polymer-error', detail: {'response': response, 'xhr': xhr});
   }
 
   _complete(xhr) {
-    this.fire('polymercomplete', detail: {'response': xhr.status, 'xhr': xhr});
+    this.fire('polymer-complete', detail: {'response': xhr.status, 'xhr': xhr});
   }
 
   _evalResponse(xhr) {
