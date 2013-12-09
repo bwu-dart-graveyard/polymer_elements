@@ -227,7 +227,7 @@ class PolymerSelector extends PolymerElement {
   
   void selectedChanged(old){
     //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
-    new Timer(Duration.ZERO, (){_updateSelected();});
+    Timer.run((){_updateSelected();});
     //this._updateSelected();
   }
   
@@ -337,15 +337,13 @@ class PolymerSelector extends PolymerElement {
       item.classes.toggle(this.selectedClass, isSelected);
     }
     
-    // TODO (zoechi) I think we could require that a published property (attribute) is used.
-    // than we can drop reflection
     //(egrimes) Note: It looks like Polymer.js adds the property dynamically to 
     //the item. PolymerSelector defaults selectedProperty to 'active', so users 
     //will have to explicitly set selectedProperty to an empty string to keep 
     //from blowing up. I'm not sure that's reasoable.
     if (this.selectedProperty != null && this.selectedProperty.isNotEmpty) {
-//      reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
-      item.attributes[selectedProperty] = isSelected.toString();
+      //Note: Reflection is required to work properly with checkboxes
+      reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
     }
   }
   
@@ -367,7 +365,7 @@ class PolymerSelector extends PolymerElement {
         } else {
           this.selected = s;
         }
-        this.asyncFire('polymeractivate', detail: item);
+        this.asyncFire('polymer-activate', detail: item);
       }
     }
   }
