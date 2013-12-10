@@ -39,7 +39,7 @@ class PolymerCollapse extends PolymerElement {
   /**
    * The id of the target element.
    */
-  @published String targetId = '';
+  //@published String targetId = '';
   
   /**
    * The target element.
@@ -82,8 +82,9 @@ class PolymerCollapse extends PolymerElement {
     _logger.finest('enteredView');
     
     super.enteredView();
-    installControllerStyles();
-    _inDocument = true;
+    //TODO (egrimes) Uncomment when installControllerStyles works.
+   // installControllerStyles();
+    this._inDocument = true;
     Timer.run(() => _afterInitialUpdate = true);
   }
   
@@ -94,7 +95,7 @@ class PolymerCollapse extends PolymerElement {
     this.removeListeners(this.target);
     super.leftView();
   }
-   
+ /*  
   void targetIdChanged(e) {
     _logger.finest('targetIdChanged');
     
@@ -105,9 +106,10 @@ class PolymerCollapse extends PolymerElement {
      
     this.target = p.querySelector('#' + this.targetId);
   }
+  */
   
   void targetChanged(HtmlElement old) {
-    _logger.finest('targetChanged');
+    _logger.finest('targetChanged $target');
     
     if(old != null) {
       this.removeListeners(old);

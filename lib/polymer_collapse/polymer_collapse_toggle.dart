@@ -22,13 +22,18 @@ class PolymerCollapseToggle extends PolymerElement {
   /**
    * The selector for the target polymer-collapse element.
    */
-  @published String target = '';
+  @published HtmlElement target;
   
   void handleClick([e]) {
-    _logger.finest("handleClick '${target}'");
-    var t = (document.querySelector(target) as PolymerCollapse);
-    if (t != null) {
-      t.toggle();
+  //  _logger.finest("handleClick '${target}'");
+   // print('owner target ${this.ownerDocument.querySelector(target)}');
+   // print('shadow target ${this.shadowRoot.querySelector(target)}');
+   // var t = (document.querySelector(target) as PolymerCollapse);
+    if (target != null) {
+      target.toggle();
+    }else {
+      print('t is null!!!');
     }
+    
   }
 }
