@@ -39,7 +39,7 @@ class PolymerCollapse extends PolymerElement {
   /**
    * The id of the target element.
    */
-  //@published String targetId = '';
+  @published String targetId = '';
   
   /**
    * The target element.
@@ -95,7 +95,7 @@ class PolymerCollapse extends PolymerElement {
     this.removeListeners(this.target);
     super.leftView();
   }
- /*  
+   
   void targetIdChanged(e) {
     _logger.finest('targetIdChanged');
     
@@ -106,7 +106,7 @@ class PolymerCollapse extends PolymerElement {
      
     this.target = p.querySelector('#' + this.targetId);
   }
-  */
+  
   
   void targetChanged(HtmlElement old) {
     _logger.finest('targetChanged $target');
