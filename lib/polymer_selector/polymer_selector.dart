@@ -48,7 +48,7 @@ import 'dart:html';
 import 'dart:mirrors';
 
 import 'package:polymer/polymer.dart';
-import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show PolymerSelection;
+//import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show PolymerSelection;
 
 @CustomTag('polymer-selector')
 class PolymerSelector extends PolymerElement {
@@ -170,7 +170,7 @@ class PolymerSelector extends PolymerElement {
   MutationObserver _observer;
   
   Stream<CustomEvent> get onPolymerSelect {
-    PolymerSelection selection = $['selection'] as PolymerSelection;
+    Element selection = $['selection'];
     if(selection != null) {
       // TODO return selection.onPolymerSelect;
     }
@@ -343,7 +343,16 @@ class PolymerSelector extends PolymerElement {
     //from blowing up. I'm not sure that's reasoable.
     if (this.selectedProperty != null && this.selectedProperty.isNotEmpty) {
       //Note: Reflection is required to work properly with checkboxes
-      reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
+      try {
+          // polymer-ui-submenu-item works only with this
+          reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
+      } catch(e) { // required for polymer_ui_breadcrumbs (when an attribute is set on a DOM element
+          if(isSelected) {
+            item.attributes[this.selectedProperty] = isSelected.toString();
+          } else {
+            item.attributes.remove(this.selectedProperty);
+          }
+       }
     }
   }
   
@@ -391,6 +400,6 @@ class PolymerSelector extends PolymerElement {
       }
       target = target.parentNode;
     }
+    return -1;
   }
-  
 }
