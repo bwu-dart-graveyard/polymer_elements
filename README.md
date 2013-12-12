@@ -31,13 +31,13 @@ polymer-key-helper              | not&nbsp;started |              |
 polymer-layout                  | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_layout.html)
 polymer-localstorage            | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_localstorage.html)&nbsp;(*
 polymer-media-query             | **ported**       | small issue in Dart but works fine in JS  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
-polymer-meta                    | ported           | needs tests  |
+polymer-meta                    | ported           | doesn't work in JavaScript  |
 polymer-mock-data               | not&nbsp;started |              |
 polymer-overlay                 | started          |              |
 polymer-page                    | **ported**       |              |
 polymer-scrub                   | not&nbsp;started |              | (no demo)
-polymer-selection               | ported           | needs tests  |
-polymer-selector                | ported           | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selector.html)
+polymer-selection               | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selection.html)
+polymer-selector                | **ported**       |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_selector.html)
 polymer-shared-lib              | started          |              |
 polymer-signals                 | ported           | needs tests  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_signals.html)
 polymer&#8209;view&#8209;source&#8209;link        | not&nbsp;started |              |
