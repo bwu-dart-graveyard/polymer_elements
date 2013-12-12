@@ -29,7 +29,7 @@ class PolymerGridLayout extends PolymerElement {
   bool _isLayoutJobStarted = false;  
   int _colCount = 0, _rowCount = 0;
   List<Map<int,int>> _colOwners, _rowOwners;
-  List<Element> _nodes;
+  List<Element> _nodes = [];
   Element _lineParent;
   List<Map<String,int>> _rows;
   List<Map<String,int>> _columns;
@@ -182,6 +182,9 @@ class PolymerGridLayout extends PolymerElement {
       if (col == 0) {
         return 96;
       }
+      if(_nodes == null || _nodes.length == 0) {
+        return -1;
+      }
       var node = _nodes[col - 1];
       if (node.attributes.containsKey('h-flex') || node.attributes.containsKey('flex')) {
         return -1;
@@ -197,6 +200,9 @@ class PolymerGridLayout extends PolymerElement {
     for (var row in _rowOwners[i].keys) {
       if (row == 0) {
         return 96;
+      }
+      if(_nodes == null || _nodes.length == 0) {
+        return -1;
       }
       var node = _nodes[row - 1];
       if (node.attributes.containsKey('v-flex') || node.attributes.containsKey('flex')) {
@@ -306,8 +312,11 @@ class PolymerGridLayout extends PolymerElement {
   
     _lineParent = alineParent;
     _nodes = anodes;
+    if(_nodes == null) {
+      _nodes = [];
+    }
     matrixillate(matrix);
-  
+
     _nodes.forEach(unposition);
   
     _columns = railize(_colCount, colWidth);
