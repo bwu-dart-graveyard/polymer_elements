@@ -83,7 +83,7 @@ class PolymerCollapse extends PolymerElement {
     
     super.enteredView();
     //TODO (egrimes) Uncomment when installControllerStyles works.
-   // installControllerStyles();
+    installControllerStyles();
     this._inDocument = true;
     Timer.run(() => _afterInitialUpdate = true);
   }
