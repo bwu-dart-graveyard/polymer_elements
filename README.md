@@ -25,13 +25,13 @@ dependencies:
 * to import a polymer_element into your entry page HTML file, add the following line inside the `<head>` tag before any of the Dart and polymer `<script>` tags: 
   
 ```html  
-    <link rel="import" href="packages/polymer_elements/polymer_file/polymer_file.html">
+<link rel="import" href="packages/polymer_elements/polymer_file/polymer_file.html">
 ```
 
 * to import a polymer_element into any of your custom polymer elements, add the following line into your Polymer element HTML file before the `<polymer-element name="my-element">` start tag:
   
 ```html
-    <link rel="import" href="../../../packages/polymer_elements/polymer_selector/polymer_selector.html">
+<link rel="import" href="../../../packages/polymer_elements/polymer_selector/polymer_selector.html">
 ```
 
 If you import a polymer_element into an HTML file that is not saved in the `package/web` directory  the import path must be relative to the `web` directory as shown above.
