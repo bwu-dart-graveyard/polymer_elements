@@ -7,7 +7,35 @@ The intent of the authors is to contribute the work to the Dart project itself (
 * [polymer_ui_elements](https://github.com/ErikGrimes/polymer_ui_elements)
 
 ## Documentation
+* The Dart source files of an element often contains some documentation (Dartdoc) how to use the element. You can find the documentation online at  
 * [DartDoc](http://erikgrimes.github.io/polymer_elements/docs/index.html)
+* Almost each element has an associated demo page which shows how to use the element. 
+Open the 'demo' links below to take a look.
+The source code of these demo pages can be found in the [example subdirectory of the package](https://github.com/ErikGrimes/polymer_elements/tree/master/example). 
+The actual implementation of the demo page is often outsourced to files in the `examples/src/element_name` subdirectory.
+
+## Usage
+* add 
+
+`
+dependencies:
+  polymer_elements:
+`
+
+to your pubspec.yaml file.
+
+* import the element 
+  * into your entry page HTML file 
+  
+    <link rel="import" href="packages/polymer_elements/polymer_file/polymer_file.html">
+
+  * or into your Polymer element HTML file
+
+    <link rel="import" href="../../../packages/polymer_elements/polymer_selector/polymer_selector.html">
+
+
+The `../..` should lead to the directory of your entry page (index.html) so this depends where your elements html file is stored.
+In this example we assume the directory is `yourpackage/lib/your_element/your_element.html`
 
 ## General notes
 
