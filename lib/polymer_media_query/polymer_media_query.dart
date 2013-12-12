@@ -87,6 +87,6 @@ class PolymerMediaQuery extends PolymerElement {
   
   void queryHandler(mq) {
     this.queryMatches = mq['matches'];
-    dispatchEvent(new CustomEvent('polymer-mediachange', detail: mq));
+    fire('polymer-mediachange', detail: mq);
   }
 }
