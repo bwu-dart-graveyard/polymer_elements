@@ -15,27 +15,27 @@ The source code of these demo pages can be found in the [example subdirectory of
 The actual implementation of the demo page is often outsourced to files in the `examples/src/element_name` subdirectory.
 
 ## Usage
-* add 
+* add the following to your pubspec.yaml file: 
 
-`
+```yaml
 dependencies:
   polymer_elements:
-`
+```
 
-to your pubspec.yaml file.
-
-* import the element 
-  * into your entry page HTML file 
+* to import a polymer_element into your entry page HTML file, add the following line inside the `<head>` tag before any of the Dart and polymer `<script>` tags: 
   
+```html  
     <link rel="import" href="packages/polymer_elements/polymer_file/polymer_file.html">
+```
 
-  * or into your Polymer element HTML file
-
+* to import a polymer_element into any of your custom polymer elements, add the following line into your Polymer element HTML file before the `<polymer-element name="my-element"> start tag:
+  
+```html
     <link rel="import" href="../../../packages/polymer_elements/polymer_selector/polymer_selector.html">
+```
 
-
-The `../..` should lead to the directory of your entry page (index.html) so this depends where your elements html file is stored.
-In this example we assume the directory is `yourpackage/lib/your_element/your_element.html`
+If you import a polymer_element into an HTML file that is not saved in the `package/web` directory  the import path must be relative to the `web` directory as shown above.
+In this example we assume the HTML file is stored in `yourpackage/lib/your_element/your_element.html`.
 
 ## General notes
 
