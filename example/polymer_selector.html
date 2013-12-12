@@ -8,22 +8,18 @@ http://www.polymer-project.org/.
 
 <!DOCTYPE html>
 <html>
-<head>
-  <title>polymer-selector</title>
-
-  <link rel="import" href="src/polymer_selector/app_element.html">
-
- <script type='application/dart'>
-    import 'package:polymer/init.dart';
-    // this export won't be needed after we fix issue 14542
-    export 'package:polymer/init.dart';
-</script>
-
-  <script src="packages/browser/dart.js"></script>
+  <head>
+    <title>polymer-selector</title>
   
-</head>
-<body>
+    <link rel="import" href="src/polymer_selector/app_element.html">
+  
+    <script type='application/dart'>
+      export 'package:polymer/init.dart';
+    </script>
+    <script src="packages/browser/dart.js"></script>
+  </head>
 
-  <app-element></app-element>
-</body>
+  <body>
+    <app-element></app-element>
+  </body>
 </html>
