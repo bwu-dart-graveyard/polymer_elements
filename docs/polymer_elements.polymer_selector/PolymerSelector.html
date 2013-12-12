@@ -36,6 +36,34 @@
 @CustomTag('polymer-selector')
 class PolymerSelector extends PolymerElement {
  
+ /**
+  * Gets or sets the selected element.  Default to use the index
+  * of the item element.
+  *
+  * If you want a specific attribute value of the element to be
+  * used instead of index, set "valueattr" to that attribute name.
+  *
+  * Example:
+  *
+  *     &lt;polymer-selector valueattr="label" selected="foo"&gt;
+  *       &lt;div label="foo"&gt;&lt;/div&gt;
+  *       &lt;div label="bar"&gt;&lt;/div&gt;
+  *       &lt;div label="zot"&gt;&lt;/div&gt;
+  *     &lt;/polymer-selector&gt;
+  *
+  * In multi-selection this should be an array of values.
+  *
+  * Example:
+  *
+  *     &lt;polymer-selector id="selector" valueattr="label" multi&gt;
+  *       &lt;div label="foo"&gt;&lt;/div&gt;
+  *       &lt;div label="bar"&gt;&lt;/div&gt;
+  *       &lt;div label="zot"&gt;&lt;/div&gt;
+  *     &lt;/polymer-selector&gt;
+  *
+  *     this.$.selector.selected = ['foo', 'zot'];
+  *
+  */  
  @published
  var selected = null;
  
@@ -65,8 +93,6 @@ class PolymerSelector extends PolymerElement {
  String selectedProperty = 'active';
  
  /**  Stream&lt;CustomEvent&gt; get onPolymerSelect =&gt;
-     PolymerSelection._polymerSelectEvent.forTarget(this);
-  * 
   * Returns the currently selected element. In multi-selection this returns
   * an array of selected elements.
   */
@@ -79,6 +105,11 @@ class PolymerSelector extends PolymerElement {
   */
  @published
  var selectedModel = null;
+ 
+ /**
+  * In single selection, this returns the selected index.
+  */
+ int selectedIndex = -1;
  
  /**
   * The target element that contains items.  If this is not set 
@@ -112,7 +143,7 @@ class PolymerSelector extends PolymerElement {
   * it is being selected.
   */
  @published
- String activateEvent= 'click';
+ String activateEvent = 'click'; // TODO change to tap when pointerevents are supported
  
  @published
  bool notap = false;
@@ -122,13 +153,14 @@ class PolymerSelector extends PolymerElement {
  MutationObserver _observer;
  
  Stream&lt;CustomEvent&gt; get onPolymerSelect {
-   PolymerSelection selection = $['selection'] as PolymerSelection;
+   Element selection = $['selection'];
    if(selection != null) {
-     return selection.onPolymerSelect;
+     // TODO return selection.onPolymerSelect;
    }
  }
  
- ready() {
+ void ready() {
+   super.ready();
    this._observer = new MutationObserver(_onMutation);
    
    if (this.target == null) {
@@ -136,9 +168,7 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
-//TODO revisit the polymer code - what does the where clause do? 
- // =&gt; returns only the elements where the closure evaluates to true (where e.localName != 'template);
- get items {
+ List&lt;Element&gt; get items {
    List nodes;
    if (this.target != this) {
      if (this.itemsSelector != null &amp;&amp; this.itemsSelector.isNotEmpty) {
@@ -155,7 +185,7 @@ class PolymerSelector extends PolymerElement {
    }).toList();     
  }
  
- targetChanged(old) {
+ void targetChanged(old) {
    if (old != null) {
      this._removeListener(old);
      this._observer.disconnect();
@@ -166,29 +196,29 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
- _addListener(node) {
+ void _addListener(node) {
    node.addEventListener(this.activateEvent, activateHandler);
  }
  
- _removeListener(node) {
+ void _removeListener(node) {
    node.removeEventListener(this.activateEvent, activateHandler);
  }
  
- get selection {
+ dynamic get selection {
    return this.$['selection'].selection;
  }
  
- selectedChanged(old){
+ void selectedChanged(old){
    //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
-   new Timer(Duration.ZERO, (){_updateSelected();});
+   Timer.run(() =&gt;_updateSelected());
    //this._updateSelected();
  }
  
- _onMutation(records, observer){
+ void _onMutation(records, observer){
    _updateSelected();
  }
  
- _updateSelected(){
+ void _updateSelected(){
    this._validateSelected();
    if (this.multi) {
      this.clearSelection();
@@ -202,14 +232,14 @@ class PolymerSelector extends PolymerElement {
    }
  }
  
- _validateSelected(){
+ void _validateSelected(){
    // convert to a list for multi-selection
    if (this.multi &amp;&amp; this.selected != null &amp;&amp; this.selected is! List) {
      this.selected = [this.selected];
    }
  }
  
- clearSelection() {
+ void clearSelection() {
    if (this.multi) {
      var copy = new List.from(this.selection);
      copy.forEach((s) {
@@ -222,39 +252,50 @@ class PolymerSelector extends PolymerElement {
    this.$['selection'].clear();
  }
  
- _valueToSelection(value) {
+ void _valueToSelection(value) {
    var item = (value == null) ? 
        null : this.items[this._valueToIndex(value)];
    this.$['selection'].select(item);
  }
  
- _updateSelectedItem() {
+ void _updateSelectedItem() {
    this.selectedItem = this.selection;
  }
  
- selectedItemChanged(old){
+ void selectedItemChanged(old){
    if (this.selectedItem != null) {
-     //TODO Figure out why this doesn't work
      //var t = this.selectedItem.templateInstance;
-     //this.selectedModel = t ? t.model : null;
+     //this.selectedModel = t ? t.model : undefined;
    } else {
      this.selectedModel = null;
    }
+   this.selectedIndex = (this.selectedItem != null) ?
+       this._valueToIndex(this.selected) : 1;
  }
  
- _valueToIndex(value) {
+ int _valueToIndex(value) {
    // find an item with value == value and return it's index
-   for (var i=0, items=this.items; i&lt; items.length; i++) {
+   for (var i = 0, items = this.items; i &lt; items.length; i++) {
      if (this._valueForNode(items[i]) == value) {
        return i;
      }
    }
    // if no item found, the value itself is probably the index
-   return value;
+   if(value is int) {
+     return value;
+   }
+   
+   if(value is String) {
+     return int.parse(value);
+   }
+   return -1;
  }
  
- _valueForNode(HtmlElement node) {
+ // TODO set mirrorsused
+ String _valueForNode(HtmlElement node) {
    var mirror = reflect(node);
+   // TODO (zoechi) I think we could require that a published property (attribute) is used.
+   // than we can drop reflection
    //TODO This is gross.  The alternative is to search the type heirarchy
    //for a matching variable or getter.
    try {
@@ -265,14 +306,15 @@ class PolymerSelector extends PolymerElement {
  }
  
  // events fired from &lt;polymer-selection&gt; object
- selectionSelect(e, detail, node) {
+ void selectionSelect(e, detail, node) {
    this._updateSelectedItem();
    if (detail.containsKey('item')) {
      this._applySelection(detail['item'], detail['isSelected']);
    }
  }
  
- _applySelection(HtmlElement item, isSelected) {
+ // TODO set mirrorsused
+ void _applySelection(HtmlElement item, bool isSelected) {
    if (this.selectedClass != null) {
      item.classes.toggle(this.selectedClass, isSelected);
    }
@@ -282,11 +324,21 @@ class PolymerSelector extends PolymerElement {
    //will have to explicitly set selectedProperty to an empty string to keep 
    //from blowing up. I'm not sure that's reasoable.
    if (this.selectedProperty != null &amp;&amp; this.selectedProperty.isNotEmpty) {
-     reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
+     //Note: Reflection is required to work properly with checkboxes
+     try {
+         // polymer-ui-submenu-item works only with this
+         reflect(item).setField(new Symbol('${this.selectedProperty}'), isSelected);
+     } catch(e) { // required for polymer_ui_breadcrumbs (when an attribute is set on a DOM element
+         if(isSelected) {
+           item.attributes[this.selectedProperty] = isSelected.toString();
+         } else {
+           item.attributes.remove(this.selectedProperty);
+         }
+      }
    }
  }
  
- activateHandler(e) {
+ void activateHandler(e) {
    if (!this.notap) {
      var i = this._findDistributedTarget(e.target, this.items);
      if (i &gt;= 0) {
@@ -304,12 +356,12 @@ class PolymerSelector extends PolymerElement {
        } else {
          this.selected = s;
        }
-       this.asyncFire('polymeractivate', detail: item);
+       this.asyncFire('polymer-activate', detail: item);
      }
    }
  }
  
- _addRemoveSelected(value) {
+ void _addRemoveSelected(value) {
    int i = this.selected.indexOf(value);
    if (i &gt;= 0) {
      this.selected.removeAt(i);
@@ -330,8 +382,8 @@ class PolymerSelector extends PolymerElement {
      }
      target = target.parentNode;
    }
+   return -1;
  }
- 
 }
 </pre>
 </div>
@@ -384,7 +436,7 @@ String         <strong>activateEvent</strong> <a class="anchor-link"
 <p>The event that would be fired from the item element to indicate
 it is being selected.</p>
 <pre class="source">
-String activateEvent= 'click'
+String activateEvent = 'click'
 </pre>
 </div>
 </div>
@@ -900,13 +952,13 @@ final bool isContentEditable
 </div>
 <div class="field"><h4 id="items">
 <button class="show-code">Code</button>
-final         <strong>items</strong> <a class="anchor-link"
+final List&lt;Element&gt;         <strong>items</strong> <a class="anchor-link"
             href="#items"
             title="Permalink to PolymerSelector.items">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-get items {
+List&lt;Element&gt; get items {
  List nodes;
  if (this.target != this) {
    if (this.itemsSelector != null &amp;&amp; this.itemsSelector.isNotEmpty) {
@@ -1874,9 +1926,9 @@ final Stream&lt;CustomEvent&gt;         <strong>onPolymerSelect</strong> <a clas
         <div class="doc">
 <pre class="source">
 Stream&lt;CustomEvent&gt; get onPolymerSelect {
- PolymerSelection selection = $['selection'] as PolymerSelection;
+ Element selection = $['selection'];
  if(selection != null) {
-   return selection.onPolymerSelect;
+   // TODO return selection.onPolymerSelect;
  }
 }
 </pre>
@@ -2330,6 +2382,27 @@ var         <strong>selected</strong> <a class="anchor-link"
             title="Permalink to PolymerSelector.selected">#</a>
         </h4>
         <div class="doc">
+<p>Gets or sets the selected element.  Default to use the index
+of the item element.</p>
+<p>If you want a specific attribute value of the element to be
+used instead of index, set "valueattr" to that attribute name.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-selector valueattr="label" selected="foo"&gt;
+  &lt;div label="foo"&gt;&lt;/div&gt;
+  &lt;div label="bar"&gt;&lt;/div&gt;
+  &lt;div label="zot"&gt;&lt;/div&gt;
+&lt;/polymer-selector&gt;
+</code></pre>
+<p>In multi-selection this should be an array of values.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-selector id="selector" valueattr="label" multi&gt;
+  &lt;div label="foo"&gt;&lt;/div&gt;
+  &lt;div label="bar"&gt;&lt;/div&gt;
+  &lt;div label="zot"&gt;&lt;/div&gt;
+&lt;/polymer-selector&gt;
+
+this.$.selector.selected = ['foo', 'zot'];
+</code></pre>
 <pre class="source">
 var selected = null
 </pre>
@@ -2348,6 +2421,19 @@ String selectedClass= 'polymer-selected'
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="selectedIndex">
+<button class="show-code">Code</button>
+int         <strong>selectedIndex</strong> <a class="anchor-link"
+            href="#selectedIndex"
+            title="Permalink to PolymerSelector.selectedIndex">#</a>
+        </h4>
+        <div class="doc">
+<p>In single selection, this returns the selected index.</p>
+<pre class="source">
+int selectedIndex = -1
+</pre>
+</div>
+</div>
 <div class="field"><h4 id="selectedItem">
 <button class="show-code">Code</button>
 var         <strong>selectedItem</strong> <a class="anchor-link"
@@ -2355,10 +2441,8 @@ var         <strong>selectedItem</strong> <a class="anchor-link"
             title="Permalink to PolymerSelector.selectedItem">#</a>
         </h4>
         <div class="doc">
-<p> Stream&lt;CustomEvent> get onPolymerSelect =></p>
-<pre><code>  PolymerSelection._polymerSelectEvent.forTarget(this);
-</code></pre>
-<p>Returns the currently selected element. In multi-selection this returns
+<p> Stream&lt;CustomEvent> get onPolymerSelect =>
+Returns the currently selected element. In multi-selection this returns
 an array of selected elements.</p>
 <pre class="source">
 var selectedItem = null
@@ -2401,7 +2485,7 @@ final         <strong>selection</strong> <a class="anchor-link"
         </h4>
         <div class="doc">
 <pre class="source">
-get selection {
+dynamic get selection {
  return this.$['selection'].selection;
 }
 </pre>
@@ -2605,11 +2689,11 @@ void set xtag(Element value) {
 <h3>Methods</h3>
 <div class="method"><h4 id="activateHandler">
 <button class="show-code">Code</button>
-dynamic <strong>activateHandler</strong>(e) <a class="anchor-link" href="#activateHandler"
+void <strong>activateHandler</strong>(e) <a class="anchor-link" href="#activateHandler"
               title="Permalink to PolymerSelector.activateHandler">#</a></h4>
 <div class="doc">
 <pre class="source">
-activateHandler(e) {
+void activateHandler(e) {
  if (!this.notap) {
    var i = this._findDistributedTarget(e.target, this.items);
    if (i &gt;= 0) {
@@ -2627,7 +2711,7 @@ activateHandler(e) {
      } else {
        this.selected = s;
      }
-     this.asyncFire('polymeractivate', detail: item);
+     this.asyncFire('polymer-activate', detail: item);
    }
  }
 }
@@ -3003,11 +3087,11 @@ void classFollows(Element anew, Element old, String className) {
 </div>
 <div class="method"><h4 id="clearSelection">
 <button class="show-code">Code</button>
-dynamic <strong>clearSelection</strong>() <a class="anchor-link" href="#clearSelection"
+void <strong>clearSelection</strong>() <a class="anchor-link" href="#clearSelection"
               title="Permalink to PolymerSelector.clearSelection">#</a></h4>
 <div class="doc">
 <pre class="source">
-clearSelection() {
+void clearSelection() {
  if (this.multi) {
    var copy = new List.from(this.selection);
    copy.forEach((s) {
@@ -4153,6 +4237,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerSelector.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4287,14 +4374,15 @@ ElementList querySelectorAll(String selectors) =&gt;
 </div>
 <div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
-dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
+void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerSelector.ready">#</a></h4>
 <div class="doc">
 <div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
 <div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-ready() {
+void ready() {
+ super.ready();
  this._observer = new MutationObserver(_onMutation);
  
  if (this.target == null) {
@@ -4546,13 +4634,13 @@ void scrollIntoView([ScrollAlignment alignment]) {
 </div>
 <div class="method"><h4 id="selectedChanged">
 <button class="show-code">Code</button>
-dynamic <strong>selectedChanged</strong>(old) <a class="anchor-link" href="#selectedChanged"
+void <strong>selectedChanged</strong>(old) <a class="anchor-link" href="#selectedChanged"
               title="Permalink to PolymerSelector.selectedChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-selectedChanged(old){
+void selectedChanged(old){
  //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
- new Timer(Duration.ZERO, (){_updateSelected();});
+ Timer.run(() =&gt;_updateSelected());
  //this._updateSelected();
 }
 </pre>
@@ -4560,29 +4648,30 @@ selectedChanged(old){
 </div>
 <div class="method"><h4 id="selectedItemChanged">
 <button class="show-code">Code</button>
-dynamic <strong>selectedItemChanged</strong>(old) <a class="anchor-link" href="#selectedItemChanged"
+void <strong>selectedItemChanged</strong>(old) <a class="anchor-link" href="#selectedItemChanged"
               title="Permalink to PolymerSelector.selectedItemChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-selectedItemChanged(old){
+void selectedItemChanged(old){
  if (this.selectedItem != null) {
-   //TODO Figure out why this doesn't work
    //var t = this.selectedItem.templateInstance;
-   //this.selectedModel = t ? t.model : null;
+   //this.selectedModel = t ? t.model : undefined;
  } else {
    this.selectedModel = null;
  }
+ this.selectedIndex = (this.selectedItem != null) ?
+     this._valueToIndex(this.selected) : 1;
 }
 </pre>
 </div>
 </div>
 <div class="method"><h4 id="selectionSelect">
 <button class="show-code">Code</button>
-dynamic <strong>selectionSelect</strong>(e, detail, node) <a class="anchor-link" href="#selectionSelect"
+void <strong>selectionSelect</strong>(e, detail, node) <a class="anchor-link" href="#selectionSelect"
               title="Permalink to PolymerSelector.selectionSelect">#</a></h4>
 <div class="doc">
 <pre class="source">
-selectionSelect(e, detail, node) {
+void selectionSelect(e, detail, node) {
  this._updateSelectedItem();
  if (detail.containsKey('item')) {
    this._applySelection(detail['item'], detail['isSelected']);
@@ -4736,11 +4825,11 @@ void takeAttributes() {
 </div>
 <div class="method"><h4 id="targetChanged">
 <button class="show-code">Code</button>
-dynamic <strong>targetChanged</strong>(old) <a class="anchor-link" href="#targetChanged"
+void <strong>targetChanged</strong>(old) <a class="anchor-link" href="#targetChanged"
               title="Permalink to PolymerSelector.targetChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-targetChanged(old) {
+void targetChanged(old) {
  if (old != null) {
    this._removeListener(old);
    this._observer.disconnect();
@@ -4865,7 +4954,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:26.682</div>
+          <div>This page was generated at 2013-12-12 13:14:42.768</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

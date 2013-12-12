@@ -57,14 +57,14 @@ class PolymerMediaQuery extends PolymerElement {
   */
  @published String mquery = ''; // renamed from query to mquery to avoid conflicts with super.query() method
  
- static const EventStreamProvider&lt;CustomEvent&gt; _mediaChange =
+ static const EventStreamProvider&lt;CustomEvent&gt; _polymerMediachange =
      const EventStreamProvider&lt;CustomEvent&gt;('polymer-mediachange');
 
  /**
   * Fires a custom event (polymer-mediachange) when the query matches.
   */
- Stream&lt;CustomEvent&gt; get onMediaChange =&gt;
-     PolymerMediaQuery._mediaChange.forTarget(this);
+ Stream&lt;CustomEvent&gt; get onPolymerMediachange =&gt;
+     PolymerMediaQuery._polymerMediachange.forTarget(this);
  
  var _mqHandler;
  var _mq;
@@ -104,7 +104,7 @@ class PolymerMediaQuery extends PolymerElement {
  
  void queryHandler(mq) {
    this.queryMatches = mq['matches'];
-   dispatchEvent(new CustomEvent('polymer-mediachange', detail: mq));
+   fire('polymer-mediachange', detail: mq);
  }
 }
 </pre>
@@ -1421,20 +1421,6 @@ ElementStream&lt;Event&gt; get onLoad =&gt; loadEvent.forElement(this);
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="onMediaChange">
-<button class="show-code">Code</button>
-final Stream&lt;CustomEvent&gt;         <strong>onMediaChange</strong> <a class="anchor-link"
-            href="#onMediaChange"
-            title="Permalink to PolymerMediaQuery.onMediaChange">#</a>
-        </h4>
-        <div class="doc">
-<p>Fires a custom event (polymer-mediachange) when the query matches.</p>
-<pre class="source">
-Stream&lt;CustomEvent&gt; get onMediaChange =&gt;
-   PolymerMediaQuery._mediaChange.forTarget(this);
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="onMouseDown">
 <button class="show-code">Code</button>
 final ElementStream&lt;MouseEvent&gt;         <strong>onMouseDown</strong> <a class="anchor-link"
@@ -1571,6 +1557,20 @@ final ElementStream&lt;Event&gt;         <strong>onPaste</strong> <a class="anch
 @DomName('Element.onpaste')
 @DocsEditable()
 ElementStream&lt;Event&gt; get onPaste =&gt; pasteEvent.forElement(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="onPolymerMediachange">
+<button class="show-code">Code</button>
+final Stream&lt;CustomEvent&gt;         <strong>onPolymerMediachange</strong> <a class="anchor-link"
+            href="#onPolymerMediachange"
+            title="Permalink to PolymerMediaQuery.onPolymerMediachange">#</a>
+        </h4>
+        <div class="doc">
+<p>Fires a custom event (polymer-mediachange) when the query matches.</p>
+<pre class="source">
+Stream&lt;CustomEvent&gt; get onPolymerMediachange =&gt;
+   PolymerMediaQuery._polymerMediachange.forTarget(this);
 </pre>
 </div>
 </div>
@@ -3728,6 +3728,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerMediaQuery.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -3823,7 +3826,7 @@ void <strong>queryHandler</strong>(mq) <a class="anchor-link" href="#queryHandle
 <pre class="source">
 void queryHandler(mq) {
  this.queryMatches = mq['matches'];
- dispatchEvent(new CustomEvent('polymer-mediachange', detail: mq));
+ fire('polymer-mediachange', detail: mq);
 }
 </pre>
 </div>
@@ -4379,7 +4382,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:26.137</div>
+          <div>This page was generated at 2013-12-12 13:14:42.375</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

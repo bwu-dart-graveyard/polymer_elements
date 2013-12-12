@@ -42,14 +42,19 @@ class PolymerCollapseToggle extends PolymerElement {
  /**
   * The selector for the target polymer-collapse element.
   */
- @published String target = '';
+ @published HtmlElement target;
  
  void handleClick([e]) {
-   _logger.finest("handleClick '${target}'");
-   var t = (document.querySelector(target) as PolymerCollapse);
-   if (t != null) {
-     t.toggle();
+ //  _logger.finest("handleClick '${target}'");
+  // print('owner target ${this.ownerDocument.querySelector(target)}');
+  // print('shadow target ${this.shadowRoot.querySelector(target)}');
+  // var t = (document.querySelector(target) as PolymerCollapse);
+   if (target != null) {
+     target.toggle();
+   }else {
+     print('t is null!!!');
    }
+   
  }
 }
 </pre>
@@ -2016,14 +2021,14 @@ final String tagName
 </div>
 <div class="field"><h4 id="target">
 <button class="show-code">Code</button>
-String         <strong>target</strong> <a class="anchor-link"
+HtmlElement         <strong>target</strong> <a class="anchor-link"
             href="#target"
             title="Permalink to PolymerCollapseToggle.target">#</a>
         </h4>
         <div class="doc">
 <p>The selector for the target polymer-collapse element.</p>
 <pre class="source">
-String target = ''
+HtmlElement target
 </pre>
 </div>
 </div>
@@ -3040,11 +3045,16 @@ void <strong>handleClick</strong>([e]) <a class="anchor-link" href="#handleClick
 <div class="doc">
 <pre class="source">
 void handleClick([e]) {
- _logger.finest("handleClick '${target}'");
- var t = (document.querySelector(target) as PolymerCollapse);
- if (t != null) {
-   t.toggle();
+//  _logger.finest("handleClick '${target}'");
+// print('owner target ${this.ownerDocument.querySelector(target)}');
+// print('shadow target ${this.shadowRoot.querySelector(target)}');
+// var t = (document.querySelector(target) as PolymerCollapse);
+ if (target != null) {
+   target.toggle();
+ }else {
+   print('t is null!!!');
  }
+ 
 }
 </pre>
 </div>
@@ -3628,6 +3638,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerCollapseToggle.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4266,7 +4279,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:25.052</div>
+          <div>This page was generated at 2013-12-12 13:14:41.091</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -77,11 +77,6 @@ class PolymerUiBreadcrumbs extends PolymerElement {
   * Returns the model associated with the selected crumb.
   */
  @published var selectedCrumb;
- 
- @override
- void enteredView() {
-   super.enteredView();
- }
 }
 </pre>
 </div>
@@ -2179,7 +2174,7 @@ void set xtag(Element value) {
 </div>
 </div>
 </div>
-<div>
+<div class="inherited">
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="addEventListener">
 <button class="show-code">Code</button>
@@ -2809,19 +2804,21 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="enteredView">
+<div class="method inherited"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
               title="Permalink to PolymerUiBreadcrumbs.enteredView">#</a></h4>
-<div class="doc">
+<div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
 document.</p>
 <div class="docs-inherited-from">docs inherited from Element </div></div>
 <pre class="source">
-@override
 void enteredView() {
- super.enteredView();
+ if (!_elementPrepared) {
+   prepareElement();
+ }
+ cancelUnbindAll(preventCascade: true);
 }
 </pre>
 </div>
@@ -3677,6 +3674,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiBreadcrumbs.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4315,7 +4315,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.213</div>
+          <div>This page was generated at 2013-12-12 13:14:43.678</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -76,11 +76,11 @@ class PolymerUiToggleButton extends PolymerElement {
  int _w;
  int _x;
  
- @override 
- void enteredView() {
+ void ready() {
+   super.ready();
    updateCaption();
-   super.enteredView();
  }
+ 
  void toggle() {
    this.value = !this.value;
  }
@@ -127,7 +127,7 @@ class PolymerUiToggleButton extends PolymerElement {
    this.$['toggle'].style.left = '${this._x}px';
  }
  
- void trackEnd() {
+ void trackEnd(e) {
    this.$['toggle'].style.left = null;
    this.$['toggle'].classes.remove('dragging');
    this.value = (this._x).abs() &lt; this._w / 2;
@@ -2886,20 +2886,21 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="enteredView">
+<div class="method inherited"><h4 id="enteredView">
 <button class="show-code">Code</button>
 void <strong>enteredView</strong>() <a class="anchor-link" href="#enteredView"
               title="Permalink to PolymerUiToggleButton.enteredView">#</a></h4>
-<div class="doc">
+<div class="inherited-from">mixed in from Polymer </div><div class="doc">
 <div class="inherited">
 <p>Called by the DOM when this element has been inserted into the live
 document.</p>
 <div class="docs-inherited-from">docs inherited from Element </div></div>
 <pre class="source">
-@override 
 void enteredView() {
- updateCaption();
- super.enteredView();
+ if (!_elementPrepared) {
+   prepareElement();
+ }
+ cancelUnbindAll(preventCascade: true);
 }
 </pre>
 </div>
@@ -3804,6 +3805,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiToggleButton.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -3936,14 +3940,19 @@ ElementList querySelectorAll(String selectors) =&gt;
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="ready">
+<div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
 void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerUiToggleButton.ready">#</a></h4>
-<div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<div class="doc">
+<div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
+<div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-void ready() {}
+void ready() {
+ super.ready();
+ updateCaption();
+}
 </pre>
 </div>
 </div>
@@ -4369,11 +4378,11 @@ void track(e) {
 </div>
 <div class="method"><h4 id="trackEnd">
 <button class="show-code">Code</button>
-void <strong>trackEnd</strong>() <a class="anchor-link" href="#trackEnd"
+void <strong>trackEnd</strong>(e) <a class="anchor-link" href="#trackEnd"
               title="Permalink to PolymerUiToggleButton.trackEnd">#</a></h4>
 <div class="doc">
 <pre class="source">
-void trackEnd() {
+void trackEnd(e) {
  this.$['toggle'].style.left = null;
  this.$['toggle'].classes.remove('dragging');
  this.value = (this._x).abs() &lt; this._w / 2;
@@ -4530,7 +4539,7 @@ void valueChanged(oldValue) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:28.827</div>
+          <div>This page was generated at 2013-12-12 13:14:45.491</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

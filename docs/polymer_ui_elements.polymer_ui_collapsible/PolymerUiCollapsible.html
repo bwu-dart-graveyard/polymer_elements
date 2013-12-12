@@ -32,6 +32,18 @@
         
 <button id="show-inherited" class="show-inherited">Hide inherited</button>
 <div class="doc">
+<p>polymer-ui-collapsible has a header and a body and the body appears or
+disappears based on "active" property.  Tapping on the header will toggle
+the active state.  User needs to put the class "polymer-ui-collapsible-header"
+on the element to indicate it represents a header.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-ui-collapsible&gt;
+  &lt;div class="polymer-ui-collapsible-header"&gt;Title&lt;/div&gt;
+  &lt;div&gt;
+    some content...
+  &lt;/div&gt;
+&lt;/polymer-ui-collapsible&gt;
+</code></pre>
 <pre class="source">
 @CustomTag('polymer-ui-collapsible')
 class PolymerUiCollapsible extends PolymerElement {
@@ -44,9 +56,6 @@ class PolymerUiCollapsible extends PolymerElement {
 
  /**
   * If true, the body is expanded.
-  * @attribute active
-  * @type boolean
-  * @default false
   */
  @published bool active = false;
 
@@ -112,10 +121,7 @@ bool         <strong>active</strong> <a class="anchor-link"
             title="Permalink to PolymerUiCollapsible.active">#</a>
         </h4>
         <div class="doc">
-<p>If true, the body is expanded.
-@attribute active
-@type boolean
-@default false</p>
+<p>If true, the body is expanded.</p>
 <pre class="source">
 bool active = false
 </pre>
@@ -3669,6 +3675,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiCollapsible.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4320,7 +4329,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.369</div>
+          <div>This page was generated at 2013-12-12 13:14:43.865</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -63,7 +63,20 @@ class PolymerUiToolbar extends PolymerUiThemeAware{
  
  @published String responsiveWidth = '800px';
  @observable bool queryMatches = false;
+ @observable String mquery = '';
 
+ void ready() {
+   this.on['polymer-mediachange'].listen((CustomEvent e) {
+     queryMatches = e.detail['matches'];
+   });
+   defaultTheme = 'polymer-ui-light-theme';
+   responsiveWidthChanged(null);
+ }
+ 
+ void responsiveWidthChanged(old) {
+   mquery = 'max-width: ${responsiveWidth}';
+ }
+ 
  void queryMatchesChanged(oldValue) {
    this.classes.toggle('narrow-layout', this.queryMatches);
  }
@@ -478,6 +491,18 @@ PolymerDeclaration get declaration =&gt; _declaration;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="defaultTheme">
+<button class="show-code">Code</button>
+String         <strong>defaultTheme</strong> <a class="anchor-link"
+            href="#defaultTheme"
+            title="Permalink to PolymerUiToolbar.defaultTheme">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<pre class="source">
+String defaultTheme = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="dir">
 <button class="show-code">Code</button>
 String         <strong>dir</strong> <a class="anchor-link"
@@ -715,6 +740,18 @@ animation frame is discouraged. See also:
 <pre class="source">
 @Experimental()
 CssRect get marginEdge =&gt; new _MarginCssRect(this);
+</pre>
+</div>
+</div>
+<div class="field"><h4 id="mquery">
+<button class="show-code">Code</button>
+String         <strong>mquery</strong> <a class="anchor-link"
+            href="#mquery"
+            title="Permalink to PolymerUiToolbar.mquery">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+String mquery = ''
 </pre>
 </div>
 </div>
@@ -2844,8 +2881,9 @@ document.</p>
 @override
 void enteredView() {
  _logger.finest('enteredView');
+ super.enteredView();
  
- ui.validateTheme(this, theme, activeTheme);
+ activeTheme = ui.validateTheme(this, theme: theme, activeTheme: activeTheme, defaultTheme: defaultTheme);
 }
 </pre>
 </div>
@@ -3731,6 +3769,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiToolbar.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -3875,14 +3916,22 @@ ElementList querySelectorAll(String selectors) =&gt;
 </pre>
 </div>
 </div>
-<div class="method inherited"><h4 id="ready">
+<div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
 void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerUiToolbar.ready">#</a></h4>
-<div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<div class="doc">
+<div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
+<div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-void ready() {}
+void ready() {
+ this.on['polymer-mediachange'].listen((CustomEvent e) {
+   queryMatches = e.detail['matches'];
+ });
+ defaultTheme = 'polymer-ui-light-theme';
+ responsiveWidthChanged(null);
+}
 </pre>
 </div>
 </div>
@@ -4045,6 +4094,18 @@ HTML5Rocks.</p></li><li>
 @Experimental()
 // https://dvcs.w3.org/hg/pointerlock/raw-file/default/index.html#widl-Element-requestPointerLock-void
 void requestPointerLock() native;
+</pre>
+</div>
+</div>
+<div class="method"><h4 id="responsiveWidthChanged">
+<button class="show-code">Code</button>
+void <strong>responsiveWidthChanged</strong>(old) <a class="anchor-link" href="#responsiveWidthChanged"
+              title="Permalink to PolymerUiToolbar.responsiveWidthChanged">#</a></h4>
+<div class="doc">
+<pre class="source">
+void responsiveWidthChanged(old) {
+ mquery = 'max-width: ${responsiveWidth}';
+}
 </pre>
 </div>
 </div>
@@ -4395,7 +4456,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:28.902</div>
+          <div>This page was generated at 2013-12-12 13:14:45.589</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -38,7 +38,7 @@ class PolymerMeta extends PolymerElement {
  
  static Map&lt;String, Map&lt;String, PolymerMeta&gt;&gt; _metaData = {};
  
- static Map&lt;String, List&lt;PolymerMeta&gt;&gt; _metaArray = {};
+ static ObservableMap&lt;String, List&lt;PolymerMeta&gt;&gt; _metaArray = new ObservableMap&lt;String, List&lt;PolymerMeta&gt;&gt;();
  
  final String SKIP_ID = 'meta';
  
@@ -51,12 +51,20 @@ class PolymerMeta extends PolymerElement {
  //TODO (egrimes) Polymer.js sets always prepare to true, but this has strange effects in polymer.dart
  //bool get alwaysPrepare =&gt; true;
  
- PolymerMeta.created() : super.created();
+ PolymerMeta.created() : super.created() {
+   _metaArray.changes.listen((e) {
+     e.forEach((e) {
+       if(e is MapChangeRecord &amp;&amp; e.key == this.type) { 
+         notifyPropertyChange(#list, e.oldValue, e.newValue);
+       }
+     });
+   });
+ }
  
  List&lt;PolymerMeta&gt; get metaArray {
    var t = this.type;
    if (_metaArray[t] == null) {
-     _metaArray[t] = [];
+     _metaArray[t] = toObservable([]);
    }
    return _metaArray[t];
  }
@@ -115,7 +123,15 @@ new <strong>PolymerMeta.created</strong>() <a class="anchor-link" href="#created
 <p>This can only be called by subclasses from their created constructor.</p>
 <div class="docs-inherited-from">docs inherited from HtmlElement </div></div>
 <pre class="source">
-PolymerMeta.created() : super.created();
+PolymerMeta.created() : super.created() {
+ _metaArray.changes.listen((e) {
+   e.forEach((e) {
+     if(e is MapChangeRecord &amp;&amp; e.key == this.type) { 
+       notifyPropertyChange(#list, e.oldValue, e.newValue);
+     }
+   });
+ });
+}
 </pre>
 </div>
 </div>
@@ -773,7 +789,7 @@ final List&lt;<a href="../polymer_elements.polymer_meta/PolymerMeta.html">Polyme
 List&lt;PolymerMeta&gt; get metaArray {
  var t = this.type;
  if (_metaArray[t] == null) {
-   _metaArray[t] = [];
+   _metaArray[t] = toObservable([]);
  }
  return _metaArray[t];
 }
@@ -3782,6 +3798,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerMeta.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4424,7 +4443,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:26.221</div>
+          <div>This page was generated at 2013-12-12 13:14:42.480</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

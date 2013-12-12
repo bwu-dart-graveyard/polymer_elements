@@ -119,12 +119,11 @@ class PolymerUiArrow extends PolymerElement {
  
  asyncUpdate() {
    if(_updateJob == null){
-     _updateJob = new Timer(Duration.ZERO,_update);
+     _updateJob = Timer.run(_update);
    }
  }
  
  _update() {
-   
    _updateJob = null;
    var os = this.$['outer'].style;
    var _is = this.$['inner'].style;
@@ -132,14 +131,12 @@ class PolymerUiArrow extends PolymerElement {
    _is.borderWidth = '${this.size}px';
    os.borderColor = 'transparent';
    _is.borderColor = 'transparent';
-   var bc = 'border-' + this._borders[this.direction] + '-color';
+   var bc = 'border-' + this._borders[this.direction] + '-Color';
    os.setProperty(bc, this.borderColor);
    _is.setProperty(bc, this.color);
    _is.top = '${(this._tops[this.direction] * this.borderWidth).toString()}px';
    _is.left = '${(this._lefts[this.direction] * this.borderWidth).toString()}px';
  }
-
- 
 }
 </pre>
 </div>
@@ -2454,7 +2451,7 @@ dynamic <strong>asyncUpdate</strong>() <a class="anchor-link" href="#asyncUpdate
 <pre class="source">
 asyncUpdate() {
  if(_updateJob == null){
-   _updateJob = new Timer(Duration.ZERO,_update);
+   _updateJob = Timer.run(_update);
  }
 }
 </pre>
@@ -3819,6 +3816,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiArrow.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4473,7 +4473,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.141</div>
+          <div>This page was generated at 2013-12-12 13:14:43.588</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

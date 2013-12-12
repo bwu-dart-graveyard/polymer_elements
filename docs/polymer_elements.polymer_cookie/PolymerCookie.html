@@ -61,11 +61,11 @@ class PolymerCookie extends PolymerElement {
  
  PolymerCookie.created() : super.created();
  
- ready() {
+ void ready() {
    this.load();
  }
  
- Iterable _parseCookie() {
+ Iterable&lt;String&gt; _parseCookie() {
    List pairs = document.cookie.split(new RegExp(r'\s*;\s*'));
    var map = pairs.map((kv) {
      var eq = kv.indexOf('=');
@@ -82,49 +82,49 @@ class PolymerCookie extends PolymerElement {
    return map.where((kv) {return kv['name'] == nom;});
  }
  
- load() {
+ void load() {
    var kv = this._parseCookie();
    this.value = kv.isNotEmpty ? kv.first['value'] : null;
  }
  
- valueChanged(old) {
+ void valueChanged(old) {
    this._expire = FOREVER;
    this.save();
  }
  
  // TODO(dfreedman): collapse these when 'multiple props -&gt; single change function' exists in Polymer
- expiresChanged() {
+ void expiresChanged() {
    this.save();
  }
  
- secureChanged() {
+ void secureChanged() {
    this.save();
  }
  
- domainChanged() {
+ void domainChanged() {
    this.save();
  }
  
- pathChanged() {
+ void pathChanged() {
    this.save();
  }
  
- maxAgeChanged() {
+ void maxAgeChanged() {
    this.save();
  }
  
  //TODO This isn't used anywhere.  Is it part of the public api? If so, what
  //does it do?
  // return Boolean(this.parseCookie())
- isCookieStored() {
+ bool isCookieStored() {
    return this._parseCookie().isNotEmpty;
  }
  
- deleteCookie() {
+ void deleteCookie() {
    this.expires = EXPIRE_NOW;
  }
  
- prepareProperties() {
+ String prepareProperties() {
    var prepared = new StringBuffer();
    if(expires != null) {
      prepared.write('; expires=');
@@ -154,7 +154,7 @@ class PolymerCookie extends PolymerElement {
    return prepared.toString();
  }
  
- save() {
+ void save() {
    // omitting null check for value leads to an exception in JS
    document.cookie = Uri.encodeComponent(this.name) + '=' + 
        Uri.decodeComponent(this.value != null ? this.value : '') + 
@@ -2837,11 +2837,11 @@ ShadowRoot createShadowRoot() {
 </div>
 <div class="method"><h4 id="deleteCookie">
 <button class="show-code">Code</button>
-dynamic <strong>deleteCookie</strong>() <a class="anchor-link" href="#deleteCookie"
+void <strong>deleteCookie</strong>() <a class="anchor-link" href="#deleteCookie"
               title="Permalink to PolymerCookie.deleteCookie">#</a></h4>
 <div class="doc">
 <pre class="source">
-deleteCookie() {
+void deleteCookie() {
  this.expires = EXPIRE_NOW;
 }
 </pre>
@@ -2936,11 +2936,11 @@ void dispatchMethod(object, callbackOrMethod, List args) {
 </div>
 <div class="method"><h4 id="domainChanged">
 <button class="show-code">Code</button>
-dynamic <strong>domainChanged</strong>() <a class="anchor-link" href="#domainChanged"
+void <strong>domainChanged</strong>() <a class="anchor-link" href="#domainChanged"
               title="Permalink to PolymerCookie.domainChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-domainChanged() {
+void domainChanged() {
  this.save();
 }
 </pre>
@@ -2967,11 +2967,11 @@ void enteredView() {
 </div>
 <div class="method"><h4 id="expiresChanged">
 <button class="show-code">Code</button>
-dynamic <strong>expiresChanged</strong>() <a class="anchor-link" href="#expiresChanged"
+void <strong>expiresChanged</strong>() <a class="anchor-link" href="#expiresChanged"
               title="Permalink to PolymerCookie.expiresChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-expiresChanged() {
+void expiresChanged() {
  this.save();
 }
 </pre>
@@ -3488,11 +3488,11 @@ invokeMethod(Symbol methodName, List args) =&gt;
 </div>
 <div class="method"><h4 id="isCookieStored">
 <button class="show-code">Code</button>
-dynamic <strong>isCookieStored</strong>() <a class="anchor-link" href="#isCookieStored"
+bool <strong>isCookieStored</strong>() <a class="anchor-link" href="#isCookieStored"
               title="Permalink to PolymerCookie.isCookieStored">#</a></h4>
 <div class="doc">
 <pre class="source">
-isCookieStored() {
+bool isCookieStored() {
  return this._parseCookie().isNotEmpty;
 }
 </pre>
@@ -3540,11 +3540,11 @@ Node lightFromTemplate(Element template) {
 </div>
 <div class="method"><h4 id="load">
 <button class="show-code">Code</button>
-dynamic <strong>load</strong>() <a class="anchor-link" href="#load"
+void <strong>load</strong>() <a class="anchor-link" href="#load"
               title="Permalink to PolymerCookie.load">#</a></h4>
 <div class="doc">
 <pre class="source">
-load() {
+void load() {
  var kv = this._parseCookie();
  this.value = kv.isNotEmpty ? kv.first['value'] : null;
 }
@@ -3614,11 +3614,11 @@ bool matchesWithAncestors(String selectors) {
 </div>
 <div class="method"><h4 id="maxAgeChanged">
 <button class="show-code">Code</button>
-dynamic <strong>maxAgeChanged</strong>() <a class="anchor-link" href="#maxAgeChanged"
+void <strong>maxAgeChanged</strong>() <a class="anchor-link" href="#maxAgeChanged"
               title="Permalink to PolymerCookie.maxAgeChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-maxAgeChanged() {
+void maxAgeChanged() {
  this.save();
 }
 </pre>
@@ -3862,11 +3862,11 @@ void parseDeclarations(PolymerDeclaration declaration) {
 </div>
 <div class="method"><h4 id="pathChanged">
 <button class="show-code">Code</button>
-dynamic <strong>pathChanged</strong>() <a class="anchor-link" href="#pathChanged"
+void <strong>pathChanged</strong>() <a class="anchor-link" href="#pathChanged"
               title="Permalink to PolymerCookie.pathChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-pathChanged() {
+void pathChanged() {
  this.save();
 }
 </pre>
@@ -3877,6 +3877,9 @@ pathChanged() {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerCookie.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -3919,11 +3922,11 @@ void prepareElement() {
 </div>
 <div class="method"><h4 id="prepareProperties">
 <button class="show-code">Code</button>
-dynamic <strong>prepareProperties</strong>() <a class="anchor-link" href="#prepareProperties"
+String <strong>prepareProperties</strong>() <a class="anchor-link" href="#prepareProperties"
               title="Permalink to PolymerCookie.prepareProperties">#</a></h4>
 <div class="doc">
 <pre class="source">
-prepareProperties() {
+String prepareProperties() {
  var prepared = new StringBuffer();
  if(expires != null) {
    prepared.write('; expires=');
@@ -4049,14 +4052,14 @@ ElementList querySelectorAll(String selectors) =&gt;
 </div>
 <div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
-dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
+void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerCookie.ready">#</a></h4>
 <div class="doc">
 <div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
 <div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-ready() {
+void ready() {
  this.load();
 }
 </pre>
@@ -4226,11 +4229,11 @@ void requestPointerLock() native;
 </div>
 <div class="method"><h4 id="save">
 <button class="show-code">Code</button>
-dynamic <strong>save</strong>() <a class="anchor-link" href="#save"
+void <strong>save</strong>() <a class="anchor-link" href="#save"
               title="Permalink to PolymerCookie.save">#</a></h4>
 <div class="doc">
 <pre class="source">
-save() {
+void save() {
  // omitting null check for value leads to an exception in JS
  document.cookie = Uri.encodeComponent(this.name) + '=' + 
      Uri.decodeComponent(this.value != null ? this.value : '') + 
@@ -4319,11 +4322,11 @@ void scrollIntoView([ScrollAlignment alignment]) {
 </div>
 <div class="method"><h4 id="secureChanged">
 <button class="show-code">Code</button>
-dynamic <strong>secureChanged</strong>() <a class="anchor-link" href="#secureChanged"
+void <strong>secureChanged</strong>() <a class="anchor-link" href="#secureChanged"
               title="Permalink to PolymerCookie.secureChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-secureChanged() {
+void secureChanged() {
  this.save();
 }
 </pre>
@@ -4581,11 +4584,11 @@ void unregisterObservers() {
 </div>
 <div class="method"><h4 id="valueChanged">
 <button class="show-code">Code</button>
-dynamic <strong>valueChanged</strong>(old) <a class="anchor-link" href="#valueChanged"
+void <strong>valueChanged</strong>(old) <a class="anchor-link" href="#valueChanged"
               title="Permalink to PolymerCookie.valueChanged">#</a></h4>
 <div class="doc">
 <pre class="source">
-valueChanged(old) {
+void valueChanged(old) {
  this._expire = FOREVER;
  this.save();
 }
@@ -4597,7 +4600,7 @@ valueChanged(old) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:25.178</div>
+          <div>This page was generated at 2013-12-12 13:14:41.497</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -49,11 +49,11 @@ class PolymerSelection extends PolymerElement {
  
 
  /**
-  * Retrieves the selected item(s). If the multi property is true,
-  * selection will return a [List], otherwise it will return 
+  * Retrieves the selected item(s) (String or Element). If the multi property is true,
+  * selection will return a [List], otherwise it will return fire
   * the selected item or null if there is no selection.
   */
- get selection {
+ dynamic get selection {
    if(this.multi){
     return this._selection;
    } else if(this._selection.isNotEmpty){
@@ -66,16 +66,19 @@ class PolymerSelection extends PolymerElement {
  /**
   * Returns true if the given [item] is selected.
   */
- isSelected(item){
+ bool isSelected(item){
+   if(this.selection == null) {
+     return false;
+   }
    return this.selection.indexOf(item) &gt;= 0;
  }
  
  /**
   * Sets the selected state of [item] to [isSelected] and fires
-  * a corresponding 'polymerselect' event with the [CustomEvent.detail] set to 
+  * a corresponding 'polymer-select' event with the [CustomEvent.detail] set to 
   * a map containing 'item' set to [item] and 'isSelected' set to [isSelected].
   */
- setItemSelected(item, isSelected) {
+ void setItemSelected(item, isSelected) {
    if (item != null) {  
      if (isSelected) {
        this._selection.add(item);
@@ -85,20 +88,20 @@ class PolymerSelection extends PolymerElement {
          this._selection.removeAt(i);
        }
      }     
-
-     this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+     this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
          
    }
  }
+ 
  /**
   * Set the selection state for a given [item]. If the multi property
   * is true, then the selected state of [item] will be toggled; otherwise
-  * the [item] will be selected.  Fires a corresponding 'polymerselect' event 
+  * the [item] will be selected.  Fires a corresponding 'polymer-select' event 
   * with the [CustomEvent.detail] set to a map containing 'item' set to [item] 
   * and 'isSelected' set to [isSelected]. set to the new selection state for 
   * the [item].
   */
- select(item) { 
+ void select(item) { 
    if (this.multi) {
      this._toggle(item);
    } else if (this.selection != item) {
@@ -107,20 +110,18 @@ class PolymerSelection extends PolymerElement {
    }
  }
   
- ready(){
+ void ready(){
    super.ready();
    this.clear();
  }
  
- clear(){
+ void clear(){
    this._selection.clear();
  }
  
- _toggle(item) {
+ void _toggle(item) {
    this.setItemSelected(item, !this.isSelected(item));
  }
-
- 
 }
 </pre>
 </div>
@@ -2023,11 +2024,11 @@ final         <strong>selection</strong> <a class="anchor-link"
             title="Permalink to PolymerSelection.selection">#</a>
         </h4>
         <div class="doc">
-<p>Retrieves the selected item(s). If the multi property is true,
-selection will return a <code>List</code>, otherwise it will return 
+<p>Retrieves the selected item(s) (String or Element). If the multi property is true,
+selection will return a <code>List</code>, otherwise it will return fire
 the selected item or null if there is no selection.</p>
 <pre class="source">
-get selection {
+dynamic get selection {
  if(this.multi){
   return this._selection;
  } else if(this._selection.isNotEmpty){
@@ -2576,11 +2577,11 @@ void classFollows(Element anew, Element old, String className) {
 </div>
 <div class="method"><h4 id="clear">
 <button class="show-code">Code</button>
-dynamic <strong>clear</strong>() <a class="anchor-link" href="#clear"
+void <strong>clear</strong>() <a class="anchor-link" href="#clear"
               title="Permalink to PolymerSelection.clear">#</a></h4>
 <div class="doc">
 <pre class="source">
-clear(){
+void clear(){
  this._selection.clear();
 }
 </pre>
@@ -3377,13 +3378,16 @@ invokeMethod(Symbol methodName, List args) =&gt;
 </div>
 <div class="method"><h4 id="isSelected">
 <button class="show-code">Code</button>
-dynamic <strong>isSelected</strong>(item) <a class="anchor-link" href="#isSelected"
+bool <strong>isSelected</strong>(item) <a class="anchor-link" href="#isSelected"
               title="Permalink to PolymerSelection.isSelected">#</a></h4>
 <div class="doc">
 <p>Returns true if the given 
 <span class="param">item</span> is selected.</p>
 <pre class="source">
-isSelected(item){
+bool isSelected(item){
+ if(this.selection == null) {
+   return false;
+ }
  return this.selection.indexOf(item) &gt;= 0;
 }
 </pre>
@@ -3731,6 +3735,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerSelection.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -3865,14 +3872,14 @@ ElementList querySelectorAll(String selectors) =&gt;
 </div>
 <div class="method"><h4 id="ready">
 <button class="show-code">Code</button>
-dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
+void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerSelection.ready">#</a></h4>
 <div class="doc">
 <div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
 <div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-ready(){
+void ready(){
  super.ready();
  this.clear();
 }
@@ -4121,7 +4128,7 @@ void scrollIntoView([ScrollAlignment alignment]) {
 </div>
 <div class="method"><h4 id="select">
 <button class="show-code">Code</button>
-dynamic <strong>select</strong>(item) <a class="anchor-link" href="#select"
+void <strong>select</strong>(item) <a class="anchor-link" href="#select"
               title="Permalink to PolymerSelection.select">#</a></h4>
 <div class="doc">
 <p>Set the selection state for a given 
@@ -4129,14 +4136,14 @@ dynamic <strong>select</strong>(item) <a class="anchor-link" href="#select"
 is true, then the selected state of 
 <span class="param">item</span> will be toggled; otherwise
 the 
-<span class="param">item</span> will be selected.  Fires a corresponding 'polymerselect' event 
+<span class="param">item</span> will be selected.  Fires a corresponding 'polymer-select' event 
 with the <code>CustomEvent.detail</code> set to a map containing 'item' set to 
 <span class="param">item</span> 
 and 'isSelected' set to <a class="crossref" href="../polymer_elements.polymer_selection/PolymerSelection.html#isSelected">isSelected</a>. set to the new selection state for 
 the 
 <span class="param">item</span>.</p>
 <pre class="source">
-select(item) { 
+void select(item) { 
  if (this.multi) {
    this._toggle(item);
  } else if (this.selection != item) {
@@ -4219,18 +4226,18 @@ void setInnerHtml(String html,
 </div>
 <div class="method"><h4 id="setItemSelected">
 <button class="show-code">Code</button>
-dynamic <strong>setItemSelected</strong>(item, isSelected) <a class="anchor-link" href="#setItemSelected"
+void <strong>setItemSelected</strong>(item, isSelected) <a class="anchor-link" href="#setItemSelected"
               title="Permalink to PolymerSelection.setItemSelected">#</a></h4>
 <div class="doc">
 <p>Sets the selected state of 
 <span class="param">item</span> to 
 <span class="param">isSelected</span> and fires
-a corresponding 'polymerselect' event with the <code>CustomEvent.detail</code> set to 
+a corresponding 'polymer-select' event with the <code>CustomEvent.detail</code> set to 
 a map containing 'item' set to 
 <span class="param">item</span> and 'isSelected' set to 
 <span class="param">isSelected</span>.</p>
 <pre class="source">
-setItemSelected(item, isSelected) {
+void setItemSelected(item, isSelected) {
  if (item != null) {  
    if (isSelected) {
      this._selection.add(item);
@@ -4240,8 +4247,7 @@ setItemSelected(item, isSelected) {
        this._selection.removeAt(i);
      }
    }     
-
-   this.fire('polymerselect',detail: {'item': item, 'isSelected':  isSelected});
+   this.fire('polymer-select',detail: {'item': item, 'isSelected':  isSelected});
        
  }
 }
@@ -4433,7 +4439,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:26.391</div>
+          <div>This page was generated at 2013-12-12 13:14:42.669</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

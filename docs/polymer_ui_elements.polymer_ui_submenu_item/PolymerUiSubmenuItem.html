@@ -57,12 +57,12 @@ class PolymerUiSubmenuItem extends PolymerUiMenuItem {
 
  final _logger = new Logger('PolymerUiSubmenuItem');
  
- @published String selected;
- @published String selectedItem;
+ @published var selected;
+ @published Element selectedItem;
  
  @published bool active = false;
  
- bool collapsed = true;
+ @observable bool collapsed = true;
  
  static const EventStreamProvider&lt;CustomEvent&gt; _polymerSelectEvent =
      const EventStreamProvider&lt;CustomEvent&gt;('polymer-select');
@@ -97,7 +97,7 @@ class PolymerUiSubmenuItem extends PolymerUiMenuItem {
    if (this.hasItems() &amp;&amp; this.active) {
      this.collapsed = !this.collapsed;
      this.unselectAllItems();
-     dispatchEvent(new CustomEvent('polymer-select', detail: {'isSelected': true, 'item': this}));
+     this.fire('polymer-select', detail: {'isSelected': true, 'item': this});
    }
  }
  
@@ -522,6 +522,18 @@ PolymerDeclaration get declaration =&gt; _declaration;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="defaultTheme">
+<button class="show-code">Code</button>
+String         <strong>defaultTheme</strong> <a class="anchor-link"
+            href="#defaultTheme"
+            title="Permalink to PolymerUiSubmenuItem.defaultTheme">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<pre class="source">
+String defaultTheme = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="dir">
 <button class="show-code">Code</button>
 String         <strong>dir</strong> <a class="anchor-link"
@@ -636,6 +648,29 @@ bool hidden
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="href">
+<button class="show-code">Code</button>
+String         <strong>href</strong> <a class="anchor-link"
+            href="#href"
+            title="Permalink to PolymerUiSubmenuItem.href">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_menu_item/PolymerUiMenuItem.html">PolymerUiMenuItem</a> </div><div class="doc">
+<p>Specifies the URL of the link it goes to when tapped on.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-ui-menu-item icon="favorite" label="Favorite" href="http://www.polymer-project.org/"&gt;&lt;/polymer-ui-menu-item&gt;
+</code></pre>
+<p>If you want more control on the link, e.g. specify the target for where to
+open the linked document, you can put &lt;a> directly inside the menu-item.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-ui-menu-item icon="favorite" label="Favorite"&gt;
+  &lt;a href="http://www.polymer-project.org/" target="_self"&gt;&lt;/a&gt;
+&lt;/polymer-ui-menu-item&gt;
+</code></pre>
+<pre class="source">
+String href = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="icon">
 <button class="show-code">Code</button>
 String         <strong>icon</strong> <a class="anchor-link"
@@ -705,6 +740,18 @@ final bool         <strong>isContentEditable</strong> <a class="anchor-link"
         <div class="inherited-from">inherited from Element </div><div class="doc">
 <pre class="source">
 final bool isContentEditable
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="isHideHref">
+<button class="show-code">Code</button>
+bool         <strong>isHideHref</strong> <a class="anchor-link"
+            href="#isHideHref"
+            title="Permalink to PolymerUiSubmenuItem.isHideHref">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_menu_item/PolymerUiMenuItem.html">PolymerUiMenuItem</a> </div><div class="doc">
+<pre class="source">
+bool isHideHref = false
 </pre>
 </div>
 </div>
@@ -2107,25 +2154,25 @@ final int scrollWidth
 </div>
 <div class="field"><h4 id="selected">
 <button class="show-code">Code</button>
-String         <strong>selected</strong> <a class="anchor-link"
+var         <strong>selected</strong> <a class="anchor-link"
             href="#selected"
             title="Permalink to PolymerUiSubmenuItem.selected">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-String selected
+var selected
 </pre>
 </div>
 </div>
 <div class="field"><h4 id="selectedItem">
 <button class="show-code">Code</button>
-String         <strong>selectedItem</strong> <a class="anchor-link"
+Element         <strong>selectedItem</strong> <a class="anchor-link"
             href="#selectedItem"
             title="Permalink to PolymerUiSubmenuItem.selectedItem">#</a>
         </h4>
         <div class="doc">
 <pre class="source">
-String selectedItem
+Element selectedItem
 </pre>
 </div>
 </div>
@@ -2332,7 +2379,7 @@ void activate() {
  if (this.hasItems() &amp;&amp; this.active) {
    this.collapsed = !this.collapsed;
    this.unselectAllItems();
-   dispatchEvent(new CustomEvent('polymer-select', detail: {'isSelected': true, 'item': this}));
+   this.fire('polymer-select', detail: {'isSelected': true, 'item': this});
  }
 }
 </pre>
@@ -3012,8 +3059,9 @@ document.</p>
 @override
 void enteredView() {
  _logger.finest('enteredView');
+ super.enteredView();
  
- ui.validateTheme(this, theme, activeTheme);
+ activeTheme = ui.validateTheme(this, theme: theme, activeTheme: activeTheme, defaultTheme: defaultTheme);
 }
 </pre>
 </div>
@@ -3266,7 +3314,7 @@ double <strong>getOffsetMiddle</strong>() <a class="anchor-link" href="#getOffse
 double getOffsetMiddle() {
   var p = this.parentNode as PolymerSelector;
   if (p != null) {
-    var i = p.items;
+    var i = p.items.indexOf(this);
     var h = this.getItemHeight();
     return i * h + h/2 + p.items[0].offsetTop;
   }
@@ -3379,6 +3427,18 @@ void hostEventListener(Event event) {
  if (log) {
    _eventsLog.fine('&lt;&lt;&lt; [$localName]: hostEventListener(${event.type})');
  }
+}
+</pre>
+</div>
+</div>
+<div class="method inherited"><h4 id="hrefChanged">
+<button class="show-code">Code</button>
+void <strong>hrefChanged</strong>(old) <a class="anchor-link" href="#hrefChanged"
+              title="Permalink to PolymerUiSubmenuItem.hrefChanged">#</a></h4>
+<div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_menu_item/PolymerUiMenuItem.html">PolymerUiMenuItem</a> </div><div class="doc">
+<pre class="source">
+void hrefChanged(old) {
+ isHideHref = (href == null &amp;&amp; href.isEmpty); 
 }
 </pre>
 </div>
@@ -3926,6 +3986,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiSubmenuItem.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4615,7 +4678,7 @@ void updateIsShowIcon() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:28.657</div>
+          <div>This page was generated at 2013-12-12 13:14:45.273</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

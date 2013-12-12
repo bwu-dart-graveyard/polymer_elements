@@ -31,6 +31,7 @@ http://www.polymer-project.org/.
   <body><polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
   <template>
     <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TODO remove old when all browsers and polyfills are updated -->
     <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
     <content></content>
   </template>
@@ -112,7 +113,6 @@ http://www.polymer-project.org/.
   <template>
     <!-- TODO remove stylesheet import when inheriting from base element works -->
     <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
-    
     <style>
       polymer-flex-area, div {
         box-sizing: border-box;
@@ -120,7 +120,7 @@ http://www.polymer-project.org/.
         border: 2px solid #ccc;
       }
     </style>
-    <polymer-flex-layout id="flexlayout" containerclasses="{{polymerClasses}}"></polymer-flex-layout>
+    <polymer-flex-layout id="flexlayout"></polymer-flex-layout>
     <polymer-flex-area flex="">
       <polymer-flex-layout></polymer-flex-layout>
       <div>Hi I'm some content</div>

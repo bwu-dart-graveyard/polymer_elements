@@ -21,21 +21,21 @@ http://www.polymer-project.org/.
   
 </polymer-element>
 <polymer-element name="app-element">
- <template>
-  <polymer-meta id="x-foo" label="foo"></polymer-meta>
-  <polymer-meta id="x-bar" label="bar"></polymer-meta>
-  
-  <polymer-meta id="x-zot" label="zot">
-    <template>
-      <div>[zot's metadata]</div>
+  <template>
+    <polymer-meta id="x-foo" label="foo"></polymer-meta>
+    <polymer-meta id="x-bar" label="bar"></polymer-meta>
+    
+    <polymer-meta id="x-zot" label="zot">
+      <template>
+        <div>[zot's metadata]</div>
+      </template>
+    </polymer-meta>
+    
+    <template repeat="{{metadata}}">
+      <div>{{label}}</div>
     </template>
-  </polymer-meta>
-  
-   <template repeat="{{metadata}}">
-    <div>{{label}}</div>
-  </template>
-  
-  <hr>
+    
+    <hr>
   </template>
   
 </polymer-element>

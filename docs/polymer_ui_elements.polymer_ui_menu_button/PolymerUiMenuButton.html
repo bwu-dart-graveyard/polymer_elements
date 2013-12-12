@@ -96,19 +96,12 @@ class PolymerUiMenuButton extends PolymerElement {
  
  bool _isParallaxActionRunning = false;
  
-//  @override
-//  void ready() {
-//    super.ready();
-//    this.boundParallaxAction = this.parallaxAction.bind(this);
-//  }
- 
  StreamSubscription _deviceorientationSubscription;
  Map&lt;String, int&gt; _tilt;
  
  void openedChanged(oldValue) {
    new Timer(Duration.ZERO, () {
-     this._isParallaxActionRunning = true;
-     // TODO (this.$['arrowPositionHelper'] as PolymerAnchorPoint).apply();
+//      this._isParallaxActionRunning = true;
      this.$['arrowPositionHelper'].apply();
      this._tilt = null;
      if (this.parallax) {
@@ -120,14 +113,6 @@ class PolymerUiMenuButton extends PolymerElement {
      }
      this._isParallaxActionRunning = false;
    });
- }
- 
- void valignChanged(oldValue) {
-   if(valign == 'top') {
-     direction = 'down';
-   } else {
-     direction = 'up';
-   }
  }
  
  void parallaxAction(DeviceOrientationEvent e) {
@@ -175,7 +160,6 @@ class PolymerUiMenuButton extends PolymerElement {
   * The selected menu item.
   */
  Element get selection {
-   // TODO return (this.$['menu'] as PolymerUiMenu).selection;
    return this.$['menu'].selection;
  }  
 }
@@ -2209,7 +2193,6 @@ final Element         <strong>selection</strong> <a class="anchor-link"
 <p>The selected menu item.</p>
 <pre class="source">
 Element get selection {
- // TODO return (this.$['menu'] as PolymerUiMenu).selection;
  return this.$['menu'].selection;
 }
 </pre>
@@ -3905,8 +3888,7 @@ void <strong>openedChanged</strong>(oldValue) <a class="anchor-link" href="#open
 <pre class="source">
 void openedChanged(oldValue) {
  new Timer(Duration.ZERO, () {
-   this._isParallaxActionRunning = true;
-   // TODO (this.$['arrowPositionHelper'] as PolymerAnchorPoint).apply();
+//      this._isParallaxActionRunning = true;
    this.$['arrowPositionHelper'].apply();
    this._tilt = null;
    if (this.parallax) {
@@ -4002,6 +3984,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiMenuButton.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4648,28 +4633,12 @@ void unregisterObservers() {
 </pre>
 </div>
 </div>
-<div class="method"><h4 id="valignChanged">
-<button class="show-code">Code</button>
-void <strong>valignChanged</strong>(oldValue) <a class="anchor-link" href="#valignChanged"
-              title="Permalink to PolymerUiMenuButton.valignChanged">#</a></h4>
-<div class="doc">
-<pre class="source">
-void valignChanged(oldValue) {
- if(valign == 'top') {
-   direction = 'down';
- } else {
-   direction = 'up';
- }
-}
-</pre>
-</div>
-</div>
 </div>
         </div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.699</div>
+          <div>This page was generated at 2013-12-12 13:14:44.458</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

@@ -79,15 +79,14 @@ class PolymerUiMenu extends PolymerSelector {
  
  @published String theme = '';
  
- String activeTheme = '';
- ui.validateThemeFunc validateTheme = ui.validateTheme;
+ @observable String activeTheme = '';
  
  List&lt;Element&gt; get items {
    return super.items;
  }
  void enteredView() {
    super.enteredView();
-   this.validateTheme(this, this.theme, this.activeTheme);
+   this.activeTheme = ui.validateTheme(this, theme: this.theme, activeTheme: this.activeTheme, defaultTheme: '');
  }
  
  void themeChanged() {
@@ -101,10 +100,10 @@ class PolymerUiMenu extends PolymerSelector {
  
  void selectionChange(e, Map&lt;String, dynamic&gt; detail) {
    if (detail['isSelected'] as bool) {
-     var i = detail['item']; // TODO zoechi what type detail['item'] 
+     var i = detail['item'];  
      // find nested selected item
-     while (i.selectedItem != null) {
-       i = i.selectedItem;
+     while (i.attributes['selectedItem'] != null) {
+       i = i.attributes['selectedItem'];
      }
      this.selectedItem = i;
    }
@@ -160,7 +159,7 @@ String         <strong>activateEvent</strong> <a class="anchor-link"
 <p>The event that would be fired from the item element to indicate
 it is being selected.</p>
 <pre class="source">
-String activateEvent= 'click'
+String activateEvent = 'click'
 </pre>
 </div>
 </div>
@@ -1649,9 +1648,9 @@ final Stream&lt;CustomEvent&gt;         <strong>onPolymerSelect</strong> <a clas
         <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
 Stream&lt;CustomEvent&gt; get onPolymerSelect {
- PolymerSelection selection = $['selection'] as PolymerSelection;
+ Element selection = $['selection'];
  if(selection != null) {
-   return selection.onPolymerSelect;
+   // TODO return selection.onPolymerSelect;
  }
 }
 </pre>
@@ -2105,6 +2104,27 @@ var         <strong>selected</strong> <a class="anchor-link"
             title="Permalink to PolymerUiMenu.selected">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
+<p>Gets or sets the selected element.  Default to use the index
+of the item element.</p>
+<p>If you want a specific attribute value of the element to be
+used instead of index, set "valueattr" to that attribute name.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-selector valueattr="label" selected="foo"&gt;
+  &lt;div label="foo"&gt;&lt;/div&gt;
+  &lt;div label="bar"&gt;&lt;/div&gt;
+  &lt;div label="zot"&gt;&lt;/div&gt;
+&lt;/polymer-selector&gt;
+</code></pre>
+<p>In multi-selection this should be an array of values.</p>
+<p>Example:</p>
+<pre><code>&lt;polymer-selector id="selector" valueattr="label" multi&gt;
+  &lt;div label="foo"&gt;&lt;/div&gt;
+  &lt;div label="bar"&gt;&lt;/div&gt;
+  &lt;div label="zot"&gt;&lt;/div&gt;
+&lt;/polymer-selector&gt;
+
+this.$.selector.selected = ['foo', 'zot'];
+</code></pre>
 <pre class="source">
 var selected = null
 </pre>
@@ -2123,6 +2143,19 @@ String selectedClass= 'polymer-selected'
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="selectedIndex">
+<button class="show-code">Code</button>
+int         <strong>selectedIndex</strong> <a class="anchor-link"
+            href="#selectedIndex"
+            title="Permalink to PolymerUiMenu.selectedIndex">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
+<p>In single selection, this returns the selected index.</p>
+<pre class="source">
+int selectedIndex = -1
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="selectedItem">
 <button class="show-code">Code</button>
 var         <strong>selectedItem</strong> <a class="anchor-link"
@@ -2130,10 +2163,8 @@ var         <strong>selectedItem</strong> <a class="anchor-link"
             title="Permalink to PolymerUiMenu.selectedItem">#</a>
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
-<p> Stream&lt;CustomEvent> get onPolymerSelect =></p>
-<pre><code>  PolymerSelection._polymerSelectEvent.forTarget(this);
-</code></pre>
-<p>Returns the currently selected element. In multi-selection this returns
+<p> Stream&lt;CustomEvent> get onPolymerSelect =>
+Returns the currently selected element. In multi-selection this returns
 an array of selected elements.</p>
 <pre class="source">
 var selectedItem = null
@@ -2176,7 +2207,7 @@ final         <strong>selection</strong> <a class="anchor-link"
         </h4>
         <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-get selection {
+dynamic get selection {
  return this.$['selection'].selection;
 }
 </pre>
@@ -2351,18 +2382,6 @@ bool translate
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="validateTheme">
-<button class="show-code">Code</button>
-<a href="../polymer_ui_elements.polymer_ui_theme_aware.polymer_ui/validateThemeFunc.html">validateThemeFunc</a>         <strong>validateTheme</strong> <a class="anchor-link"
-            href="#validateTheme"
-            title="Permalink to PolymerUiMenu.validateTheme">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-ui.validateThemeFunc validateTheme = ui.validateTheme
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="valueattr">
 <button class="show-code">Code</button>
 String         <strong>valueattr</strong> <a class="anchor-link"
@@ -2404,11 +2423,11 @@ void set xtag(Element value) {
 <h3>Methods</h3>
 <div class="method inherited"><h4 id="activateHandler">
 <button class="show-code">Code</button>
-dynamic <strong>activateHandler</strong>(e) <a class="anchor-link" href="#activateHandler"
+void <strong>activateHandler</strong>(e) <a class="anchor-link" href="#activateHandler"
               title="Permalink to PolymerUiMenu.activateHandler">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-activateHandler(e) {
+void activateHandler(e) {
  if (!this.notap) {
    var i = this._findDistributedTarget(e.target, this.items);
    if (i &gt;= 0) {
@@ -2426,7 +2445,7 @@ activateHandler(e) {
      } else {
        this.selected = s;
      }
-     this.asyncFire('polymeractivate', detail: item);
+     this.asyncFire('polymer-activate', detail: item);
    }
  }
 }
@@ -2815,11 +2834,11 @@ void classFollows(Element anew, Element old, String className) {
 </div>
 <div class="method inherited"><h4 id="clearSelection">
 <button class="show-code">Code</button>
-dynamic <strong>clearSelection</strong>() <a class="anchor-link" href="#clearSelection"
+void <strong>clearSelection</strong>() <a class="anchor-link" href="#clearSelection"
               title="Permalink to PolymerUiMenu.clearSelection">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-clearSelection() {
+void clearSelection() {
  if (this.multi) {
    var copy = new List.from(this.selection);
    copy.forEach((s) {
@@ -3107,7 +3126,7 @@ document.</p>
 <pre class="source">
 void enteredView() {
  super.enteredView();
- this.validateTheme(this, this.theme, this.activeTheme);
+ this.activeTheme = ui.validateTheme(this, theme: this.theme, activeTheme: this.activeTheme, defaultTheme: '');
 }
 </pre>
 </div>
@@ -3963,6 +3982,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiMenu.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4097,14 +4119,15 @@ ElementList querySelectorAll(String selectors) =&gt;
 </div>
 <div class="method inherited"><h4 id="ready">
 <button class="show-code">Code</button>
-dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
+void <strong>ready</strong>() <a class="anchor-link" href="#ready"
               title="Permalink to PolymerUiMenu.ready">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <div class="inherited">
 <p>Called when <code>prepareElement</code> is finished. </p>
 <div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
-ready() {
+void ready() {
+ super.ready();
  this._observer = new MutationObserver(_onMutation);
  
  if (this.target == null) {
@@ -4356,13 +4379,13 @@ void scrollIntoView([ScrollAlignment alignment]) {
 </div>
 <div class="method inherited"><h4 id="selectedChanged">
 <button class="show-code">Code</button>
-dynamic <strong>selectedChanged</strong>(old) <a class="anchor-link" href="#selectedChanged"
+void <strong>selectedChanged</strong>(old) <a class="anchor-link" href="#selectedChanged"
               title="Permalink to PolymerUiMenu.selectedChanged">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-selectedChanged(old){
+void selectedChanged(old){
  //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
- new Timer(Duration.ZERO, (){_updateSelected();});
+ Timer.run(() =&gt;_updateSelected());
  //this._updateSelected();
 }
 </pre>
@@ -4370,18 +4393,19 @@ selectedChanged(old){
 </div>
 <div class="method inherited"><h4 id="selectedItemChanged">
 <button class="show-code">Code</button>
-dynamic <strong>selectedItemChanged</strong>(old) <a class="anchor-link" href="#selectedItemChanged"
+void <strong>selectedItemChanged</strong>(old) <a class="anchor-link" href="#selectedItemChanged"
               title="Permalink to PolymerUiMenu.selectedItemChanged">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-selectedItemChanged(old){
+void selectedItemChanged(old){
  if (this.selectedItem != null) {
-   //TODO Figure out why this doesn't work
    //var t = this.selectedItem.templateInstance;
-   //this.selectedModel = t ? t.model : null;
+   //this.selectedModel = t ? t.model : undefined;
  } else {
    this.selectedModel = null;
  }
+ this.selectedIndex = (this.selectedItem != null) ?
+     this._valueToIndex(this.selected) : 1;
 }
 </pre>
 </div>
@@ -4394,10 +4418,10 @@ void <strong>selectionChange</strong>(e, Map&lt;String, dynamic&gt; detail) <a c
 <pre class="source">
 void selectionChange(e, Map&lt;String, dynamic&gt; detail) {
  if (detail['isSelected'] as bool) {
-   var i = detail['item']; // TODO zoechi what type detail['item'] 
+   var i = detail['item'];  
    // find nested selected item
-   while (i.selectedItem != null) {
-     i = i.selectedItem;
+   while (i.attributes['selectedItem'] != null) {
+     i = i.attributes['selectedItem'];
    }
    this.selectedItem = i;
  }
@@ -4407,11 +4431,11 @@ void selectionChange(e, Map&lt;String, dynamic&gt; detail) {
 </div>
 <div class="method inherited"><h4 id="selectionSelect">
 <button class="show-code">Code</button>
-dynamic <strong>selectionSelect</strong>(e, detail, node) <a class="anchor-link" href="#selectionSelect"
+void <strong>selectionSelect</strong>(e, detail, node) <a class="anchor-link" href="#selectionSelect"
               title="Permalink to PolymerUiMenu.selectionSelect">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-selectionSelect(e, detail, node) {
+void selectionSelect(e, detail, node) {
  this._updateSelectedItem();
  if (detail.containsKey('item')) {
    this._applySelection(detail['item'], detail['isSelected']);
@@ -4565,11 +4589,11 @@ void takeAttributes() {
 </div>
 <div class="method inherited"><h4 id="targetChanged">
 <button class="show-code">Code</button>
-dynamic <strong>targetChanged</strong>(old) <a class="anchor-link" href="#targetChanged"
+void <strong>targetChanged</strong>(old) <a class="anchor-link" href="#targetChanged"
               title="Permalink to PolymerUiMenu.targetChanged">#</a></h4>
 <div class="inherited-from">inherited from <a href="../polymer_elements.polymer_selector/PolymerSelector.html">PolymerSelector</a> </div><div class="doc">
 <pre class="source">
-targetChanged(old) {
+void targetChanged(old) {
  if (old != null) {
    this._removeListener(old);
    this._observer.disconnect();
@@ -4706,7 +4730,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.613</div>
+          <div>This page was generated at 2013-12-12 13:14:44.364</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

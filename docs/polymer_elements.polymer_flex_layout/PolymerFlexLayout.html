@@ -198,6 +198,7 @@ class PolymerFlexLayout extends PolymerElement {
  
  void dispatchLayoutContainerClassChange(Map&lt;String,String&gt; detail) {
    if(this.layoutContainer != this) {
+     //Timer.run(() =&gt;dispatchEvent(new CustomEvent('polymer-class-change', detail: detail)));
      dispatchEvent(new CustomEvent('polymer-class-change', detail: detail));
    }
  }
@@ -2954,6 +2955,7 @@ void <strong>dispatchLayoutContainerClassChange</strong>(Map&lt;String, String&g
 <pre class="source">
 void dispatchLayoutContainerClassChange(Map&lt;String,String&gt; detail) {
  if(this.layoutContainer != this) {
+   //Timer.run(() =&gt;dispatchEvent(new CustomEvent('polymer-class-change', detail: detail)));
    dispatchEvent(new CustomEvent('polymer-class-change', detail: detail));
  }
 }
@@ -3913,6 +3915,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerFlexLayout.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4591,7 +4596,7 @@ void verticalChanged(old) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:25.598</div>
+          <div>This page was generated at 2013-12-12 13:14:41.768</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

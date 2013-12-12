@@ -35,46 +35,46 @@
 <pre class="source">
 @CustomTag('polymer-ajax')
 class PolymerAjax extends PolymerElement {
- 
+
  /**
   * The URL target of the request.
   */
  @published
  String url =  '';
- 
+
  /**
   * Specifies what data to store in the 'response' property, and
   * to deliver as 'event.response' in 'response' events.
-  * 
+  *
   * One of:
-  * 
+  *
   *    `text`: uses XHR.responseText
-  *    
+  *
   *    `xml`: uses XHR.responseXML
-  *    
+  *
   *    `json`: uses XHR.responseText parsed as JSON
   */
  @published
  String handleAs = '';
- 
+
  /**
   * If true, automatically performs an Ajax request when either url or params has changed.
   */
  @published
  bool auto = false;
- 
+
  /**
   * Parameters to send to the specified URL, as JSON.
   */
  @published
  String params = '';
-     
+
  /**
   * Returns the response object.
   */
  @published
  var response;
- 
+
  /**
   * The HTTP method to use such as 'GET', 'POST', 'PUT', 'DELETE'.
   * Default is 'GET'.'
@@ -91,23 +91,34 @@ class PolymerAjax extends PolymerElement {
   *         handleAs="json"
   *         on-polymer-response="{{handleResponse}}"&gt;
   *     &lt;/polymer-ajax&gt;
-  */ 
+  */
  @published
  var headers;
- 
- 
+
+ /**
+  * Default values for use with the underlying polymer-xhr object. Useful for
+  * sending payloads other than the default URL encoded form values.
+  *
+  * Example:
+  *
+  *     querySelector('polymer-ajax')
+  *       ..xhrArgs = {'body': JSON.encode(jsonData)};
+  */
+ @published
+ Map xhrArgs = {};
+
  Timer _goJob;
- 
+
  //TODO Not sure why this is kept around
  var _xhr;
- 
+
  PolymerAjax.created() : super.created();
- 
+
  ready() {
    super.ready();
-   this._xhr = new Element.tag('polymer-xhr'); 
+   this._xhr = new Element.tag('polymer-xhr');
  }
- 
+
  _receive(response, xhr) {
    if (this._isSuccess(xhr)) {
      this._processResponse(xhr);
@@ -116,27 +127,27 @@ class PolymerAjax extends PolymerElement {
    }
    this._complete(xhr);
  }
- 
+
  _isSuccess(xhr) {
    var status = xhr.status != null ? xhr.status : 0;
    return status == null ? false : (status &gt;= 200 &amp;&amp; status &lt; 300);
  }
- 
+
  _processResponse(xhr) {
    var response = this._evalResponse(xhr);
    this.response = response;
-   this.fire('polymerresponse', detail: {'response': response, 'xhr': xhr});
+   this.fire('polymer-response', detail: {'response': response, 'xhr': xhr});
  }
- 
- _error(xhr) {
-   var response = xhr.status + ': ' + xhr.responseText;
-   this.fire('polymererror', detail: {'response': response, 'xhr': xhr});
+
+ _error(HttpRequest xhr) {
+   var response = '${xhr.status}: ${xhr.responseText}';
+   this.fire('polymer-error', detail: {'response': response, 'xhr': xhr});
  }
- 
+
  _complete(xhr) {
-   this.fire('polymercomplete', detail: {'response': xhr.status, 'xhr': xhr});
+   this.fire('polymer-complete', detail: {'response': xhr.status, 'xhr': xhr});
  }
- 
+
  _evalResponse(xhr) {
    switch(this.handleAs) {
      case 'json':
@@ -149,15 +160,15 @@ class PolymerAjax extends PolymerElement {
        return _textHandler(xhr);;
    }
  }
- 
+
  _xmlHandler(xhr){
    return xhr.responseXML;
  }
- 
+
  _textHandler(xhr) {
    return xhr.responseText;
  }
- 
+
  _jsonHandler(xhr) {
    var r = xhr.responseText;
    try {
@@ -166,7 +177,7 @@ class PolymerAjax extends PolymerElement {
      return r;
    }
  }
- 
+
  urlChanged(old){
    if (this.handleAs.isEmpty) {
      var split = this.url.split('.');
@@ -189,17 +200,17 @@ class PolymerAjax extends PolymerElement {
    }
    this._autoGo();
  }
- 
+
  paramsChanged(old) {
    this._autoGo();
  }
- 
+
  autoChanged(old){
    this._autoGo();
  }
- 
- // TODO(sorvell): multiple side-effects could call autoGo 
- // during one micro-task, use a job to have only one action 
+
+ // TODO(sorvell): multiple side-effects could call autoGo
+ // during one micro-task, use a job to have only one action
  // occur
  _autoGo() {
    if(_goJob != null){
@@ -207,18 +218,14 @@ class PolymerAjax extends PolymerElement {
    }
    _goJob = new Timer(Duration.ZERO, go);
  }
- 
+
  /**
   * Performs an Ajax request to the url specified.
  *
   * @method go
   */
  go() {
-   // TODO polymer.js has something a line
-   // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
-   // anything it does or what the dart equiavlent would be.
-   // (zoechi) I think it's a bug because xhrArgs is nowhere set
-   var args = {};
+   var args = xhrArgs;
    args['params'] = this.params;
    if (args['params'] is String &amp;&amp; args['params'].isNotEmpty) {
      args['params'] = JSON.decode(args['params']);
@@ -230,7 +237,7 @@ class PolymerAjax extends PolymerElement {
    args['callback'] = this._receive;
    args['url'] = this.url;
    args['method'] = this.method;
-   
+
    return args.containsKey('url') &amp;&amp; this._xhr.request(args) != null;
  }
 }
@@ -2361,6 +2368,24 @@ String url =  ''
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="xhrArgs">
+<button class="show-code">Code</button>
+Map         <strong>xhrArgs</strong> <a class="anchor-link"
+            href="#xhrArgs"
+            title="Permalink to PolymerAjax.xhrArgs">#</a>
+        </h4>
+        <div class="doc">
+<p>Default values for use with the underlying polymer-xhr object. Useful for
+sending payloads other than the default URL encoded form values.</p>
+<p>Example:</p>
+<pre><code>querySelector('polymer-ajax')
+  ..xhrArgs = {'body': JSON.encode(jsonData)};
+</code></pre>
+<pre class="source">
+Map xhrArgs = {}
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="xtag">
 <button class="show-code">Code</button>
 var         <strong>xtag</strong> <a class="anchor-link"
@@ -3327,11 +3352,7 @@ dynamic <strong>go</strong>() <a class="anchor-link" href="#go"
 <p>@method go</p>
 <pre class="source">
 go() {
- // TODO polymer.js has something a line
- // 'this.xhrArgs != null ? this.xhrArgs : {};'  Not sure what if
- // anything it does or what the dart equiavlent would be.
- // (zoechi) I think it's a bug because xhrArgs is nowhere set
- var args = {};
+ var args = xhrArgs;
  args['params'] = this.params;
  if (args['params'] is String &amp;&amp; args['params'].isNotEmpty) {
    args['params'] = JSON.decode(args['params']);
@@ -3343,7 +3364,7 @@ go() {
  args['callback'] = this._receive;
  args['url'] = this.url;
  args['method'] = this.method;
- 
+
  return args.containsKey('url') &amp;&amp; this._xhr.request(args) != null;
 }
 </pre>
@@ -3940,6 +3961,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerAjax.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4083,7 +4107,7 @@ dynamic <strong>ready</strong>() <a class="anchor-link" href="#ready"
 <pre class="source">
 ready() {
  super.ready();
- this._xhr = new Element.tag('polymer-xhr'); 
+ this._xhr = new Element.tag('polymer-xhr');
 }
 </pre>
 </div>
@@ -4614,7 +4638,7 @@ urlChanged(old){
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:24.559</div>
+          <div>This page was generated at 2013-12-12 13:14:40.450</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

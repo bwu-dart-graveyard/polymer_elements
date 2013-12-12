@@ -46,7 +46,7 @@ right of the target node.  This element is used in
 &lt;polymer-ui-nav-arrow target="{{item}}"&gt;&lt;/polymer-ui-nav-arrow&gt;
 </code></pre>
 <pre class="source">
-@CustomTag('polymer-ui-breadcrumbs')
+@CustomTag('polymer-ui-nav-arrow')
 class PolymerUiNavArrow extends PolymerUiArrow {
  PolymerUiNavArrow.created() : super.created() {
    _logger.finest('created');
@@ -59,25 +59,27 @@ class PolymerUiNavArrow extends PolymerUiArrow {
   */
  @published Element target; 
  
- String _direction = 'left';
+ 
  int _size = 9;
  String _borderColor = '#000';
- bool _show = false;
+ @observable bool show = false;
  
  @override
  void enteredView() {
    super.enteredView();
+   direction = 'left';
    this.showChanged(null);
  }
  
  void showChanged(oldValue) {
-   this.classes.toggle('hidden', !this._show);
+   this.classes.toggle('hidden', !this.show);
  }
  
  void targetChanged() {
-   this._show = (this.target != null);
+   this.show = (this.target != null);
+
    if (this.target != null) {
-     new Timer(Duration.ZERO, () =&gt; move());
+     Timer.run(() =&gt; move());
    }
  }
  
@@ -2051,6 +2053,18 @@ ShadowRoot get shadowRoot =&gt;
 </pre>
 </div>
 </div>
+<div class="field"><h4 id="show">
+<button class="show-code">Code</button>
+bool         <strong>show</strong> <a class="anchor-link"
+            href="#show"
+            title="Permalink to PolymerUiNavArrow.show">#</a>
+        </h4>
+        <div class="doc">
+<pre class="source">
+bool show = false
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="size">
 <button class="show-code">Code</button>
 num         <strong>size</strong> <a class="anchor-link"
@@ -2419,7 +2433,7 @@ dynamic <strong>asyncUpdate</strong>() <a class="anchor-link" href="#asyncUpdate
 <pre class="source">
 asyncUpdate() {
  if(_updateJob == null){
-   _updateJob = new Timer(Duration.ZERO,_update);
+   _updateJob = Timer.run(_update);
  }
 }
 </pre>
@@ -2927,6 +2941,7 @@ document.</p>
 @override
 void enteredView() {
  super.enteredView();
+ direction = 'left';
  this.showChanged(null);
 }
 </pre>
@@ -3799,6 +3814,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiNavArrow.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4323,7 +4341,7 @@ void <strong>showChanged</strong>(oldValue) <a class="anchor-link" href="#showCh
 <div class="doc">
 <pre class="source">
 void showChanged(oldValue) {
- this.classes.toggle('hidden', !this._show);
+ this.classes.toggle('hidden', !this.show);
 }
 </pre>
 </div>
@@ -4360,9 +4378,10 @@ void <strong>targetChanged</strong>() <a class="anchor-link" href="#targetChange
 <div class="doc">
 <pre class="source">
 void targetChanged() {
- this._show = (this.target != null);
+ this.show = (this.target != null);
+
  if (this.target != null) {
-   new Timer(Duration.ZERO, () =&gt; move());
+   Timer.run(() =&gt; move());
  }
 }
 </pre>
@@ -4493,7 +4512,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.881</div>
+          <div>This page was generated at 2013-12-12 13:14:44.653</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

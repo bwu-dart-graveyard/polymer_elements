@@ -479,6 +479,18 @@ PolymerDeclaration get declaration =&gt; _declaration;
 </pre>
 </div>
 </div>
+<div class="field inherited"><h4 id="defaultTheme">
+<button class="show-code">Code</button>
+String         <strong>defaultTheme</strong> <a class="anchor-link"
+            href="#defaultTheme"
+            title="Permalink to PolymerUiIconButton.defaultTheme">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<pre class="source">
+String defaultTheme = ''
+</pre>
+</div>
+</div>
 <div class="field inherited"><h4 id="dir">
 <button class="show-code">Code</button>
 String         <strong>dir</strong> <a class="anchor-link"
@@ -2876,8 +2888,9 @@ document.</p>
 @override
 void enteredView() {
  _logger.finest('enteredView');
+ super.enteredView();
  
- ui.validateTheme(this, theme, activeTheme);
+ activeTheme = ui.validateTheme(this, theme: theme, activeTheme: activeTheme, defaultTheme: defaultTheme);
 }
 </pre>
 </div>
@@ -3733,6 +3746,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiIconButton.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4385,7 +4401,7 @@ void unregisterObservers() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.527</div>
+          <div>This page was generated at 2013-12-12 13:14:44.053</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

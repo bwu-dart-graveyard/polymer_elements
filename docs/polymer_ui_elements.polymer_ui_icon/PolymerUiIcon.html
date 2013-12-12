@@ -69,8 +69,8 @@ class PolymerUiIcon extends PolymerUiThemeAware {
   */
  @published String icon = '';
  
- int bx = 0;
- int by = 0;
+ int _bx = 0;
+ int _by = 0;
 
  // memoize offset because getComputedStyle is expensive
  var themes = {};
@@ -160,7 +160,7 @@ class PolymerUiIcon extends PolymerUiThemeAware {
    _logger.finest('indexChanged');
    
    this.classes.add('polymer-ui-icons');
-   this.by = -this.size * this.index;
+   this._by = -this.size * this.index;
    this.updateIcon();
  }
  
@@ -177,7 +177,7 @@ class PolymerUiIcon extends PolymerUiThemeAware {
    
    super.activeThemeChanged(old);
    this.style.backgroundPosition = '';
-   this.bx = calcThemeOffset(this.activeTheme, this);
+   this._bx = calcThemeOffset(this.activeTheme, this);
    this.updateIcon();
  }
  
@@ -187,18 +187,23 @@ class PolymerUiIcon extends PolymerUiThemeAware {
    
    if (this.src != null &amp;&amp; this.src.isNotEmpty) {
      this.style.backgroundPosition = 'center';
+     this.style.backgroundSize = '${this.size}px ${this.size}px';
    } else {
-     this.style.backgroundPosition = '${this.bx}px ${this.by}px';
+     this.style.backgroundPosition = '${this._bx}px ${this._by}px';
    }
  }
 
- int calcThemeOffset(theme, node) {
+ int calcThemeOffset(String theme, Element node) {
    _logger.finest('calcThemeOffset');
    
    if (themes[theme] == null) {
-     var bg = getComputedStyle(node).backgroundPosition.split(' ');
-     bg.removeAt(0);
-     var offset = double.parse(bg[0]); // parseFloat(
+     var bp = node.getComputedStyle().backgroundPosition.split(' ');
+     // support 4 value syntax (https://code.google.com/p/chromium/issues/detail?id=310977)
+     // bg.removeAt(0);
+     var l = bp.length == 4 ? bp[1] : bp[0];
+     
+     var offset = num.parse(new RegExp(r'^[-+\d,\.]*').firstMatch(l).group(0));
+     
      _logger.finest('calcThemeOffset - theme: ${theme}; offset: ${offset}');
      themes[theme] = offset;
    }
@@ -345,30 +350,6 @@ animation frame is discouraged. See also:
 <pre class="source">
 @Experimental()
 CssRect get borderEdge =&gt; new _BorderCssRect(this);
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="bx">
-<button class="show-code">Code</button>
-int         <strong>bx</strong> <a class="anchor-link"
-            href="#bx"
-            title="Permalink to PolymerUiIcon.bx">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int bx = 0
-</pre>
-</div>
-</div>
-<div class="field"><h4 id="by">
-<button class="show-code">Code</button>
-int         <strong>by</strong> <a class="anchor-link"
-            href="#by"
-            title="Permalink to PolymerUiIcon.by">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-int by = 0
 </pre>
 </div>
 </div>
@@ -615,6 +596,18 @@ final PolymerDeclaration         <strong>declaration</strong> <a class="anchor-l
 <p>The most derived <code>&lt;polymer-element&gt;</code> declaration for this element. </p>
 <pre class="source">
 PolymerDeclaration get declaration =&gt; _declaration;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="defaultTheme">
+<button class="show-code">Code</button>
+String         <strong>defaultTheme</strong> <a class="anchor-link"
+            href="#defaultTheme"
+            title="Permalink to PolymerUiIcon.defaultTheme">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<pre class="source">
+String defaultTheme = ''
 </pre>
 </div>
 </div>
@@ -2390,7 +2383,7 @@ void activeThemeChanged(old) {
  
  super.activeThemeChanged(old);
  this.style.backgroundPosition = '';
- this.bx = calcThemeOffset(this.activeTheme, this);
+ this._bx = calcThemeOffset(this.activeTheme, this);
  this.updateIcon();
 }
 </pre>
@@ -2714,17 +2707,21 @@ void blur() native;
 </div>
 <div class="method"><h4 id="calcThemeOffset">
 <button class="show-code">Code</button>
-int <strong>calcThemeOffset</strong>(theme, node) <a class="anchor-link" href="#calcThemeOffset"
+int <strong>calcThemeOffset</strong>(String theme, Element node) <a class="anchor-link" href="#calcThemeOffset"
               title="Permalink to PolymerUiIcon.calcThemeOffset">#</a></h4>
 <div class="doc">
 <pre class="source">
-int calcThemeOffset(theme, node) {
+int calcThemeOffset(String theme, Element node) {
  _logger.finest('calcThemeOffset');
  
  if (themes[theme] == null) {
-   var bg = getComputedStyle(node).backgroundPosition.split(' ');
-   bg.removeAt(0);
-   var offset = double.parse(bg[0]); // parseFloat(
+   var bp = node.getComputedStyle().backgroundPosition.split(' ');
+   // support 4 value syntax (https://code.google.com/p/chromium/issues/detail?id=310977)
+   // bg.removeAt(0);
+   var l = bp.length == 4 ? bp[1] : bp[0];
+   
+   var offset = num.parse(new RegExp(r'^[-+\d,\.]*').firstMatch(l).group(0));
+   
    _logger.finest('calcThemeOffset - theme: ${theme}; offset: ${offset}');
    themes[theme] = offset;
  }
@@ -3058,8 +3055,9 @@ document.</p>
 @override
 void enteredView() {
  _logger.finest('enteredView');
+ super.enteredView();
  
- ui.validateTheme(this, theme, activeTheme);
+ activeTheme = ui.validateTheme(this, theme: theme, activeTheme: activeTheme, defaultTheme: defaultTheme);
 }
 </pre>
 </div>
@@ -3412,7 +3410,7 @@ void indexChanged(old) {
  _logger.finest('indexChanged');
  
  this.classes.add('polymer-ui-icons');
- this.by = -this.size * this.index;
+ this._by = -this.size * this.index;
  this.updateIcon();
 }
 </pre>
@@ -3949,6 +3947,11 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiIcon.polymerCreated">#</a></h4>
 <div class="doc">
+<div class="inherited">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
+<div class="docs-inherited-from">docs inherited from Polymer </div></div>
 <pre class="source">
 @override 
 void polymerCreated() {
@@ -4691,8 +4694,9 @@ void updateIcon() {
  
  if (this.src != null &amp;&amp; this.src.isNotEmpty) {
    this.style.backgroundPosition = 'center';
+   this.style.backgroundSize = '${this.size}px ${this.size}px';
  } else {
-   this.style.backgroundPosition = '${this.bx}px ${this.by}px';
+   this.style.backgroundPosition = '${this._bx}px ${this._by}px';
  }
 }
 </pre>
@@ -4703,7 +4707,7 @@ void updateIcon() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:27.451</div>
+          <div>This page was generated at 2013-12-12 13:14:43.957</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

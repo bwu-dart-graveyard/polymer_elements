@@ -43,7 +43,6 @@ http://www.polymer-project.org/.
   </head>
   <body class="polymer-ui-body-text"><polymer-element name="app-element"> 
   <template>
-<!--     <link rel="stylesheet" href="../../packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css"> -->
     <content></content>
   </template>
   
@@ -52,6 +51,7 @@ http://www.polymer-project.org/.
 </polymer-element><polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
   <template>
     <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TODO remove old when all browsers and polyfills are updated -->
     <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
     <content></content>
   </template>
@@ -70,108 +70,22 @@ http://www.polymer-project.org/.
 <polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
   <template>
     <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
     <!-- TODO remove style element and content when css import is fixed -->
-    <style>
-/*
-Copyright 2013 The Polymer Authors. All rights reserved.
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
-*/
-@host {
-  * {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-    background-repeat: no-repeat;
-  }
 
-  .polymer-ui-dark-icon, .polymer-ui-light-theme {
-    background-position: -24px 0;
-  }
-
-  .polymer-ui-light-icon, .polymer-ui-dark-theme {
-    background-position: -24px 0;
-  }
-
-  .polymer-ui-icons {
-    background-image: url(packages/polymer_ui_elements/polymer_ui_icon/action_icons.png);
-  }
-}    
-    </style>
     <content></content>
   </template>
 
   
 </polymer-element>
+
 <polymer-element name="polymer-ui-icon-button" extends="polymer-ui-theme-aware">
   <template>
     <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button.css">
-    <!-- TODO remove style element and content when css import bug is fixed -->
-    <style>
-/*
-Copyright 2013 The Polymer Authors. All rights reserved.
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
-*/
-@host {
-  * {
-    display: inline-block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    width: 38px;
-    height: 38px;
-    background-image: none;
-    border-radius: 2px;
-    padding: 7px;
-    margin: 2px;
-    vertical-align: middle;
-    cursor: pointer;
-  }
-  
-  .outline {
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
-  }
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button_old.css"> <!-- TODO remove -->
 
-  *:hover, .hover {
-    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.1);
-  }
-
-  .selected {
-    background-color: rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.12);
-  }
-
-  *:active, *.selected:active {
-    background-color: rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.12);
-  }
-  
-  .polymer-ui-dark-theme.outline {
-    background-color: rgba(200, 200, 200, 0.05);
-    box-shadow: 0 0 0 1px rgba(200, 200, 200, 0.1);
-  }
-
-  .polymer-ui-dark-theme:hover, .polymer-ui-dark-theme.hover {
-    background-color: rgba(200, 200, 200, 0.05);
-    box-shadow: 0 1px 0 0 rgba(200, 200, 200, 0.12), 0 0 0 1px rgba(200, 200, 200, 0.1);
-  }
-
-  .polymer-ui-dark-theme.selected {
-    background-color: rgba(220, 220, 220, 0.05);
-    box-shadow: inset 0 1px 0 0 rgba(200, 200, 200, 0.05), 0 0 0 1px rgba(200, 200, 200, 0.12);
-  }
-
-  .polymer-ui-dark-theme:active, .polymer-ui-dark-theme.selected:active {
-    background-color: rgba(200, 200, 200, 0.05);
-    box-shadow: inset 0 1px 0 0 rgba(200, 200, 200, 0.1), 0 0 0 1px rgba(200, 200, 200, 0.12);
-  }
-}
-
-polymer-ui-icon {
-  display: block !important;
-}    
-    </style>
-    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}">
+    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}" theme="{{activeTheme}}">
+      <content></content>
     </polymer-ui-icon>
   </template>
   
@@ -179,10 +93,8 @@ polymer-ui-icon {
 <polymer-element name="polymer-media-query" attributes="mquery queryMatches">
   <template>
     <style>
-      @host {
-        * {
+      :host {
           display: none;
-        }
       }
     </style>
   </template>
@@ -191,80 +103,13 @@ polymer-ui-icon {
 <polymer-element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="responsiveWidth" on-polymer-class-change="{{onPolymerClassChange}}">
   <template>
     <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar_old.css">  <!-- TOOD remove -->
     <!-- TODO this stylesheet link should not be necessary -->
     <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
-    <!-- remove style tag below when new selectors (:host) are supported by Dartium -->
-    <style>
-    /*
-Copyright 2013 The Polymer Authors. All rights reserved.
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
-*/
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TOOD remove -->
 
-@host {
-  * {
-    /* technical */
-    display: block;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    /* border/shadow */
-/*    border-bottom: 1px solid rgba(0, 0, 0, 0.28);*/
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    /* size */
-    height: 60px;
-    font-size: 21px;
-    font-family: 'Helvetica Neue Medium', 'HelveticaNeue-Medium', Helvetica, sans-serif;
-    position: relative;
-  }
-
-  .polymer-ui-light-theme {
-    background: #f2f2f2 -webkit-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    background: #f2f2f2 -moz-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    background: #f2f2f2 -ms-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
-    color: #333333;
-  }
-
-  .polymer-ui-dark-theme {
-    background: #444444 none;
-    color: #f3f3f3;
-  }
-  
-  .narrow-layout[responsive] {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.28);
-  }
-}
-
-/* TODO(sorvell): use of !important due to inability to 
-  naturally win over an @host style */
-/*@polyfill @host > polymer-ui-icon-button */
-content::-webkit-distributed(> polymer-ui-icon-button) {
-  margin: 0px 8px 0 8px !important;
-}
-
-/*@polyfill @host > polymer-ui-menu-button */
-content::-webkit-distributed(> polymer-ui-menu-button) {
-  margin: 0px 8px 0 8px !important;
-}
-
-/*@polyfill @host > polymer-ui-toolbar */
-content::-webkit-distributed(> polymer-ui-toolbar) {
-  margin: 0;
-}
-
-/*@polyfill @host > polymer-ui-toolbar:not(.narrow-layout) */
-content::-webkit-distributed(> polymer-ui-toolbar:not(.narrow-layout)) {
-  border: 0;
-  background: transparent none;
-}
-    </style>
     <polymer-flex-layout align="center"></polymer-flex-layout>
-    <polymer-media-query query="max-width: {{responsiveWidth}}" querymatches="{{queryMatches}}"></polymer-media-query>
+    <polymer-media-query id="mq" mquery="{{mquery}}" xmquery="max-width: {{responsiveWidth}}"></polymer-media-query> <!-- TODO temporarily wired in code because two way binding doesn't work this way currently: queryMatches="{{queryMatches}}" -->
     <shadow></shadow>
     <content></content>
   </template>

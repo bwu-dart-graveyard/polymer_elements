@@ -63,7 +63,6 @@ class PolymerUiRatings extends PolymerUiThemeAware {
   * @default 0
   */
  @published int value = 0;
- @published String color = '';
  @observable ObservableList&lt;ObservableMap&gt; stars;
  
  @override
@@ -93,7 +92,7 @@ class PolymerUiRatings extends PolymerUiThemeAware {
  /**
   * [updateValue] is the tap event handler.
   */
- void updateValue(event, detail, Element sender) {
+ void updateValue(Event event, detail, Element sender) {
    int i = int.parse(sender.attributes['index']);
    this.value = i + 1;
  }
@@ -408,18 +407,6 @@ final int clientWidth
 </pre>
 </div>
 </div>
-<div class="field"><h4 id="color">
-<button class="show-code">Code</button>
-String         <strong>color</strong> <a class="anchor-link"
-            href="#color"
-            title="Permalink to PolymerUiRatings.color">#</a>
-        </h4>
-        <div class="doc">
-<pre class="source">
-String color = ''
-</pre>
-</div>
-</div>
 <div class="field inherited"><h4 id="contentEdge">
 <button class="show-code">Code</button>
 final CssRect         <strong>contentEdge</strong> <a class="anchor-link"
@@ -509,6 +496,18 @@ final PolymerDeclaration         <strong>declaration</strong> <a class="anchor-l
 <p>The most derived <code>&lt;polymer-element&gt;</code> declaration for this element. </p>
 <pre class="source">
 PolymerDeclaration get declaration =&gt; _declaration;
+</pre>
+</div>
+</div>
+<div class="field inherited"><h4 id="defaultTheme">
+<button class="show-code">Code</button>
+String         <strong>defaultTheme</strong> <a class="anchor-link"
+            href="#defaultTheme"
+            title="Permalink to PolymerUiRatings.defaultTheme">#</a>
+        </h4>
+        <div class="inherited-from">inherited from <a href="../polymer_ui_elements.polymer_ui_theme_aware/PolymerUiThemeAware.html">PolymerUiThemeAware</a> </div><div class="doc">
+<pre class="source">
+String defaultTheme = ''
 </pre>
 </div>
 </div>
@@ -2898,8 +2897,9 @@ document.</p>
 @override
 void enteredView() {
  _logger.finest('enteredView');
+ super.enteredView();
  
- ui.validateTheme(this, theme, activeTheme);
+ activeTheme = ui.validateTheme(this, theme: theme, activeTheme: activeTheme, defaultTheme: defaultTheme);
 }
 </pre>
 </div>
@@ -3755,6 +3755,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerUiRatings.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4410,12 +4413,12 @@ void unregisterObservers() {
 </div>
 <div class="method"><h4 id="updateValue">
 <button class="show-code">Code</button>
-void <strong>updateValue</strong>(event, detail, Element sender) <a class="anchor-link" href="#updateValue"
+void <strong>updateValue</strong>(Event event, detail, Element sender) <a class="anchor-link" href="#updateValue"
               title="Permalink to PolymerUiRatings.updateValue">#</a></h4>
 <div class="doc">
 <p><a class="crossref" href="../polymer_ui_elements.polymer_ui_ratings/PolymerUiRatings.html#updateValue">updateValue</a> is the tap event handler.</p>
 <pre class="source">
-void updateValue(event, detail, Element sender) {
+void updateValue(Event event, detail, Element sender) {
  int i = int.parse(sender.attributes['index']);
  this.value = i + 1;
 }
@@ -4445,7 +4448,7 @@ void valueChanged(oldValue) {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:28.050</div>
+          <div>This page was generated at 2013-12-12 13:14:44.842</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>

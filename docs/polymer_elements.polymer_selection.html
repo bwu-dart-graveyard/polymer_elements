@@ -34,12 +34,41 @@ uses a polymer-selection to manage selection.</p>
 <p>To mark an item as selected, call the select(item) method on 
 polymer-selection. Notice that the item itself is an argument to this method.
 The polymer-selection element manages selection state for any given set of
-items. When an item is selected, the <code>polymerselect</code> event is fired.
+items. When an item is selected, the <code>polymer-select</code> event is fired.
 The attribute "multi" indicates if multiple items can be selected at once.</p>
 <p>Example:</p>
-<pre><code>TODO
+<pre><code>&lt;polymer-element name="selection-example"&gt;
+   &lt;template&gt;
+     &lt;style&gt;
+       ::-webkit-distributed(&gt; .selected) {
+         font-weight: bold;
+         font-style: italic;
+       }
+     &lt;/style&gt;
+     &lt;ul on-tap="{{itemTapAction}}"&gt;
+       &lt;content&gt;&lt;/content&gt;
+     &lt;/ul&gt;
+     &lt;polymer-selection id="selection" multi on-polymer-select="{{selectAction}}"&gt;&lt;/polymer-selection&gt;
+   &lt;/template&gt;
+   &lt;script&gt;
+     Polymer('selection-example', {
+       itemTapAction: function(e) {
+         this.$.selection.select(e.target);
+       },
+       selectAction: function(e, detail) {
+         detail.item.classList.toggle('selected', detail.isSelected);
+       }
+     });
+   &lt;/script&gt;
+&lt;/polymer-element&gt;
+
+&lt;selection-example&gt;
+  &lt;li&gt;Red&lt;/li&gt;
+  &lt;li&gt;Green&lt;/li&gt;
+  &lt;li&gt;Blue&lt;/li&gt;
+&lt;/selection-example&gt;
 </code></pre>
-<p>The polymer-selection element fires a 'polymerselect' event when an item's 
+<p>The polymer-selection element fires a 'polymer-select' event when an item's 
 selection state is changed. The <code>CustomEvent.detail</code> for the event is a map
 containing 'item' and 'isSelected'.</p></div>
 <div>
@@ -55,7 +84,7 @@ containing 'item' and 'isSelected'.</p></div>
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:26.317</div>
+          <div>This page was generated at 2013-12-12 13:14:42.589</div>
         </div>
         <script async src="client-live-nav.js"></script>
         </body></html>

@@ -8,25 +8,22 @@ http://www.polymer-project.org/.
 <script src="packages/custom_element/custom-elements.debug.js"></script>
 <script src="packages/browser/interop.js"></script>
 
-<title>polymer-selection</title>
+    <title>polymer-selection</title>
+  
+    
+    <script src="polymer_selection.html_bootstrap.dart.js"></script>
+    
 
-
-
- <script src="polymer_selection.html_bootstrap.dart.js"></script>
-
-
-
-</head>
-<body><polymer-element name="polymer-selection"> 
+  </head>
+  <body><polymer-element name="polymer-selection"> 
   <template>
     <style>
-      @host { 
-        * {
-          display: none !important;
-        }
+      :host { 
+        display: none !important;
       }
     </style>
   </template> 
+  
 </polymer-element><polymer-element name="app-element">
   <template>
     <style>
@@ -41,20 +38,19 @@ http://www.polymer-project.org/.
         font-style: italic;
       }
     </style>
-    <ul on-click="itemTapAction">
+    <ul on-tap="{{itemTapAction}}" on-click="{{itemTapAction}}">
       <content></content>
     </ul>
-    <polymer-selection id="selection" multi="true" on-polymerselect="{{selectAction}}"></polymer-selection>
-    </template>
+    <polymer-selection id="selection" multi="true" on-polymer-select="{{selectAction}}"></polymer-selection>
+  </template>
   
 </polymer-element>
-
-  <app-element>
-    <li>Red</li>
-    <li>Green</li>
-    <li>Blue</li>
-  </app-element>
-
-
-
+  
+    <app-element>
+      <li>Red</li>
+      <li>Green</li>
+      <li>Blue</li>
+    </app-element>
+  
+  
 </body></html>

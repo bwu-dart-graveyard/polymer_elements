@@ -46,7 +46,7 @@ class PolymerGridLayout extends PolymerElement {
  bool _isLayoutJobStarted = false;  
  int _colCount = 0, _rowCount = 0;
  List&lt;Map&lt;int,int&gt;&gt; _colOwners, _rowOwners;
- List&lt;Element&gt; _nodes;
+ List&lt;Element&gt; _nodes = [];
  Element _lineParent;
  List&lt;Map&lt;String,int&gt;&gt; _rows;
  List&lt;Map&lt;String,int&gt;&gt; _columns;
@@ -199,6 +199,9 @@ class PolymerGridLayout extends PolymerElement {
      if (col == 0) {
        return 96;
      }
+     if(_nodes == null || _nodes.length == 0) {
+       return -1;
+     }
      var node = _nodes[col - 1];
      if (node.attributes.containsKey('h-flex') || node.attributes.containsKey('flex')) {
        return -1;
@@ -214,6 +217,9 @@ class PolymerGridLayout extends PolymerElement {
    for (var row in _rowOwners[i].keys) {
      if (row == 0) {
        return 96;
+     }
+     if(_nodes == null || _nodes.length == 0) {
+       return -1;
      }
      var node = _nodes[row - 1];
      if (node.attributes.containsKey('v-flex') || node.attributes.containsKey('flex')) {
@@ -323,8 +329,11 @@ class PolymerGridLayout extends PolymerElement {
  
    _lineParent = alineParent;
    _nodes = anodes;
+   if(_nodes == null) {
+     _nodes = [];
+   }
    matrixillate(matrix);
- 
+
    _nodes.forEach(unposition);
  
    _columns = railize(_colCount, colWidth);
@@ -2946,6 +2955,9 @@ int colWidth(int i) {
    if (col == 0) {
      return 96;
    }
+   if(_nodes == null || _nodes.length == 0) {
+     return -1;
+   }
    var node = _nodes[col - 1];
    if (node.attributes.containsKey('h-flex') || node.attributes.containsKey('flex')) {
      return -1;
@@ -4183,6 +4195,9 @@ void parseDeclarations(PolymerDeclaration declaration) {
 void <strong>polymerCreated</strong>() <a class="anchor-link" href="#polymerCreated"
               title="Permalink to PolymerGridLayout.polymerCreated">#</a></h4>
 <div class="inherited-from">mixed in from Polymer </div><div class="doc">
+<p>If this class is used as a mixin, this method must be called from inside
+of the <code>created()</code> constructor.</p>
+<p>If this class is a superclass, calling <code>super.created()</code> is sufficient.</p>
 <pre class="source">
 void polymerCreated() {
  if (this.ownerDocument.window != null || alwaysPrepare ||
@@ -4592,6 +4607,9 @@ int rowHeight(int i) {
    if (row == 0) {
      return 96;
    }
+   if(_nodes == null || _nodes.length == 0) {
+     return -1;
+   }
    var node = _nodes[row - 1];
    if (node.attributes.containsKey('v-flex') || node.attributes.containsKey('flex')) {
      return -1;
@@ -4968,7 +4986,7 @@ void xnodesChanged() {
         <div class="clear"></div>
         </div>
         <div class="footer">
-          <div>This page was generated at 2013-11-28 20:51:25.834</div>
+          <div>This page was generated at 2013-12-12 13:14:42.008</div>
         </div>
         <script async src="../client-live-nav.js"></script>
         </body></html>
