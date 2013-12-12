@@ -28,7 +28,7 @@ dependencies:
     <link rel="import" href="packages/polymer_elements/polymer_file/polymer_file.html">
 ```
 
-* to import a polymer_element into any of your custom polymer elements, add the following line into your Polymer element HTML file before the `<polymer-element name="my-element"> start tag:
+* to import a polymer_element into any of your custom polymer elements, add the following line into your Polymer element HTML file before the `<polymer-element name="my-element">` start tag:
   
 ```html
     <link rel="import" href="../../../packages/polymer_elements/polymer_selector/polymer_selector.html">
@@ -39,7 +39,7 @@ In this example we assume the HTML file is stored in `yourpackage/lib/your_eleme
 
 ## General notes
 
-* Current development status requires Dart SDK Dart version 1.0.0_r30338 (DEV)
+* Current development status requires Dart SDK Dart version 1.0.3.0_r30939 (DEV)
 
 ### Status
 (A few demo pages (* aren't rendered properly as GitHub Pages or because they use unfinished elements. We are working on it.) 
