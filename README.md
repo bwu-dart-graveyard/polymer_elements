@@ -6,6 +6,7 @@ The intent of the authors is to contribute the work to the Dart project itself (
 ### Visual elements for Dart can be found in
 * [polymer_ui_elements](https://github.com/ErikGrimes/polymer_ui_elements)
 
+
 ## Documentation
 * The Dart source files of an element often contains some documentation (Dartdoc) how to use the element. You can find the documentation online at  
 * [DartDoc](http://erikgrimes.github.io/polymer_elements/docs/index.html)
@@ -13,6 +14,7 @@ The intent of the authors is to contribute the work to the Dart project itself (
 Open the 'demo' links below to take a look.
 The source code of these demo pages can be found in the [example subdirectory of the package](https://github.com/ErikGrimes/polymer_elements/tree/master/example). 
 The actual implementation of the demo page is often outsourced to files in the `example/src/element_name` subdirectory.
+
 
 ## Usage
 * add the following to your pubspec.yaml file: 
@@ -37,9 +39,19 @@ dependencies:
 If you import a polymer_element into an HTML file that is not saved in the `package/web` directory  the import path must be relative to the `web` directory as shown above.
 In this example we assume the HTML file is stored in `yourpackage/lib/your_element/your_element.html`.
 
+
+## Feedback
+
+Your feedback is very much appreciated. We are excited to hear about your experience using polymer_elements.
+We need your feedback to continually improve the qualtiy.
+
+Just [Create a New Issue](https://github.com/ErikGrimes/polymer_elements/issues/new)
+
+
 ## General notes
 
 * Current development status requires Dart SDK Dart version 1.0.3.0_r30939 (DEV)
+
 
 ### Status
 (A few demo pages (* aren't rendered properly as GitHub Pages or because they use unfinished elements. We are working on it.) 
