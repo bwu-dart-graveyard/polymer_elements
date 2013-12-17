@@ -6,12 +6,10 @@
 
 library polymer_elements.polymer_collapse_toggle;
 
-import 'dart:html';
 import 'package:polymer/polymer.dart';
+import 'package:logging/logging.dart';
 
 import 'polymer_collapse.dart';
-
-import 'package:logging/logging.dart';
 
 @CustomTag('polymer-collapse-toggle')
 class PolymerCollapseToggle extends PolymerElement {
@@ -22,18 +20,13 @@ class PolymerCollapseToggle extends PolymerElement {
   /**
    * The selector for the target polymer-collapse element.
    */
-  @published HtmlElement target;
+  @published PolymerCollapse target;
   
   void handleClick([e]) {
-  //  _logger.finest("handleClick '${target}'");
-   // print('owner target ${this.ownerDocument.querySelector(target)}');
-   // print('shadow target ${this.shadowRoot.querySelector(target)}');
-   // var t = (document.querySelector(target) as PolymerCollapse);
     if (target != null) {
       target.toggle();
     }else {
       print('t is null!!!');
     }
-    
   }
 }
