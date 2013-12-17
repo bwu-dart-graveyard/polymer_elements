@@ -104,6 +104,18 @@ class PolymerAjax extends PolymerElement {
   @published
   Map xhrArgs = {};
 
+  
+  /**
+   * Optional raw body content to send when method === "POST"
+   *
+   * Example:
+   *
+   *     <polymer-ajax method="POST" auto url="http://somesite.com"
+   *         body='{"foo":1, "bar":2}'>
+   *     </polymer-ajax>
+   */
+  Map body;
+  
   Timer _goJob;
 
   //TODO Not sure why this is kept around
@@ -223,11 +235,19 @@ class PolymerAjax extends PolymerElement {
    */
   go() {
     var args = xhrArgs;
+    // TODO(sjmiles): alternatively, we could force POST if body is set
+    if (this.method == 'POST') {
+      if(this.body != null) {
+        args['body'] = this.body;
+      }
+    }    
     args['params'] = this.params;
     if (args['params'] is String && args['params'].isNotEmpty) {
       args['params'] = JSON.decode(args['params']);
     }
-    args['headers'] = this.headers;
+    if(this.headers != null) {
+      args['headers'] = this.headers;
+    }
     if(args['headers'] is String && args['headers'].isNotEmpty) {
       args['headers'] = JSON.decode(args['headers']);
     }

@@ -21,9 +21,15 @@ http://www.polymer-project.org/.
 
   </head>
   <body>
-    <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
+  <polymer-ajax 
+     url="http://gdata.youtube.com/feeds/api/videos/"
+     params='{"alt":"json", "q":"chrome"}'
+     handleAs="json"
+     auto="true"
+   ></polymer-ajax>
+ <!--   <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
         params='{"alt":"json", "q":"chrome"}'
         handleAs="json">
-    </polymer-ajax>
+    </polymer-ajax> -->
   </body>
 </html>

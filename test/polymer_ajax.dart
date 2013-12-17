@@ -20,7 +20,7 @@ void main() {
   test("polymer-ajax", () {
     var done = expectAsync0((){});
     var s = document.querySelector('polymer-ajax');
-    s.addEventListener('polymerresponse', (event){
+    s.addEventListener('polymer-response', (event){
       expect(event.detail['response']['feed']['entry'].length, greaterThan(0));
       done();
     });
