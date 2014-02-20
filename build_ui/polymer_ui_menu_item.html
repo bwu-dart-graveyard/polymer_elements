@@ -4,13 +4,18 @@ the AUTHORS file for details. All rights reserved. Use of this source code is
 governed by a BSD-style license that can be found in the LICENSE file. 
 This work is a port of the polymer-elements from the Polymer project, 
 http://www.polymer-project.org/. 
---><html><head>
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
     <title>polymer-ui-menu-item</title>
-    <link rel="import" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.html">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic.css">
     
-    <script type="application/dart" src="polymer_ui_menu_item.html.0.dart"></script>
-    <script src="packages/browser/dart.js"></script>
+    
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css">
+    
+    <script src="polymer_ui_menu_item.html_bootstrap.dart.js"></script>
+    
   
     <style>
       section {
@@ -19,7 +24,35 @@ http://www.polymer-project.org/.
       }
     </style>
   </head>
-  <body class="polymer-ui-body-text">
+  <body class="polymer-ui-body-text"><polymer-element name="polymer-ui-theme-aware" attributes="theme">
+  
+</polymer-element>
+<polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
+    <!-- TODO remove style element and content when css import is fixed -->
+
+    <content></content>
+  </template>
+
+  
+</polymer-element>
+
+<polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item_old.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    
+    <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
+    <span id="label">{{label}}<content></content></span>
+    <a id="link" href="{{href}}" hidden="{{isShowHref}}"></a>
+  </template>
+
+  
+</polymer-element>
+
     <h2>polymer-ui-light-theme</h2>
     <section theme="polymer-ui-light-theme">
       <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
