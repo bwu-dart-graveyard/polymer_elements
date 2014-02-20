@@ -15,38 +15,40 @@ http://www.polymer-project.org/.
     
     
     
-    <link rel="stylesheet" href="../packages/polymer_ui_elements/asset/basic.css">
+    <link rel="stylesheet" href="../packages/polymer_ui_elements/asset/base.css">
+    <link rel="stylesheet" href="../packages/polymer_ui_elements/asset/basic_old.css"><!-- TODO remove -->
     
     
     <script src="polymer_anchor_point.html_bootstrap.dart.js"></script>
     
   
-	<style>
-      html, body {
-      	margin: 0;
-      	padding: 0;
-      }
-      html, body, #container {
-      	height: 100%;
-      }
-      #target {
-      	padding: 5px;
-      	border: 1px solid black;
-      	display: none;
-      	position: absolute;
-      	left: -99999px;
-      }
-      #target.active {
-      	display: block;
-      }
-	</style>
+  	<style>
+        html, body {
+        	margin: 0;
+        	padding: 0;
+        }
+        html, body, #container {
+        	height: 100%;
+        }
+        #target {
+        	padding: 5px;
+        	border: 1px solid black;
+        	display: none;
+        	position: absolute;
+        	left: -99999px;
+        }
+        #target.active {
+        	display: block;
+        }
+  	</style>
   </head>
   <body class="polymer-ui-body-text"><polymer-element name="app-element"> 
   <template>
     <content></content>
   </template>
   
-</polymer-element><polymer-element name="polymer-anchor-point" attributes="target anchor">
+</polymer-element>
+<polymer-element name="polymer-anchor-point" attributes="target anchor">
   
 </polymer-element><polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
   <template>

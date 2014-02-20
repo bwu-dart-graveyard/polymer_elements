@@ -6,13 +6,12 @@ governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project,
 http://www.polymer-project.org/.
 -->
-
-<link rel="import" href="../polymer_selection/polymer_selection.html">
-
-<polymer-element name="polymer-selector">
+<polymer-element name="polymer-virtual-list" attributes="count pageSize numPages horizontal fixedHeight">
   <template>
-    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectionSelect}}"></polymer-selection>
-    <content id="items" select="*"></content>
+    <link rel="stylesheet" href="polymer_virtual_list.css">
+    <div id="list" class="polymer-list-list">
+      <div id="viewport" class="polymer-list-viewport"></div>
+    </div>
   </template>
-  <script type="application/dart" src="polymer_selector.dart"></script>
+  <script type="application/dart" src="polymer_virtual_list.dart"></script>
 </polymer-element>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+<link rel="import" href="../polymer_selection/polymer_selection.html">
+<link rel="import" href="polymer_virtual_list.html">
+
+
+<polymer-element name="polymer-list" extends="polymer-virtual-list"
+  attributes="data multi selected"
+  on-tap="{{tapAction}}" on-click="{{tapAction}}"> <!-- TODO remove on-click when on-tap is suppored -->
+  <template>
+    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectedAction}}"></polymer-selection>
+    <shadow></shadow>
+    <template id="repeat" repeat="{{item in listData}}"><div id="div_{{item['item']['index']}}"></div>
+      <div id="rep"></div>
+    </template>
+    <content id="content" select="*"></content>
+  </template>
+  <script type="application/dart" src="polymer_list.dart"></script>
+</polymer-element>
