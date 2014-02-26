@@ -1,0 +1,217 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <title>polymer-ui-menu-button</title>
+    
+    
+    
+    
+
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css"> <!-- TODO remove -->
+    
+    <script src="polymer_ui_menu_button.html_bootstrap.dart.js"></script>
+    
+  
+  <style>
+    body {
+			position: absolute;
+			margin: 0;
+			height: 100%;
+			width: 100%;
+    }
+		.narrow {
+			width: 80%;
+			height: 100%;
+      margin: 0 auto;
+		}
+  </style>
+  </head>
+  <body class="polymer-ui-body-text polymer-ui-dark-bg"><polymer-element name="polymer-anchor-point" attributes="target anchor">
+  
+</polymer-element><polymer-element name="polymer-media-query" attributes="mquery queryMatches">
+  <template>
+    <style>
+      :host {
+          display: none;
+      }
+    </style>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-theme-aware" attributes="theme">
+  
+</polymer-element>
+<polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
+    <!-- TODO remove style element and content when css import is fixed -->
+
+    <content></content>
+  </template>
+
+  
+</polymer-element>
+
+<polymer-element name="polymer-ui-icon-button" extends="polymer-ui-theme-aware">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button_old.css"> <!-- TODO remove -->
+
+    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}" theme="{{activeTheme}}">
+      <content></content>
+    </polymer-ui-icon>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-selection"> 
+  <template>
+    <style>
+      :host { 
+        display: none !important;
+      }
+    </style>
+  </template> 
+  
+</polymer-element><polymer-element name="polymer-selector">
+  <template>
+    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectionSelect}}"></polymer-selection>
+    <content id="items" select="*"></content>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-menu" extends="polymer-selector" attributes="theme" on-polymer-select="{{selectionChange}}">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu_old.css"> <!-- TODO remove -->
+    <shadow></shadow>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-arrow"> 
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_arrow/polymer_ui_arrow.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_arrow/polymer_ui_arrow_old.css"> <!-- Dartium still needs the old selectors -->
+    <div id="outer" class="arrow arrow-outer"></div>
+    <div id="inner" class="arrow arrow-inner"></div>
+  </template> 
+  
+</polymer-element><polymer-element name="polymer-ui-menu-button" attributes="src icon opened responsive halign valign selected selectedItem selectedClass valueattr multi parallax">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_button/polymer_ui_menu_button.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_button/polymer_ui_menu_button_old.css">
+    <polymer-ui-icon-button id="button" on-tap="{{toggle}}" on-click="{{toggle}}" src="{{src}}" icon="{{icon}}" active="{{opened}}" anchor-point="{{valign}}"></polymer-ui-icon-button> <!-- remove on-click when PointerEvents are available -->
+    <div id="overlay" halign="{{halign}}" valign="{{valign}}">
+      <div id="overlayBackdrop" pseudo="x-backdrop" overlay-toggle=""></div>
+      <div id="overlayMenu">
+        <polymer-ui-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedclass="{{selectedClass}}" valueattr="{{valueattr}}" multi="{{multi}}" on-polymer-select="{{closeAction}}">
+          <content select="*"></content>
+        </polymer-ui-menu>
+      </div>
+      <polymer-ui-arrow id="arrow" size="9" direction="{{direction}}" anchor-point="center center"></polymer-ui-arrow>
+    </div>
+    <polymer-media-query query="{{mediaQuery}}" on-polymer-mediachange="{{mediaChangeAction}}"></polymer-media-query>
+    <polymer-anchor-point id="arrowPositionHelper" target="{{$['arrow']}}" anchor="{{$['button']}}"></polymer-anchor-point>
+    <polymer-overlay target="{{$['overlay']}}" opened="{{opened}}"></polymer-overlay>
+  </template>
+
+  
+</polymer-element>
+<polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item_old.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    
+    <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
+    <span id="label">{{label}}<content></content></span>
+    <a id="link" href="{{href}}" hidden="{{isShowHref}}"></a>
+  </template>
+
+  
+</polymer-element>
+<polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
+  <template>
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TODO remove old when all browsers and polyfills are updated -->
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="responsiveWidth" on-polymer-class-change="{{onPolymerClassChange}}">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar_old.css">  <!-- TOOD remove -->
+    <!-- TODO this stylesheet link should not be necessary -->
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TOOD remove -->
+
+    <polymer-flex-layout align="center"></polymer-flex-layout>
+    <polymer-media-query id="mq" mquery="{{mquery}}" xmquery="max-width: {{responsiveWidth}}"></polymer-media-query> <!-- TODO temporarily wired in code because two way binding doesn't work this way currently: queryMatches="{{queryMatches}}" -->
+    <shadow></shadow>
+    <content></content>
+  </template>
+  
+</polymer-element>
+
+    <div class="narrow polymer-ui-light-bg">
+      <polymer-flex-layout vertical=""></polymer-flex-layout>
+      <polymer-ui-toolbar theme="polymer-ui-light-theme">
+        <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+        <div flex="">Toolbar: polymer-ui-light-theme</div>
+        <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+        <polymer-ui-menu-button selected="0" halign="right">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+        <polymer-ui-menu-button selected="0" halign="right">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+      </polymer-ui-toolbar>
+      <div flex="">
+        <br><br><br><br><br><br><br><br><br><br>
+        <polymer-ui-menu-button selected="0" theme="polymer-ui-light-theme">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+        <polymer-ui-menu-button selected="0" theme="polymer-ui-light-theme" valign="top">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+        <polymer-ui-menu-button selected="0" theme="polymer-ui-light-theme" valign="top">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+      </div>
+      <polymer-ui-toolbar theme="polymer-ui-light-theme">
+        <polymer-ui-icon-button icon="menu"></polymer-ui-icon-button>
+        <div flex="">Toolbar: polymer-ui-light-theme</div>
+        <polymer-ui-icon-button icon="refresh"></polymer-ui-icon-button>
+        <polymer-ui-menu-button selected="0" halign="right" valign="top">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+        <polymer-ui-menu-button selected="0" halign="right" valign="top">
+          <polymer-ui-menu-item icon="settings" label="Settings"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="dialog" label="Dialog"></polymer-ui-menu-item>
+          <polymer-ui-menu-item icon="search" label="Search"></polymer-ui-menu-item>
+        </polymer-ui-menu-button>
+      </polymer-ui-toolbar>
+    </div>
+  
+
+</body></html>

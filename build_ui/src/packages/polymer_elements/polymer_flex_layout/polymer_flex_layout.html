@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+-->
+
+<polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
+  <template>
+    <link rel="stylesheet" polymer-scope="controller" href="polymer_flex_layout.css">
+    <link rel="stylesheet" polymer-scope="controller" href="polymer_flex_layout_old.css"> <!-- TODO remove old when all browsers and polyfills are updated -->
+    <link rel="stylesheet" href="polymer_flex_layout.css">
+    <content></content>
+  </template>
+  <script type="application/dart" src='polymer_flex_layout.dart'></script>
+</polymer-element>

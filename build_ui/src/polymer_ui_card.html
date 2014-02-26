@@ -1,0 +1,58 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <title>polymer-ui-breadcrumbs</title>
+    
+    
+    <script src="polymer_ui_card.html_bootstrap.dart.js"></script>
+    
+  </head>
+  <body><polymer-element name="polymer-ui-card" attributes="swipeable noCurve" on-trackstart="{{trackStart}}" on-track="{{track}}" on-trackend="{{trackEnd}}" on-flick="{{flick}}">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_card/polymer_ui_card.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_card/polymer_ui_card_old.css"> <!-- TODO remove -->
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="app-element">
+  <template>
+      <style>
+      #cards {
+        margin: 0 auto;
+        background: #eee;
+        overflow: auto;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+      }
+      
+      polymer-ui-card {
+        display: block;
+        height: 200px;
+        width: 240px;
+        margin: 20px auto;
+        padding: 30px;
+      }
+    </style>
+    <div id="cards">
+      <polymer-ui-card swipeable="">Swipe Me!</polymer-ui-card>
+      <polymer-ui-card swipeable="">Swipe Me!</polymer-ui-card>
+      <polymer-ui-card></polymer-ui-card>
+      <polymer-ui-card swipeable="">Swipe Me!</polymer-ui-card>
+      <polymer-ui-card></polymer-ui-card>
+    </div>
+  </template>
+  
+</polymer-element>
+
+    <app-element></app-element>
+  
+
+</body></html>

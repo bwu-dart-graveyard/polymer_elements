@@ -1,0 +1,125 @@
+<!DOCTYPE html><!-- 
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is 
+governed by a BSD-style license that can be found in the LICENSE file. 
+This work is a port of the polymer-elements from the Polymer project, 
+http://www.polymer-project.org/. 
+--><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
+<script src="packages/custom_element/custom-elements.debug.js"></script>
+<script src="packages/browser/interop.js"></script>
+
+    <title>polymer-ui-breadcrumbs</title>
+    
+    
+    
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css"><!-- TODO remove -->
+    
+    <script src="polymer_ui_submenu_item.html_bootstrap.dart.js"></script>
+    
+  
+    <style>
+      section {
+        width: 300px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body class="polymer-ui-body-text"><polymer-element name="polymer-ui-theme-aware" attributes="theme">
+  
+</polymer-element>
+<polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
+    <!-- TODO remove style element and content when css import is fixed -->
+
+    <content></content>
+  </template>
+
+  
+</polymer-element>
+
+<polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item_old.css">
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    
+    <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
+    <span id="label">{{label}}<content></content></span>
+    <a id="link" href="{{href}}" hidden="{{isShowHref}}"></a>
+  </template>
+
+  
+</polymer-element>
+<polymer-element name="polymer-selection"> 
+  <template>
+    <style>
+      :host { 
+        display: none !important;
+      }
+    </style>
+  </template> 
+  
+</polymer-element><polymer-element name="polymer-selector">
+  <template>
+    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectionSelect}}"></polymer-selection>
+    <content id="items" select="*"></content>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-menu" extends="polymer-selector" attributes="theme" on-polymer-select="{{selectionChange}}">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu_old.css"> <!-- TODO remove -->
+    <shadow></shadow>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-collapse" attributes="target horizontal closed duration fixedSize size">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    <style>
+      :host {
+        display: none;
+      }
+    </style>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-submenu-item" extends="polymer-ui-menu-item" attributes="active selected selectedItem">
+  <template>
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_submenu_item/polymer_ui_submenu_item.css">
+    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_submenu_item/polymer_ui_submenu_item_old.css"> <!-- TODO remove -->
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+
+    <polymer-ui-menu-item id="item" src="{{src}}" label="{{label}}" icon="{{icon}}" active?="{{active}}" on-tap="{{activate}}" on-click="{{activate}}">
+      <content select=".item-content"></content>
+    </polymer-ui-menu-item>
+    <polymer-ui-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}">
+      <content></content>
+    </polymer-ui-menu>
+    <polymer-collapse targetid="menu" closed="{{collapsed}}"></polymer-collapse>
+  </template>
+
+  
+</polymer-element>
+
+    <h2>polymer-ui-light-theme</h2>
+    <section theme="polymer-ui-light-theme">
+      <polymer-ui-submenu-item icon="settings" label="Topics" active="">
+        <polymer-ui-menu-item label="Topics 1"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Topics 2"></polymer-ui-menu-item>
+      </polymer-ui-submenu-item>
+    </section>
+    <h2>polymer-ui-dark-theme</h2>
+    <section class="polymer-ui-dark-bg" theme="polymer-ui-dark-theme">
+      <polymer-ui-submenu-item icon="settings" label="Topics" active="">
+        <polymer-ui-menu-item label="Topics 1"></polymer-ui-menu-item>
+        <polymer-ui-menu-item label="Topics 2"></polymer-ui-menu-item>
+      </polymer-ui-submenu-item>
+    </section>
+  
+
+</body></html>
