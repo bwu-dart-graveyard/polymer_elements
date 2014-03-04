@@ -6,21 +6,44 @@
 
 
 /**
- * polymer-ajax can be used to perform XMLHttpRequests.  The polymer-ajax
- * element fires three events: polymerresponse, polymererror,
- * and polymercomplete.
+ * The `polymer-ajax` element performs `XMLHttpRequest`s.
+ *
+ * You can trigger a request explicitly by calling `go` on the
+ * element.
+ *
+ * With `auto` set to `true`, the element performs a request whenever
+ * its `url` or `params` properties are changed.
+ *
  *
  * Example:
  *
  *     <polymer-ajax auto url="http://gdata.youtube.com/feeds/api/videos/"
  *         params='{"alt":"json", "q":"chrome"}'
  *         handleAs="json"
- *         on-polymerresponse="{{handleResponse}}">
+ *         on-polymer-response="{{handleResponse}}">
  *     </polymer-ajax>
  *
- *  polymerresponse: Fired with the response when it's received.
- *  polymererror: Fired with the error if one occurs.
- *  polymercomplete: Fired whenever a response or an error is recieved.
+ * Note: The `params` attribute must be double quoted JSON.
+ *
+ * @status beta
+ */
+
+/**
+ * Fired when a response is received.
+ *
+ * @event polymer-response
+ */
+
+/**
+ * Fired when an error is received.
+ *
+ * @event polymer-error
+ */
+
+/**
+ * Fired whenever a response or an error is received.
+ *
+ * @event polymer-complete
  */
 
 library polymer_elements.polymer_ajax;
@@ -40,22 +63,22 @@ class PolymerAjax extends PolymerElement {
   String url =  '';
 
   /**
-   * Specifies what data to store in the 'response' property, and
-   * to deliver as 'event.response' in 'response' events.
+   * Specifies what data to store in the [response] property, and
+   * to deliver as [:event.response:] in [:response:] events.
    *
    * One of:
    *
-   *    `text`: uses XHR.responseText
+   *    [:text:]: uses [:XHR.responseText:]
    *
-   *    `xml`: uses XHR.responseXML
+   *    [:xml:]: uses [:XHR.responseXML:]
    *
-   *    `json`: uses XHR.responseText parsed as JSON
+   *    [:json:]: uses [:XHR.responseText:] parsed as JSON
    */
   @published
   String handleAs = '';
 
   /**
-   * If true, automatically performs an Ajax request when either url or params has changed.
+   * If true, automatically performs an Ajax request when either [url] or [params] has changed.
    */
   @published
   bool auto = false;
@@ -73,7 +96,7 @@ class PolymerAjax extends PolymerElement {
   var response;
 
   /**
-   * The HTTP method to use such as 'GET', 'POST', 'PUT', 'DELETE'.
+   * The HTTP method to use such as 'GET', 'POST', 'PUT', or 'DELETE'.
    * Default is 'GET'.'
    */
   String method = '';
@@ -93,6 +116,25 @@ class PolymerAjax extends PolymerElement {
   var headers;
 
   /**
+   * Optional raw body content to send when method == "POST".
+   *
+   * Example:
+   *
+   *     <polymer-ajax method="POST" auto url="http://somesite.com"
+   *         body='{"foo":1, "bar":2}'>
+   *     </polymer-ajax>
+   */
+  Map body;
+
+  /**
+   * Content type to use when sending data.
+   *
+   * @default 'application/x-www-form-urlencoded'
+   */
+  @published
+  String contentType = 'application/x-www-form-urlencoded';
+
+  /**
    * Default values for use with the underlying polymer-xhr object. Useful for
    * sending payloads other than the default URL encoded form values.
    *
@@ -104,31 +146,18 @@ class PolymerAjax extends PolymerElement {
   @published
   Map xhrArgs = {};
 
-  
-  /**
-   * Optional raw body content to send when method === "POST"
-   *
-   * Example:
-   *
-   *     <polymer-ajax method="POST" auto url="http://somesite.com"
-   *         body='{"foo":1, "bar":2}'>
-   *     </polymer-ajax>
-   */
-  Map body;
-  
   Timer _goJob;
 
-  //TODO Not sure why this is kept around
   var _xhr;
 
   PolymerAjax.created() : super.created();
 
-  ready() {
+  void ready() {
     super.ready();
     this._xhr = new Element.tag('polymer-xhr');
   }
 
-  _receive(response, xhr) {
+  void _receive(response, xhr) {
     if (this._isSuccess(xhr)) {
       this._processResponse(xhr);
     } else {
@@ -137,26 +166,29 @@ class PolymerAjax extends PolymerElement {
     this._complete(xhr);
   }
 
-  _isSuccess(xhr) {
+  bool _isSuccess(xhr) {
     var status = xhr.status != null ? xhr.status : 0;
     return status == null ? false : (status >= 200 && status < 300);
   }
 
-  _processResponse(xhr) {
+  void _processResponse(xhr) {
     var response = this._evalResponse(xhr);
     this.response = response;
     this.fire('polymer-response', detail: {'response': response, 'xhr': xhr});
   }
 
-  _error(xhr) {
+  void _error(xhr) {
     var response = '${xhr.status}: ${xhr.responseText}';
     this.fire('polymer-error', detail: {'response': response, 'xhr': xhr});
   }
 
-  _complete(xhr) {
+  void _complete(xhr) {
     this.fire('polymer-complete', detail: {'response': xhr.status, 'xhr': xhr});
   }
 
+  /**
+   * return Map (or String when JSON decoding failed)
+   */
   _evalResponse(xhr) {
     switch(this.handleAs) {
       case 'json':
@@ -170,14 +202,17 @@ class PolymerAjax extends PolymerElement {
     }
   }
 
-  _xmlHandler(xhr){
+  String _xmlHandler(xhr){
     return xhr.responseXML;
   }
 
-  _textHandler(xhr) {
+  String _textHandler(xhr) {
     return xhr.responseText;
   }
 
+  /**
+   * return Map (or String when JSON decoding failed)
+   */
   _jsonHandler(xhr) {
     var r = xhr.responseText;
     try {
@@ -187,7 +222,7 @@ class PolymerAjax extends PolymerElement {
     }
   }
 
-  urlChanged(old){
+  void urlChanged(old){
     if (this.handleAs.isEmpty) {
       var split = this.url.split('.');
       var ext;
@@ -210,18 +245,18 @@ class PolymerAjax extends PolymerElement {
     this._autoGo();
   }
 
-  paramsChanged(old) {
+  void paramsChanged(old) {
     this._autoGo();
   }
 
-  autoChanged(old){
+  void autoChanged(old){
     this._autoGo();
   }
 
   // TODO(sorvell): multiple side-effects could call autoGo
   // during one micro-task, use a job to have only one action
   // occur
-  _autoGo() {
+  void _autoGo() {
     if(_goJob != null){
       _goJob.cancel();
     }
@@ -229,18 +264,18 @@ class PolymerAjax extends PolymerElement {
   }
 
   /**
-   * Performs an Ajax request to the url specified.
+   * Performs an Ajax request to the specified URL.
   *
    * @method go
    */
-  go() {
+  bool go() {
     var args = xhrArgs;
     // TODO(sjmiles): alternatively, we could force POST if body is set
     if (this.method == 'POST') {
       if(this.body != null) {
         args['body'] = this.body;
       }
-    }    
+    }
     args['params'] = this.params;
     if (args['params'] is String && args['params'].isNotEmpty) {
       args['params'] = JSON.decode(args['params']);
@@ -250,6 +285,15 @@ class PolymerAjax extends PolymerElement {
     }
     if(args['headers'] is String && args['headers'].isNotEmpty) {
       args['headers'] = JSON.decode(args['headers']);
+    }
+    if(this.contentType != null) {
+      if(!args.containsKey('headers')) {
+        args['headers'] = {'content-type' : this.contentType };
+      } else {
+        if(args['headers'] is Map) {
+          args['headers']['content-type'] = this.contentType;
+        }
+      }
     }
     args['callback'] = this._receive;
     args['url'] = this.url;

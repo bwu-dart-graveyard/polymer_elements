@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
-the AUTHORS file for details. All rights reserved. Use of this source code is 
-governed by a BSD-style license that can be found in the LICENSE file. 
-This work is a port of the polymer-elements from the Polymer project, 
-http://www.polymer-project.org/. 
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
 -->
 
 <link rel="import" href="packages/polymer_elements/polymer_ajax/polymer_ajax.html">
 
 <polymer-element name="app-element">
   <template>
-    <polymer-ajax auto='true' url="http://gdata.youtube.com/feeds/api/videos/" 
+    <polymer-ajax
+      auto
+      url="http://gdata.youtube.com/feeds/api/videos/"
       params='{"alt":"json", "q":"chrome"}'
       handleAs="json" on-polymer-response='{{responseReceived}}'></polymer-ajax>
-   
+
     <template repeat="{{ entry in entries }}">
       <div>{{ entry['title']['$t']}}</div>
     </template>
