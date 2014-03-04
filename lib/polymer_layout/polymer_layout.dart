@@ -1,22 +1,22 @@
-// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
-// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+// the AUTHORS file for details. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
-// This work is a port of the polymer-elements from the Polymer project, 
-// http://www.polymer-project.org/. 
+// This work is a port of the polymer-elements from the Polymer project,
+// http://www.polymer-project.org/.
 
 library polymer_elements.polymer_layout;
 
-import 'dart:async' show Timer;
-import 'dart:html' show CssStyleDeclaration, document, Element, Node;
+import 'dart:async' as async;
+import 'dart:html' as dom;
 import 'package:logging/logging.dart' show Logger;
 import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
-  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when 
+  ChangeNotifier, reflectable; // TODO remove ChangeNotifier, reflectable when
 // bug is solved https://code.google.com/p/dart/issues/detail?id=15095
 
 /**
  * `<polymer-layout>` arranges nodes horizontally via absolution positioning.
  * Set the `vertical` attribute (boolean) to arrange vertically instead.
- * 
+ *
  * `<polymer-layout>` arranges it's <b>sibling elements</b>, not
  * it's children.
  *
@@ -25,7 +25,7 @@ import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
  *
  * You may remove a node from layout by giving it a `nolayout`
  * attribute (boolean).
- * 
+ *
  * CSS Notes:
  *
  *  * `padding` is ignored on the parent node.
@@ -33,7 +33,7 @@ import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
  *  * `min-width` is ignored on arranged nodes, use `min-width` on the parent node
  *    instead.
  *
- * Example: 
+ * Example:
  *
  * Arrange three `div` into columns. `flex` attribute on Column Two makes that
  * column elastic.
@@ -50,16 +50,16 @@ import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
  * natural width of 14px, body border uses 2px, and Column Two automatically uses the
  * remaining space: 24px.
  *
- *      |-                    52px                        -| 
+ *      |-                    52px                        -|
  *      ----------------------------------------------------
  *      ||Column One||      Column Two      ||Column Three||
  *      ----------------------------------------------------
  *       |-  12px  -||-     (24px)         -||    14px   -|
  *
  * As the parent node resizes, the elastic column reacts via CSS to adjust it's size.
- * No javascript is used during parent resizing, for best performance. 
+ * No javascript is used during parent resizing, for best performance.
  *
- * Changes in content or sibling size is not handled automatically. 
+ * Changes in content or sibling size is not handled automatically.
  *
  *      ----------------------------------------------------------------
  *      ||Column One|             Column Two             |Column Three||
@@ -127,29 +127,40 @@ import 'package:polymer/polymer.dart' show CustomTag, PolymerElement, published,
 @CustomTag('polymer-layout')
 class PolymerLayout extends PolymerElement {
   PolymerLayout.created() : super.created();
-  
+
   final _logger = new Logger('polymer-layout');
 
   @published bool vertical = false;
-  
+
   @override
   void ready() {
     super.ready();
     this.setAttribute('nolayout', '');
   }
-  
+
   @override
   void enteredView() {
     super.enteredView();
-    Timer.run(() {
+    async.Timer.run(() {
       this.prepare();
       this.layout();
+// this event is not (yet) in JS polymer-layout. See issue #116
+      fire('polymer-layout');
     });
   }
-  
+
+  static const dom.EventStreamProvider<dom.CustomEvent> _polymerGridLayout =
+      const dom.EventStreamProvider<dom.CustomEvent>('polymer-layout');
+
+  /**
+   * Fired after relayout.
+   */
+  async.Stream<dom.CustomEvent> get onPolymerGridLayout =>
+      PolymerLayout._polymerGridLayout.forTarget(this);
+
   void prepare() {
     var parent = this.parent;
-    var cs = parent.getComputedStyle(); 
+    var cs = parent.getComputedStyle();
 
     if (parent.localName != 'body') {
       // may recalc
@@ -162,8 +173,8 @@ class PolymerLayout extends PolymerElement {
     // changes will cause another recalc at next validation step
     var vertical;
     int i = 0;
-    for(Element c in this.parent.children) {
-      if (c.nodeType == Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
+    for(dom.Element c in this.parent.children) {
+      if (c.nodeType == dom.Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
         stylize(c, {
           'position': 'absolute',
           'box-sizing': 'border-box',
@@ -189,13 +200,13 @@ class PolymerLayout extends PolymerElement {
     var vertical = this.vertical;
     var ww = 0, hh = 0;
     var pre = new List<Map<String,dynamic>>();
-    Element fit;
+    dom.Element fit;
     var post = new List<Map<String,dynamic>>();
     var list = pre;
     // gather element information (at most one recalc)
     int i = 0;
     this.parent.children.forEach((c) {
-      if (c.nodeType == Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
+      if (c.nodeType == dom.Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
         var info = {
                     'element': c,
                     'w': c.offsetWidth,
@@ -208,7 +219,7 @@ class PolymerLayout extends PolymerElement {
         } else {
           fit = c;
           list = post;
-          ww = 0; 
+          ww = 0;
           hh = 0;
         }
       }
@@ -255,7 +266,7 @@ class PolymerLayout extends PolymerElement {
     }
   }
 
-  void stylize(Element element, Map<String,String> styles) {
+  void stylize(dom.Element element, Map<String,String> styles) {
     var style = element.style;
     styles.keys.forEach((k){
       style.setProperty(k, styles[k].toString());
