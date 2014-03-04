@@ -50,7 +50,7 @@ Just [Create a New Issue](https://github.com/ErikGrimes/polymer_elements/issues/
 
 ## General notes
 
-* Current development status requires Dart SDK Dart version 1.0.3.0_r30939 (DEV)
+* Tested with Dart SDK Dart version 1.3.0-dev.1.1
 
 
 ### Status

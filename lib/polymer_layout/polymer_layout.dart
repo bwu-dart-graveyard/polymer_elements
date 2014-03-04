@@ -159,10 +159,20 @@ class PolymerLayout extends PolymerElement {
       PolymerLayout._polymerGridLayout.forTarget(this);
 
   void prepare() {
-    var parent = this.parent;
-    var cs = parent.getComputedStyle();
 
-    if (parent.localName != 'body') {
+    var parent;
+    var children;
+    bool parentIsShadowRoot = false;
+    if(this.parentNode is dom.ShadowRoot) {
+      parentIsShadowRoot = true;
+      parent = (this.parentNode as dom.ShadowRoot).host;
+      children = parent.shadowRoot.children;
+    } else {
+      parent = this.parent;
+      children = parent.children;
+    }
+
+    if (parentIsShadowRoot || parent.localName != 'body') {
       // may recalc
       var cs = parent.getComputedStyle();
       if (cs.position == 'static') {
@@ -173,7 +183,7 @@ class PolymerLayout extends PolymerElement {
     // changes will cause another recalc at next validation step
     var vertical;
     int i = 0;
-    for(dom.Element c in this.parent.children) {
+    for(dom.Element c in children) {
       if (c.nodeType == dom.Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
         stylize(c, {
           'position': 'absolute',
@@ -196,7 +206,16 @@ class PolymerLayout extends PolymerElement {
    * attribute is applied on this node.
    */
   void layout() {
-    var parent = this.parentNode;
+
+    List<dom.Element> children;
+    if(this.parentNode is dom.ShadowRoot) {
+      var parent = (this.parentNode as dom.ShadowRoot).host;
+      children = parent.shadowRoot.children;
+    } else {
+      children = this.parent.children;
+    }
+
+//    var parent = this.parentNode;
     var vertical = this.vertical;
     var ww = 0, hh = 0;
     var pre = new List<Map<String,dynamic>>();
@@ -205,7 +224,7 @@ class PolymerLayout extends PolymerElement {
     var list = pre;
     // gather element information (at most one recalc)
     int i = 0;
-    this.parent.children.forEach((c) {
+    children.forEach((c) {
       if (c.nodeType == dom.Node.ELEMENT_NODE && !c.attributes.containsKey('nolayout')) {
         var info = {
                     'element': c,
