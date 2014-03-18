@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- 
+<!--
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
-the AUTHORS file for details. All rights reserved. Use of this source code is 
-governed by a BSD-style license that can be found in the LICENSE file. 
-This work is a port of the polymer-elements from the Polymer project, 
-http://www.polymer-project.org/. 
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
 -->
 
 <link rel="import" href="packages/polymer_elements/polymer_selector/polymer_selector.html">
@@ -22,22 +22,22 @@ http://www.polymer-project.org/.
           margin: 0;
           padding: 0;
         }
-        
+
         .list > * {
           height: 40px;
           line-height: 40px;
           padding: 0 20px;
           border-bottom: 1px solid #ccc;
         }
-        
+
         .list > *.polymer-selected {
           background: #333;
         }
-        
+
         li {
           height: 30px;
         }
-        
+
         li.polymer-selected:after {
           content: "\2713";
           position: absolute;
@@ -55,7 +55,7 @@ http://www.polymer-project.org/.
       </polymer-selector>
 
       <h2>multi-selection</h2>
-      <polymer-selector class="list" selected="{{multiSelected}}" multi='true' 
+      <polymer-selector class="list" selected="{{multiSelected}}" multi='true'
       selectedProperty=''>
         <div>Item 0</div>
         <div>Item 1</div>
@@ -65,8 +65,6 @@ http://www.polymer-project.org/.
       </polymer-selector>
 
       <h2>list</h2>
-     
-
       <polymer-selector target="{{ $['list'] }}" selected="0" selectedProperty=''></polymer-selector>
       <ul id="list">
         <li>Item 0</li>
@@ -75,10 +73,10 @@ http://www.polymer-project.org/.
         <li>Item 3</li>
         <li>Item 4</li>
       </ul>
-         
+
       <h2>binding of a group of radio buttons to a variable</h2>
-      <polymer-selector target="{{ $['myForm'] }}" itemsSelector="input[type=radio]" 
-          selected="{{color}}" valueattr="value" selectedProperty="checked" 
+      <polymer-selector target="{{ $['myForm'] }}" itemsSelector="input[type=radio]"
+          selected="{{color}}" valueattr="value" selectedProperty="checked"
           activateEvent="change"></polymer-selector>
       <form id="myForm">
         <label><input type="radio" name="color" value="red"> Red</label> <br>
@@ -92,4 +90,3 @@ http://www.polymer-project.org/.
     <script type="application/dart" src="app_element.dart">
     </script>
   </polymer-element>
-  

@@ -35,7 +35,7 @@ license that can be found in the LICENSE file.
   flex: 1;
 }
 
-::-webkit-distributed(.flex), 
+::-webkit-distributed(.flex),
 ::-webkit-distributed([flex]),
 ::-webkit-distributed([fit]) {
   -webkit-box-flex: 1;
@@ -108,7 +108,7 @@ license that can be found in the LICENSE file.
   display: -webkit-flex !important;
   display: flex !important;
 }
-  
+
 :host(.flexbox.row:host, [flexbox]:host, [h-flexbox]:host) {
   -webkit-box-orient: horizontal;
   -ms-flex-direction: row;
@@ -116,7 +116,7 @@ license that can be found in the LICENSE file.
   -webkit-flex-direction: row;
   flex-direction: row;
 }
-  
+
 :host(.flexbox.column:host, [v-flexbox]:host) {
   -webkit-box-orient: vertical;
   -ms-flex-direction: column;
@@ -124,7 +124,7 @@ license that can be found in the LICENSE file.
   -webkit-flex-direction: column;
   flex-direction: column;
 }
-  
+
 :host(.flexbox.align-start:host) {
   -webkit-box-align: start;
   -ms-flex-align: start;
@@ -132,7 +132,7 @@ license that can be found in the LICENSE file.
   -webkit-align-items: flex-start;
   align-items: flex-start;
 }
-  
+
 :host(.flexbox.align-end:host) {
   -webkit-box-align: end;
   -ms-flex-align: end;

@@ -1,11 +1,11 @@
-// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
-// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+// the AUTHORS file for details. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
-// This work is a port of the polymer-elements from the Polymer project, 
-// http://www.polymer-project.org/. 
+// This work is a port of the polymer-elements from the Polymer project,
+// http://www.polymer-project.org/.
 
 
-library polymer_collapse;
+library polymer_collapse.test;
 
 import "dart:html" show document, HtmlElement, Node, NodeTreeSanitizer;
 import "dart:async" show Future, Timer;
@@ -21,11 +21,11 @@ class NullTreeSanitizer implements NodeTreeSanitizer {
   void sanitizeTree(Node node) {}
 }
 
-void main() { 
+void main() {
   useHtmlEnhancedConfiguration();
 
   initPolymer().run(() {
-  
+
     test("polymer-collapse", () {
       Duration delay = new Duration(milliseconds: 300);
       var done = expectAsync0((){});
@@ -58,7 +58,7 @@ void main() {
   });
 }
 
-  
+
 dynamic getBoxComputedStyle() {
   HtmlElement b = document.querySelector('#box');
   return b.getComputedStyle();

@@ -5,7 +5,7 @@
 // http://www.polymer-project.org/.
 
 
-library polymer_ajax;
+library polymer_ajax.test;
 
 import "dart:html";
 import "package:polymer/polymer.dart";

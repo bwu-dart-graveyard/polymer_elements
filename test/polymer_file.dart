@@ -1,11 +1,11 @@
-// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
-// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+// the AUTHORS file for details. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
-// This work is a port of the polymer-elements from the Polymer project, 
-// http://www.polymer-project.org/. 
+// This work is a port of the polymer-elements from the Polymer project,
+// http://www.polymer-project.org/.
 
 
-library polymer_localstorage;
+library polymer_file.test;
 
 import "dart:html";
 import "package:polymer/polymer.dart";
@@ -13,32 +13,33 @@ import "package:unittest/unittest.dart";
 import "package:unittest/html_enhanced_config.dart";
 import "package:polymer_elements/polymer_file/polymer_file.dart";
 
-void main() { 
+void main() {
   //return;
   useHtmlEnhancedConfiguration();
 
-  initPolymer();
-  
-  test("polymer-file", () {
-    var done = expectAsync0((){});
-    String DATA = 'abc123';
+  initPolymer().run(() {
 
-    PolymerFile pfile = document.querySelector('polymer-file');
+    test("polymer-file", () {
+      var done = expectAsync0((){});
+      String DATA = 'abc123';
 
-    expect(pfile.blob, isNull);
-    expect(pfile.auto, isTrue);
-    expect(pfile.readas, equals('text'));
-    expect(pfile.result, isNull, reason: ".auto doesn't start a read");
+      PolymerFile pfile = document.querySelector('polymer-file');
 
-    pfile.blob = new Blob([DATA], 'text/plain');
+      expect(pfile.blob, isNull);
+      expect(pfile.auto, isTrue);
+      expect(pfile.readas, equals('text'));
+      expect(pfile.result, isNull, reason: ".auto doesn't start a read");
 
-    pfile.onFileReadResult.listen((e) {
-      expect(e.detail, isNotNull);
-      expect(e.detail, new isInstanceOf<String>('String'), reason: 'Result is a text string');
-      expect(e.detail, equals(DATA), reason: 'Result correct data');
-      expect(pfile.result, equals(DATA), reason: '.result was set correctly');
+      pfile.blob = new Blob([DATA], 'text/plain');
 
-      done();
+      pfile.onFileReadResult.listen((e) {
+        expect(e.detail, isNotNull);
+        expect(e.detail, new isInstanceOf<String>('String'), reason: 'Result is a text string');
+        expect(e.detail, equals(DATA), reason: 'Result correct data');
+        expect(pfile.result, equals(DATA), reason: '.result was set correctly');
+
+        done();
+      });
     });
   });
 }
