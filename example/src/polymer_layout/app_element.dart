@@ -8,14 +8,14 @@ library polymer_elements.polymer_layout.example.app_element;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart' show CustomTag, PolymerElement;
-//import 'package:polymer_elements/polymer_layout/polymer_slide.dart' show PolymerSlide;
+import 'package:polymer_elements/polymer_layout/polymer_slide.dart' show PolymerSlide;
 
 @CustomTag('app-element')
 class AppElement extends PolymerElement {
   AppElement.created() : super.created();
 
   void toggle(event, detail, HtmlElement target) {
-    var s = $[target.attributes['data-target']];
+    var s = ($[target.attributes['data-target']] as PolymerSlide);
     s.closed = !s.closed;
   }
 }
