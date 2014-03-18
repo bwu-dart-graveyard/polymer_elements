@@ -1,0 +1,37 @@
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <title>polymer-selector-basic</title>
+
+    <link rel="import" href="packages/polymer/polymer.html">
+    <link rel='import' href='packages/polymer_elements/polymer_selector/polymer_selector.html'>
+
+    <style>
+      .polymer-selected {
+        background: #ccc;
+      }
+    </style>
+
+    <script type='application/dart'>export 'polymer_selector_multi.dart';</script>
+    <script src='packages/browser/dart.js'></script>
+    <script src='packages/unittest/test_controller.js'></script>
+
+  </head>
+  <body>
+    <polymer-selector id="selector" multi>
+      <div id="item1">Item 1</div>
+      <div>Item 2</div>
+      <div>Item 3</div>
+      <div>Item 4</div>
+      <div>Item 5</div>
+    </polymer-selector>
+  </body>
+</html>
