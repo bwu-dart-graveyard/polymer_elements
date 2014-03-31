@@ -12,7 +12,7 @@ environment:
   sdk: ">=1.0.0 <2.0.0"
 dependencies:
   polymer: ">=0.10.0-dev.1 <1.0.0"
-  polymer_ui_elements: ">=0.1.2 <0.2"
+  polymer_ui_elements: ">=0.1.2 <0.2.0"
     
 #dependency_overrides:
 #  polymer_ui_elements:
