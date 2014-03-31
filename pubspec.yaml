@@ -12,13 +12,16 @@ environment:
   sdk: ">=1.0.0 <2.0.0"
 dependencies:
   polymer: ">=0.10.0-dev.1 <1.0.0"
-  polymer_ui_elements: 
-    git: https://github.com/ErikGrimes/polymer_ui_elements
+  polymer_ui_elements: ">=0.1.2 <0.2"
+    
 #dependency_overrides:
 #  polymer_ui_elements:
 #    path: ../polymer_ui_elements
 dev_dependencies:
+  polymer_ui_elements: 
+    git: https://github.com/ErikGrimes/polymer_ui_elements
   unittest: ">=0.9.3 <1.0.0"
+
 transformers:
 - polymer:
     entry_points:
