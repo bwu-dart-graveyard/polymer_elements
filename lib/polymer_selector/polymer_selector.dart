@@ -48,12 +48,15 @@ import 'dart:html' as dom;
 import 'dart:mirrors' as mirr;
 
 import 'package:polymer/polymer.dart';
-import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show PolymerSelection;
+import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show
+    PolymerSelection;
+import 'package:polymer_elements/src/interfaces.dart' show HasItems;
 
 @CustomTag('polymer-selector')
-class PolymerSelector extends PolymerElement {
+class PolymerSelector extends PolymerElement implements HasItems {
 
-  @published var dummy; // TODO remove workaround for polymer-selector-multi test
+  @published
+  var dummy; // TODO remove workaround for polymer-selector-multi test
 
   /**
    * Gets or sets the selected element.  Default to use the index
@@ -102,7 +105,7 @@ class PolymerSelector extends PolymerElement {
    * Specifies the CSS class to be used to add to the selected element.
    */
   @published
-  String selectedClass= 'polymer-selected';
+  String selectedClass = 'polymer-selected';
 
   /**
    * Specifies the property to be used to set on the selected element
@@ -172,9 +175,10 @@ class PolymerSelector extends PolymerElement {
    * it is being selected.
    */
   @published
-  String activateEvent = 'click'; // TODO change to tap when pointerevents are supported
+  String activateEvent = 'click';
+      // TODO change to tap when pointerevents are supported
 
-  PolymerSelector.created() : super.created();
+  PolymerSelector.created(): super.created();
 
   dom.MutationObserver _observer;
 
@@ -190,7 +194,7 @@ class PolymerSelector extends PolymerElement {
    */
   async.Stream<dom.CustomEvent> get onPolymerSelect {
     var selection = ($['selection'] as PolymerSelection);
-    if(selection != null) {
+    if (selection != null) {
       return selection.onPolymerSelect;
     }
     return null;
@@ -230,7 +234,7 @@ class PolymerSelector extends PolymerElement {
       nodes = (this.$['items'] as dom.ContentElement).getDistributedNodes();
     }
 
-    return nodes.where((dom.Element e){
+    return nodes.where((dom.Element e) {
       return e != null && e.localName != 'template';
     }).toList();
   }
@@ -258,22 +262,22 @@ class PolymerSelector extends PolymerElement {
     return (this.$['selection'] as PolymerSelection).selection;
   }
 
-  void selectedChanged(old){
+  void selectedChanged(old) {
     //(egrimes) Note: Workaround for https://code.google.com/p/dart/issues/detail?id=14496
-    // TODO should be fixed (zoechi: seems to work now)
-    new async.Future(() =>_updateSelected());
+    // TODO should be fixed
+    new async.Future(() => _updateSelected());
     //this._updateSelected();
   }
 
-  void _onMutation(records, observer){
+  void _onMutation(records, observer) {
     _updateSelected();
   }
 
-  void _updateSelected(){
+  void _updateSelected() {
     this._validateSelected();
     if (this.multi) {
       this.clearSelection();
-      if(this.selected != null){
+      if (this.selected != null) {
         this.selected.forEach((s) {
           this._valueToSelection(s);
         });
@@ -283,7 +287,7 @@ class PolymerSelector extends PolymerElement {
     }
   }
 
-  void _validateSelected(){
+  void _validateSelected() {
     // convert to a list for multi-selection
     if (this.multi && this.selected != null && this.selected is! List) {
       this.selected = [this.selected];
@@ -297,15 +301,15 @@ class PolymerSelector extends PolymerElement {
         (this.$['selection'] as PolymerSelection).setItemSelected(s, false);
       });
     } else {
-      (this.$['selection'] as PolymerSelection).setItemSelected(this.selection, false);
+      (this.$['selection'] as PolymerSelection).setItemSelected(this.selection,
+          false);
     }
     this.selectedItem = null;
     (this.$['selection'] as PolymerSelection).clear();
   }
 
   void _valueToSelection(value) {
-    var item = (value == null) ?
-        null : this.items[this._valueToIndex(value)];
+    var item = (value == null) ? null : this.items[this._valueToIndex(value)];
     (this.$['selection'] as PolymerSelection).select(item);
   }
 
@@ -313,35 +317,36 @@ class PolymerSelector extends PolymerElement {
     this.selectedItem = this.selection;
   }
 
-  void selectedItemChanged(old){
-    if(!multi) {
+  void selectedItemChanged(old) {
+    if (!multi) {
       if (this.selectedItem != null) {
         //TODO Figure out why this doesn't work - filed https://code.google.com/p/dart/issues/detail?id=17462
         try {
           var t = this.selectedItem.templateInstance;
           this.selectedModel = t ? t.model : null;
-        } catch(e){}
+        } catch (e) {}
       } else {
         this.selectedModel = null;
       }
-      this.selectedIndex = (this.selectedItem != null) ?
-          this._valueToIndex(this.selected) : 1;
+      this.selectedIndex = (this.selectedItem != null) ? this._valueToIndex(
+          this.selected) : 1;
     }
   }
 
   int _valueToIndex(value) {
     // find an item with value == value and return it's index
-    for (var i = 0, items = this.items; i < items.length; i++) {
+    for (var i = 0,
+        items = this.items; i < items.length; i++) {
       if (this._valueForNode(items[i]) == value) {
         return i;
       }
     }
     // if no item found, the value itself is probably the index
-    if(value is int) {
+    if (value is int) {
       return value;
     }
 
-    if(value is String && value.isNotEmpty) {
+    if (value is String && value.isNotEmpty) {
       return int.parse(value, onError: (s) => -1);
     }
     return -1;
@@ -357,9 +362,10 @@ class PolymerSelector extends PolymerElement {
     //for a matching variable or getter.
     try {
       return mirror.getField(new Symbol('${this.valueattr}')).reflectee;
-    }catch(e){
+    } catch (e) {
       return node.attributes[this.valueattr];
-    };
+    }
+    ;
   }
 
   // events fired from <polymer-selection> object
@@ -376,37 +382,37 @@ class PolymerSelector extends PolymerElement {
       item.classes.toggle(this.selectedClass, isSelected);
     }
 
-    //(egrimes) Note: It looks like Polymer.js adds the property dynamically to
-    //the item. PolymerSelector defaults selectedAttribute to 'active', so users
-    //will have to explicitly set selectedProperty to an empty string to keep
-    //from blowing up. I'm not sure that's reasoable.
-    mirr.InstanceMirror itemIM = mirr.reflect(item);
-    Symbol selectedPropertySym = new Symbol('${this.selectedProperty}');
-    mirr.MethodMirror selectedPropertySetter = itemIM.type.instanceMembers[selectedPropertySym];
-
     if (this.selectedProperty != null && this.selectedProperty.isNotEmpty) {
+      //(egrimes) Note: It looks like Polymer.js adds the property dynamically to
+      //the item. PolymerSelector defaults selectedAttribute to 'active', so users
+      //will have to explicitly set selectedProperty to an empty string to keep
+      //from blowing up. I'm not sure that's reasoable.
+      mirr.InstanceMirror itemIM = mirr.reflect(item);
+      Symbol selectedPropertySym = new Symbol('${this.selectedProperty}');
+      mirr.MethodMirror selectedPropertySetter =
+          itemIM.type.instanceMembers[selectedPropertySym];
+
       //Note: Reflection is required to work properly with checkboxes
       // TODO check if a setter is available instead of try/catch
       //try {
-        if(selectedPropertySetter != null && selectedPropertySetter.isSetter
-            && !selectedPropertySetter.isStatic) {
+      if (selectedPropertySetter != null && selectedPropertySetter.isSetter &&
+          !selectedPropertySetter.isStatic) {
         // polymer-ui-submenu-item works only with this
-          itemIM.setField(selectedPropertySym, isSelected);
+        itemIM.setField(selectedPropertySym, isSelected);
 
-      //} catch(e) { // required for polymer_ui_breadcrumbs (when an attribute is set on a DOM element
-//        } else {
-//        if(isSelected) {
-//          item.attributes[this.selectedProperty] = isSelected.toString();
-//        } else {
-//          item.attributes.remove(this.selectedProperty);
-//        }
+        //} catch(e) { // required for polymer_ui_breadcrumbs (when an attribute is set on a DOM element
+      } else {
+        item.attributes[this.selectedProperty] = isSelected.toString();
+        if(!isSelected) {
+          item.attributes.remove(this.selectedProperty);
+        }
       }
     }
 
-    if(this.selectedAttribute != null && this.selectedAttribute.isNotEmpty) {
-      if(isSelected) {
-        item.attributes[this.selectedAttribute] = '';
-      } else {
+    // item.attributes.remove('this.selectedAttribute') doesn't lead to a call of the fieldChangedMethod
+    if (this.selectedAttribute != null && this.selectedAttribute.isNotEmpty) {
+      item.attributes[this.selectedAttribute] = isSelected.toString();
+      if(!isSelected) {
         item.attributes.remove(this.selectedAttribute);
       }
     }
@@ -418,7 +424,7 @@ class PolymerSelector extends PolymerElement {
       if (i >= 0) {
         var item = this.items[i];
         var s = this._valueForNode(item);
-        if(s == null){
+        if (s == null) {
           s = i;
         }
         if (this.multi) {
@@ -430,7 +436,9 @@ class PolymerSelector extends PolymerElement {
         } else {
           this.selected = s;
         }
-        this.asyncFire('polymer-activate', detail: {'item': item });
+        this.asyncFire('polymer-activate', detail: {
+          'item': item
+        });
       }
     }
   }
