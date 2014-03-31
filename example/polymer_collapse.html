@@ -14,12 +14,12 @@ http://www.polymer-project.org/.
     <link rel="import" href="packages/polymer/polymer.html">
     <link rel="import" href="src/polymer_collapse/app_element.html">
 
-    <script type='application/dart'>export 'package:polymer/init.dart';</script>
     <script src="packages/browser/dart.js"></script>
 
   </head>
 
-  <body>
+  <body unresolved>
     <app-element></app-element>
+    <script type='application/dart'>export 'package:polymer/init.dart';</script>
   </body>
 </html>
