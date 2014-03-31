@@ -18,7 +18,7 @@ void main() {
   initPolymer().run(() {
 
     test("polymer-ajax", () {
-      var done = expectAsync0((){});
+      var done = expectAsync((){});
       var s = document.querySelector('polymer-ajax');
       s.addEventListener('polymer-response', (event){
         expect(event.detail['response']['feed']['entry'].length, greaterThan(0));

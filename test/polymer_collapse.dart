@@ -10,7 +10,7 @@ library polymer_collapse.test;
 import "dart:html" show document, HtmlElement, Node, NodeTreeSanitizer;
 import "dart:async" show Future, Timer;
 import "package:polymer/polymer.dart" show initMethod, initPolymer;
-import "package:unittest/unittest.dart" show equals, expect, expectAsync0, isFalse, isNot, test;
+import "package:unittest/unittest.dart" show equals, expect, expectAsync, isFalse, isNot, test;
 import "package:unittest/html_enhanced_config.dart" show useHtmlEnhancedConfiguration;
 import "package:polymer_elements/polymer_collapse/polymer_collapse.dart" show PolymerCollapse;
 
@@ -28,7 +28,7 @@ void main() {
 
     test("polymer-collapse", () {
       Duration delay = new Duration(milliseconds: 300);
-      var done = expectAsync0((){});
+      var done = expectAsync((){});
       Timer.run(() {
         var c = document.querySelector('#collapse') as PolymerCollapse;
         expect(c.closed, isFalse);
