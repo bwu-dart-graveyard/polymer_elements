@@ -15,7 +15,6 @@ http://www.polymer-project.org/.
     <link rel="import" href="src/polymer_anchor_point/app_element.html">
     <link rel="import" href="packages/polymer_elements/polymer_anchor_point/polymer_anchor_point.html">
     <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.html">
-    <link rel="import" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_area.html">
     <link rel="import" href="../packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button.html">
     <link rel="import" href="../packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar.html">
     <link rel="stylesheet" href="../packages/polymer_ui_elements/asset/base.css">
@@ -42,10 +41,11 @@ http://www.polymer-project.org/.
         	display: block;
         }
   	</style>
+    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
   </head>
   <body class="polymer-ui-body-text">
     <app-element>
-      <polymer-flex-area id="container">
+      <div id="container">
         <polymer-flex-layout vertical="true"></polymer-flex-layout>
         <polymer-ui-toolbar theme="polymer-ui-light-theme" id="tmptoggle1">
           <polymer-ui-icon-button icon="menu" anchor-point="bottom left" target-anchor-point="top left"></polymer-ui-icon-button>
@@ -71,7 +71,7 @@ http://www.polymer-project.org/.
           <div flex></div>
           <polymer-ui-icon-button icon="search" anchor-point="top right" target-anchor-point="bottom right"></polymer-ui-icon-button>
         </polymer-ui-toolbar>
-      </polymer-flex-area>
+      </div>
       <div id="target"></div>
       <polymer-anchor-point id="anchorable"></polymer-anchor-point>
     </app-element>
