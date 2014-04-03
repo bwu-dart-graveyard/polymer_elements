@@ -1,13 +1,13 @@
-// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see 
-// the AUTHORS file for details. All rights reserved. Use of this source code is 
+// Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+// the AUTHORS file for details. All rights reserved. Use of this source code is
 // governed by a BSD-style license that can be found in the LICENSE file.
-// This work is a port of the polymer-elements from the Polymer project, 
-// http://www.polymer-project.org/. 
+// This work is a port of the polymer-elements from the Polymer project,
+// http://www.polymer-project.org/.
 
 library polymer_elements.polymer_flex_layout;
 
-//import 'dart:async' show Timer;
-import 'dart:html';
+import 'dart:async' show Future;
+import 'dart:html' as dom;
 import 'package:polymer/polymer.dart';
 
 
@@ -57,27 +57,30 @@ import 'package:polymer/polymer.dart';
  */
 @CustomTag('polymer-flex-layout')
 class PolymerFlexLayout extends PolymerElement {
-  PolymerFlexLayout.created() : super.created();
-  
+  PolymerFlexLayout.created(): super.created();
+
 
   /**
    * If true, flex items are aligned vertically.
    */
-  @published bool vertical = false;
+  @published
+  bool vertical = false;
 
   /**
-   * Defines the default for how flex items are laid out along the cross axis on 
+   * Defines the default for how flex items are laid out along the cross axis on
    * the current line.  Possible values are 'start', 'center' and 'end'.
    */
-  @published String align = '';
-  
+  @published
+  String align = '';
+
   /**
    * Defines how flex items are laid out along the main axis on the current line.
    * Possible values are 'start', 'center' and 'end'.
    */
 
-  @published String justify = '';
-  
+  @published
+  String justify = '';
+
   /**
    * If true, polymer-flex-layout is the flex container.
   *
@@ -95,33 +98,36 @@ class PolymerFlexLayout extends PolymerElement {
    *     |-------------------------------|
    *     ---------------------------------
    */
-  @published bool isContainer = false;
-  
-  @observable HtmlElement layoutContainer = null;
+  @published
+  bool isContainer = false;
+
+  @observable
+  dom.HtmlElement layoutContainer = null;
 
   @override
   void enteredView() {
     super.enteredView();
-    
-    if(this.isContainer) {
+
+    // TODO this should become redundant when the domspec is more complete
+    // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
+    this.installControllerStyles();
+    // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751
+
+    if (this.isContainer) {
       this.layoutContainer = this;
     } else {
-      if (this.parent != null) {
-        this.layoutContainer = this.parent;
+      if (this.parentNode is dom.ShadowRoot) {
+        this.layoutContainer = (this.parentNode as dom.ShadowRoot).host;
+      } else {
+        this.layoutContainer = this.parentNode;
       }
     }
- 
+
     this.verticalChanged(null);
     this.alignChanged(null);
     this.justifyChanged(null);
-    
-    this.layoutContainerChanged(null); // TODO remove when @observable fires changed as it should);
-
-      // TODO this should become redundant when the domspec is more complete
-    // http://api.dartlang.org/docs/bleeding_edge/polymer/Polymer.html#installControllerStyles
-    //this.installControllerStyles(); // TODO has a bug https://code.google.com/p/dart/issues/detail?id=14751   
   }
-  
+
   @override
   void leftView() {
     super.leftView();
@@ -132,17 +138,15 @@ class PolymerFlexLayout extends PolymerElement {
     if (old != null) {
       old.classes.remove('flexbox');
     }
-    
+
     if (this.layoutContainer == this) {
       this.style.display = '';
     } else {
       this.style.display = 'none';
     }
-    
-    if (layoutContainer == this) {
+
+    if (layoutContainer != null) {
       this.layoutContainer.classes.add('flexbox');
-    } else {
-      dispatchLayoutContainerClassChange({'add': 'flexbox'});
     }
   }
 
@@ -151,13 +155,11 @@ class PolymerFlexLayout extends PolymerElement {
     if (o == null) {
       o = '';
     }
-    
+
     if (name != null && name.isNotEmpty) {
-      if(this.layoutContainer != null) {
+      if (this.layoutContainer != null && name != null && name.isNotEmpty) {
         this.layoutContainer.classes.remove(prefix + o);
         this.layoutContainer.classes.add(prefix + name);
-      } else {
-        dispatchLayoutContainerClassChange({'remove': prefix + o, 'add': prefix + name});
       }
     }
   }
@@ -165,24 +167,14 @@ class PolymerFlexLayout extends PolymerElement {
   void verticalChanged(old) {
     if (this.layoutContainer != null) {
       this.layoutContainer.classes.toggle('column', this.vertical);
-    } else {
-      dispatchLayoutContainerClassChange({(this.vertical ? 'add' : 'remove') : 'column'});
     }
   }
-  
+
   void alignChanged(String old) {
     this.switchContainerClass('align-', old, this.align);
   }
-  
+
   void justifyChanged(old) {
     this.switchContainerClass('justify-', old, this.justify);
   }
-  
-  void dispatchLayoutContainerClassChange(Map<String,String> detail) {
-    if(this.layoutContainer != this) {
-      //Timer.run(() =>dispatchEvent(new CustomEvent('polymer-class-change', detail: detail)));
-      dispatchEvent(new CustomEvent('polymer-class-change', detail: detail));
-    }
-  }
 }
-
