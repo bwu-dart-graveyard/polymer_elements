@@ -27,7 +27,7 @@ void main() {
   initPolymer().run(() {
     Polymer.onReady.then((e) {
       test('polymer-selector-activate-event', () {
-        var done = expectAsync0((){});
+        var done = expectAsync((){});
         // selector1
         var s = (dom.document.querySelector('#selector') as PolymerSelector);
         s.onPolymerActivate.listen((dom.CustomEvent event) {

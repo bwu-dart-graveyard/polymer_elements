@@ -29,7 +29,7 @@ void main() {
     Polymer.onReady.then((e) {
 
       test('polymer-selector', () {
-        var done = expectAsync0((){});
+        var done = expectAsync((){});
         // selector1
         var s = (dom.document.querySelector('#selector1') as PolymerSelector);
         expect(s, isNotNull);

@@ -20,12 +20,12 @@ void main() {
   initPolymer();
 
   test("polymer-localstorage", () {
-    var done = expectAsync0((){});
+    var done = expectAsync((){});
     var s = document.querySelector('#localstorage') as PolymerLocalstorage;
     var m = 'hello wold';
     window.localStorage[s.name] = m;
 
-    var doneEvent = expectAsync0((){});
+    var doneEvent = expectAsync((){});
 
     s.onLoadEvent.listen((_) {
       doneEvent();

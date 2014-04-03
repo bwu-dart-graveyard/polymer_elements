@@ -22,8 +22,9 @@ void main() {
     Polymer.onReady.then((e) {
       group('polymer-selection', () {
         test('polymer-selection', () {
-          var done = expectAsync0(() {}, count: 2);
-          var s = document.querySelector('polymer-selection') as PolymerSelection;
+          var done = expectAsync(() {}, count: 2);
+          var s = document.querySelector('polymer-selection') as
+              PolymerSelection;
           int testNr = 0;
 
           async.StreamSubscription subscr;
@@ -52,17 +53,18 @@ void main() {
         });
 
         test('event stream getter', () {
-          var done = expectAsync0(() {}, count: 2);
-          var s = document.querySelector('polymer-selection') as PolymerSelection;
+          var done = expectAsync(() {}, count: 2);
+          var s = document.querySelector('polymer-selection') as
+              PolymerSelection;
           int testNr = 0;
 
           async.StreamSubscription subscr;
-          subscr  =s.onPolymerSelect.listen((e) {
-            if(testNr == 1) {
+          subscr = s.onPolymerSelect.listen((e) {
+            if (testNr == 1) {
               testNr++;
               s.select(null);
               done();
-            } else if (testNr == 2){
+            } else if (testNr == 2) {
               subscr.cancel();
               done();
             }
@@ -74,4 +76,3 @@ void main() {
     });
   });
 }
-

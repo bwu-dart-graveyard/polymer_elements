@@ -20,7 +20,7 @@ void main() {
   initPolymer().run(() {
 
     test("polymer-file", () {
-      var done = expectAsync0((){});
+      var done = expectAsync((){});
       String DATA = 'abc123';
 
       PolymerFile pfile = document.querySelector('polymer-file');

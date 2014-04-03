@@ -20,7 +20,7 @@ void main() {
   initPolymer().run(() {
     Polymer.onReady.then((e) {
       test('polymer-selection-multi', () {
-        var done = expectAsync0(() {}, count: 2);
+        var done = expectAsync(() {}, count: 2);
         var s = dom.document.querySelector('polymer-selection') as PolymerSelection;
         int testNr = 0;
 
