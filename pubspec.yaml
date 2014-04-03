@@ -11,10 +11,10 @@ documentation: http://erikgrimes.github.io/polymer_elements/docs/index.html
 environment:
   sdk: ">=1.0.0 <2.0.0"
 dependencies:
-  polymer: ">=0.10.0-dev.1 <1.0.0"
-  polymer_ui_elements:   
+  polymer: ">=0.10.0-dev.5 <1.0.0"
+  polymer_ui_elements:
     git: https://github.com/ErikGrimes/polymer_ui_elements
-    
+
 #dependency_overrides:
 #  polymer_ui_elements:
 #    path: ../polymer_ui_elements
