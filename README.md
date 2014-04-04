@@ -40,16 +40,16 @@ Just [Create a New Issue](https://github.com/ErikGrimes/polymer_elements/issues/
 ### Status
 <!-- (A few demo pages (* aren't rendered properly as GitHub Pages or because they use unfinished elements. We are working on it.) --> 
 
-* Status `(ported)` means it is ported but not yet usable
+<!-- * Status `(ported)` means it is ported but not yet usable -->
 
 Element name                    |   Status         | Comment      | Demo
 ------------------------------- | ---------------- | ------------ | ----
 polymer-ajax                    | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_ajax.html)
-polymer-anchor-point            | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)&nbsp;(*
+polymer-anchor-point            | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_anchor_point.html)&nbsp;
 polymer-collapse                | ported           | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_collapse.html)
 polymer-cookie                  | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_cookie.html)
 polymer-file                    | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_file.html)
-polymer-flex-layout             | ported           | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)&nbsp;(*
+polymer-flex-layout             | ported           | needs some additional stylesheet imports due to Polymer.dart limitations (see examples) | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_flex_layout.html)&nbsp;
 polymer-google-jsapi            | not&nbsp;started |              | 
 polymer-grid-layout             | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
 polymer-jsonp                   | not&nbsp;started |              |
