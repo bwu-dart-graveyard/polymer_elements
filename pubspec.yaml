@@ -11,7 +11,7 @@ documentation: http://erikgrimes.github.io/polymer_elements/docs/index.html
 environment:
   sdk: ">=1.2.0 <2.0.0"
 dependencies:
-  polymer: ">=0.10.0-dev.5 <1.0.0"
+  polymer: ">=0.10.0-pre.5 <1.0.0"
   polymer_ui_elements:  #0.2.0-pre.0
     git: https://github.com/ErikGrimes/polymer_ui_elements
 #    path: ../polymer_ui_elements
