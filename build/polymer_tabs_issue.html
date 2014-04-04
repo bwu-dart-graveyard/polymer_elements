@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<polymer-element name="polymer-tabs-issue" attributes="selectedTab">
+
+  <link rel="import" href="packages/polymer_ui_elements/polymer_ui_tabs/polymer_ui_tabs.html">
+  <link rel="import" href="packages/polymer_ui_elements/polymer_ui_pages/polymer_ui_pages.html">
+  <link rel="import" href="packages/polymer_elements/polymer_layout/polymer_layout.html">
+
+  <template>
+    <style type="text/css">
+      polymer-ui-tabs {
+        width: 100%;
+        height: 70px; /* not sure why need to set height */
+      }
+      polymer-ui-pages {
+        width: 100%;
+        border: 1px solid gray;
+        margin: 0px 5px 5px 5px;
+      }
+      polymer-ui-tabs > * {
+        width: 30%;
+      }
+    </style>
+
+    <div style="width:100%;height:100%;">
+      <polymer-layout vertical></polymer-layout>
+
+      <div>
+        <polymer-layout></polymer-layout>
+        <polymer-ui-tabs selected="{{selectedTab}}">
+          <span>One</span>
+          <span>Two</span>
+          <span>Three</span>
+        </polymer-ui-tabs>
+        <div flex></div>
+      </div>
+
+      <polymer-ui-pages selected="{{selectedTab}}" flex>
+          <span>One</span>
+          <span>Two</span>
+          <span>Three</span>
+      </polymer-ui-pages>
+    </div>
+
+  </template>
+
+  <script type="application/dart" src="polymer_tabs_issue.dart">
+  </script>
+
+</polymer-element>

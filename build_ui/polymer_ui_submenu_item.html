@@ -1,40 +1,125 @@
-<!DOCTYPE html><!-- 
+<!DOCTYPE html><!--
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
-the AUTHORS file for details. All rights reserved. Use of this source code is 
-governed by a BSD-style license that can be found in the LICENSE file. 
-This work is a port of the polymer-elements from the Polymer project, 
-http://www.polymer-project.org/. 
---><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+--><html><head><script src="packages/browser/interop.js"></script>
 
     <title>polymer-ui-breadcrumbs</title>
+
     
     
     
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css"><!-- TODO remove -->
+
     
-    <script src="polymer_ui_submenu_item.html_bootstrap.dart.js"></script>
+
     
-  
-    <style>
-      section {
-        width: 300px;
-        padding: 10px;
-      }
-    </style>
+    
+
+    
   </head>
-  <body class="polymer-ui-body-text"><polymer-element name="polymer-ui-theme-aware" attributes="theme">
+  <body class="polymer-ui-body-text" unresolved="">
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script>
+
+
+
+
+
+
+<polymer-element name="polymer-ui-theme-aware" attributes="theme">
   
 </polymer-element>
+
+
+<polymer-element name="polymer-meta">
+  
+</polymer-element>
+<polymer-element name="polymer-ui-iconset" extends="polymer-meta" attributes="src2 width icons iconsize">
+  
+</polymer-element>
+
+
+
+<!-- worked within polyer_ui_elements (Dart+JS) src="../polymer_ui_action_icons/action_icons.png" -->
+<!-- failed in polymer_elements (Dart) http://127.0.0.1:3030/polymer_elements/polymer_ui_action_icons/action_icons.png -->
+<polymer-ui-iconset id="polymer-ui-icons" src2="../packages/polymer_ui_elements/polymer_ui_action_icons/action_icons.png" width="24" iconsize="24" icons="drawer menu search dropdown close add trash refresh settings dialoga left right down up grid contact account plus time marker briefcase array columns list modules quilt stream maximize shrink sort shortcut dialog twitter facebook favorite gplus filter tag plusone dots">
+
+  <property theme="polymer-ui-light-theme" offsetx="24"></property>
+  <property theme="polymer-ui-dark-theme" offsetx="72"></property>
+</polymer-ui-iconset>
+
 <polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
-    <!-- TODO remove style element and content when css import is fixed -->
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
 
+:host {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+</style>
+    <polymer-ui-iconset id="meta"></polymer-ui-iconset>
     <content></content>
+
   </template>
 
   
@@ -42,17 +127,108 @@ http://www.polymer-project.org/.
 
 <polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item_old.css">
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
-    
+    <style>/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 40px;
+  line-height: 35px;
+  font-size: 16px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+:host(:hover:host) {
+  opacity: 0.9;
+}
+
+:host(.polymer-selected:host, [active]:host) {
+  opacity: 1;
+}
+
+:host(.polymer-ui-light-theme.polymer-selected:host, .polymer-ui-light-theme[active]:host) {
+  background: #f2f2f2;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+:host(.polymer-ui-dark-theme:host) {
+  color: #b3b3b3;
+}
+
+:host(.polymer-ui-dark-theme:hover:host) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:host(.polymer-ui-dark-theme.polymer-selected:host, .polymer-ui-dark-theme[active]:host) {
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:host([active].no-active-bg:host) {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+/* icon and label */
+polymer-ui-icon:not([showing]) {
+  display: none !important;
+}
+
+polymer-ui-icon {
+  margin-right: 16px;
+}
+
+#label {
+  vertical-align: middle;
+  padding-right: 20px;
+}
+
+/*@polyfill :host #label > a, #link */
+content /content/ a, #link, ::content > a { {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: -1px;
+}
+
+#link[hidden] {
+  display: none;
+}
+</style>
+
     <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
     <span id="label">{{label}}<content></content></span>
-    <a id="link" href="{{href}}" hidden="{{isShowHref}}"></a>
+    <a id="link" href="{{href}}" hidden="{{isHideHref}}"></a>
   </template>
 
   
 </polymer-element>
+
+
+
+
+
+
+
+
+
+
+
+
 <polymer-element name="polymer-selection"> 
   <template>
     <style>
@@ -70,16 +246,55 @@ http://www.polymer-project.org/.
   
 </polymer-element><polymer-element name="polymer-ui-menu" extends="polymer-selector" attributes="theme" on-polymer-select="{{selectionChange}}">
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu_old.css"> <!-- TODO remove -->
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  /* technical */
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* size */
+  padding: 0.4em;
+  font-weight: bold;
+}
+
+:host(.polymer-ui-light-theme:host) {
+  color: #333333;
+}
+
+:host(.polymer-ui-dark-theme:host) {
+  background: -webkit-linear-gradient(-60deg, #3d3d3d, #353535);
+  background: -moz-linear-gradient(-60deg, #3d3d3d, #353535);
+  background: -ms-linear-gradient(-60deg, #3d3d3d, #353535);
+  color: #ededed;
+}
+</style>
     <shadow></shadow>
   </template>
   
 </polymer-element>
 <polymer-element name="polymer-collapse" attributes="target horizontal closed duration fixedSize size">
   <template>
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
-    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}</style>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}</style>
     <style>
       :host {
         display: none;
@@ -90,11 +305,27 @@ http://www.polymer-project.org/.
 </polymer-element>
 <polymer-element name="polymer-ui-submenu-item" extends="polymer-ui-menu-item" attributes="active selected selectedItem">
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_submenu_item/polymer_ui_submenu_item.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_submenu_item/polymer_ui_submenu_item_old.css"> <!-- TODO remove -->
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    <style>/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
 
-    <polymer-ui-menu-item id="item" src="{{src}}" label="{{label}}" icon="{{icon}}" active?="{{active}}" on-tap="{{activate}}" on-click="{{activate}}">
+:host { 
+  display: block;
+}
+
+/* menu */
+#menu {
+  margin-left: 44px;
+  height: 0;
+  /* override :host style on polymer-ui-menu */
+  background-image: none !important;
+  padding: 0 !important;
+}
+</style>
+
+    <polymer-ui-menu-item id="item" src="{{src}}" label="{{label}}" icon="{{icon}}" active?="{{active}}" on-click="{{activate}}"> <!-- todo on-tap -->
       <content select=".item-content"></content>
     </polymer-ui-menu-item>
     <polymer-ui-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}">
@@ -105,7 +336,34 @@ http://www.polymer-project.org/.
 
   
 </polymer-element>
+<style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-ui-full-bleed {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+}
 
+.polymer-ui-fit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.polymer-ui-body-text {
+  font: 16px 'Helvetica Neue', Helvetica, Arial, Roboto;
+}
+</style><script src="polymer_ui_submenu_item.html_bootstrap.dart.js"></script><style>
+      section {
+        width: 300px;
+        padding: 10px;
+      }
+    </style>
     <h2>polymer-ui-light-theme</h2>
     <section theme="polymer-ui-light-theme">
       <polymer-ui-submenu-item icon="settings" label="Topics" active="">
@@ -114,7 +372,7 @@ http://www.polymer-project.org/.
       </polymer-ui-submenu-item>
     </section>
     <h2>polymer-ui-dark-theme</h2>
-    <section class="polymer-ui-dark-bg" theme="polymer-ui-dark-theme">
+    <section style="background: #333;" theme="polymer-ui-dark-theme">
       <polymer-ui-submenu-item icon="settings" label="Topics" active="">
         <polymer-ui-menu-item label="Topics 1"></polymer-ui-menu-item>
         <polymer-ui-menu-item label="Topics 2"></polymer-ui-menu-item>

@@ -4,35 +4,357 @@ the AUTHORS file for details. All rights reserved. Use of this source code is
 governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project,
 http://www.polymer-project.org/.
---><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+--><html><head><script src="packages/browser/interop.js"></script>
 
-    <title>polymer-ui-toolbar</title>
+    <title>polymer-ui-toggle-button</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <!-- import elements-->
+    
     
 
-    <script src="polymer_ui_toggle_button.html_bootstrap.dart.js"></script>
+    
     
 
-    <!-- -->
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css"><!-- TODO remove -->
-    <style>
-      .wide-button {
-        width: 100px;
-      }
-    </style>
+    
+    
   </head>
-   <body class="polymer-ui-body-text"><polymer-element name="polymer-ui-toggle-button" on-tap="{{toggle}}" on-click="{{toggle}}" on-trackstart="{{trackStart}}" on-track="{{track}}" on-trackend="{{trackEnd}}" on-flick="{{flick}}"> <!-- attributes="value noCaption onCaption offCaption" had to remove from here to make it work-->
+   <body class="polymer-ui-body-text" unresolved="">
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script><polymer-element name="polymer-ui-toggle-button" on-click="{{toggle}}" on-trackstart="{{trackStart}}" on-track="{{track}}" on-trackend="{{trackEnd}}" on-flick="{{flick}}"> <!-- attributes="value noCaption onCaption offCaption" had to remove from here to make it work-->
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toggle_button/polymer_ui_toggle_button.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toggle_button/polymer_ui_toggle_button_old.css"> <!-- TODO remove -->
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css"> 
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TODO remove --> 
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  position: relative;
+  min-width: 60px;
+  height: 24px;
+  overflow: hidden;
+  border: 1px solid #b6b6b6;
+  border-radius: 2px;
+  box-shadow: inset 0px 0px 1px 0 rgba(0,0,0,0.1);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-transition: border 0.130s ease-out;
+  transition: border 0.130s ease-out;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+:host(.on:host) {
+  border: 1px solid #0fb2c6;
+}
+
+.toggle {
+  position: absolute;
+  left: -webkit-calc(-100% + 24px);
+  left: -moz-calc(-100% + 24px);
+  left: calc(-100% + 24px);
+  width: -webkit-calc(200% - 24px);
+  width: -moz-calc(200% - 24px);
+  width: calc(200% - 24px);
+  height: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  /* Safari bug: https://bugs.webkit.org/show_bug.cgi?id=100568 */
+  /*-webkit-transition: left 0.130s ease-out;*/
+  transition: left 0.130s ease-out;
+}
+
+/* workaround for https://github.com/Polymer/platform/issues/36 */
+/* @polyfill-unscoped-rule polymer-ui-toggle-button .toggle {
+  left: -webkit-calc(-100% + 24px);
+  width: -webkit-calc(200% - 24px);
+} */
+
+.toggle.dragging {
+  -webkit-transition: none;
+  transition: none;
+}
+
+.toggle.on {
+  left: 0;
+}
+
+.toggle > * {
+  float: left;
+}
+
+.on-label, .off-label {
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+
+.on-label {
+  padding-right: 12px;
+  background-color: #2fb2c6;
+  color: white;
+}
+
+.off-label {
+  padding-left: 12px;
+  background-color: #bfbfbf;
+  color: #716f6f;
+}
+
+.thumb {
+  position: absolute;
+  left: -webkit-calc(50% - 12px);
+  left: -moz-calc(50% - 12px);
+  left: calc(50% - 12px);
+  width: 24px;
+  height: 100%;
+  border-radius: 1px;
+  background-color: white;
+}
+
+/* @polyfill-unscoped-rule polymer-ui-toggle-button .thumb {
+  left: -webkit-calc(50% - 12px);
+} */
+</style>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::content > .flex,
+::content > [flex],
+::content > [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+:host(.flexbox:host, [flexbox]:host, [h-flexbox]:host, [v-flexbox]:host) {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+:host(.flexbox.row:host, [flexbox]:host, [h-flexbox]:host) {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+:host(.flexbox.column:host, [v-flexbox]:host) {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+:host(.flexbox.align-start:host) {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+:host(.flexbox.align-end:host) {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+:host(.flexbox.align-center:host) {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+:host(.flexbox.justify-start:host) {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+:host(.flexbox.justify-end:host) {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+:host(.flexbox.justify-center:host) {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+:host(.flexbox.justify-between:host) {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+</style>
 
     <div id="toggle" class="toggle">
       <span class="on-label flexbox align-center justify-center">{{currentCaption}}</span>
@@ -43,7 +365,33 @@ http://www.polymer-project.org/.
   
 </polymer-element>
 
+<script src="polymer_ui_toggle_button.html_bootstrap.dart.js"></script><style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-ui-full-bleed {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+}
 
+.polymer-ui-fit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.polymer-ui-body-text {
+  font: 16px 'Helvetica Neue', Helvetica, Arial, Roboto;
+}
+</style><style>
+      .wide-button {
+        width: 100px;
+      }
+    </style>
     <polymer-ui-toggle-button></polymer-ui-toggle-button>
     <br><br>
     <polymer-ui-toggle-button value=""></polymer-ui-toggle-button>

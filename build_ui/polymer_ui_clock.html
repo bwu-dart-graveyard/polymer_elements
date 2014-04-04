@@ -2,33 +2,165 @@
 Copyright 2013 The Polymer Authors. All rights reserved.
 Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file.
---><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+--><html><head><script src="packages/browser/interop.js"></script>
 
     <title>polymer-ui-clock</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
     
-  
-    <script src="polymer_ui_clock.html_bootstrap.dart.js"></script>
-  
     
-    <style>
-      body {
-        background-color: #333;
-      }
-      polymer-ui-clock {
-        width: 320px;
-        height: 340px;
-        display: inline-block;
-        background: url("../lib/asset/glass.png") no-repeat;
-        background-size: cover;
-        border: 4px solid rgba(32, 32, 32, 0.3);
-      }
-    </style>
+
+    
+    
+
+    
   </head>
-  <body><polymer-element name="polymer-ui-clock"> 
+  <body>
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script><polymer-element name="polymer-ui-clock"> 
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_clock/polymer_ui_clock.css">
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  padding: 20px;
+  max-width: 340px;
+  white-space: nowrap;
+  background-image: url(packages/polymer_ui_elements/asset/glass.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+#widget-title {
+  font-size: 21px;
+  line-height: 15px;
+}
+
+#time {
+  display: block;
+}
+
+#clock {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 100px;
+  background-color: #f2f2f2;
+  border: 1px solid #d9d9d9;
+  box-sizing: border-box;
+  margin: 40px auto;
+}
+
+#hour {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform-origin: 50% 50%;
+  background: #4c4c4c;
+  height: 82px;
+  width: 6px;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+#minute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform-origin: 50% 50%;
+  background: #4c4c4c;
+  height: 92px;
+  width: 4px;
+  border-radius: 2px;
+  box-sizing: border-box;
+}
+
+#second {
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transform-origin: 50% 50%;
+  background: #4385fb;
+  height: 100px;
+  width: 2px;
+  border-radius: 1px;
+  box-sizing: border-box;
+}
+
+#dot {
+  box-sizing: border-box;
+  width:2px;
+  height:2px;
+  border-radius: 1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -1px;
+  background-color: red;
+}
+</style>
     <div id="widget-title">{{ dateStr }}</div>
     <div id="clock">
       <div id="second" style="-webkit-transform: translate3d({{xSecond}}px,{{ySecond}}px,0) rotate({{rotateSecond}}deg);"></div>
@@ -38,7 +170,19 @@ license that can be found in the LICENSE file.
     <div id="time">{{ time }}</div>
   </template> 
   
-</polymer-element>
+</polymer-element><script src="polymer_ui_clock.html_bootstrap.dart.js"></script><style>
+      body {
+        background-color: #333;
+      }
+      polymer-ui-clock {
+        width: 320px;
+        height: 340px;
+        display: inline-block;
+        background: url("packages/polymer_ui_elements/asset/glass.png") no-repeat;
+        background-size: cover;
+        border: 4px solid rgba(32, 32, 32, 0.3);
+      }
+    </style>
     <polymer-ui-clock></polymer-ui-clock>
   
 

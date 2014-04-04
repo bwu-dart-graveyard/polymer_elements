@@ -1,47 +1,89 @@
-<!DOCTYPE html><!-- 
+<!DOCTYPE html><!--
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
-the AUTHORS file for details. All rights reserved. Use of this source code is 
-governed by a BSD-style license that can be found in the LICENSE file. 
-This work is a port of the polymer-elements from the Polymer project, 
-http://www.polymer-project.org/. 
---><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+--><html><head><script src="packages/browser/interop.js"></script>
 
     <title>polymer-ui-accordion</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    
-    <!-- import elements-->
-    
+
     
     
-    <script src="polymer_ui_accordion.html_bootstrap.dart.js"></script> 
+    
+
     
     
-    <!-- -->
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/base.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/asset/basic_old.css"><!-- TODO remove -->
-    <style>
-      polymer-ui-collapsible {
-        margin-bottom: 2px;
-        border: 1px solid #ddd;
-        border-radius: 3px;
-      }
-      
-      .polymer-ui-collapsible-header {
-        padding: 10px;
-        border-bottom: 1px solid #bcbcbc;
-        font-weight: bold;
-        cursor: pointer;
-      }
-      
-      .content {
-        padding: 10px;
-      }
-    </style>
+
+    
+
+    
   </head>
-   <body class="polymer-ui-body-text"><polymer-element name="polymer-selection"> 
+   <body class="polymer-ui-body-text" unresolved="">
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script>
+
+<!-- not helpfule because PolymerDart doesn't reexport -->
+<!--<link rel="import" href="../polymer_ui_collapsible/polymer_ui_collapsible.html"> -->
+
+
+
+
+<polymer-element name="polymer-selection"> 
   <template>
     <style>
       :host { 
@@ -56,10 +98,42 @@ http://www.polymer-project.org/.
     <content id="items" select="*"></content>
   </template>
   
-</polymer-element><polymer-element name="polymer-collapse" attributes="target horizontal closed duration fixedSize size">
+</polymer-element><polymer-element name="polymer-ui-accordion" extends="polymer-selector">
   <template>
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
-    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: block;
+}</style>
+    <shadow></shadow>
+  </template>
+  
+</polymer-element>
+
+
+
+<polymer-element name="polymer-collapse" attributes="target horizontal closed duration fixedSize size">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}</style>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-collapse-closed {
+  display: none;
+}</style>
     <style>
       :host {
         display: none;
@@ -70,12 +144,23 @@ http://www.polymer-project.org/.
 </polymer-element>
 <polymer-element name="polymer-ui-collapsible" attributes="active notap">
   <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_collapsible/polymer_ui_collapsible_old.css"> <!-- TODO remove -->
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_collapsible/polymer_ui_collapsible.css">
-    <div on-tap="{{headerTap}}" on-click="{{headerTap}}">
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: block;
+}
+
+#collapsibleBody {
+  height: 0;
+}</style>
+    <div on-click="{{headerTap}}"> <!-- todo on-tap -->
       <content select=".polymer-ui-collapsible-header"></content>
     </div>
-    <div id="collapsibleBody" on-tap="{{bodyTap}}" on-click="{{bodyTap}}">
+    <div id="collapsibleBody" on-click="{{bodyTap}}"> <!-- todo on-tap -->
       <content></content>
     </div>
     <polymer-collapse targetid="collapsibleBody" closed="{{!active}}"></polymer-collapse>
@@ -83,15 +168,46 @@ http://www.polymer-project.org/.
   
 </polymer-element>
 
-<polymer-element name="polymer-ui-accordion" extends="polymer-selector">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_accordion/polymer_ui_accordion.css">
-    <shadow></shadow>
-  </template>
-  
-</polymer-element>
+<script src="polymer_ui_accordion.html_bootstrap.dart.js"></script><style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.polymer-ui-full-bleed {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+}
 
+.polymer-ui-fit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
+.polymer-ui-body-text {
+  font: 16px 'Helvetica Neue', Helvetica, Arial, Roboto;
+}
+</style><style>
+      polymer-ui-collapsible {
+        margin-bottom: 2px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+      }
+
+      .polymer-ui-collapsible-header {
+        padding: 10px;
+        border-bottom: 1px solid #bcbcbc;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .content {
+        padding: 10px;
+      }
+    </style>
     <polymer-ui-accordion selected="0">
       <polymer-ui-collapsible>
         <div class="polymer-ui-collapsible-header">Header 1</div>

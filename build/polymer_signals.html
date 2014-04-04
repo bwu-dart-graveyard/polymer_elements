@@ -1,28 +1,85 @@
-<!-- 
+<!--
 Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
-the AUTHORS file for details. All rights reserved. Use of this source code is 
-governed by a BSD-style license that can be found in the LICENSE file. 
-This work is a port of the polymer-elements from the Polymer project, 
-http://www.polymer-project.org/. 
---><!DOCTYPE html><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+--><!DOCTYPE html><html><head><script src="packages/browser/interop.js"></script>
 
-  <title>polymer-signals</title>
+    <title>polymer-signals</title>
 
-  
+    
+    
 
- <script src="polymer_signals.html_bootstrap.dart.js"></script>
+    
+    
 
-  
-  
-</head>
-<body><polymer-element name="my-element">
+  </head>
+  <body>
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script>
+
+
+<polymer-element name="my-element">
   <template>
     Hello
   </template>
   
-</polymer-element><polymer-element name="polymer-signals"> 
+</polymer-element>
+
+<polymer-element name="polymer-signals">
   
 </polymer-element><polymer-element name="my-app">
   <template>
@@ -36,8 +93,8 @@ http://www.polymer-project.org/.
     <my-app></my-app> 
   </template>
   
-</polymer-element>
+</polymer-element><script src="polymer_signals.html_bootstrap.dart.js"></script>
 
-  <app-element></app-element>
-
+    <app-element></app-element>
+  
 </body></html>

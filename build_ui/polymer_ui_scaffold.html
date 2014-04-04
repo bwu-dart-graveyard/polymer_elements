@@ -4,11 +4,11 @@ the AUTHORS file for details. All rights reserved. Use of this source code is
 governed by a BSD-style license that can be found in the LICENSE file.
 This work is a port of the polymer-elements from the Polymer project,
 http://www.polymer-project.org/.
---><html><head><script src="packages/shadow_dom/shadow_dom.debug.js"></script>
-<script src="packages/custom_element/custom-elements.debug.js"></script>
-<script src="packages/browser/interop.js"></script>
+--><html><head><script src="packages/browser/interop.js"></script>
 
     <title>polymer-ui-scaffold</title>
+
+    
     
     
     
@@ -39,10 +39,1453 @@ http://www.polymer-project.org/.
 <!--     <link rel="import" href="packages/polymer_ui_elements/polymer_ui_toggle_button/polymer_ui_toggle_button.html"> -->
 <!--     <link rel="import" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar.html"> -->
 
-    <script src="polymer_ui_scaffold.html_bootstrap.dart.js"></script>
+    
     
 
+    
+  </head>
+  <body unresolved="">
+
+<!--
+These two files are from the Polymer project:
+https://github.com/Polymer/platform/ and https://github.com/Polymer/polymer/.
+
+You can replace platform.js and polymer.html with different versions if desired.
+-->
+<!-- minified for deployment: -->
+
+
+
+<!-- unminfied for debugging:
+<script src="../../packages/web_components/platform.concat.js"></script>
+<script src="src/js/polymer/polymer.concat.js"></script>
+<link rel="import" href="src/js/polymer/polymer-body.html">
+-->
+
+<!-- Teach dart2js about Shadow DOM polyfill objects. -->
+
+<script src="packages/polymer/src/js/use_native_dartium_shadowdom.js"></script><script src="packages/web_components/platform.js"></script>
+<!-- <link rel="import" href="../polymer-dev/polymer.html"> -->
+<script src="packages/polymer/src/js/polymer/polymer.js"></script><polymer-element name="polymer-body" extends="body">
+
+  <script>
+
+  // upgrade polymer-body last so that it can contain other imported elements
+  document.addEventListener('polymer-ready', function() {
+    
+    Polymer('polymer-body', Platform.mixin({
+
+      created: function() {
+        this.template = document.createElement('template');
+        var body = wrap(document).body;
+        var c$ = body.childNodes.array();
+        for (var i=0, c; (c=c$[i]); i++) {
+          if (c.localName !== 'script') {
+            this.template.content.appendChild(c);
+          }
+        }
+        // snarf up user defined model
+        window.model = this;
+      },
+
+      parseDeclaration: function(elementElement) {
+        this.lightFromTemplate(this.template);
+      }
+
+    }, window.model));
+
+  });
+
+  </script>
+
+</polymer-element><script src="packages/web_components/dart_support.js"></script>
+
+
+
+
+
+
+
+
+
+
+<polymer-element name="polymer-ui-theme-aware" attributes="theme">
+  
+</polymer-element>
+
+
+<polymer-element name="polymer-meta">
+  
+</polymer-element>
+<polymer-element name="polymer-ui-iconset" extends="polymer-meta" attributes="src2 width icons iconsize">
+  
+</polymer-element>
+
+
+
+<!-- worked within polyer_ui_elements (Dart+JS) src="../polymer_ui_action_icons/action_icons.png" -->
+<!-- failed in polymer_elements (Dart) http://127.0.0.1:3030/polymer_elements/polymer_ui_action_icons/action_icons.png -->
+<polymer-ui-iconset id="polymer-ui-icons" src2="../packages/polymer_ui_elements/polymer_ui_action_icons/action_icons.png" width="24" iconsize="24" icons="drawer menu search dropdown close add trash refresh settings dialoga left right down up grid contact account plus time marker briefcase array columns list modules quilt stream maximize shrink sort shortcut dialog twitter facebook favorite gplus filter tag plusone dots">
+
+  <property theme="polymer-ui-light-theme" offsetx="24"></property>
+  <property theme="polymer-ui-dark-theme" offsetx="72"></property>
+</polymer-ui-iconset>
+
+<polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  vertical-align: middle;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+</style>
+    <polymer-ui-iconset id="meta"></polymer-ui-iconset>
+    <content></content>
+
+  </template>
+
+  
+</polymer-element>
+
+<polymer-element name="polymer-ui-icon-button" extends="polymer-ui-theme-aware">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+:host {
+  display: inline-block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 38px;
+  height: 38px;
+  background-image: none;
+  border-radius: 2px;
+  padding: 7px;
+  margin: 2px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+  
+:host(.outline:host) {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+:host(:hover:host) {
+  box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+:host(.selected:host) {
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+
+:host(:active:host, .selected:active:host) {
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.12);
+}
+  
+:host(.polymer-ui-dark-theme.outline:host) {
+  background-color: rgba(200, 200, 200, 0.05);
+  box-shadow: 0 0 0 1px rgba(200, 200, 200, 0.1);
+}
+
+:host(.polymer-ui-dark-theme:hover:host) {
+  background-color: rgba(200, 200, 200, 0.05);
+  box-shadow: 0 1px 0 0 rgba(200, 200, 200, 0.12), 0 0 0 1px rgba(200, 200, 200, 0.1);
+}
+
+:host(.polymer-ui-dark-theme.selected:host) {
+  background-color: rgba(220, 220, 220, 0.05);
+  box-shadow: inset 0 1px 0 0 rgba(200, 200, 200, 0.05), 0 0 0 1px rgba(200, 200, 200, 0.12);
+}
+
+:host(.polymer-ui-dark-theme:active:host, .polymer-ui-dark-theme.selected:active:host) {
+  background-color: rgba(200, 200, 200, 0.05);
+  box-shadow: inset 0 1px 0 0 rgba(200, 200, 200, 0.1), 0 0 0 1px rgba(200, 200, 200, 0.12);
+}
+
+polymer-ui-icon {
+  display: block !important;
+}</style>
+
+    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}" theme="{{activeTheme}}">
+      <content></content>
+    </polymer-ui-icon>
+  </template>
+  
+</polymer-element>
+
+
+
+
+<polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::content > .flex,
+::content > [flex],
+::content > [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+:host(.flexbox:host, [flexbox]:host, [h-flexbox]:host, [v-flexbox]:host) {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+:host(.flexbox.row:host, [flexbox]:host, [h-flexbox]:host) {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+:host(.flexbox.column:host, [v-flexbox]:host) {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+:host(.flexbox.align-start:host) {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+:host(.flexbox.align-end:host) {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+:host(.flexbox.align-center:host) {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+:host(.flexbox.justify-start:host) {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+:host(.flexbox.justify-end:host) {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+:host(.flexbox.justify-center:host) {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+:host(.flexbox.justify-between:host) {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+</style>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::content > .flex,
+::content > [flex],
+::content > [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+:host(.flexbox:host, [flexbox]:host, [h-flexbox]:host, [v-flexbox]:host) {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+:host(.flexbox.row:host, [flexbox]:host, [h-flexbox]:host) {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+:host(.flexbox.column:host, [v-flexbox]:host) {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+:host(.flexbox.align-start:host) {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+:host(.flexbox.align-end:host) {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+:host(.flexbox.align-center:host) {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+:host(.flexbox.justify-start:host) {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+:host(.flexbox.justify-end:host) {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+:host(.flexbox.justify-center:host) {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+:host(.flexbox.justify-between:host) {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+</style>
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-media-query" attributes="mquery queryMatches">
+  <template>
     <style>
+      :host {
+          display: none;
+      }
+    </style>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="responsiveWidth" on-polymer-class-change="{{onPolymerClassChange}}">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  /* technical */
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* border/shadow */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  /* size */
+  height: 60px;
+  font-size: 21px;
+  font-family: 'Helvetica Neue Medium', 'HelveticaNeue-Medium', Helvetica, sans-serif;
+  position: relative;
+}
+
+:host(.polymer-ui-light-theme:host) {
+  background: #f2f2f2 -webkit-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+  background: #f2f2f2 -moz-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+  background: #f2f2f2 -ms-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+  color: #333333;
+}
+
+:host(.polymer-ui-dark-theme:host) {
+  background: #444444 none;
+  color: #f3f3f3;
+}
+
+:host(.narrow-layout[responsive]:host) {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.28);
+}
+
+/* TODO(sorvell): use of !important due to inability to
+  naturally win over an :host style */
+/*@polyfill :host > polymer-ui-icon-button */
+::content > polymer-ui-icon-button {
+  margin: 0px 8px 0 8px !important;
+}
+
+/*@polyfill :host > polymer-ui-menu-button */
+::content > polymer-ui-menu-button {
+  margin: 0px 8px 0 8px !important;
+}
+
+/*@polyfill :host > polymer-ui-toolbar */
+::content >  polymer-ui-toolbar {
+  margin: 0;
+}
+
+/*@polyfill :host > polymer-ui-toolbar:not(.narrow-layout) */
+::content >  polymer-ui-toolbar:not(.narrow-layout) {
+  border: 0;
+  background: transparent none;
+}
+</style>
+    <!-- TODO this stylesheet link should not be necessary -->
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+.flexbox, [flexbox], [h-flexbox], [v-flexbox] {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+.flexbox.row, [flexbox], [h-flexbox] {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.flexbox.column, [v-flexbox] {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+.flex, [flex], [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+::content > .flex,
+::content > [flex],
+::content > [fit] {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  -moz-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.flexbox.align-start {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+.flexbox.align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+.flexbox.align-center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+.flexbox.justify-start {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+.flexbox.justify-end {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+.flexbox.justify-center {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+.flexbox.justify-between {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+
+:host(.flexbox:host, [flexbox]:host, [h-flexbox]:host, [v-flexbox]:host) {
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: -moz-flex !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+}
+
+:host(.flexbox.row:host, [flexbox]:host, [h-flexbox]:host) {
+  -webkit-box-orient: horizontal;
+  -ms-flex-direction: row;
+  -moz-flex-direction: row;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+:host(.flexbox.column:host, [v-flexbox]:host) {
+  -webkit-box-orient: vertical;
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+:host(.flexbox.align-start:host) {
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  -moz-align-items: flex-start;
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+:host(.flexbox.align-end:host) {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
+  -moz-align-items: flex-end;
+  -webkit-align-items: flex-end;
+  align-items: flex-end;
+}
+
+:host(.flexbox.align-center:host) {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+:host(.flexbox.justify-start:host) {
+  -webkit-box-pack: start;
+  -ms-flex-pack: start;
+  -moz-justify-content: flex-start;
+  -webkit-justify-content: flex-start;
+  justify-content: flex-start;
+}
+
+:host(.flexbox.justify-end:host) {
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  -moz-justify-content: flex-end;
+  -webkit-justify-content: flex-end;
+  justify-content: flex-end;
+}
+
+:host(.flexbox.justify-center:host) {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  justify-content: center;
+}
+
+:host(.flexbox.justify-between:host) {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  -moz-justify-content: space-between;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+}
+</style>
+
+    <polymer-flex-layout align="center"></polymer-flex-layout>
+    <polymer-media-query id="mq" mquery="{{mquery}}" xmquery="max-width: {{responsiveWidth}}"></polymer-media-query> <!-- TODO temporarily wired in code because two way binding doesn't work this way currently: queryMatches="{{queryMatches}}" -->
+    <content></content>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-grid-layout" attributes="xnodes layout auto">
+  <template>
+    <content></content>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-scaffold" attributes="menuActive hideMenuButton">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host { 
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.animate {
+  -webkit-transition: left ease-in 0.2s;
+  transition: left ease-out 0.2s;
+  -webkit-transition-property: left opacity;
+  transition-property: left opacity;
+}
+
+polymer-ui-sidebar-menu {
+  width: 200px;
+}
+
+section {
+  background-color: white;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#scrim {
+  background-color: rgba(128, 128, 128, 0.01);
+  z-index: 10;
+}</style>
+      <polymer-grid-layout id="grid"></polymer-grid-layout>
+      <section class="animate" offscreen="basement">
+        <content select="[navigation]"></content>
+      </section>
+      <polymer-ui-toolbar class="animate">
+        <polymer-ui-icon-button icon="packages/polymer_ui_elements/polymer_ui_scaffold/menu" hidden?="{{hideMenuButton}}" on-click="{{menuActionTap}}" active="{{menuActive}}"></polymer-ui-icon-button> <!-- todo on-tap -->
+        <content select="[tool]"></content>
+      </polymer-ui-toolbar>
+      <section class="animate">
+        <content select="*"></content>
+      </section>
+    </template>
+
+  
+</polymer-element>
+
+
+
+<polymer-element name="polymer-ui-scaffold2">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host { 
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.animate {
+  -webkit-transition: left ease-in 0.2s;
+  transition: left ease-out 0.2s;
+  -webkit-transition-property: left opacity;
+  transition-property: left opacity;
+}
+
+polymer-ui-sidebar-menu {
+  width: 200px;
+}
+
+section {
+  background-color: white;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#scrim {
+  background-color: rgba(128, 128, 128, 0.01);
+  z-index: 10;
+}</style>
+    <polymer-grid-layout id="grid"></polymer-grid-layout>
+    <section>
+      <content select="[navigation]"></content>
+    </section>
+    <polymer-ui-toolbar class="animate">
+      <content select="[tool]"></content>
+    </polymer-ui-toolbar>
+    <section class="animate">
+      <content select="[main]"></content>
+    </section>
+  </template>
+
+  
+</polymer-element>
+
+
+
+
+<polymer-element name="polymer-ui-scaffold3" attributes="menuActive hideMenuButton">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host { 
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.animate {
+  -webkit-transition: left ease-in 0.2s;
+  transition: left ease-out 0.2s;
+  -webkit-transition-property: left opacity;
+  transition-property: left opacity;
+}
+
+polymer-ui-sidebar-menu {
+  width: 200px;
+}
+
+section {
+  background-color: white;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+#scrim {
+  background-color: rgba(128, 128, 128, 0.01);
+  z-index: 10;
+}</style>
+
+    <polymer-grid-layout id="grid"></polymer-grid-layout>
+    <section class="animate" style="z-index: 10;" offscreen="left">
+      <content select="[navigation]"></content>
+    </section>
+    <section id="scrim" on-click="{{menuActionTap}}" offscreen="right"></section> <!-- todo on-tap -->
+    <polymer-ui-toolbar offscreen="basement">
+      <polymer-ui-icon-button icon="packages/polymer_ui_elements/polymer_ui_scaffold/menu" hidden?="{{hideMenuButton}}" on-click="{{menuActionTap}}" active="{{menuActive}}"></polymer-ui-icon-button> <!-- todo on-tap -->
+      <content select="[tool]"></content>
+    </polymer-ui-toolbar>
+    <section offscreen="basement">
+      <content select="*"></content>
+    </section>
+  </template>
+
+  
+</polymer-element>
+
+
+<!-- // TODO import when available <link rel="import" href="../../../packages/polymer_elements/polymer_overlay/polymer_overlay.html"> -->
+
+
+
+
+
+<polymer-element name="polymer-anchor-point" attributes="target anchor">
+  
+</polymer-element>
+
+
+
+
+
+<polymer-element name="polymer-selection"> 
+  <template>
+    <style>
+      :host { 
+        display: none !important;
+      }
+    </style>
+  </template> 
+  
+</polymer-element><polymer-element name="polymer-selector">
+  <template>
+    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectionSelect}}"></polymer-selection>
+    <content id="items" select="*"></content>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-menu" extends="polymer-selector" attributes="theme" on-polymer-select="{{selectionChange}}">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  /* technical */
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  /* size */
+  padding: 0.4em;
+  font-weight: bold;
+}
+
+:host(.polymer-ui-light-theme:host) {
+  color: #333333;
+}
+
+:host(.polymer-ui-dark-theme:host) {
+  background: -webkit-linear-gradient(-60deg, #3d3d3d, #353535);
+  background: -moz-linear-gradient(-60deg, #3d3d3d, #353535);
+  background: -ms-linear-gradient(-60deg, #3d3d3d, #353535);
+  color: #ededed;
+}
+</style>
+    <shadow></shadow>
+  </template>
+  
+</polymer-element>
+<polymer-element name="polymer-ui-arrow">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+  
+:host([hidden]:host, .hidden:host) {
+  display: none;
+}
+      
+.arrow {
+  border-color: transparent;
+  border-style: solid;
+}
+
+.arrow-inner {
+  position: absolute;
+}
+</style>
+    <div id="outer" class="arrow arrow-outer"></div>
+    <div id="inner" class="arrow arrow-inner"></div>
+  </template>
+  
+</polymer-element><polymer-element name="polymer-ui-menu-button" attributes="src icon opened responsive halign valign selected selectedItem selectedClass valueattr multi parallax">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  position: relative;
+  display: inline-block;
+}
+
+:host(.fullwidth:host) {
+  position: static;
+}
+
+#overlay {
+  position: absolute;
+  left: 0;
+  top: 42px;
+}
+
+#overlay[halign=right] {
+  left: auto;
+  right: 10px;
+}
+
+#overlay[valign=top] {
+  top: auto;
+  bottom: 48px;
+}
+
+#overlayMenu {
+  display: inline-block;
+  position: relative;
+  top: -1px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  margin: 7px 0 0 7px;
+}
+
+@media screen and (max-width: 800px) {
+  #overlay,
+  #overlay[align=right] {
+    left: 0;
+    width: 100%;
+    -webkit-transform: none;
+    transform: none;
+  }  
+}
+
+#arrow {
+  height: 18px;
+}
+</style>
+    <polymer-ui-icon-button id="button" on-click="{{toggle}}" src="{{src}}" icon="{{icon}}" active="{{opened}}" anchor-point="{{valign}}"></polymer-ui-icon-button> <!-- remove on-click when PointerEvents are available -->
+    <div id="overlay" halign="{{halign}}" valign="{{valign}}">
+      <div id="overlayBackdrop" pseudo="x-backdrop" overlay-toggle=""></div>
+      <div id="overlayMenu">
+        <polymer-ui-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedclass="{{selectedClass}}" valueattr="{{valueattr}}" multi="{{multi}}" on-polymer-select="{{closeAction}}">
+          <content select="*"></content>
+        </polymer-ui-menu>
+      </div>
+      <polymer-ui-arrow id="arrow" size="9" direction="{{direction}}" anchor-point="center center"></polymer-ui-arrow>
+    </div>
+    <polymer-media-query query="{{mediaQuery}}" on-polymer-mediachange="{{mediaChangeAction}}"></polymer-media-query>
+    <polymer-anchor-point id="arrowPositionHelper" target="{{$['arrow']}}" anchor="{{$['button']}}"></polymer-anchor-point>
+    <!-- <polymer-overlay target="{{$['overlay']}}" opened="{{opened}}"></polymer-overlay> -->
+  </template>
+
+  
+</polymer-element>
+
+
+
+<polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
+  <template>
+    <style>/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: block;
+  position: relative;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 40px;
+  line-height: 35px;
+  font-size: 16px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+:host(:hover:host) {
+  opacity: 0.9;
+}
+
+:host(.polymer-selected:host, [active]:host) {
+  opacity: 1;
+}
+
+:host(.polymer-ui-light-theme.polymer-selected:host, .polymer-ui-light-theme[active]:host) {
+  background: #f2f2f2;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+:host(.polymer-ui-dark-theme:host) {
+  color: #b3b3b3;
+}
+
+:host(.polymer-ui-dark-theme:hover:host) {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:host(.polymer-ui-dark-theme.polymer-selected:host, .polymer-ui-dark-theme[active]:host) {
+  background-color: #000;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+:host([active].no-active-bg:host) {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+/* icon and label */
+polymer-ui-icon:not([showing]) {
+  display: none !important;
+}
+
+polymer-ui-icon {
+  margin-right: 16px;
+}
+
+#label {
+  vertical-align: middle;
+  padding-right: 20px;
+}
+
+/*@polyfill :host #label > a, #link */
+content /content/ a, #link, ::content > a { {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: -1px;
+}
+
+#link[hidden] {
+  display: none;
+}
+</style>
+
+    <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
+    <span id="label">{{label}}<content></content></span>
+    <a id="link" href="{{href}}" hidden="{{isHideHref}}"></a>
+  </template>
+
+  
+</polymer-element>
+
+
+<polymer-element name="polymer-ui-pages" extends="polymer-selector" selected="0" notap="">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  position: relative;
+}
+
+/*@polyfill :host > * */
+::content > * {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  visibility: hidden;
+  z-index: -1000;
+}
+
+/*@polyfill :host > *.polymer-selected */
+::content > *.polymer-selected {
+  visibility: visible;
+  z-index: auto;
+}</style>
+      <shadow></shadow>
+  </template>
+  
+</polymer-element>
+
+
+<polymer-element name="polymer-ui-ratings" extends="polymer-ui-theme-aware" attributes="count value">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: inline-block;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+#star {
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  margin: 0 5px;
+  background-size: 100% 100%;
+  background-image: url(packages/polymer_ui_elements/polymer_ui_ratings/assets/ic_star_rate_darkalt.png);
+  cursor: pointer;
+}
+
+#star.full {
+  background-image: url(packages/polymer_ui_elements/polymer_ui_ratings/assets/ic_star_rate_darkreg.png);
+}
+
+:host(.polymer-ui-dark-theme:host) #star {
+  background-image: url(packages/polymer_ui_elements/polymer_ui_ratings/assets/ic_star_rate_lightalt.png);
+}
+
+:host(.polymer-ui-dark-theme:host) #star.full {
+  background-image: url(packages/polymer_ui_elements/polymer_ui_ratings/assets/ic_star_rate_lightreg.png);
+}
+</style>
+    <template repeat="{{star in stars}}">
+      <span id="star" index="{{star['index']}}" class="{{star['starClass']}}" on-click="{{updateValue}}"></span> <!-- todo on-tap -->
+    </template>
+  </template>
+
+  
+</polymer-element>
+
+
+
+
+
+
+
+
+<polymer-element name="polymer-ui-sidebar-header" attributes="label">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  display: block;
+}
+
+polymer-ui-toolbar {
+  /* override :host styles on polymer-ui-toolbar */
+  padding: 0 12px !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+.sidebar-title {
+  font-size: 21px;
+  font-weight: bold;
+  opacity: 0.8;
+  text-shadow: -1px -1px rgba(0, 0, 0, 0.2);
+}
+</style>
+
+    <polymer-ui-toolbar theme="sidebar">
+      <content></content>
+      <div class="sidebar-title">{{label}}</div>
+    </polymer-ui-toolbar>
+  </template>
+  
+</polymer-element>
+
+
+<polymer-element name="polymer-ui-nav-arrow" extends="polymer-ui-arrow" attributes="target">
+  <template>
+    <style>/*
+Copyright 2013 The Toolkitchen Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: -8px;
+  -webkit-transition: -webkit-transform 0.5s;
+  transition: transform 0.33s;
+}
+</style>
+    <shadow></shadow>
+  </template>
+
+  
+</polymer-element>
+<polymer-element name="polymer-ui-sidebar-menu" extends="polymer-ui-menu" attributes="label selected">
+  <template>
+    <style>/*
+Copyright 2013 The Polymer Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+*/
+
+:host {
+  padding: 0 !important;
+  box-shadow: inset -8px 0px 8px -4px rgba(0, 0, 0, 0.4);
+}
+
+:host(.polymer-ui-light-theme:host) {
+  box-shadow: inset -8px 0px 8px -4px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar-menu {
+  position: relative;
+  padding: 0 10px;
+  margin: 10px 0;
+  overflow: auto;
+}
+</style>
+
+    <polymer-flex-layout vertical=""></polymer-flex-layout>
+    <polymer-ui-sidebar-header label="{{label}}">
+      <content select="[logo]"></content>
+    </polymer-ui-sidebar-header>
+    <div class="sidebar-menu" flex="">
+      <shadow></shadow>
+      <polymer-ui-nav-arrow target="{{selectedItem}}"></polymer-ui-nav-arrow>
+    </div>
+  </template>
+  
+</polymer-element>
+<script src="polymer_ui_scaffold.html_bootstrap.dart.js"></script><style>
       body {
         font-family: Neue Helvetica, Roboto, Arial;
       }
@@ -60,254 +1503,6 @@ http://www.polymer-project.org/.
         height: 100%;
       }
     </style>
-  </head>
-  <body><polymer-element name="polymer-ui-theme-aware" attributes="theme">
-  
-</polymer-element>
-<polymer-element name="polymer-ui-icon" extends="polymer-ui-theme-aware" attributes="src size index icon">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon.css"> 
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon/polymer_ui_icon_old.css"> <!-- TODO remove -->
-    <!-- TODO remove style element and content when css import is fixed -->
-
-    <content></content>
-  </template>
-
-  
-</polymer-element>
-
-<polymer-element name="polymer-ui-icon-button" extends="polymer-ui-theme-aware">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_icon_button/polymer_ui_icon_button_old.css"> <!-- TODO remove -->
-
-    <polymer-ui-icon src="{{src}}" index="{{index}}" icon="{{icon}}" theme="{{activeTheme}}">
-      <content></content>
-    </polymer-ui-icon>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-flex-layout"> <!-- attributes="vertical align justify isContainer" -->
-  <template>
-    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
-    <link rel="stylesheet" polymer-scope="controller" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TODO remove old when all browsers and polyfills are updated -->
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
-    <content></content>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-media-query" attributes="mquery queryMatches">
-  <template>
-    <style>
-      :host {
-          display: none;
-      }
-    </style>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-ui-toolbar" extends="polymer-ui-theme-aware" attributes="responsiveWidth" on-polymer-class-change="{{onPolymerClassChange}}">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_toolbar/polymer_ui_toolbar_old.css">  <!-- TOOD remove -->
-    <!-- TODO this stylesheet link should not be necessary -->
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout.css">
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_flex_layout/polymer_flex_layout_old.css"> <!-- TOOD remove -->
-
-    <polymer-flex-layout align="center"></polymer-flex-layout>
-    <polymer-media-query id="mq" mquery="{{mquery}}" xmquery="max-width: {{responsiveWidth}}"></polymer-media-query> <!-- TODO temporarily wired in code because two way binding doesn't work this way currently: queryMatches="{{queryMatches}}" -->
-    <shadow></shadow>
-    <content></content>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-grid-layout" attributes="xnodes layout auto">
-  <template>
-    <content></content>
-  </template>
-  
-</polymer-element><polymer-element name="polymer-ui-scaffold" attributes="menuActive hideMenuButton">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold_old.css">
-      <polymer-grid-layout id="grid"></polymer-grid-layout>
-      <section class="animate" offscreen="basement">
-        <content select="[navigation]"></content>
-      </section>
-      <polymer-ui-toolbar class="animate">
-        <polymer-ui-icon-button icon="packages/polymer_ui_elements/polymer_ui_scaffold/menu" hidden?="{{hideMenuButton}}" on-tap="{{menuActionTap}}" on-click="{{menuActionTap}}" active="{{menuActive}}"></polymer-ui-icon-button> <!-- TODO remove on-click when on-tap is supported -->
-        <content select="[tool]"></content>
-      </polymer-ui-toolbar>
-      <section class="animate">
-        <content select="*"></content>
-      </section>
-    </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-scaffold2">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold_old.css">
-    <polymer-grid-layout id="grid"></polymer-grid-layout>
-    <section>
-      <content select="[navigation]"></content>
-    </section>
-    <polymer-ui-toolbar class="animate">
-      <content select="[tool]"></content>
-    </polymer-ui-toolbar>
-    <section class="animate">
-      <content select="[main]"></content>
-    </section>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-scaffold3" attributes="menuActive hideMenuButton">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_scaffold/polymer_ui_scaffold_old.css"> <!-- TODO remove -->
-
-    <polymer-grid-layout id="grid"></polymer-grid-layout>
-    <section class="animate" style="z-index: 10;" offscreen="left">
-      <content select="[navigation]"></content>
-    </section>
-    <section id="scrim" on-tap="{{menuActionTap}}" on-click="{{menuActionTap}}" offscreen="right"></section> <!-- remove on-click once on-tap is supported -->
-    <polymer-ui-toolbar offscreen="basement">
-      <polymer-ui-icon-button icon="packages/polymer_ui_elements/polymer_ui_scaffold/menu" hidden?="{{hideMenuButton}}" on-tap="{{menuActionTap}}" on-click="{{menuActionTap}}" active="{{menuActive}}"></polymer-ui-icon-button> <!-- remove on-click once on-tap is supported -->
-      <content select="[tool]"></content>
-    </polymer-ui-toolbar>
-    <section offscreen="basement">
-      <content select="*"></content>
-    </section>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-anchor-point" attributes="target anchor">
-  
-</polymer-element><polymer-element name="polymer-selection"> 
-  <template>
-    <style>
-      :host { 
-        display: none !important;
-      }
-    </style>
-  </template> 
-  
-</polymer-element><polymer-element name="polymer-selector">
-  <template>
-    <polymer-selection id="selection" multi="{{multi}}" on-polymer-select="{{selectionSelect}}"></polymer-selection>
-    <content id="items" select="*"></content>
-  </template>
-  
-</polymer-element><polymer-element name="polymer-ui-menu" extends="polymer-selector" attributes="theme" on-polymer-select="{{selectionChange}}">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu/polymer_ui_menu_old.css"> <!-- TODO remove -->
-    <shadow></shadow>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-ui-arrow"> 
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_arrow/polymer_ui_arrow.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_arrow/polymer_ui_arrow_old.css"> <!-- Dartium still needs the old selectors -->
-    <div id="outer" class="arrow arrow-outer"></div>
-    <div id="inner" class="arrow arrow-inner"></div>
-  </template> 
-  
-</polymer-element><polymer-element name="polymer-ui-menu-button" attributes="src icon opened responsive halign valign selected selectedItem selectedClass valueattr multi parallax">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_button/polymer_ui_menu_button.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_button/polymer_ui_menu_button_old.css">
-    <polymer-ui-icon-button id="button" on-tap="{{toggle}}" on-click="{{toggle}}" src="{{src}}" icon="{{icon}}" active="{{opened}}" anchor-point="{{valign}}"></polymer-ui-icon-button> <!-- remove on-click when PointerEvents are available -->
-    <div id="overlay" halign="{{halign}}" valign="{{valign}}">
-      <div id="overlayBackdrop" pseudo="x-backdrop" overlay-toggle=""></div>
-      <div id="overlayMenu">
-        <polymer-ui-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedclass="{{selectedClass}}" valueattr="{{valueattr}}" multi="{{multi}}" on-polymer-select="{{closeAction}}">
-          <content select="*"></content>
-        </polymer-ui-menu>
-      </div>
-      <polymer-ui-arrow id="arrow" size="9" direction="{{direction}}" anchor-point="center center"></polymer-ui-arrow>
-    </div>
-    <polymer-media-query query="{{mediaQuery}}" on-polymer-mediachange="{{mediaChangeAction}}"></polymer-media-query>
-    <polymer-anchor-point id="arrowPositionHelper" target="{{$['arrow']}}" anchor="{{$['button']}}"></polymer-anchor-point>
-    <polymer-overlay target="{{$['overlay']}}" opened="{{opened}}"></polymer-overlay>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-menu-item" extends="polymer-ui-theme-aware" attributes="src label icon item href">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_menu_item/polymer_ui_menu_item_old.css">
-    <link rel="stylesheet" href="packages/polymer_elements/polymer_collapse/polymer_collapse.css">
-    
-    <polymer-ui-icon src="{{src}}" icon="{{icon}}" showing?="{{isShowIcon}}"></polymer-ui-icon>
-    <span id="label">{{label}}<content></content></span>
-    <a id="link" href="{{href}}" hidden="{{isShowHref}}"></a>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-pages" extends="polymer-selector" selected="0" notap="">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_pages/polymer_ui_pages.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_pages/polymer_ui_pages_old.css">
-      <shadow></shadow>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-ui-ratings" extends="polymer-ui-theme-aware" attributes="count value">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_ratings/polymer_ui_ratings.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_ratings/polymer_ui_ratings_old.css"> <!-- TODO remove -->
-    <template repeat="{{star in stars}}">
-      <span id="star" index="{{star['index']}}" class="{{star['starClass']}}" on-tap="{{updateValue}}" on-click="{{updateValue}}"></span>
-    </template>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-sidebar-header" attributes="label">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_sidebar_header/polymer_ui_sidebar_header.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_sidebar_header/polymer_ui_sidebar_header_old.css"><!-- TODO remove -->
-
-    <polymer-ui-toolbar theme="sidebar">
-      <content></content>
-      <div class="sidebar-title">{{label}}</div>
-    </polymer-ui-toolbar>
-  </template>
-  
-</polymer-element>
-<polymer-element name="polymer-ui-nav-arrow" extends="polymer-ui-arrow" attributes="target">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_nav_arrow/polymer_ui_nav_arrow.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_nav_arrow/polymer_ui_nav_arrow_old.css"> <!-- TODO remove -->
-    <shadow></shadow>
-  </template>
-
-  
-</polymer-element>
-<polymer-element name="polymer-ui-sidebar-menu" extends="polymer-ui-menu" attributes="label">
-  <template>
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_sidebar_menu/polymer_ui_sidebar_menu.css">
-    <link rel="stylesheet" href="packages/polymer_ui_elements/polymer_ui_sidebar_menu/polymer_ui_sidebar_menu_alt.css">
-
-    <polymer-flex-layout vertical=""></polymer-flex-layout>
-    <polymer-ui-sidebar-header label="{{label}}">
-      <content select="[logo]"></content>
-    </polymer-ui-sidebar-header>
-    <div class="sidebar-menu" flex="">
-      <shadow></shadow>
-      <polymer-ui-nav-arrow target="{{selectedItem}}"></polymer-ui-nav-arrow>
-    </div>  
-  </template>
-  
-</polymer-element>
-
     <h2>scaffold</h2>
     <polymer-ui-scaffold theme="polymer-ui-dark-theme" style="display: block; position: relative; height: 400px;">
 
