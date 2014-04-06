@@ -35,7 +35,7 @@ Just [Create a New Issue](https://github.com/ErikGrimes/polymer_elements/issues/
 
 ## General notes
 
-* Tested with Dart SDK version 1.3.0-dev.7.10
+* Tested with Dart SDK version 1.3.0-dev.7.11
 
 ### Status
 <!-- (A few demo pages (* aren't rendered properly as GitHub Pages or because they use unfinished elements. We are working on it.) --> 
