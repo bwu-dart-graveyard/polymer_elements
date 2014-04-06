@@ -11,37 +11,38 @@ import 'dart:html' as dom;
 import 'package:polymer/polymer.dart';
 import 'package:unittest/unittest.dart';
 import 'package:unittest/html_enhanced_config.dart';
-import 'package:polymer_elements/polymer_selector/polymer_selector.dart' show PolymerSelector;
+import 'package:polymer_elements/polymer_selector/polymer_selector.dart' show
+    PolymerSelector;
 
 void oneMutation(dom.Element node, options, Function cb) {
-  var o = new dom.MutationObserver((List<dom.MutationRecord> mutations, dom.MutationObserver observer) {
+  var o = new dom.MutationObserver((List<dom.MutationRecord>
+      mutations, dom.MutationObserver observer) {
     cb();
     observer.disconnect();
   });
   o.observe(node, attributes: options['attributes']);
 }
 
-void main() {
+@initMethod
+void init() {
   useHtmlEnhancedConfiguration();
 
-  initPolymer().run(() {
-    Polymer.onReady.then((e) {
-      test('polymer-selector-activate-event', () {
-        var done = expectAsync((){});
-        // selector1
-        var s = (dom.document.querySelector('#selector') as PolymerSelector);
-        s.onPolymerActivate.listen((dom.CustomEvent event) {
-          expect(event.detail['item'], equals(s.children[1]));
-          expect(s.selected, equals(1));
-          done();
-        });
-        expect(s.selected, equals(0));
-        dom.window.requestAnimationFrame((e) {
-          s.children[1].dispatchEvent(new dom.CustomEvent('click', canBubble: true)); // TODO change to 'tap' when supported
-        });
+  Polymer.onReady.then((e) {
+    test('polymer-selector-activate-event', () {
+      var done = expectAsync(() {});
+      // selector1
+      var s = (dom.document.querySelector('#selector') as PolymerSelector);
+      s.onPolymerActivate.listen((dom.CustomEvent event) {
+        expect(event.detail['item'], equals(s.children[1]));
+        expect(s.selected, equals(1));
+        done();
+      });
+      expect(s.selected, equals(0));
+      dom.window.requestAnimationFrame((e) {
+        s.children[1].dispatchEvent(new dom.CustomEvent('click', canBubble: true
+            )); // TODO change to 'tap' when supported
       });
     });
   });
 }
-
 

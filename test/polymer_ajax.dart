@@ -12,21 +12,17 @@ import "package:polymer/polymer.dart";
 import "package:unittest/unittest.dart";
 import "package:unittest/html_enhanced_config.dart";
 
-void main() {
+@initMethod
+void init() {
   useHtmlEnhancedConfiguration();
 
-  initPolymer().run(() {
-
-    test("polymer-ajax", () {
-      var done = expectAsync((){});
-      var s = document.querySelector('polymer-ajax');
-      s.addEventListener('polymer-response', (event){
-        expect(event.detail['response']['feed']['entry'].length, greaterThan(0));
-        done();
-      });
-
+  test("polymer-ajax", () {
+    var done = expectAsync(() {});
+    var s = document.querySelector('polymer-ajax');
+    s.addEventListener('polymer-response', (event) {
+      expect(event.detail['response']['feed']['entry'].length, greaterThan(0));
+      done();
     });
   });
 }
-
 

@@ -13,11 +13,9 @@ import "package:unittest/unittest.dart";
 import "package:unittest/html_enhanced_config.dart";
 import "package:polymer_elements/polymer_localstorage/polymer_localstorage.dart";
 
-void main() {
-  //return;
+@initMethod
+void init() {
   useHtmlEnhancedConfiguration();
-
-  initPolymer();
 
   test("polymer-localstorage", () {
     var done = expectAsync((){});

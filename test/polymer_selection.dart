@@ -15,63 +15,60 @@ import 'package:unittest/html_enhanced_config.dart';
 import 'package:polymer_elements/polymer_selection/polymer_selection.dart' show
     PolymerSelection;
 
-void main() {
+@initMethod
+void init() {
   useHtmlEnhancedConfiguration();
 
-  initPolymer().run(() {
-    Polymer.onReady.then((e) {
-      group('polymer-selection', () {
-        test('polymer-selection', () {
-          var done = expectAsync(() {}, count: 2);
-          var s = document.querySelector('polymer-selection') as
-              PolymerSelection;
-          int testNr = 0;
+  Polymer.onReady.then((e) {
+    group('polymer-selection', () {
+      test('polymer-selection', () {
+        var done = expectAsync(() {}, count: 2);
+        var s = document.querySelector('polymer-selection') as PolymerSelection;
+        int testNr = 0;
 
-          async.StreamSubscription subscr;
-          subscr = s.on['polymer-select'].listen((event) {
-            if (testNr == 1) {
-              expect(event.detail['isSelected'], isTrue);
+        async.StreamSubscription subscr;
+        subscr = s.on['polymer-select'].listen((event) {
+          if (testNr == 1) {
+            expect(event.detail['isSelected'], isTrue);
+            expect(event.detail['item'], equals('(item)'));
+            expect(s.isSelected(event.detail['item']), isTrue);
+            expect(s.isSelected('(some_item_not_selected)'), isFalse);
+            testNr++;
+            s.select(null);
+            done();
+          } else {
+            if (testNr == 2) {
+              // check test2
+              expect(event.detail['isSelected'], isFalse);
               expect(event.detail['item'], equals('(item)'));
-              expect(s.isSelected(event.detail['item']), isTrue);
-              expect(s.isSelected('(some_item_not_selected)'), isFalse);
-              testNr++;
-              s.select(null);
-              done();
-            } else {
-              if (testNr == 2) {
-                // check test2
-                expect(event.detail['isSelected'], isFalse);
-                expect(event.detail['item'], equals('(item)'));
-                expect(s.isSelected(event.detail['item']), isFalse);
-                subscr.cancel(); // don't fire when other tests run
-                done();
-              }
-            }
-          });
-          testNr = 1;
-          s.select('(item)');
-        });
-
-        test('event stream getter', () {
-          var done = expectAsync(() {}, count: 2);
-          var s = document.querySelector('polymer-selection') as
-              PolymerSelection;
-          int testNr = 0;
-
-          async.StreamSubscription subscr;
-          subscr = s.onPolymerSelect.listen((e) {
-            if (testNr == 1) {
-              testNr++;
-              s.select(null);
-              done();
-            } else if (testNr == 2) {
-              subscr.cancel();
+              expect(s.isSelected(event.detail['item']), isFalse);
+              subscr.cancel(); // don't fire when other tests run
               done();
             }
-          });
-          testNr = 1;
-          s.select('(item)');
+          }
         });
+        testNr = 1;
+        s.select('(item)');
+      });
+
+      test('event stream getter', () {
+        var done = expectAsync(() {}, count: 2);
+        var s = document.querySelector('polymer-selection') as PolymerSelection;
+        int testNr = 0;
+
+        async.StreamSubscription subscr;
+        subscr = s.onPolymerSelect.listen((e) {
+          if (testNr == 1) {
+            testNr++;
+            s.select(null);
+            done();
+          } else if (testNr == 2) {
+            subscr.cancel();
+            done();
+          }
+        });
+        testNr = 1;
+        s.select('(item)');
       });
     });
   });
