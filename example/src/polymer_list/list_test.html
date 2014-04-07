@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+<link rel="import" href="packages/polymer_elements/polymer_list/polymer_list.html">
+
+<polymer-element name="list-test">
+  <template>
+    <style>
+      polymer-list {
+        height: 100%;
+      }
+
+      .header {
+        background: gray;
+        text: black;
+        font-weight: bold;
+      }
+
+      .item {
+        box-sizing: border-box;
+        height: 80px;
+        line-height: 80px;
+        padding: 0 20px;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+        background: #333;
+        color: white;
+      }
+
+      .polymer-selected {
+        background: whitesmoke;
+        color: black;
+      }
+    </style>
+    <polymer-list id="list" data="{{data}}" on-polymer-select="{{selectAction}}">
+      <!--<div hidden?="{{!item['header'] == null}}" class="header">{{item['header']}}: {{item['index']}}</div> -->
+      <div class="item ">Index: </div> <!-- {{selected}} {{index}}-->
+    </polymer-list>
+
+  </template>
+  <script type="application/dart;component=1" src="list_test.dart"></script>
+</polymer-element>
