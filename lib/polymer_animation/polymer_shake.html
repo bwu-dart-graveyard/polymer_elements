@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+
+<link rel="import" href="polymer_animation_group.html">
+<link rel="import" href="polymer_animation_keyframe.html">
+<link rel="import" href="polymer_animation_prop.html">
+
+<polymer-element name="polymer-shake" extends="polmyer-animation-group" attributes="fromX fromY toX toY">
+  <template>
+    <polymer-animation duration="{{period}}">
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="translateX(0px)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="{{negTransform}}">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+    </polymer-animation>
+    <polymer-animation duration="{{shakeDuration}}" iterationCount="{{shakeIterations}}">
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="{{negTransform}}">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="{{posTransform}}">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="{{negTransform}}">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+    </polymer-animation>
+    <polymer-animation duration="{{period}}">
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="{{negTransform}}">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+      <polymer-animation-keyframe>
+        <polymer-animation-prop name="transform" value="translateX(0px)">
+        </polymer-animation-prop>
+      </polymer-animation-keyframe>
+    </polymer-animation>
+    <content></content>
+  </template>
+  <script type="application/dart;component=1" src="polymer_shake.dart"></script>
+</polymer-element>

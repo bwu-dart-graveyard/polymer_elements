@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+
+<link rel="import" href="polymer_animation.html">
+<link rel="import" href="polymer_animation_keyframe.html">
+<link rel="import" href="polymer_animation_prop.html">
+
+<polymer-element name="polymer-fadein" extends="polmyer-animation" duration="0.5">
+  <template>
+    <polymer-animation-keyframe>
+      <polymer-animation-prop name="opacity" value="0">
+      </polymer-animation-prop>
+    </polymer-animation-keyframe>
+    <polymer-animation-keyframe>
+      <polymer-animation-prop name="opacity" value="1">
+      </polymer-animation-prop>
+    </polymer-animation-keyframe>
+    <content></content>
+  </template>
+  <script type="application/dart;component=1" src="polymer_fadein.dart"></script>
+</polymer-element>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+Copyright (c) 2013, the polymer_elements.dart project authors.  Please see
+the AUTHORS file for details. All rights reserved. Use of this source code is
+governed by a BSD-style license that can be found in the LICENSE file.
+This work is a port of the polymer-elements from the Polymer project,
+http://www.polymer-project.org/.
+-->
+
+
+<html>
+  <head>
+    <title>polymer-ajax</title>
+    <link rel="import" href="packages/polymer/polymer.html">
+
+    <!-- import seems not to work in directory test -->
+    <!--<link rel='import' href='src/polymer_animation/polymer_transition_hslide_scale_out.html'>-->
+    <link rel="import" href="packages/polymer_elements/polymer_animation/polymer_animation.html">
+    <link rel="import" href="packages/polymer_elements/polymer_animation/polymer_animation_group.html">
+    <link rel="import" href="packages/polymer_elements/polymer_animation/polymer_animation_keyframe.html">
+    <link rel="import" href="packages/polymer_elements/polymer_animation/polymer_animation_prop.html">
+
+    <script type='application/dart;component=1' src='polymer_animation.dart'></script>
+    <script src='packages/browser/dart.js'></script>
+    <script src='packages/unittest/test_controller.js'></script>
+  </head>
+  <body>
+
+    <polymer-element name="transition-hslide-scale-out" extends="polmyer-animation-group">
+      <template>
+        <polymer-animation id="scale-out" duration="0.5">
+          <polymer-animation-keyframe>
+            <polymer-animation-prop name="transform" value="scale(1)"></polymer-animation-prop>
+          </polymer-animation-keyframe>
+          <polymer-animation-keyframe>
+            <polymer-animation-prop name="transform" value="scale(0.8)"></polymer-animation-prop>
+          </polymer-animation-keyframe>
+        </polymer-animation>
+        <polymer-animation id="hslide-in" duration="0.5">
+          <polymer-animation-keyframe>
+            <polymer-animation-prop name="transform" value="translateX(100%)"></polymer-animation-prop>
+          </polymer-animation-keyframe>
+          <polymer-animation-keyframe>
+            <polymer-animation-prop name="transform" value="translateX(0)"></polymer-animation-prop>
+          </polymer-animation-keyframe>
+        </polymer-animation>
+      </template>
+      <script type="application/dart;component=1" src="src/polymer_animation/polymer_transition_hslide_scale_out.dart"></script>
+    </polymer-element>
+
+    <transition-hslide-scale-out></transition-hslide-scale-out>
+    <div>Hi!</div>  </body>
+</html>
