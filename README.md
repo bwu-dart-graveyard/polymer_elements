@@ -53,7 +53,7 @@ polymer-flex-layout             | ported           | needs some additional style
 polymer-google-jsapi            | not&nbsp;started |              | 
 polymer-grid-layout             | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_grid_layout.html)
 polymer-jsonp                   | not&nbsp;started |              |
-polymer-key-helper              | not&nbsp;started |              |
+polymer-key-helper              | not&nbsp;planned |              |
 polymer-layout                  | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_layout.html)
 polymer-localstorage            | ported           |              | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_localstorage.html)&nbsp;
 polymer-media-query             | ported           | small issue in Dart but works fine in JS  | [demo](http://erikgrimes.github.io/polymer_elements/build/polymer_media_query.html)
