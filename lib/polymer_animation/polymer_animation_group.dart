@@ -38,7 +38,7 @@ class PolymerAnimationGroup extends PolymerAnimation {
       * valid values number|"auto"
       */
   @published
-  String duration = 'auto';
+  var duration = 'auto';
 
   /**
       * Group type. 'par' for parallel and 'seq' for sequence.
@@ -66,7 +66,7 @@ class PolymerAnimationGroup extends PolymerAnimation {
       this.doOnChildren((c) {
         // Propagate to children that is not a group and has no
         // duration specified.
-        if (!c.type && (c.duration == null || c.duration || c.duration ==
+        if (c is! PolymerAnimationGroup && (c.duration == null || c.duration != null || c.duration ==
             'auto')) {
           c.duration = this.duration;
         }
@@ -76,12 +76,12 @@ class PolymerAnimationGroup extends PolymerAnimation {
 
   void doOnChildren(Function inFn) {
     var children = this.children;
-    if (!children.length) {
+    if (children.length == 0 && shadowRoot != null) {
       children = shadowRoot.children;
     }
     children.forEach((c) {
       // TODO <template> in the way
-      c.apply && inFn(c);
+      if(c is PolymerAnimation) inFn(c);
     });
   }
 

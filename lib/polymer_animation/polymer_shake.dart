@@ -8,24 +8,24 @@
 library polymer_elements.polymer_shake;
 
 import 'package:polymer/polymer.dart';
-import 'polymer_animation.dart';
+import 'polymer_animation_group.dart';
 
 @CustomTag('polymer-shake')
-class PolymerShake extends PolymerAnimation {
+class PolymerShake extends PolymerAnimationGroup {
 
   PolymerShake.created(): super.created() {
     targetSelector = null;
-    duration = '0.3';
+    duration = 0.3;
     easing = 'ease-in';
+    type = 'seq';
   }
 
   @observable String negTransform;
   @observable String posTransform;
-  @observable double shakeDuration;
+  @observable var shakeDuration;
   @observable int shakeIterations;
   @observable String magnitude = '10px';
   @observable double period = 0.1;
-  @observable String type = 'seq';
 
   void ready() {
     super.ready();

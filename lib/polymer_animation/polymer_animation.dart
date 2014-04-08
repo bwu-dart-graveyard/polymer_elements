@@ -110,7 +110,7 @@ class PolymerAnimation extends PolymerElement {
    * means use the animation's intrinsic duration.
    * valid values Number|"Infinity"|"auto"
    */
-  @published String duration = 'auto';
+  @published var duration = 'auto';
 
   /**
    * "none", "forwards", "backwards", "both" or "auto". When set to
@@ -152,7 +152,7 @@ class PolymerAnimation extends PolymerElement {
 
   @published bool autoplay = false;
 
-  dom.Animation _animation;
+  dom.Animation anAnimation;
   dom.Player _player;
   Attributes attrs;
 
@@ -197,8 +197,9 @@ class PolymerAnimation extends PolymerElement {
     apply();
   }
 
-  void ready() {
-    super.ready();
+  @override
+  void enteredView() {
+    super.enteredView();
     apply();
   }
 
@@ -207,10 +208,12 @@ class PolymerAnimation extends PolymerElement {
    */
   dom.Player play() {
     apply();
-    if (_animation != null && !autoplay) {
+    if (anAnimation != null && !autoplay) {
       this.bindAnimationEvents();
-      _player = dom.document.timeline.play(_animation);
-      return _player;
+      _player = dom.document.timeline.play(anAnimation);
+      print('play: $anAnimation, ${anAnimation.player}');
+      anAnimation.player.play();
+      return anAnimation.player;
     }
     return null;
   }
@@ -229,18 +232,22 @@ class PolymerAnimation extends PolymerElement {
   }
 
   dom.Animation apply() {
-    _animation = null;
-    _animation = makeAnimation();
-    if (autoplay && _animation) {
+    anAnimation = null;
+    anAnimation = makeAnimation();
+    if (autoplay && anAnimation) {
       play();
     }
-    return _animation;
+    return anAnimation;
   }
 
   dom.Animation makeSingleAnimation(target) {
     // XXX(yvonne): for selecting all the animated elements.
     target.classes.add('polymer-animation-target');
-    return new dom.Animation(target, animationEffect, timingProps);
+    print(animationEffect);
+    print(timingProps);
+    var a = new dom.Animation(target, animationEffect, timingProps);
+    print(a);
+    return a;
   }
 
   dom.Animation makeAnimation() {
@@ -254,14 +261,14 @@ class PolymerAnimation extends PolymerElement {
       target.children.forEach((t) {
         array.add(this.makeSingleAnimation(t));
       }); // TODO .bind(this));
-      _animation = new dom.Animation(target, array); // TODO verify if that is translated correctly
+      anAnimation = new dom.Animation(target, array); // TODO verify if that is translated correctly
     } else {
-      _animation = makeSingleAnimation(this.target);
+      anAnimation = makeSingleAnimation(this.target);
     }
-    return _animation;
+    return anAnimation;
   }
 
-  void animationChanged() {
+  void anAnimationChanged() {
     // TODO: attributes are not case sensitive.
     // TODO: Sending 'this' with the event because if the children is
     // in ShadowDOM the sender becomes the shadow host.
@@ -276,8 +283,8 @@ class PolymerAnimation extends PolymerElement {
 
   void targetChanged(old) {
     apply();
-    if (old) {
-      old.classList.remove('polymer-animation-target');
+    if (old != null) {
+      (old as dom.HtmlElement).classes.remove('polymer-animation-target');
     }
   }
 
@@ -292,10 +299,13 @@ class PolymerAnimation extends PolymerElement {
       'duration': {'isNumber': true}
     };
 
-    for (var t in timing) {
+    for (var t in timing.keys) {
       if (attrs[t] != null) {
-        var name = timing[t].property || t;
-        props[name] = timing[t].isNumber && attrs[t] != 'auto' ?
+        var name = t;
+        if(timing[t] is Map && (timing[t] as Map).containsKey('property')) {
+          t = timing[t]['property'];
+        }
+        props[name] = timing[t] is num && attrs[t] != 'auto' ?
             toNumber(attrs[t], timing[t].allowInfinity) : attrs[t];
       }
     }
@@ -318,7 +328,7 @@ class PolymerAnimation extends PolymerElement {
       });
     }
     if (sample != null) {
-      effect = {'sample': sample};
+      effect = [{'sample': sample}];
     } else {
       effect = []; //new KeyframeEffect(frames, this.composite); // seems to be a simple list of maps [{'offset': 0.2, 'left' '50px'} {}], offset can be omitted
     }
