@@ -10,34 +10,37 @@ import 'dart:html' as dom;
 import 'package:polymer/polymer.dart';
 import 'x_dialog.dart';
 
+
 @CustomTag('app-element')
 class AppElement extends PolymerElement {
 
   @observable
   List entries;
 
+  @observable bool confirmation = false;
+  @observable bool isModal = false;
+  @observable bool isScrim = false;
+  @observable String inputSomething = '';
+
   AppElement.created() : super.created();
 
-  void somethingCheck(dom.Event e) {
-    (shadowRoot.querySelector('#confirmation') as XDialog).opened = (e.target.value == 'something');
+  void inputSomethingChanged(old) {
+    confirmation = inputSomething == 'something';
   }
 
-  var dialog;
+  dom.HtmlElement dialog;
 
-  void changeOpening(dom.Event e) {
-    var s = e.target.selectedOptions[0];
-    if (s) {
-      dialog.className = dialog.className.replace(new RegExp('polymer-[^\s]*'), '');
-      dialog.classList.add(s.textContent);
+  void changeOpening(dom.Event e, detail, dom.HtmlElement target) {
+    var s = (target as dom.SelectElement).selectedOptions[0];
+    if (s != null) {
+      var d = $['dialog'];
+      d.classes.toList().forEach((c) {
+        if(c.startsWith('polymer-') && c != 'polymer-overlay') {
+          d.classes.remove(c);
+        }
+      });
+      d.classes.add(s.text);
     }
-  }
-
-  void modalChange(dom.Event e) {
-    dialog.autoCloseDisabled = e.target.checked;
-  }
-
-  void scrimChange(dom.Event e) {
-    dialog.scrim = e.target.checked;
   }
 
   @override

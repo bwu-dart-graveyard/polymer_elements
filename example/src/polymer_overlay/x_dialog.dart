@@ -12,9 +12,9 @@ import 'package:polymer_elements/polymer_overlay/polymer_overlay.dart';
 @CustomTag('x-dialog')
 class XDialog extends PolymerElement {
 
-  @observable
+  @published
   bool opened;
-  @observable bool autoCloseDisabled;
+  @published bool autoCloseDisabled;
 
   XDialog.created() : super.created();
 

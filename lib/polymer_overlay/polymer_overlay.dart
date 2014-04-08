@@ -89,7 +89,7 @@ class PolymerOverlay extends PolymerElement {
     } else {
       var i = overlays.indexOf(inOverlay);
       if (i >= 0) {
-        overlays.remove(i);
+        overlays.remove(inOverlay);
         setZ(inOverlay, null);
       }
     }
@@ -104,10 +104,10 @@ class PolymerOverlay extends PolymerElement {
   }
 
   static PolymerOverlay currentOverlay() {
-    if(overlays.length == 0) {
+    if (overlays.length == 0) {
       return null;
     }
-    return overlays[overlays.length-1];
+    return overlays[overlays.length - 1];
   }
 
   static var DEFAULT_Z = 10;
@@ -117,11 +117,11 @@ class PolymerOverlay extends PolymerElement {
     var current = currentOverlay();
     if (current != null) {
       var z1 = current.target.getComputedStyle().zIndex;
-      try{
+      try {
         z = num.parse(z1);
-      } catch(e) {}
+      } catch (e) {}
     }
-    if( z != null) {
+    if (z != null) {
       return z;
     } else {
       return DEFAULT_Z;
@@ -140,21 +140,24 @@ class PolymerOverlay extends PolymerElement {
   /**
    * The target element.
    */
-  @published dom.HtmlElement target;
+  @published
+  dom.HtmlElement target;
 
   /**
    * Set opened to true to show an overlay and to false to hide it.
    * A polymer-overlay may be made intially opened by setting its
    * opened attribute.
    */
-  @published bool opened = false;
+  @published
+  bool opened = false;
 
   /**
    * By default an overlay will close automatically if the user
    * taps outside it or presses the escape key. Disable this
    * behavior by setting the autoCloseDisabled property to true.
    */
-  @published bool autoCloseDisabled = false;
+  @published
+  bool autoCloseDisabled = false;
 
   /**
    * This property specifies the animation to play when the overlay is
@@ -169,10 +172,11 @@ class PolymerOverlay extends PolymerElement {
    * @type string
    * @type Array&lt;string>
    */
-  @published List transitions = null;
+  @published
+  List transitions = null;
 
   int _timeout = 1000;
-  String  _captureEventType = 'click'; //'tap';
+  String _captureEventType = 'click'; //'tap';
 
   void ready() {
     if (this.tabIndex == null) {
@@ -208,10 +212,10 @@ class PolymerOverlay extends PolymerElement {
     }
   }
 
-//  Map listeners = {
-//    'tap': 'tapHandler',
-//    'keydown': 'keydownHandler'
-//  };
+  //  Map listeners = {
+  //    'tap': 'tapHandler',
+  //    'keydown': 'keydownHandler'
+  //  };
 
   async.StreamSubscription tapSubscription;
   async.StreamSubscription keydownSubscription;
@@ -241,21 +245,21 @@ class PolymerOverlay extends PolymerElement {
     this.fire('polymer-overlay-open', detail: this.opened);
   }
 
-//  void enableHandler(bool inEnable, String inMethodName, dom.HtmlElement inNode, String inEventName, [bool inCapture = false]) {
-//    var m = 'bound' + inMethodName;
-//    this[m] = this[m] || this[inMethodName].bind(this);
-//
-//    inNode[inEnable ? 'addEventListener' : 'removeEventListener'](
-//      inEventName, this[m], inCapture);
-//  }
+  //  void enableHandler(bool inEnable, String inMethodName, dom.HtmlElement inNode, String inEventName, [bool inCapture = false]) {
+  //    var m = 'bound' + inMethodName;
+  //    this[m] = this[m] || this[inMethodName].bind(this);
+  //
+  //    inNode[inEnable ? 'addEventListener' : 'removeEventListener'](
+  //      inEventName, this[m], inCapture);
+  //  }
 
   async.StreamSubscription resizeSubscription;
   void enableResizeHandler(bool inEnable) {
-    if(inEnable) {
-      if(resizeSubscription != null) return;
+    if (inEnable) {
+      if (resizeSubscription != null) return;
       resizeSubscription = dom.window.onResize.listen(resizeHandler);
     } else {
-      if(resizeSubscription == null) return;
+      if (resizeSubscription == null) return;
       resizeSubscription.cancel();
       resizeSubscription = null;
     }
@@ -264,12 +268,13 @@ class PolymerOverlay extends PolymerElement {
   async.StreamSubscription captureSubscription;
 
   void enableCaptureHandler(bool inEnable) {
-    if(inEnable) {
-      if(captureSubscription != null) return;
-      // TODO is useCapture necessary, how to use it on document?
-      captureSubscription = dom.document.onClick.listen(captureHandler);
+    if (inEnable) {
+      if (captureSubscription != null) return;
+      dom.GlobalEventHandlers.clickEvent.forTarget(dom.document, useCapture:
+          true).listen(captureHandler);
+      //captureSubscription = dom.document.onClick.listen(captureHandler);
     } else {
-      if(captureSubscription == null) return;
+      if (captureSubscription == null) return;
       captureSubscription.cancel();
       captureSubscription = null;
     }
@@ -297,10 +302,12 @@ class PolymerOverlay extends PolymerElement {
       // vertically and horizontally center if not positioned
       var computedStyle = target.getComputedStyle();
       if (computedStyle.top == 'auto' && computedStyle.bottom == 'auto') {
-        this.target.style.top = '${((dom.window.innerHeight - this.target.getBoundingClientRect().height) / 2)}px';
+        this.target.style.top =
+            '${((dom.window.innerHeight - this.target.getBoundingClientRect().height) / 2)}px';
       }
       if (computedStyle.left == 'auto' && computedStyle.right == 'auto') {
-        this.target.style.left = '${((dom.window.innerWidth - this.target.getBoundingClientRect().width) / 2)}px';
+        this.target.style.left =
+            '${((dom.window.innerWidth - this.target.getBoundingClientRect().width) / 2)}px';
       }
     }
   }
@@ -310,26 +317,31 @@ class PolymerOverlay extends PolymerElement {
   }
 
   get transition {
-    return (this.transitions is! List && this.transitions != null
-        || this.opened && this.transitions != null && this.transitions[0] != null
-        || !this.opened && this.transitions != null && this.transitions[1] != null);
+    return (this.transitions is! List && this.transitions != null || this.opened
+        && this.transitions != null && this.transitions[0] != null || !this.opened &&
+        this.transitions != null && this.transitions[1] != null);
   }
 
   void applyTransition() {
-    var animation = this.transition is String ?
-        dom.document.createElement(this.transition) : this.transition;
+    var animation = this.transition is String ? dom.document.createElement(
+        this.transition) : this.transition;
     // FIXME: Apply a default duration.
-    if ((!animation.duration || animation.duration == 'auto') && !animation.type) {
+    if ((!animation.duration || animation.duration == 'auto') &&
+        !animation.type) {
       animation.duration = 0.3;
     }
     if (!animation.hasTarget()) {
       animation.target = this.target;
     }
     // Make the overlay visible while the animation is running.
-    var transition = new dom.Animation(target, [ // TODO verify if this is translated correctly
-      animation.apply(),
-      new dom.Animation(this.target, [{'visibility': 'visible', 'display':'block'}])
-    ], {'fill': 'none'});
+    var transition = new dom.Animation(target, [
+        // TODO verify if this is translated correctly
+      animation.apply(), new dom.Animation(this.target, [{
+          'visibility': 'visible',
+          'display': 'block'
+        }])], {
+      'fill': 'none'
+    });
 
     dom.window.onAnimationEnd.listen(completeOpening);
     //transition['onend'] = this.completeOpening;
@@ -370,24 +382,27 @@ class PolymerOverlay extends PolymerElement {
   }
 
   void tapHandler(dom.MouseEvent e) {
-    if (e.target != null && (e.target as dom.HtmlElement).attributes.containsKey('overlay-toggle')) {
+    if (e.target != null && (e.target as
+        dom.HtmlElement).attributes.containsKey('overlay-toggle')) {
       this.toggle();
     } else {
-// TODO     if (this.autoCloseJob) {
-//        this.autoCloseJob.stop();
-//        this.autoCloseJob = null;
-//      }
+      if (this.autoCloseJob != null) {
+        this.autoCloseJob.cancel();
+        this.autoCloseJob = null;
+      }
     }
   }
 
+  async.Timer autoCloseJob;
   // TODO(sorvell): This approach will not work with modal. For
   // this we need a scrim.
   void captureHandler(dom.MouseEvent e) {
-    if (!this.autoCloseDisabled && (currentOverlay() == this) && (this
-        != e.target) && !(this.contains(e.target))) {
-      // TODO this.autoCloseJob = this.job(this.autoCloseJob, () {
+    if (!this.autoCloseDisabled && (currentOverlay() == this) && (this !=
+        e.target) && !(this.contains(e.target))) {
+      // TODO (zoechi) seems to work // this.autoCloseJob = this.job(this.autoCloseJob, () {
+      autoCloseJob = new async.Timer(Duration.ZERO, () {
         this.opened = false;
-      // });
+      });
     }
   }
 
@@ -395,7 +410,7 @@ class PolymerOverlay extends PolymerElement {
     if (!this.autoCloseDisabled && (e.keyCode == dom.KeyCode.ESC)) {
       this.opened = false;
       e.stopPropagation();
-      e.stopPropagation();
+      e.preventDefault();
     }
   }
 
