@@ -5,6 +5,7 @@
 * updating several elements fixed several issues 
 * remove old css files (were kept for compatibitlity with older selectors)
 
+* add polymer-overlay
 
 * update polymer-ajax
 * update polymer-anchor-point

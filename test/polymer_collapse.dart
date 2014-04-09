@@ -9,7 +9,7 @@ library polymer_collapse.test;
 
 import "dart:html" show document, HtmlElement, Node, NodeTreeSanitizer;
 import "dart:async" show Future, Timer;
-import "package:polymer/polymer.dart" show initMethod, initPolymer;
+import "package:polymer/polymer.dart" show initMethod;
 import "package:unittest/unittest.dart" show equals, expect, expectAsync,
     isFalse, isNot, test;
 import "package:unittest/html_enhanced_config.dart" show

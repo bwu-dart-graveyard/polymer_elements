@@ -6,7 +6,6 @@
 
 library polymer_elements.polymer_flex_layout;
 
-import 'dart:async' show Future;
 import 'dart:html' as dom;
 import 'package:polymer/polymer.dart';
 
