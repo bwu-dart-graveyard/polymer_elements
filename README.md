@@ -1,3 +1,5 @@
+<img src="http://bwu-dart.github.io/core_elements/assets/polymer/p-logo.svg" alt="Polymer logo" width="120px" />
+
 # Basic non-visual elements for Polymer.dart
 
 A port of polymer.js' [polymer-elements](http://www.polymer-project.org/docs/elements/polymer-elements.html) to Polymer.dart. 
