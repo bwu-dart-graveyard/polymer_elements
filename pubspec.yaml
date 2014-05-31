@@ -1,10 +1,10 @@
 name: polymer_elements
-version: 0.2.0-pre.8
+version: 0.3.0
 authors:
 - Günter Zöchbauer <guenter@gzoechbauer.com>
 - Erik Grimes <erik.grimes@gmail.com>
 description: >
-  A Dart port of polymer-elements
+  Deprecated and unsupported. A Dart port of polymer-elements
   (https://github.com/Polymer/polymer-elements).
 homepage: https://github.com/bwu-dart/polymer_elements
 documentation: http://bwu-dart.github.io/polymer_elements/docs/index.html
