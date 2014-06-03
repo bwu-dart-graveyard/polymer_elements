@@ -270,7 +270,31 @@ class PolymerSelector extends PolymerElement implements HasItems {
   }
 
   void _onMutation(records, observer) {
-    _updateSelected();
+    PolymerSelection selection_l = $['selection'];
+    for(MutationRecord record in records) {
+      for(Node node in record.removedNodes) {
+        if(selection_l != null) {
+          selection_l.setItemSelected(node, false);
+        }
+      }
+    }
+    if(selection_l.selection != null) {
+      if(!selection_l.multi) {
+        int index_l = items.indexOf(selection_l.selection);
+        if(index_l != -1) {
+          this.selected = index_l;
+        }
+      } else {
+        List updatedSelection = new List();
+        for(Node node in selection_l.selection) {
+          int index_l = items.indexOf(node);
+          if(index_l != -1) {
+            updatedSelection.add(index_l);
+          }
+        }
+        this.selected = updatedSelection;
+      }
+    }
   }
 
   void _updateSelected() {
@@ -309,8 +333,11 @@ class PolymerSelector extends PolymerElement implements HasItems {
   }
 
   void _valueToSelection(value) {
-    var item = (value == null) ? null : this.items[this._valueToIndex(value)];
-    (this.$['selection'] as PolymerSelection).select(item);
+  	if(value != null) {
+      int index_l = this._valueToIndex(value);
+      var item = this.items[index_l];
+      (this.$['selection'] as PolymerSelection).select(item);
+    }
   }
 
   void _updateSelectedItem() {
